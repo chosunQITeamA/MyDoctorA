@@ -53,5 +53,3 @@ public class SignUPActivity extends AppCompatActivity {
 }
 
 
-
-//android.R.style.Theme_Holo_Light

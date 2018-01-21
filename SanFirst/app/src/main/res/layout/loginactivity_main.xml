@@ -21,6 +21,35 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
+
+        <RadioButton
+            android:id="@+id/UserSelect"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:checked="true"
+            android:onClick="usercheck"
+            android:text="User" />
+
+        <RadioButton
+            android:id="@+id/DoctorSelect"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:onClick="doctorcheck"
+            android:text="Doctor" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal">
 
