@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SanFirst</string>
+    <string name="signin">Sign In</string>
+    <string name="signup">Sign up</string>
+</resources>
