@@ -22,7 +22,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void SignIN(View view) { // 로그인
-        this.finish();
+        //this.finish();
+
+        // 입력한 정보가 일치 할 경우 넘김. // 아닐 경우 메시지 다이얼 로그 출력
+
+        // 일반 사용자와 의사를 구분하여 넘긴다.
+        // 1/21 지금은 그냥 넘김.
+        Intent UserMainIntent = new Intent(getApplicationContext(),UserMainActivity.class);
+        startActivity(UserMainIntent);
     }
     public void SignUP(View view) {  // 가입
         Intent SignUPIntent = new Intent(getApplicationContext(),SignUPActivity.class);
