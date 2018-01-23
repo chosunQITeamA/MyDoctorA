@@ -16,10 +16,7 @@ public class LoginActivity extends AppCompatActivity {
         // find
         selectUser = (RadioButton)findViewById(R.id.UserSelect);
         selectDoctor = (RadioButton)findViewById(R.id.DoctorSelect);
-
     }
-
-
 
     public void SignIN(View view) { // 로그인
         //this.finish();
