@@ -30,6 +30,11 @@ public class UserMainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        fragment = new BluetoothChatFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_fragment_layout, fragment);
+        ft.commit();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -75,28 +80,48 @@ public class UserMainActivity extends AppCompatActivity
         fragment = null;
         String title = getString(R.string.app_name);
 
-
-        if (id == R.id.nav_main) {
-            // Handle the main action
-            fragment = new BluetoothChatFragment();
-            Toast.makeText(this, "Main_Nav", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_st_history) {
-            fragment = null;
-            Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_ex_history) {
-
-        } else if (id == R.id.nav_aqi) {
-
-        } else if (id == R.id.nav_chat) {
-
-        } else if (id == R.id.nav_settings) {
-
-        }else if (id == R.id.nav_signout) {
-
-        }else   {
-            fragment = new BluetoothChatFragment();
-        }
-
+        switch (id) {
+            case R.id.nav_main  :
+                fragment = new BluetoothChatFragment();
+                title = "nav_main";
+                Toast.makeText(this, "nav_main", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_st_history :
+                fragment = new BluetoothChatFragment();
+                title = "st_history";
+                Toast.makeText(this, "nav_st_history", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_ex_history :
+                fragment = new BluetoothChatFragment();
+                title = "ex_history";
+                Toast.makeText(this, "nav_ex_history", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_aqi :
+                fragment = new BluetoothChatFragment();
+                title = "nav_aqi";
+                Toast.makeText(this, "nav_AQI", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_chat :
+                fragment = new BluetoothChatFragment();
+                title = "nav_chat";
+                Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_settings :
+                fragment = new BluetoothChatFragment();
+                title = "nav_settings";
+                Toast.makeText(this, "nav_settings", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_signout :
+                fragment = new BluetoothChatFragment();
+                title = "nav_signout";
+                Toast.makeText(this, "nav_sign_out", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                fragment = new BluetoothChatFragment();
+                title = "nav_default";
+                Toast.makeText(this, "nav_default", Toast.LENGTH_SHORT).show();
+                break;
+            }
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_fragment_layout, fragment);
