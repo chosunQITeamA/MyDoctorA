@@ -1,23 +1,28 @@
 package com.example.khseob0715.sanfirst;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.RadioButton;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends FragmentActivity {
     RadioButton selectUser, selectDoctor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loginactivity_main);
 
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            BluetoothChatFragment fragment = new BluetoothChatFragment();
+        }
+
         // find
         selectUser = (RadioButton)findViewById(R.id.UserSelect);
         selectDoctor = (RadioButton)findViewById(R.id.DoctorSelect);
     }
-
     public void SignIN(View view) { // 로그인
         //this.finish();
 
@@ -28,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent UserMainIntent = new Intent(getApplicationContext(),UserMainActivity.class);
         startActivity(UserMainIntent);
     }
+
     public void SignUP(View view) {  // 가입
         Intent SignUPIntent = new Intent(getApplicationContext(),SignUPActivity.class);
         startActivity(SignUPIntent);
