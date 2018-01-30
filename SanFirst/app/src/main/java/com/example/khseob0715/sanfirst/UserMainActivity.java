@@ -54,7 +54,8 @@ public class UserMainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            ExitDialog();
         }
     }
 
@@ -121,6 +122,7 @@ public class UserMainActivity extends AppCompatActivity
                 Toast.makeText(this, "nav_settings", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_signout :
+                ExitDialog();
                 title = "nav_signout";
                 Toast.makeText(this, "nav_sign_out", Toast.LENGTH_SHORT).show();
                 break;
@@ -149,6 +151,12 @@ public class UserMainActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         DialogChangePW dialogChangePW = new DialogChangePW();
         dialogChangePW.show(fm, "Change_PW_Dialog");
+    }
+
+    public void ExitDialog()    {
+        FragmentManager fm = getSupportFragmentManager();
+        DialogExit dialogExit = new DialogExit();
+        dialogExit.show(fm, "Dialog_exit");
     }
 
 }
