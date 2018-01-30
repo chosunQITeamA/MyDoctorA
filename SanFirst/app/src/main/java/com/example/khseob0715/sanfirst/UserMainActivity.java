@@ -3,6 +3,7 @@ package com.example.khseob0715.sanfirst;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -79,6 +80,7 @@ public class UserMainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    // NavigationMap select item -> view in fragment
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -101,11 +103,12 @@ public class UserMainActivity extends AppCompatActivity
                 Toast.makeText(this, "nav_hr_history", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_air_history :
-                fragment = new AirMapFragment();
+                fragment = new AqiHistoryFragment();
                 title = "air_history";
                 Toast.makeText(this, "nav_air_history", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_aqi_map :
+                fragment = new AirMapFragment();
                 title = "nav_aqi";
                 Toast.makeText(this, "nav_AQI", Toast.LENGTH_SHORT).show();
                 break;
@@ -114,7 +117,7 @@ public class UserMainActivity extends AppCompatActivity
                 Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_settings :
-                title = "nav_settings";
+                ChangePwDialog();
                 Toast.makeText(this, "nav_settings", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_signout :
@@ -141,4 +144,11 @@ public class UserMainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void ChangePwDialog()    {
+        FragmentManager fm = getSupportFragmentManager();
+        DialogChangePW dialogChangePW = new DialogChangePW();
+        dialogChangePW.show(fm, "Change_PW_Dialog");
+    }
+
 }
