@@ -38,8 +38,15 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static com.example.khseob0715.sanfirst.R.anim;
+import static com.example.khseob0715.sanfirst.R.drawable;
+import static com.example.khseob0715.sanfirst.R.id;
+import static com.example.khseob0715.sanfirst.R.layout.fragment_bluetooth_chat;
+import static com.example.khseob0715.sanfirst.R.string;
 
 /**
  * This fragment controls Bluetooth to communicate with other devices.
@@ -71,6 +78,8 @@ public class BluetoothChatFragment extends Fragment {
 
     ImageView heartanimg;	// 심장 이미지
 
+    private LinearLayout bglayout = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +93,8 @@ public class BluetoothChatFragment extends Fragment {
             Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             activity.finish();
         }
+
+
     }
 
 
@@ -128,22 +139,25 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);	// fragment 맞춘 레이아웃 설정
+        return inflater.inflate(fragment_bluetooth_chat, container, false);	// fragment 맞춘 레이아웃 설정
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         // setContentView 이전에 find를 할 시 NullPointerException이 발생함. 이에 따라, View가 Created 된 이후에 Find
-        heartvalue = (TextView) view.findViewById(R.id.heartvalue);
+        heartvalue = (TextView) view.findViewById(id.heartvalue);
 
         // 심장 뛰는 애니메이션
-        heartanimg = (ImageView) view.findViewById(R.id.heartani);
-        final Animation heartbeat = AnimationUtils.loadAnimation(getActivity(), R.anim.heartbeat);
+        heartanimg = (ImageView) view.findViewById(id.heartani);
+        final Animation heartbeat = AnimationUtils.loadAnimation(getActivity(), anim.heartbeat);
         heartbeat.setRepeatMode(Animation.REVERSE);	// 반복모드
         heartbeat.setRepeatCount(100);	// 반복횟수 (무한으로 돌리자)
         heartbeat.setStartOffset(1000);
         heartanimg.startAnimation(heartbeat);
 
+        bglayout = (LinearLayout)view.findViewById(id.fragment_image_bg);
+        bglayout.setBackgroundResource(drawable.wall_rain);
     }
 
     /**
@@ -217,15 +231,15 @@ public class BluetoothChatFragment extends Fragment {
                 case Constants.MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
                         case BluetoothChatService.STATE_CONNECTED:
-                            setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
+                            setStatus(getString(string.title_connected_to, mConnectedDeviceName));
                             //mConversationArrayAdapter.clear(); 보여주는 화면 초기화라 필요 ㄴㄴ
                             break;
                         case BluetoothChatService.STATE_CONNECTING:
-                            setStatus(R.string.title_connecting);
+                            setStatus(string.title_connecting);
                             break;
                         case BluetoothChatService.STATE_LISTEN:
                         case BluetoothChatService.STATE_NONE:
-                            setStatus(R.string.title_not_connected);
+                            setStatus(string.title_not_connected);
                             break;
                     }
                     break;
@@ -240,9 +254,55 @@ public class BluetoothChatFragment extends Fragment {
                     byte[] readBuf = (byte[]) msg.obj;  // Byte단위의 Message
                     // construct a string from the valid bytes in the buffer
                     // -------------------------------------------------------------------------------------------------------[ 여기서 BT 받아서 값 분별 ]
-                    String readMessage = new String(readBuf, 0, msg.arg1);  // 이게 받는 내용
 
-                    heartvalue.setText(readMessage);    // BT로 받은 값 띄우기
+                    String readMessage = new String(readBuf, 0, msg.arg1);  // 이게 받는 내용
+/*
+                    String[] BTSplit = readMessage.split(",");
+                    int bgvalue = Integer.valueOf(BTSplit[0]);
+                    int val1 = Integer.valueOf(BTSplit[1]);
+*/
+                    int temp = Integer.valueOf(readMessage);
+                    Log.e("temp", "temp : " + temp);
+/*                    setBackgroundImage(temp);
+                    switch (temp)    {
+                        case 1:
+                            bglayout.setBackgroundResource(R.drawable.wall_sun);
+                            Log.d("wallpaper", "Wallpaper1");
+                            break;
+                        case 2:
+                            bglayout.setBackgroundResource(R.drawable.wall_cloud);
+                            Log.d("wallpaper", "Wallpaper2");
+                            break;
+                        case 3:
+                            bglayout.setBackgroundResource(R.drawable.wall_rain);
+                            Log.d("wallpaper", "Wallpaper3");
+                            break;
+                        case 4:
+                            bglayout.setBackgroundResource(R.drawable.wall_snow);
+                            Log.d("wallpaper", "Wallpaper4");
+                            break;
+                        default :
+                            bglayout.setBackgroundResource(R.drawable.wall_sun);
+                            Log.d("wallpaper", "Wallpaper5");
+                            break;
+                    }
+*/
+                    if(temp == 1)   {
+                        Log.d("wallpaper", "Wallpaper1");
+                        bglayout.setBackgroundResource(drawable.wall_sun);
+                    }   else if (temp == 2) {
+                        bglayout.setBackgroundResource(R.drawable.wall_cloud);
+                        Log.d("wallpaper", "Wallpaper2");
+                    }   else if (temp == 3) {
+                        bglayout.setBackgroundResource(R.drawable.wall_rain);
+                        Log.d("wallpaper", "Wallpaper3");
+                    }   else if (temp == 4) {
+                        bglayout.setBackgroundResource(R.drawable.wall_snow);
+                        Log.d("wallpaper", "Wallpaper4");
+                    }   else    {
+                        Toast.makeText(getActivity(), "temp error", Toast.LENGTH_SHORT).show();
+                    }
+//                    heartvalue.setText(readMessage);    // BT로 받은 값 띄우기
                     /* //-----------------------------------------------------------------------------------------------------------split은 메세지 분할하는것임 일단은 제외
                     String[] BTSplit = readMessage.split(",");  // String으로 변환된 readMessage값을 - 기준으로 나눌거임 (a-b-c-d)
 
@@ -303,7 +363,7 @@ public class BluetoothChatFragment extends Fragment {
                 } else {
                     // User did not enable Bluetooth or an error occurred
                     Log.d(TAG, "BT not enabled");
-                    Toast.makeText(getActivity(), R.string.bt_not_enabled_leaving,
+                    Toast.makeText(getActivity(), string.bt_not_enabled_leaving,
                             Toast.LENGTH_SHORT).show();
                     getActivity().finish();
                 }
@@ -334,19 +394,19 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.secure_connect_scan: {
+            case id.secure_connect_scan: {
                 // Launch the DeviceListActivity to see devices and do scan
                 Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                 return true;
             }
-            case R.id.insecure_connect_scan: {
+            case id.insecure_connect_scan: {
                 // Launch the DeviceListActivity to see devices and do scan
                 Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
                 return true;
             }
-            case R.id.discoverable: {
+            case id.discoverable: {
                 // Ensure this device is discoverable by others
                 ensureDiscoverable();
                 return true;
@@ -354,6 +414,7 @@ public class BluetoothChatFragment extends Fragment {
         }
         return false;
     }
+
 /*  // seekbar 예시용
     private void start1(final int value) {
         new Thread() {

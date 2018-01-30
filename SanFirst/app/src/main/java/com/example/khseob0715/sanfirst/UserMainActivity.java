@@ -40,6 +40,7 @@ public class UserMainActivity extends AppCompatActivity
         hrhistoryFragment = new HeartrateHistoryFragment();
         airqualfragment = new AirMapFragment();
 
+        
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_fragment_layout, btchatFragment);
         ft.commit();
@@ -158,5 +159,6 @@ public class UserMainActivity extends AppCompatActivity
         DialogExit dialogExit = new DialogExit();
         dialogExit.show(fm, "Dialog_exit");
     }
+
 
 }
