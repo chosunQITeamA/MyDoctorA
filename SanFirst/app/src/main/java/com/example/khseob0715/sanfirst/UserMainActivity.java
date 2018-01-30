@@ -19,6 +19,7 @@ public class UserMainActivity extends AppCompatActivity
     //Fragment fragment = new Fragment();
     private Fragment btchatFragment;
     private Fragment hrhistoryFragment;
+    private Fragment airqualfragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class UserMainActivity extends AppCompatActivity
         //fragment = new BluetoothChatFragment();
         btchatFragment = new BluetoothChatFragment();
         hrhistoryFragment = new HeartrateHistoryFragment();
+        airqualfragment = new AirMapFragment();
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_fragment_layout, btchatFragment);
@@ -95,13 +97,13 @@ public class UserMainActivity extends AppCompatActivity
                 break;
             case R.id.nav_hr_history :
                 fragment = new HeartrateHistoryFragment();
-                title = "st_history";
-                Toast.makeText(this, "nav_st_history", Toast.LENGTH_SHORT).show();
+                title = "hr_history";
+                Toast.makeText(this, "nav_hr_history", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_air_history :
-                fragment = new AqiHistoryFragment();
-                title = "ex_history";
-                Toast.makeText(this, "nav_ex_history", Toast.LENGTH_SHORT).show();
+                fragment = new AirMapFragment();
+                title = "air_history";
+                Toast.makeText(this, "nav_air_history", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_aqi_map :
                 title = "nav_aqi";
