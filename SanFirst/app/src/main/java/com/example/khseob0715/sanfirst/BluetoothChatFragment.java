@@ -242,7 +242,7 @@ public class BluetoothChatFragment extends Fragment {
                     // -------------------------------------------------------------------------------------------------------[ 여기서 BT 받아서 값 분별 ]
                     String readMessage = new String(readBuf, 0, msg.arg1);  // 이게 받는 내용
 
-                    heartvalue.setText(readMessage);
+                    heartvalue.setText(readMessage);    // BT로 받은 값 띄우기
                     /* //-----------------------------------------------------------------------------------------------------------split은 메세지 분할하는것임 일단은 제외
                     String[] BTSplit = readMessage.split(",");  // String으로 변환된 readMessage값을 - 기준으로 나눌거임 (a-b-c-d)
 

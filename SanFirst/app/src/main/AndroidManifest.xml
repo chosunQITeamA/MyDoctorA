@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.khseob0715.sanfirst">
 
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="true"
@@ -23,20 +23,19 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".SignUPActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
-
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".UserMainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
-
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/select_device"
-            android:theme="@android:style/Theme.Holo.Dialog"/>
+            android:theme="@android:style/Theme.Holo.Dialog" />
+        <activity android:name=".HeartrateFragment"></activity>
     </application>
 
 </manifest>

@@ -16,7 +16,10 @@ import android.widget.Toast;
 public class UserMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Fragment fragment = new Fragment();
+    //Fragment fragment = new Fragment();
+    private Fragment btchatFragment;
+    private Fragment hrhistoryFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +33,12 @@ public class UserMainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        fragment = new BluetoothChatFragment();
+        //fragment = new BluetoothChatFragment();
+        btchatFragment = new BluetoothChatFragment();
+        hrhistoryFragment = new HeartrateHistoryFragment();
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_fragment_layout, fragment);
+        ft.replace(R.id.content_fragment_layout, btchatFragment);
         ft.commit();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -77,7 +83,8 @@ public class UserMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        fragment = null;
+        Fragment fragment = null;
+
         String title = getString(R.string.app_name);
 
         switch (id) {
@@ -86,49 +93,44 @@ public class UserMainActivity extends AppCompatActivity
                 title = "nav_main";
                 Toast.makeText(this, "nav_main", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.nav_st_history :
-                fragment = new BluetoothChatFragment();
+            case R.id.nav_hr_history :
+                fragment = new HeartrateHistoryFragment();
                 title = "st_history";
                 Toast.makeText(this, "nav_st_history", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.nav_ex_history :
-                fragment = new BluetoothChatFragment();
+            case R.id.nav_air_history :
+                fragment = new AqiHistoryFragment();
                 title = "ex_history";
                 Toast.makeText(this, "nav_ex_history", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.nav_aqi :
-                fragment = new BluetoothChatFragment();
+            case R.id.nav_aqi_map :
                 title = "nav_aqi";
                 Toast.makeText(this, "nav_AQI", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_chat :
-                fragment = new BluetoothChatFragment();
                 title = "nav_chat";
                 Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_settings :
-                fragment = new BluetoothChatFragment();
                 title = "nav_settings";
                 Toast.makeText(this, "nav_settings", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_signout :
-                fragment = new BluetoothChatFragment();
                 title = "nav_signout";
                 Toast.makeText(this, "nav_sign_out", Toast.LENGTH_SHORT).show();
                 break;
             default:
-                fragment = new BluetoothChatFragment();
                 title = "nav_default";
                 Toast.makeText(this, "nav_default", Toast.LENGTH_SHORT).show();
                 break;
             }
+
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_fragment_layout, fragment);
             ft.commit();
         }
 
-        // set the toolbar title
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }

@@ -11,22 +11,22 @@
     <item android:title="History">
         <menu>
             <item
-                android:id="@+id/nav_st_history"
+                android:id="@+id/nav_hr_history"
                 android:icon="@drawable/ic_status_history"
-                android:title="Status History" />
+                android:title="HR History" />
             <item
-                android:id="@+id/nav_ex_history"
+                android:id="@+id/nav_air_history"
                 android:icon="@drawable/ic_jogging"
-                android:title="Exercise History" />
+                android:title="Air History" />
         </menu>
     </item>
 
     <item android:title="Advantage">
         <menu>
             <item
-                android:id="@+id/nav_aqi"
+                android:id="@+id/nav_aqi_map"
                 android:icon="@drawable/ic_aqi"
-                android:title="Air Quality" />
+                android:title="Air Quality Map" />
             <item
                 android:id="@+id/nav_chat"
                 android:icon="@drawable/ic_chat"
