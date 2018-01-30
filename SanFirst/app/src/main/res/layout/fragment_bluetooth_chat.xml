@@ -25,11 +25,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="18dp"
+        android:orientation="vertical"
         android:paddingBottom="18dp"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"
-        android:orientation="vertical">
+        android:paddingTop="18dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,11 +43,10 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/weathericon"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="35dp"
-                    app:srcCompat="@drawable/weather_sun" />
+                    android:padding="35dp" />
             </FrameLayout>
         </LinearLayout>
 
@@ -92,7 +91,7 @@
                     android:id="@+id/imageView4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_map_black" />
+                     />
 
                 <TextView
                     android:id="@+id/textView5"

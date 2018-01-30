@@ -79,6 +79,7 @@ public class BluetoothChatFragment extends Fragment {
     ImageView heartanimg;	// 심장 이미지
 
     private LinearLayout bglayout = null;
+    private ImageView weather = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -158,6 +159,9 @@ public class BluetoothChatFragment extends Fragment {
 
         bglayout = (LinearLayout)view.findViewById(id.fragment_image_bg);
         bglayout.setBackgroundResource(drawable.wall_rain);
+
+        weather = (ImageView)view.findViewById(R.id.weathericon);
+
     }
 
     /**
@@ -256,13 +260,12 @@ public class BluetoothChatFragment extends Fragment {
                     // -------------------------------------------------------------------------------------------------------[ 여기서 BT 받아서 값 분별 ]
 
                     String readMessage = new String(readBuf, 0, msg.arg1);  // 이게 받는 내용
-/*
+
                     String[] BTSplit = readMessage.split(",");
                     int bgvalue = Integer.valueOf(BTSplit[0]);
                     int val1 = Integer.valueOf(BTSplit[1]);
-*/
-                    int temp = Integer.valueOf(readMessage);
-                    Log.e("temp", "temp : " + temp);
+
+
 /*                    setBackgroundImage(temp);
                     switch (temp)    {
                         case 1:
@@ -287,20 +290,28 @@ public class BluetoothChatFragment extends Fragment {
                             break;
                     }
 */
-                    if(temp == 1)   {
+                    if(bgvalue == 1)   {
                         Log.d("wallpaper", "Wallpaper1");
                         bglayout.setBackgroundResource(drawable.wall_sun);
-                    }   else if (temp == 2) {
+                    }   else if (bgvalue == 2) {
                         bglayout.setBackgroundResource(R.drawable.wall_cloud);
                         Log.d("wallpaper", "Wallpaper2");
-                    }   else if (temp == 3) {
+                    }   else if (bgvalue == 3) {
                         bglayout.setBackgroundResource(R.drawable.wall_rain);
                         Log.d("wallpaper", "Wallpaper3");
-                    }   else if (temp == 4) {
+                    }   else if (bgvalue == 4) {
                         bglayout.setBackgroundResource(R.drawable.wall_snow);
                         Log.d("wallpaper", "Wallpaper4");
                     }   else    {
                         Toast.makeText(getActivity(), "temp error", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if(val1 == 1)   {
+                        weather.setImageResource(drawable.weather_sun);
+                    }   else if (val1 == 2) {
+                        weather.setImageResource(drawable.weather_cloud);
+                    }   else    {
+                        Toast.makeText(getActivity(), "weather error", Toast.LENGTH_SHORT).show();
                     }
 //                    heartvalue.setText(readMessage);    // BT로 받은 값 띄우기
                     /* //-----------------------------------------------------------------------------------------------------------split은 메세지 분할하는것임 일단은 제외
