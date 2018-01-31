@@ -26,9 +26,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import static android.location.LocationManager.GPS_PROVIDER;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AirMapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView = null;
 
@@ -55,11 +52,9 @@ public class AirMapFragment extends Fragment implements OnMapReadyCallback {
         View layout = inflater.inflate(R.layout.fragment_air_map, container, false);
         mapView = (MapView) layout.findViewById(R.id.map);
         mapView.getMapAsync(this);
-
         m_Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
         m_ListView = (ListView) layout.findViewById(R.id.locationlistview);
         m_ListView.setAdapter(m_Adapter);
-
         return layout;
     }
 
@@ -156,24 +151,20 @@ public class AirMapFragment extends Fragment implements OnMapReadyCallback {
             lat = location.getLatitude();
             lon = location.getLongitude();
             String msg = "Lat:" + lat + " / Lon:" + lon;
-            Toast.makeText(getActivity(), "My Location : " + lat + "/" + lon, Toast.LENGTH_SHORT).show();
             m_Adapter.add(msg);
             ShowMyLocaion(lat, lon, map);
         }
 
         @Override
         public void onStatusChanged(String s, int i, Bundle bundle) {
-
         }
 
         @Override
         public void onProviderEnabled(String s) {
-
         }
 
         @Override
         public void onProviderDisabled(String s) {
-
         }
     }
 
@@ -182,7 +173,6 @@ public class AirMapFragment extends Fragment implements OnMapReadyCallback {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(nowLocation);
         markerOptions.title("now location");
-        //markerOptions.snippet("수도");
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
@@ -190,7 +180,6 @@ public class AirMapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         map = googleMap;
         StartLocationService();
     }

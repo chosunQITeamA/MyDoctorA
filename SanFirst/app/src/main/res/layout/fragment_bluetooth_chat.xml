@@ -47,6 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="35dp" />
+
             </FrameLayout>
         </LinearLayout>
 
@@ -80,18 +81,17 @@
                     android:textSize="30dp"
                     android:textStyle="bold" />
 
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
             </FrameLayout>
 
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                     />
 
                 <TextView
                     android:id="@+id/textView5"
