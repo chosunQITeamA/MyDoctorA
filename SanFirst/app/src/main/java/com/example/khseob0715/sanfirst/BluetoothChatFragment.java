@@ -277,30 +277,6 @@ public class BluetoothChatFragment extends Fragment {
                     Log.e("receiveBTmessage", "receuveBT: " + bgvalue + "/" + val1 +"/"+val2);
                     seekendval = val2;
 
-/*                    setBackgroundImage(temp);
-                    switch (temp)    {
-                        case 1:
-                            bglayout.setBackgroundResource(R.drawable.wall_sun);
-                            Log.d("wallpaper", "Wallpaper1");
-                            break;
-                        case 2:
-                            bglayout.setBackgroundResource(R.drawable.wall_cloud);
-                            Log.d("wallpaper", "Wallpaper2");
-                            break;
-                        case 3:
-                            bglayout.setBackgroundResource(R.drawable.wall_rain);
-                            Log.d("wallpaper", "Wallpaper3");
-                            break;
-                        case 4:
-                            bglayout.setBackgroundResource(R.drawable.wall_snow);
-                            Log.d("wallpaper", "Wallpaper4");
-                            break;
-                        default :
-                            bglayout.setBackgroundResource(R.drawable.wall_sun);
-                            Log.d("wallpaper", "Wallpaper5");
-                            break;
-                    }
-*/
                     if(bgvalue == 1)   {
                         Log.d("wallpaper", "Wallpaper1");
                         bglayout.setBackgroundResource(drawable.wall_sun);
@@ -325,26 +301,8 @@ public class BluetoothChatFragment extends Fragment {
                         Toast.makeText(getActivity(), "weather error", Toast.LENGTH_SHORT).show();
                     }
 
+                    // Run HeartRate Seekbar
                     heartseekani(seekstartval, seekendval);
-//                    heartvalue.setText(readMessage);    // BT로 받은 값 띄우기
-                    /* //-----------------------------------------------------------------------------------------------------------split은 메세지 분할하는것임 일단은 제외
-                    String[] BTSplit = readMessage.split(",");  // String으로 변환된 readMessage값을 - 기준으로 나눌거임 (a-b-c-d)
-
-                    // 연결된 장비에서 넘어오는 값 띄워주는거mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
-
-                    // only 4 split is possible (if not, show ToastMessage)
-                    if (BTSplit.length == 4) {
-                        //  mConversationArrayAdapter.add(mConnectedDeviceName + "[" + i + "]" + ":  " + readMessage);  원본이얌
-                        //  valuelist[i].setText(BTSplit[i]);
-                        int val1 = Integer.valueOf(BTSplit[0]);
-                        int val2 = Integer.valueOf(BTSplit[1]);
-                        int val3 = Integer.valueOf(BTSplit[2]);
-                        int val4 = Integer.valueOf(BTSplit[3]);
-                    }   else    {
-                        Toast.makeText(activity, "length is not 4",Toast.LENGTH_SHORT).show();
-                    }
-*/
-
                     // 만약 여기서 BT값 받아서 분별까지 된다면 mConversation(이거 채팅기록 띄우는 List임) 이거 지우고 깔면 된다. (fragment_bluetooth_chat.xml)
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -438,27 +396,6 @@ public class BluetoothChatFragment extends Fragment {
         }
         return false;
     }
-
-/*  // seekbar 예시용
-    private void start1(final int value) {
-        new Thread() {
-            @Override
-            public void run() {
-                for (int i = 0; i <= value; i++) {
-                    mHandler2.sendEmptyMessage(i);
-                    SystemClock.sleep(16);
-                }
-            }
-        }.start();
-    }
-    private Handler mHandler2 = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            int value = msg.what;
-            mProgress1.setCurProcess(value);
-        }
-    };
-    */
 
     public void heartseekani(int startval, int endval) {
 
