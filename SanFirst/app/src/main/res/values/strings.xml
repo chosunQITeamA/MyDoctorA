@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">My Doctor A</string>
-    <string name="signin">Sign In</string>
-    <string name="signup">Sign up</string>
+    <!-- LoginActivity-->
+    <string name="signin">Sign-In</string>
+    <string name="signup">Sign-Up</string>
+    <string name="findpw">Find Password</string>
     <string name="title_activity_user_main">UserMainActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
