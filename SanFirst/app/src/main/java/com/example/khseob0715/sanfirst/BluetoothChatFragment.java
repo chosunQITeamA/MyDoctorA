@@ -35,14 +35,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.example.khseob0715.sanfirst.R.anim;
+import com.lylc.widget.circularprogressbar.CircularProgressBar;
+
 import static com.example.khseob0715.sanfirst.R.drawable;
 import static com.example.khseob0715.sanfirst.R.id;
 import static com.example.khseob0715.sanfirst.R.layout.fragment_bluetooth_chat;
@@ -80,6 +79,13 @@ public class BluetoothChatFragment extends Fragment {
 
     private LinearLayout bglayout = null;
     private ImageView weather = null;
+
+    public CircularProgressBar heartseek;
+    int seekstartval = 0;
+    int seekendval = 0;
+
+    public BluetoothChatFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -147,20 +153,23 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         // setContentView 이전에 find를 할 시 NullPointerException이 발생함. 이에 따라, View가 Created 된 이후에 Find
-        heartvalue = (TextView) view.findViewById(id.heartvalue);
+        //heartvalue = (TextView) view.findViewById(id.heartvalue);
 
         // 심장 뛰는 애니메이션
+        /*
         heartanimg = (ImageView) view.findViewById(id.heartani);
         final Animation heartbeat = AnimationUtils.loadAnimation(getActivity(), anim.heartbeat);
         heartbeat.setRepeatMode(Animation.REVERSE);	// 반복모드
         heartbeat.setRepeatCount(100);	// 반복횟수 (무한으로 돌리자)
         heartbeat.setStartOffset(1000);
         heartanimg.startAnimation(heartbeat);
-
+*/
         bglayout = (LinearLayout)view.findViewById(id.fragment_image_bg);
         bglayout.setBackgroundResource(drawable.wall_rain);
 
         weather = (ImageView)view.findViewById(R.id.weathericon);
+
+        heartseek = (CircularProgressBar) view.findViewById(id.heartrateseekbar);
 
     }
 
@@ -264,7 +273,9 @@ public class BluetoothChatFragment extends Fragment {
                     String[] BTSplit = readMessage.split(",");
                     int bgvalue = Integer.valueOf(BTSplit[0]);
                     int val1 = Integer.valueOf(BTSplit[1]);
-
+                    int val2 = Integer.valueOf(BTSplit[2]);
+                    Log.e("receiveBTmessage", "receuveBT: " + bgvalue + "/" + val1 +"/"+val2);
+                    seekendval = val2;
 
 /*                    setBackgroundImage(temp);
                     switch (temp)    {
@@ -313,6 +324,8 @@ public class BluetoothChatFragment extends Fragment {
                     }   else    {
                         Toast.makeText(getActivity(), "weather error", Toast.LENGTH_SHORT).show();
                     }
+
+                    heartseekani(seekstartval, seekendval);
 //                    heartvalue.setText(readMessage);    // BT로 받은 값 띄우기
                     /* //-----------------------------------------------------------------------------------------------------------split은 메세지 분할하는것임 일단은 제외
                     String[] BTSplit = readMessage.split(",");  // String으로 변환된 readMessage값을 - 기준으로 나눌거임 (a-b-c-d)
@@ -446,4 +459,23 @@ public class BluetoothChatFragment extends Fragment {
         }
     };
     */
+
+    public void heartseekani(int startval, int endval) {
+
+        heartseek.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
+            @Override
+            public void onAnimationStart() {
+            }
+            @Override
+            public void onAnimationProgress(int progress) {
+                heartseek.setTitle(progress + " bpm");
+            }
+            @Override
+            public void onAnimationFinish() {
+//                heartseek.setSubTitle("done");
+            }
+        });
+
+        seekstartval = endval;
+    }
 }
