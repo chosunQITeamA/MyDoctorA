@@ -13,6 +13,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +36,10 @@ public class AirMapFragment extends Fragment implements OnMapReadyCallback {
     Double lon = 126.97;
 
     GoogleMap map;
+
+    private ListView m_ListView;
+    private ArrayAdapter<String> m_Adapter;
+
     public AirMapFragment() {
         // required
     }
@@ -49,6 +55,10 @@ public class AirMapFragment extends Fragment implements OnMapReadyCallback {
         View layout = inflater.inflate(R.layout.fragment_air_map, container, false);
         mapView = (MapView) layout.findViewById(R.id.map);
         mapView.getMapAsync(this);
+
+        m_Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        m_ListView = (ListView) layout.findViewById(R.id.locationlistview);
+        m_ListView.setAdapter(m_Adapter);
 
         return layout;
     }
@@ -145,8 +155,9 @@ public class AirMapFragment extends Fragment implements OnMapReadyCallback {
         public void onLocationChanged(Location location) {
             lat = location.getLatitude();
             lon = location.getLongitude();
-            String msg = "Lat:" + lat + " / Lon" + lon;
+            String msg = "Lat:" + lat + " / Lon:" + lon;
             Toast.makeText(getActivity(), "My Location : " + lat + "/" + lon, Toast.LENGTH_SHORT).show();
+            m_Adapter.add(msg);
             ShowMyLocaion(lat, lon, map);
         }
 
