@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 public class UserMainActivity extends AppCompatActivity
@@ -21,6 +22,8 @@ public class UserMainActivity extends AppCompatActivity
     private Fragment btchatFragment;
     private Fragment hrhistoryFragment;
     private Fragment airqualfragment;
+    private Fragment accountFragment;
+    private Fragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,8 @@ public class UserMainActivity extends AppCompatActivity
         btchatFragment = new BluetoothChatFragment();
         hrhistoryFragment = new HeartrateHistoryFragment();
         airqualfragment = new AirMapFragment();
+        accountFragment = new AirMapFragment();
+        profileFragment = new AirMapFragment();
 
         
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -160,5 +165,25 @@ public class UserMainActivity extends AppCompatActivity
         dialogExit.show(fm, "Dialog_exit");
     }
 
+    public void accountbt(View view) {
+        Fragment fragment = new Fragment();
+        fragment = new AccountFragment();
+        String title = getString(R.string.app_name);
+        title = "nav_main";
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_fragment_layout, fragment);
+        ft.commit();
+        getSupportActionBar().setTitle(title);
+    }
 
+    public void profilebt(View view) {
+        Fragment fragment = new Fragment();
+        fragment = new ProfileFragment();
+        String title = getString(R.string.app_name);
+        title = "nav_main";
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_fragment_layout, fragment);
+        ft.commit();
+        getSupportActionBar().setTitle(title);
+    }
 }
