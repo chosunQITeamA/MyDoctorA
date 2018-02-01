@@ -25,7 +25,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="50dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +36,6 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:padding="15dp"
             android:layout_weight="1">
 
             <com.lylc.widget.circularprogressbar.CircularProgressBar
@@ -78,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical"
-            android:textSize="30dp"
+            android:textSize="50dp"
             android:layout_weight="1"
             android:text="Temp" />
     </LinearLayout>
@@ -98,8 +97,8 @@
             <com.lylc.widget.circularprogressbar.CircularProgressBar
                 android:id="@+id/coseekbar"
                 style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 circular:cpb_subtitle="subtitle"
                 circular:cpb_title="Title" />
@@ -112,8 +111,8 @@
             <com.lylc.widget.circularprogressbar.CircularProgressBar
                 android:id="@+id/pm25seekbar"
                 style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="50dip"
-                android:layout_height="50dip"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 circular:cpb_subtitle="subtitle"
                 circular:cpb_title="Title" />
@@ -128,8 +127,8 @@
             <com.lylc.widget.circularprogressbar.CircularProgressBar
                 android:id="@+id/no2seekbar"
                 style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="50dip"
-                android:layout_height="50dip"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 circular:cpb_subtitle="subtitle"
                 circular:cpb_title="Title" />
@@ -140,8 +139,8 @@
             <com.lylc.widget.circularprogressbar.CircularProgressBar
                 android:id="@+id/so2seekbar"
                 style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="50dip"
-                android:layout_height="50dip"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 circular:cpb_subtitle="subtitle"
                 circular:cpb_title="Title" />
@@ -152,12 +151,17 @@
             <com.lylc.widget.circularprogressbar.CircularProgressBar
                 android:id="@+id/seekbar"
                 style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="50dip"
-                android:layout_height="50dip"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 circular:cpb_subtitle="subtitle"
                 circular:cpb_title="Title" />
+
         </LinearLayout>
     </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp" />
 
 </LinearLayout>

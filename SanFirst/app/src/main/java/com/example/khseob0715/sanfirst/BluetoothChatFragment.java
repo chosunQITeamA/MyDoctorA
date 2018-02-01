@@ -165,7 +165,6 @@ public class BluetoothChatFragment extends Fragment {
         heartanimg.startAnimation(heartbeat);
 */
         bglayout = (LinearLayout)view.findViewById(id.fragment_image_bg);
-        bglayout.setBackgroundResource(drawable.wall_rain);
 /*
         weather = (ImageView)view.findViewById(R.id.weathericon);
 
