@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:checked="true"
-            android:onClick="usercheck"
             android:text="User" />
 
         <RadioButton
@@ -43,7 +42,6 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:onClick="doctorcheck"
             android:text="Doctor" />
 
     </LinearLayout>
@@ -125,7 +123,8 @@
             android:gravity="right"
             android:paddingRight="20dp"
             android:text="@string/findpw"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:onClick="FindPW"/>
     </LinearLayout>
 
     <LinearLayout

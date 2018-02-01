@@ -6,14 +6,14 @@
     <item
         android:id="@+id/nav_main"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Main" />
+        android:title="Main page" />
 
     <item android:title="History">
         <menu>
             <item
                 android:id="@+id/nav_hr_history"
-                android:icon="@drawable/ic_status_history"
-                android:title="HR History" />
+                android:icon="@drawable/ic_jogging"
+                android:title="My History" />
             <item
                 android:id="@+id/nav_air_history"
                 android:icon="@drawable/ic_jogging"
@@ -26,7 +26,11 @@
             <item
                 android:id="@+id/nav_aqi_map"
                 android:icon="@drawable/ic_aqi"
-                android:title="Air Quality Map" />
+                android:title="AQI Maps" />
+            <item
+                android:id="@+id/nav_aqi_doc"
+                android:icon="@drawable/ic_doctor_icon"
+                android:title="My Doctor" />
             <item
                 android:id="@+id/nav_chat"
                 android:icon="@drawable/ic_chat"
