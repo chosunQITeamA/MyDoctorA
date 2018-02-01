@@ -23,6 +23,10 @@
     android:orientation="vertical">
 
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -30,27 +34,130 @@
         android:orientation="horizontal">
 
         <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:layout_weight="1">
+
+            <com.lylc.widget.circularprogressbar.CircularProgressBar
+                android:id="@+id/aqieseekbar"
+                style="@style/Widget.ProgressBar.CircularProgressBar"
+                android:layout_width="120dip"
+                android:layout_height="120dip"
+                android:layout_gravity="center_horizontal|center_vertical"
+                circular:cpb_subtitle="subtitle"
+                circular:cpb_title="Title" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <com.lylc.widget.circularprogressbar.CircularProgressBar
+                android:id="@+id/hrseekbar"
+                style="@style/Widget.ProgressBar.CircularProgressBar"
+                android:layout_width="120dip"
+                android:layout_height="120dip"
+                android:layout_gravity="center_horizontal|center_vertical"
+                circular:cpb_subtitle="subtitle"
+                circular:cpb_title="Title" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="15dp">
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="30dp"
+            android:layout_weight="1"
+            android:text="Temp" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="20dp"
-                android:paddingTop="10dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+            <com.lylc.widget.circularprogressbar.CircularProgressBar
+                android:id="@+id/coseekbar"
+                style="@style/Widget.ProgressBar.CircularProgressBar"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
-                circular:srcCompat="@drawable/heart" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:textSize="120dp"
-                android:textColor="#ff0000"
-                android:text="00" />
-        </FrameLayout>
+                circular:cpb_subtitle="subtitle"
+                circular:cpb_title="Title" />
+
+            <Space
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                 />
+
+            <com.lylc.widget.circularprogressbar.CircularProgressBar
+                android:id="@+id/pm25seekbar"
+                style="@style/Widget.ProgressBar.CircularProgressBar"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_gravity="center_horizontal|center_vertical"
+                circular:cpb_subtitle="subtitle"
+                circular:cpb_title="Title" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+            <com.lylc.widget.circularprogressbar.CircularProgressBar
+                android:id="@+id/no2seekbar"
+                style="@style/Widget.ProgressBar.CircularProgressBar"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_gravity="center_horizontal|center_vertical"
+                circular:cpb_subtitle="subtitle"
+                circular:cpb_title="Title" />
+            <Space
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                />
+            <com.lylc.widget.circularprogressbar.CircularProgressBar
+                android:id="@+id/so2seekbar"
+                style="@style/Widget.ProgressBar.CircularProgressBar"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_gravity="center_horizontal|center_vertical"
+                circular:cpb_subtitle="subtitle"
+                circular:cpb_title="Title" />
+            <Space
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                />
+            <com.lylc.widget.circularprogressbar.CircularProgressBar
+                android:id="@+id/seekbar"
+                style="@style/Widget.ProgressBar.CircularProgressBar"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_gravity="center_horizontal|center_vertical"
+                circular:cpb_subtitle="subtitle"
+                circular:cpb_title="Title" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
