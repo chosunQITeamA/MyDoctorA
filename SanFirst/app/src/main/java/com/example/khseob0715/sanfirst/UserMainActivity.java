@@ -174,6 +174,8 @@ public class UserMainActivity extends AppCompatActivity
         ft.replace(R.id.content_fragment_layout, fragment);
         ft.commit();
         getSupportActionBar().setTitle(title);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
     }
 
     public void profilebt(View view) {
@@ -185,5 +187,7 @@ public class UserMainActivity extends AppCompatActivity
         ft.replace(R.id.content_fragment_layout, fragment);
         ft.commit();
         getSupportActionBar().setTitle(title);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
     }
 }
