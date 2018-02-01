@@ -49,9 +49,9 @@ public class AirMapFragment extends Fragment implements OnMapReadyCallback {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_air_map, container, false);
-        mapView = (MapView) layout.findViewById(R.id.map);
-        mapView.getMapAsync(this);
+            View layout = inflater.inflate(R.layout.fragment_air_map, container, false);
+            mapView = (MapView) layout.findViewById(R.id.map);
+            mapView.getMapAsync(this);
         m_Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
         m_ListView = (ListView) layout.findViewById(R.id.locationlistview);
         m_ListView.setAdapter(m_Adapter);
@@ -183,5 +183,4 @@ public class AirMapFragment extends Fragment implements OnMapReadyCallback {
         map = googleMap;
         StartLocationService();
     }
-
 }
