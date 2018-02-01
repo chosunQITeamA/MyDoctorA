@@ -42,7 +42,6 @@ import android.widget.Toast;
 
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
 
-import static com.example.khseob0715.sanfirst.R.drawable;
 import static com.example.khseob0715.sanfirst.R.id;
 import static com.example.khseob0715.sanfirst.R.layout.fragment_bluetooth_chat;
 import static com.example.khseob0715.sanfirst.R.string;
@@ -80,9 +79,17 @@ public class BluetoothChatFragment extends Fragment {
     private LinearLayout bglayout = null;
     private ImageView weather = null;
 
-    public CircularProgressBar heartseek;
+    public CircularProgressBar hrseekbar;
+    TextView heartval;
     int seekstartval = 0;
     int seekendval = 0;
+    TextView temperval;
+    CircularProgressBar eachval1;
+    CircularProgressBar eachval2;
+    CircularProgressBar eachval3;
+    CircularProgressBar eachval4;
+    CircularProgressBar eachval5;
+    CircularProgressBar eachval6;
 
     public BluetoothChatFragment() {
     }
@@ -103,7 +110,6 @@ public class BluetoothChatFragment extends Fragment {
 
 
     }
-
 
     @Override
     public void onStart() {
@@ -165,6 +171,18 @@ public class BluetoothChatFragment extends Fragment {
         heartanimg.startAnimation(heartbeat);
 */
         bglayout = (LinearLayout)view.findViewById(id.fragment_image_bg);
+        hrseekbar = (CircularProgressBar)view.findViewById(id.hrseekbar);
+
+        heartval = (TextView)view.findViewById(id.heartval);
+
+        temperval = (TextView)view.findViewById(id.temperval);
+
+        eachval1 = (CircularProgressBar)view.findViewById(id.coseekbar);
+        eachval2 = (CircularProgressBar)view.findViewById(id.pm25seekbar);
+        eachval3 = (CircularProgressBar)view.findViewById(id.pm10seekbar);
+        eachval4 = (CircularProgressBar)view.findViewById(id.no2seekbar);
+        eachval5 = (CircularProgressBar)view.findViewById(id.so2seekbar);
+        eachval6 = (CircularProgressBar)view.findViewById(id.seekbar);
 /*
         weather = (ImageView)view.findViewById(R.id.weathericon);
 
@@ -270,38 +288,32 @@ public class BluetoothChatFragment extends Fragment {
                     String readMessage = new String(readBuf, 0, msg.arg1);  // 이게 받는 내용
 
                     String[] BTSplit = readMessage.split(",");
-                    int bgvalue = Integer.valueOf(BTSplit[0]);
-                    int val1 = Integer.valueOf(BTSplit[1]);
-                    int val2 = Integer.valueOf(BTSplit[2]);
-                    Log.e("receiveBTmessage", "receuveBT: " + bgvalue + "/" + val1 +"/"+val2);
-                    seekendval = val2;
+                    int aqival = Integer.valueOf(BTSplit[0]);   // receive AQI value
+                    int heartval = Integer.valueOf(BTSplit[1]); // receive HeartRate value
+                    int temperatureval = Integer.valueOf(BTSplit[2]);   // receive temperatureval
 
-                    if(bgvalue == 1)   {
-                        Log.d("wallpaper", "Wallpaper1");
-                        bglayout.setBackgroundResource(drawable.wall_sun);
-                    }   else if (bgvalue == 2) {
-                        bglayout.setBackgroundResource(R.drawable.wall_cloud);
-                        Log.d("wallpaper", "Wallpaper2");
-                    }   else if (bgvalue == 3) {
-                        bglayout.setBackgroundResource(R.drawable.wall_rain);
-                        Log.d("wallpaper", "Wallpaper3");
-                    }   else if (bgvalue == 4) {
-                        bglayout.setBackgroundResource(R.drawable.wall_snow);
-                        Log.d("wallpaper", "Wallpaper4");
-                    }   else    {
-                        Toast.makeText(getActivity(), "temp error", Toast.LENGTH_SHORT).show();
-                    }
+                    int airval1 = Integer.valueOf(BTSplit[3]);
+                    int airval2 = Integer.valueOf(BTSplit[4]);
+                    int airval3 = Integer.valueOf(BTSplit[5]);
+                    int airval4 = Integer.valueOf(BTSplit[6]);
+                    int airval5 = Integer.valueOf(BTSplit[7]);
+                    int airval6 = Integer.valueOf(BTSplit[8]);
 
-                    if(val1 == 1)   {
-                        weather.setImageResource(drawable.weather_sun);
-                    }   else if (val1 == 2) {
-                        weather.setImageResource(drawable.weather_cloud);
-                    }   else    {
-                        Toast.makeText(getActivity(), "weather error", Toast.LENGTH_SHORT).show();
-                    }
+                    aqiseekani(aqival);
 
+                    seekendval = heartval;
                     // Run HeartRate Seekbar
                     heartseekani(seekstartval, seekendval);
+                    temperval.setText(temperatureval);
+
+                    // eachval = Cirlib find, airval = bt value
+                    aireachval(eachval1, airval1);
+                    aireachval(eachval2, airval2);
+                    aireachval(eachval3, airval3);
+                    aireachval(eachval4, airval4);
+                    aireachval(eachval5, airval5);
+                    aireachval(eachval6, airval6);
+
                     // 만약 여기서 BT값 받아서 분별까지 된다면 mConversation(이거 채팅기록 띄우는 List임) 이거 지우고 깔면 된다. (fragment_bluetooth_chat.xml)
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -398,13 +410,13 @@ public class BluetoothChatFragment extends Fragment {
 
     public void heartseekani(int startval, int endval) {
 
-        heartseek.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
+        hrseekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
             @Override
             public void onAnimationStart() {
             }
             @Override
             public void onAnimationProgress(int progress) {
-                heartseek.setTitle(progress + " bpm");
+                hrseekbar.setTitle(progress + " bpm");
             }
             @Override
             public void onAnimationFinish() {
@@ -413,5 +425,43 @@ public class BluetoothChatFragment extends Fragment {
         });
 
         seekstartval = endval;
+    }
+
+    public void aqiseekani(int indexlevel)  {
+        // aqi val에 따라 얼굴 변화 및 색변화
+        if(indexlevel >= 0 && indexlevel <= 50)    {
+
+        }   else if(indexlevel > 50 && indexlevel <= 100)    {
+
+        }   else if(indexlevel > 100 && indexlevel <= 150)    {
+
+        }   else if(indexlevel > 150 && indexlevel <= 200)  {
+
+        }   else if(indexlevel > 200 && indexlevel <= 300)  {
+
+        }   else if(indexlevel > 300 && indexlevel <= 500)  {
+
+        }   else    {
+
+        }
+    }
+
+    public void aireachval(final CircularProgressBar index, int value)    {
+
+
+        index.animateProgressTo(0, value, new CircularProgressBar.ProgressAnimationListener() {
+            @Override
+            public void onAnimationStart() {
+            }
+            @Override
+            public void onAnimationProgress(int progress) {
+                index.setTitle(Integer.toString(progress));
+            }
+            @Override
+            public void onAnimationFinish() {
+//                heartseek.setSubTitle("done");
+            }
+        });
+
     }
 }
