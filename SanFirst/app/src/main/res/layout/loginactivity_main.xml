@@ -135,26 +135,30 @@
 
         <Button
             android:id="@+id/signbtn"
-            android:layout_marginBottom="5dp"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:onClick="SignIN"
             android:text="@string/signin"
             android:textAllCaps="false"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/signbtn2"
-            android:layout_marginBottom="5dp"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:onClick="SignUP"
             android:text="@string/signup"
             android:textAllCaps="false"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
