@@ -50,6 +50,8 @@ public class SignUPActivity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(v.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback, 2018, 0, 19);
         datePickerDialog.show();
     }
+
+
 }
 
 

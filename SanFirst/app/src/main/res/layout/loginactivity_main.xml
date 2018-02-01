@@ -124,7 +124,8 @@
             android:onClick="FindPW"
             android:paddingRight="20dp"
             android:text="@string/findpw"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
     </LinearLayout>
 
     <LinearLayout

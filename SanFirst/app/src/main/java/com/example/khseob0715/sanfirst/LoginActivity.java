@@ -44,7 +44,8 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     }
 
     public void FindPW(View view) {
-
+        Intent FindPWIntent = new Intent(getApplicationContext(),FindPWActivity.class);
+        startActivity(FindPWIntent);
     }
 
     @Override
