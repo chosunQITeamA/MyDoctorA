@@ -4,23 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="50dp"
     tools:context="com.example.khseob0715.sanfirst.HeartrateHistoryFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-
-        >
+        android:layout_weight="1"        >
+        <com.lylc.widget.circularprogressbar.CircularProgressBar
+            android:id="@+id/hearthistoryseekbar"
+            style="@style/Widget.ProgressBar.CircularProgressBar"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/imageView8"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:paddingBottom="120dp"
+            android:src="@drawable/heart" />
+
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/heart" />
-    </LinearLayout>
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:textSize="90dp"
+            android:textColor="#ff0000"
+            android:text="00" />
+
+    </FrameLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
