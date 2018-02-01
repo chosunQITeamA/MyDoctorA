@@ -111,7 +111,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="126dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -130,10 +130,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/signbtn"
+            android:layout_marginBottom="5dp"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -144,6 +147,8 @@
 
         <Button
             android:id="@+id/signbtn2"
+            android:layout_marginBottom="5dp"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
