@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 
-public class LoginActivity extends FragmentActivity {
+public class LoginActivity extends FragmentActivity implements Button.OnClickListener{
     RadioButton selectUser, selectDoctor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,10 @@ public class LoginActivity extends FragmentActivity {
 
         // find
         selectUser = (RadioButton)findViewById(R.id.UserSelect);
+        selectUser.setOnClickListener(this);
         selectDoctor = (RadioButton)findViewById(R.id.DoctorSelect);
+        selectDoctor.setOnClickListener(this);
+
     }
     public void SignIN(View view) { // 로그인
         //this.finish();
@@ -39,13 +43,21 @@ public class LoginActivity extends FragmentActivity {
         startActivity(SignUPIntent);
     }
 
-    public void usercheck(View view) {
-        selectUser.setChecked(true);
-        selectDoctor.setChecked(false);
+    public void FindPW(View view) {
+
     }
 
-    public void doctorcheck(View view) {
-        selectUser.setChecked(false);
-        selectDoctor.setChecked(true);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.UserSelect:
+                selectUser.setChecked(true);
+                selectDoctor.setChecked(false);
+                break;
+            case R.id.DoctorSelect:
+                selectUser.setChecked(false);
+                selectDoctor.setChecked(true);
+                break;
+        }
     }
 }
