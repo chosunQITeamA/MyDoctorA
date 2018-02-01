@@ -106,21 +106,21 @@ public class UserMainActivity extends AppCompatActivity
                 break;
             case R.id.nav_hr_history :
                 fragment = new HeartrateHistoryFragment();
-                title = "hr_history";
+                title = "My History";
                 Toast.makeText(this, "nav_hr_history", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_air_history :
                 fragment = new AqiHistoryFragment();
-                title = "air_history";
+                title = "My Air History";
                 Toast.makeText(this, "nav_air_history", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_aqi_map :
                 fragment = new AirMapFragment();
-                title = "nav_aqi";
+                title = "AQI Maps";
                 Toast.makeText(this, "nav_AQI", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_chat :
-                title = "nav_chat";
+                title = "Chat";
                 Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_settings :
@@ -169,7 +169,7 @@ public class UserMainActivity extends AppCompatActivity
         Fragment fragment = new Fragment();
         fragment = new AccountFragment();
         String title = getString(R.string.app_name);
-        title = "nav_main";
+        title = "Account Management";
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_fragment_layout, fragment);
         ft.commit();
@@ -182,7 +182,7 @@ public class UserMainActivity extends AppCompatActivity
         Fragment fragment = new Fragment();
         fragment = new ProfileFragment();
         String title = getString(R.string.app_name);
-        title = "nav_main";
+        title = "My Profile";
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_fragment_layout, fragment);
         ft.commit();
