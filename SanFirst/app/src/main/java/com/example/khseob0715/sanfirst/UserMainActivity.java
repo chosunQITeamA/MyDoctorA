@@ -119,6 +119,10 @@ public class UserMainActivity extends AppCompatActivity
                 title = "AQI Maps";
                 Toast.makeText(this, "nav_AQI", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.nav_mydoc :
+                fragment = new MyDoctorFragment();
+                title = "My Doctor";
+                break;
             case R.id.nav_chat :
                 title = "Chat";
                 Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
@@ -137,6 +141,7 @@ public class UserMainActivity extends AppCompatActivity
                 Toast.makeText(this, "nav_default", Toast.LENGTH_SHORT).show();
                 break;
             }
+
 
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
