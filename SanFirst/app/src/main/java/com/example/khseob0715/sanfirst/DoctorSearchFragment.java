@@ -6,8 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import static android.R.layout.simple_spinner_dropdown_item;
 
 
 /**
@@ -27,8 +32,14 @@ public class DoctorSearchFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_search_doctor, container, false);
 
+        Spinner spinner = (Spinner)rootView.findViewById(R.id.GenderSpinner);
 
+       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
 
+        spinner = (Spinner)rootView.findViewById(R.id.GenderSpinner);
+        ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(getContext(), R.array.gender, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(genderAdapter);
 
         return rootView;
     }

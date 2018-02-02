@@ -30,7 +30,7 @@
                 android:inputType="textPersonName" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/GenderSpinner"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
@@ -42,6 +42,7 @@
                 android:layout_weight="1"
                 android:text="Search"
                 android:textAllCaps="false"
+                android:textColor="@color/common_google_signin_btn_text_dark_default"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -75,6 +76,7 @@
                         android:layout_weight="1"
                         android:text="Detail"
                         android:textAllCaps="false"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
                         android:textStyle="bold" />
 
                     <Button
@@ -85,6 +87,7 @@
                         android:layout_weight="1"
                         android:text="Log On"
                         android:textAllCaps="false"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
                         android:textStyle="bold" />
 
                     <Button
@@ -95,6 +98,7 @@
                         android:layout_weight="1"
                         android:text="Contact"
                         android:textAllCaps="false"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
