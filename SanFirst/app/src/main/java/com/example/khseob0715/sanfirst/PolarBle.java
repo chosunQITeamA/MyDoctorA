@@ -1,5 +1,6 @@
 package com.example.khseob0715.sanfirst;
 
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -7,53 +8,53 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.widget.TextView;
+
 import java.util.StringTokenizer;
 
-public class PolarBle extends FragmentActivity {
+// 서비스 클래스를 구현하려면, Service 를 상속받는다
+public class PolarBLE extends Service {
 
     private SharedPreferences prefs;
 
     PolarBleService mPolarBleService;
-    // String mpolarBleDeviceAddress="00:22:D0:A4:96:72";
     String mpolarBleDeviceAddress="00:22:D0:A4:9D:83";  // 우리꺼
     int batteryLevel=0;
+    public static int polarhrvalue = 0;
 
     //------------------------------
     String mDefaultDeviceAddress;
 
-    TextView heartratevalue;
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_activity_main);
-        Log.w(this.getClass().getName(), "onCreate()");
-
+    public IBinder onBind(Intent intent) {
+        // Service 객체와 (화면단 Activity 사이에서)
+        // 통신(데이터를 주고받을) 때 사용하는 메서드
+        // 데이터를 전달할 필요가 없으면 return null;
+        return null;
+    }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // 서비스에서 가장 먼저 호출됨(최초에 한번만)
         prefs = getSharedPreferences(HConstants.DEVICE_CONFIG, Context.MODE_MULTI_PROCESS);
         mDefaultDeviceAddress = prefs.getString(HConstants.CONFIG_DEFAULT_DEVICE_ADDRESS, null);
-        //heartratevalue = (TextView)findViewById(R.id.heartratevalue);
 
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e(this.getClass().getName(), "onDestroy()");
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // 서비스가 호출될 때마다 실행
+        activatePolar();
+        return super.onStartCommand(intent, flags, startId);
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // 서비스가 종료될 때 실행
         deactivatePolar();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        activatePolar();
-    }
-
 
     protected void activatePolar() {
         Log.w(this.getClass().getName(), "** activatePolar()");
@@ -82,6 +83,11 @@ public class PolarBle extends FragmentActivity {
         }
     }
 
+    public int getPolarhrvalue() { // 임의 랜덤값을 리턴하는 메서드
+        Log.d("BoundService","getRan()");
+        return polarhrvalue;
+    }
+
     private final BroadcastReceiver mPolarBleUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context ctx, Intent intent) {
@@ -105,8 +111,8 @@ public class PolarBle extends FragmentActivity {
                 int rrValue = Integer.parseInt(tokens.nextToken());
                 long sid = Long.parseLong(tokens.nextToken());
 
-                Log.e(this.getClass().getName(), "Heart rate is " + hr);
-                heartratevalue.setText(Integer.toString(hr));
+                Log.e(this.getClass().getName(), "MD: Heart rate is " + hr);
+                polarhrvalue = hr;
 
             }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
                 //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
@@ -141,7 +147,11 @@ public class PolarBle extends FragmentActivity {
             mPolarBleService = ((PolarBleService.LocalBinder) service).getService();
             if (!mPolarBleService.initialize()) {
                 Log.e(this.getClass().getName(), "Unable to initialize Bluetooth");
-                finish();
+                try {
+                    PolarBLE.this.finalize();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             // Automatically connects to the device upon successful start-up initialization.
             //mPolarBleService.connect(app.polarBleDeviceAddress, false);
@@ -154,6 +164,4 @@ public class PolarBle extends FragmentActivity {
             mPolarBleService = null;
         }
     };
-
 }
-

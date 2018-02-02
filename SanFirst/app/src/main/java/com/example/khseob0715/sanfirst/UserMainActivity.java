@@ -25,6 +25,9 @@ public class UserMainActivity extends AppCompatActivity
     private Fragment accountFragment;
     private Fragment profileFragment;
 
+    PolarBLE polarbleheartservice;
+    boolean status = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +48,6 @@ public class UserMainActivity extends AppCompatActivity
         accountFragment = new AirMapFragment();
         profileFragment = new AirMapFragment();
 
-        
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_fragment_layout, btchatFragment);
         ft.commit();
@@ -181,4 +183,13 @@ public class UserMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
+/*
+    public void measurehr(View view) {
+        Intent intent = new Intent(getApplicationContext(), PolarBLE.class); // 이동할 컴포넌트
+        Toast.makeText(this, "measure start", Toast.LENGTH_SHORT).show();
+        new Thread(new BluetoothChatFragment.heartvalthread()).start();
+        startService(intent); // 서비스 시작
+    }*/
+
+
 }

@@ -15,7 +15,6 @@ import android.widget.Toast;
  */
 public class AccountFragment extends Fragment {
 
-
     public AccountFragment() {
         // Required empty public constructor
     }

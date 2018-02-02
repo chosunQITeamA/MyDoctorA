@@ -73,7 +73,7 @@
 
 
             <TextView
-                android:id="@+id/heartval"
+                android:id="@+id/receiveheartvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -170,6 +170,7 @@
                 android:layout_height="80dp"
                 circular:cpb_title="o3"
                 circular:cpb_titleColor="#000000"
+                circular:cpb_strokeWidth="40"
                 android:layout_gravity="center_horizontal|center_vertical"
                 />
             <Space
@@ -205,5 +206,12 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="15dp" />
+
+    <Button
+        android:id="@+id/hrvalservice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="measurehr"
+        android:text="Button" />
 
 </LinearLayout>

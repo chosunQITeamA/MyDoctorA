@@ -21,9 +21,16 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -35,6 +42,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +50,9 @@ import android.widget.Toast;
 
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
 
+import java.util.StringTokenizer;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 import static com.example.khseob0715.sanfirst.R.id;
 import static com.example.khseob0715.sanfirst.R.layout.fragment_bluetooth_chat;
 import static com.example.khseob0715.sanfirst.R.string;
@@ -80,7 +91,7 @@ public class BluetoothChatFragment extends Fragment {
     private ImageView weather = null;
 
     public CircularProgressBar hrseekbar;
-    TextView heartval;
+    public TextView hrval;
     int seekstartval = 0;
     int seekendval = 0;
     TextView temperval;
@@ -90,6 +101,31 @@ public class BluetoothChatFragment extends Fragment {
     CircularProgressBar eachval4;
     CircularProgressBar eachval5;
     CircularProgressBar eachval6;
+
+    Button hrvalservice;
+
+    private SharedPreferences prefs;
+
+    PolarBleService mPolarBleService;
+    String mpolarBleDeviceAddress="00:22:D0:A4:9D:83";  // 우리꺼
+    int batteryLevel=0;
+    public static int polarhrvalue = 0;
+
+    //------------------------------
+    String mDefaultDeviceAddress;
+
+    public int i;
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
 
     public BluetoothChatFragment() {
     }
@@ -108,8 +144,8 @@ public class BluetoothChatFragment extends Fragment {
             activity.finish();
         }
 
-
-
+        prefs = getActivity().getSharedPreferences(HConstants.DEVICE_CONFIG, Context.MODE_MULTI_PROCESS);
+        mDefaultDeviceAddress = prefs.getString(HConstants.CONFIG_DEFAULT_DEVICE_ADDRESS, null);
     }
 
     @Override
@@ -124,6 +160,7 @@ public class BluetoothChatFragment extends Fragment {
         } else if (mChatService == null) {
             setupChat();
         }
+        activatePolar();
     }
 
     @Override
@@ -132,6 +169,8 @@ public class BluetoothChatFragment extends Fragment {
         if (mChatService != null) {
             mChatService.stop();
         }
+        // 서비스가 종료될 때 실행
+        deactivatePolar();
     }
 
     @Override
@@ -174,7 +213,7 @@ public class BluetoothChatFragment extends Fragment {
         bglayout = (LinearLayout)view.findViewById(id.fragment_image_bg);
         hrseekbar = (CircularProgressBar)view.findViewById(id.hrseekbar);
 
-        heartval = (TextView)view.findViewById(id.heartval);
+        hrval = (TextView)view.findViewById(id.receiveheartvalue);
 
         temperval = (TextView)view.findViewById(id.temperval);
 
@@ -182,11 +221,25 @@ public class BluetoothChatFragment extends Fragment {
 
 
         bglayout.setBackgroundResource(R.drawable.bg_main);
+
+        hrvalservice = (Button)view.findViewById(id.hrvalservice);
 /*
         weather = (ImageView)view.findViewById(R.id.weathericon);
 
         heartseek = (CircularProgressBar) view.findViewById(id.heartrateseekbar);
 */
+
+/*
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                Log.e("heartval change", "heartval" + heartval.getText());
+            }
+        };
+        /////////// / Timer 생성 ////////////// 주기
+        Timer timer = new Timer();
+        timer.schedule(tt, 0, 3000);*/
+
     }
 
     /**
@@ -459,6 +512,144 @@ public class BluetoothChatFragment extends Fragment {
 //                heartseek.setSubTitle("done");
             }
         });
-
     }
+
+    public static class heartvalthread implements Runnable    {
+        private Handler handler = new Handler();
+
+        @Override
+        public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+                try{
+                    Thread.sleep(3000);;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        }
+    }
+/*
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // 서비스가 호출될 때마다 실행
+        activatePolar();
+        return super.onStartCommand(intent, flags, startId);
+    }
+*/
+    protected void activatePolar() {
+        Log.w(this.getClass().getName(), "** activatePolar()");
+        Intent gattactivatePolarServiceIntent = new Intent(getActivity(), PolarBleService.class);
+        getActivity().bindService(gattactivatePolarServiceIntent, mPolarBleServiceConnection, BIND_AUTO_CREATE);
+        getActivity().registerReceiver(mPolarBleUpdateReceiver, makePolarGattUpdateIntentFilter());
+    }
+
+    protected void deactivatePolar() {
+        Log.w(this.getClass().getName(), "deactivatePolar()");
+        try{
+            if(mPolarBleService!=null){
+                Log.w(this.getClass().getName(), "**** unbindService()");
+                getActivity().unbindService(mPolarBleServiceConnection);
+                Log.w(this.getClass().getName(), "bindService()");
+            }
+        }catch(Exception e){
+            Log.e(this.getClass().getName(), e.toString());
+        }
+
+        try{
+            mPolarBleService.unregisterReceiver(mPolarBleUpdateReceiver);
+        }catch(Exception e){
+            Log.e(this.getClass().getName(), e.toString());
+        }
+    }
+
+    private final BroadcastReceiver mPolarBleUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context ctx, Intent intent) {
+            //Log.w(TAG, "####BroadcastReceiver Polar BLE Service ");
+
+            final String action = intent.getAction();
+            if (PolarBleService.ACTION_GATT_CONNECTED.equals(action)) {
+            } else if (PolarBleService.ACTION_GATT_DISCONNECTED.equals(action)) {
+                Log.w(this.getClass().getName(), "mPolarBleUpdateReceiver received ACTION_GATT_DISCONNECTED");
+            } else if (PolarBleService.ACTION_HR_DATA_AVAILABLE.equals(action)) {
+
+                //heartRate+";"+pnnPercentage+";"+pnnCount+";"+rrThreshold+";"+bioHarnessSessionData.totalNN
+                //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
+                String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
+                StringTokenizer tokens = new StringTokenizer(data, ";");
+                int hr = Integer.parseInt(tokens.nextToken());
+                int prrPercenteage = Integer.parseInt(tokens.nextToken());
+                int prrCount = Integer.parseInt(tokens.nextToken());
+                int rrThreshold = Integer.parseInt(tokens.nextToken());	//50%, 30%, etc.
+                int rrTotal = Integer.parseInt(tokens.nextToken());
+                int rrValue = Integer.parseInt(tokens.nextToken());
+                long sid = Long.parseLong(tokens.nextToken());
+
+                Log.e(this.getClass().getName(), "MD: Heart rate is " + hr);
+                polarhrvalue = hr;
+                sethrtext(hr);
+
+            }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
+                //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
+                String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
+                batteryLevel = Integer.parseInt(data);
+            }else if (PolarBleService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
+                //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
+                StringTokenizer tokens = new StringTokenizer(data, ";");
+                int totalNN = Integer.parseInt(tokens.nextToken());
+                long lSessionId = Long.parseLong(tokens.nextToken());
+
+
+            }
+        }
+    };
+
+    private void sethrtext(int hreatvalue) {
+        if(i>=10)    {
+            i=0;
+            hrval.setText(hreatvalue);
+        }   else    {
+            i +=1;
+        }
+        Log.e("value_i", "i is =" + i);
+    }
+
+    private static IntentFilter makePolarGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(PolarBleService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(PolarBleService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(PolarBleService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(PolarBleService.ACTION_HR_DATA_AVAILABLE);
+        intentFilter.addAction(PolarBleService.ACTION_BATTERY_DATA_AVAILABLE);
+        return intentFilter;
+    }
+
+    private final ServiceConnection mPolarBleServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mPolarBleService = ((PolarBleService.LocalBinder) service).getService();
+            if (!mPolarBleService.initialize()) {
+                Log.e(this.getClass().getName(), "Unable to initialize Bluetooth");
+                try {
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            // Automatically connects to the device upon successful start-up initialization.
+            //mPolarBleService.connect(app.polarBleDeviceAddress, false);
+            mPolarBleService.connect(mpolarBleDeviceAddress, false);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+            mPolarBleService = null;
+        }
+    };
 }
