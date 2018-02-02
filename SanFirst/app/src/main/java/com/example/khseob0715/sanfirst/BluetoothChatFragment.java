@@ -179,11 +179,7 @@ public class BluetoothChatFragment extends Fragment {
         temperval = (TextView)view.findViewById(id.temperval);
 
         eachval1 = (CircularProgressBar)view.findViewById(id.coseekbar);
-        eachval2 = (CircularProgressBar)view.findViewById(id.pm25seekbar);
-        eachval3 = (CircularProgressBar)view.findViewById(id.pm10seekbar);
-        eachval4 = (CircularProgressBar)view.findViewById(id.no2seekbar);
-        eachval5 = (CircularProgressBar)view.findViewById(id.so2seekbar);
-        eachval6 = (CircularProgressBar)view.findViewById(id.seekbar);
+
 
         bglayout.setBackgroundResource(R.drawable.bg_main);
 /*

@@ -2,8 +2,8 @@ package com.example.khseob0715.sanfirst;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -60,7 +60,9 @@ public class UserMainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //super.onBackPressed();
+            super.onBackPressed();
+            ActivityCompat.finishAffinity(this);
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 
@@ -127,9 +129,10 @@ public class UserMainActivity extends AppCompatActivity
                 Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_signout :
-                ExitDialog();
                 title = "nav_signout";
                 Toast.makeText(this, "nav_sign_out", Toast.LENGTH_SHORT).show();
+                ActivityCompat.finishAffinity(this);
+                android.os.Process.killProcess(android.os.Process.myPid());
                 break;
             default:
                 title = "nav_default";
@@ -151,18 +154,6 @@ public class UserMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void ChangePwDialog()    {
-        FragmentManager fm = getSupportFragmentManager();
-        DialogChangePW dialogChangePW = new DialogChangePW();
-        dialogChangePW.show(fm, "Change_PW_Dialog");
-    }
-
-    public void ExitDialog()    {
-        FragmentManager fm = getSupportFragmentManager();
-        DialogExit dialogExit = new DialogExit();
-        dialogExit.show(fm, "Dialog_exit");
     }
 
     public void accountbt(View view) {
