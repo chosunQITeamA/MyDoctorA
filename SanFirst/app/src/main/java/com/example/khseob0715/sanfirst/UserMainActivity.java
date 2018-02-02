@@ -1,5 +1,6 @@
 package com.example.khseob0715.sanfirst;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -183,13 +184,13 @@ public class UserMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
-/*
+
     public void measurehr(View view) {
         Intent intent = new Intent(getApplicationContext(), PolarBLE.class); // 이동할 컴포넌트
         Toast.makeText(this, "measure start", Toast.LENGTH_SHORT).show();
         new Thread(new BluetoothChatFragment.heartvalthread()).start();
         startService(intent); // 서비스 시작
-    }*/
+    }
 
 
 }

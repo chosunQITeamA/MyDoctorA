@@ -519,27 +519,27 @@ public class BluetoothChatFragment extends Fragment {
 
         @Override
         public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
 
-                    }
-                });
-                try{
-                    Thread.sleep(3000);;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
+            });
+            try{
+                Thread.sleep(3000);;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
-/*
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        // 서비스가 호출될 때마다 실행
-        activatePolar();
-        return super.onStartCommand(intent, flags, startId);
-    }
-*/
+    /*
+        @Override
+        public int onStartCommand(Intent intent, int flags, int startId) {
+            // 서비스가 호출될 때마다 실행
+            activatePolar();
+            return super.onStartCommand(intent, flags, startId);
+        }
+    */
     protected void activatePolar() {
         Log.w(this.getClass().getName(), "** activatePolar()");
         Intent gattactivatePolarServiceIntent = new Intent(getActivity(), PolarBleService.class);
@@ -591,7 +591,7 @@ public class BluetoothChatFragment extends Fragment {
 
                 Log.e(this.getClass().getName(), "MD: Heart rate is " + hr);
                 polarhrvalue = hr;
-                sethrtext(hr);
+                //sethrtext(hr);
 
             }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
                 //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
@@ -608,16 +608,6 @@ public class BluetoothChatFragment extends Fragment {
             }
         }
     };
-
-    private void sethrtext(int hreatvalue) {
-        if(i>=10)    {
-            i=0;
-            hrval.setText(hreatvalue);
-        }   else    {
-            i +=1;
-        }
-        Log.e("value_i", "i is =" + i);
-    }
 
     private static IntentFilter makePolarGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();

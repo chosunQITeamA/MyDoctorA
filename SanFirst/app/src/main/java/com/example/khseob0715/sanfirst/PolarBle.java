@@ -111,7 +111,7 @@ public class PolarBLE extends Service {
                 int rrValue = Integer.parseInt(tokens.nextToken());
                 long sid = Long.parseLong(tokens.nextToken());
 
-                Log.e(this.getClass().getName(), "MD: Heart rate is " + hr);
+                Log.e(this.getClass().getName(), "User Test: Heart rate is " + hr);
                 polarhrvalue = hr;
 
             }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
