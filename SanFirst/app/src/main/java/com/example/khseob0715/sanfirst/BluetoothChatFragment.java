@@ -591,7 +591,7 @@ public class BluetoothChatFragment extends Fragment {
 
                 Log.e(this.getClass().getName(), "MD: Heart rate is " + hr);
                 polarhrvalue = hr;
-                sethrtext(hr);
+                //sethrtext(hr);
 
             }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
                 //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
@@ -608,7 +608,7 @@ public class BluetoothChatFragment extends Fragment {
             }
         }
     };
-
+/*
     private void sethrtext(int hreatvalue) {
         if(i>=10)    {
             i=0;
@@ -618,7 +618,7 @@ public class BluetoothChatFragment extends Fragment {
         }
         Log.e("value_i", "i is =" + i);
     }
-
+*/
     private static IntentFilter makePolarGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(PolarBleService.ACTION_GATT_CONNECTED);
