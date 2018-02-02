@@ -126,10 +126,6 @@ public class UserMainActivity extends AppCompatActivity
                 title = "Chat";
                 Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.nav_settings :
-                ChangePwDialog();
-                Toast.makeText(this, "nav_settings", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.nav_signout :
                 ExitDialog();
                 title = "nav_signout";

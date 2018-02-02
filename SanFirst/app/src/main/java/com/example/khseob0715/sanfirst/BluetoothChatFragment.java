@@ -109,6 +109,7 @@ public class BluetoothChatFragment extends Fragment {
         }
 
 
+
     }
 
     @Override
@@ -449,8 +450,6 @@ public class BluetoothChatFragment extends Fragment {
     }
 
     public void aireachval(final CircularProgressBar index, int value)    {
-
-
         index.animateProgressTo(0, value, new CircularProgressBar.ProgressAnimationListener() {
             @Override
             public void onAnimationStart() {
