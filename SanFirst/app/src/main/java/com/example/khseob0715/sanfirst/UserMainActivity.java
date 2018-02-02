@@ -61,7 +61,6 @@ public class UserMainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             //super.onBackPressed();
-            ExitDialog();
         }
     }
 
