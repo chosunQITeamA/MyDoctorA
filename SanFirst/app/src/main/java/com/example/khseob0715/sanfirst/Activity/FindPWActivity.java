@@ -16,7 +16,7 @@ public class FindPWActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.findpassword_activity);
+        setContentView(R.layout.activity_findpassword);
 
         verifyLayout = (LinearLayout)findViewById(R.id.VerifyCodeLayout);
         updatePWLayout = (LinearLayout)findViewById(R.id.UpdatePasswordLayout);

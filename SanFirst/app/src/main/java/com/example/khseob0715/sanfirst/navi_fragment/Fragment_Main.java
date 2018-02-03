@@ -48,7 +48,7 @@ import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
 
 import static com.example.khseob0715.sanfirst.R.id;
-import static com.example.khseob0715.sanfirst.R.layout.fragment_bluetooth_chat;
+import static com.example.khseob0715.sanfirst.R.layout.fragment_main;
 import static com.example.khseob0715.sanfirst.R.string;
 
 /**
@@ -158,7 +158,7 @@ public class Fragment_Main extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(fragment_bluetooth_chat, container, false);	// fragment 맞춘 레이아웃 설정
+        return inflater.inflate(fragment_main, container, false);	// fragment 맞춘 레이아웃 설정
     }
 
     @SuppressLint("ResourceType")
@@ -301,8 +301,7 @@ public class Fragment_Main extends Fragment {
                     aireachval(pm25val, );
                     */
 
-                    // 만약 여기서 BT값 받아서 분별까지 된다면 mConversation(이거 채팅기록 띄우는 List임) 이거 지우고 깔면 된다. (fragment_bluetooth_chat.xml)
-                    break;
+                    // 만약 여기서 BT값 받아서 분별까지 된다면 mConversation(이거 채팅기록 띄우는 List임) 이거 지우고 깔면 된다. (fragment_main                break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);

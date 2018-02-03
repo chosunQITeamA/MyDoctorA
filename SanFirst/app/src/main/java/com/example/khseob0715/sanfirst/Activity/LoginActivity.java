@@ -16,7 +16,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loginactivity_main);
+        setContentView(R.layout.activity_loginmain);
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

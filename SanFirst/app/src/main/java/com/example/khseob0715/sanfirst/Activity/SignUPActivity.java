@@ -21,7 +21,7 @@ public class SignUPActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_main);
+        setContentView(R.layout.activity_signup);
 
         maleRadio = (RadioButton)findViewById(R.id.radioButton);
         femaleRadio = (RadioButton)findViewById(R.id.radioButton2);

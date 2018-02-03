@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.example.khseob0715.sanfirst.Activity.UserMainActivity"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_user_main">
+    tools:showIn="@layout/activity_app_bar_user_main">
 
     <FrameLayout
         android:id="@+id/content_fragment_layout"
