@@ -9,7 +9,7 @@
     android:layout_weight="1"
     android:background="#000000"
     android:orientation="vertical"
-    tools:context="com.example.khseob0715.sanfirst.AirMapFragment">
+    tools:context="com.example.khseob0715.sanfirst.navi_fragment.Fragment_AirMap">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
         android:layout_marginTop="15dp"
         android:layout_weight="1"
         android:background="#000000"
-        tools:context="com.example.khseob0715.sanfirst.AirMapFragment">
+        tools:context="com.example.khseob0715.sanfirst.navi_fragment.Fragment_AirMap">
 
         <!-- Activity에서는 fragment로 구현해야되지만
     Fragment로 구현하기위해서는 MapView를 사용해야함-->

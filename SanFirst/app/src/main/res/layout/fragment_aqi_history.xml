@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="70dp"
-    tools:context="com.example.khseob0715.sanfirst.AqiHistoryFragment">
+    tools:context="com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout

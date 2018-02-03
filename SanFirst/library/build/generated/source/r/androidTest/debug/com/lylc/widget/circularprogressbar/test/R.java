@@ -58,7 +58,6 @@ public final class R {
   public static final class style {
     public static final int Widget=0x7f030000;
     public static final int Widget_ProgressBar_CircularProgressBar=0x7f030001;
-    public static final int Widget_ProgressBar_Holo_CircularProgressBar=0x7f030002;
   }
   public static final class styleable {
     /**

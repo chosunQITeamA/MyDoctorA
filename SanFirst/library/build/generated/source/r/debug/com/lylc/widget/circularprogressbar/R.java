@@ -26,7 +26,6 @@ public final class R {
     public static final class style {
         public static int Widget = 0x7f160001;
         public static int Widget_ProgressBar_CircularProgressBar = 0x7f160002;
-        public static int Widget_ProgressBar_Holo_CircularProgressBar = 0x7f160003;
     }
     public static final class styleable {
         public static int[] CircularProgressBar = { 0x7f040001, 0x7f040002, 0x7f040003, 0x7f040004, 0x7f040005, 0x7f040006, 0x7f040007, 0x7f040008 };

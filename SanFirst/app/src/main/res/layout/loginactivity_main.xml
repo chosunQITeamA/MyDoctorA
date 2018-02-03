@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/mainimage"
-    tools:context="com.example.khseob0715.sanfirst.LoginActivity">
+    tools:context="com.example.khseob0715.sanfirst.Activity.LoginActivity">
 
     <Space
         android:layout_width="match_parent"

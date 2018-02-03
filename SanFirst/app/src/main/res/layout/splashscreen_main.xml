@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:background="@drawable/mainimage"
-    tools:context="com.example.khseob0715.sanfirst.SplashScreen">
+    tools:context="com.example.khseob0715.sanfirst.Activity.SplashScreen">
 
     <ImageView
         android:id="@+id/imageView"
