@@ -5,6 +5,10 @@
     <string name="signup">Sign-Up</string>
     <string name="findpw">Forgot password?</string>
 
+    <string name="Doctor_case">Doctor can sign-up only on the Web</string>
+    <string name="pwError">Use at least one lowercase letter, one numeral, and seven characters</string>
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

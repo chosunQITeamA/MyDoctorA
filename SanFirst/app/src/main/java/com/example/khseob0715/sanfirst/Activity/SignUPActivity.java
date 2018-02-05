@@ -1,56 +1,179 @@
 package com.example.khseob0715.sanfirst.Activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
 
 
-public class SignUPActivity extends AppCompatActivity {
+public class SignUPActivity extends AppCompatActivity implements Button.OnClickListener{
     private RadioButton maleRadio, femaleRadio;
-    private TextView selected_date;
-
+    private TextView selected_date, timeText;
+    private Button Duplicate_Btn, Send_Email_Btn, Admit_Btn, SignUP_Btn;
     private DatePickerDialog datePickerDialog;
+    private LinearLayout Verification_Layout, Personal_Layout;
+    private int StartTimeInt = 180;
 
+    private Handler Timelimit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        //find
         maleRadio = (RadioButton)findViewById(R.id.radioButton);
+        maleRadio.setOnClickListener(this);
+
         femaleRadio = (RadioButton)findViewById(R.id.radioButton2);
+        femaleRadio.setOnClickListener(this);
+
         selected_date = (TextView)findViewById(R.id.selected_date);
+        selected_date.setOnClickListener(this);
+
+        Duplicate_Btn = (Button)findViewById(R.id.Duplicate_btn);
+        Duplicate_Btn.setOnClickListener(this);
+
+        Send_Email_Btn = (Button)findViewById(R.id.Send_Email_btn);
+        Send_Email_Btn.setOnClickListener(this);
+        Send_Email_Btn.setVisibility(View.GONE);
+
+        Admit_Btn = (Button)findViewById(R.id.admitBtn);
+        Admit_Btn.setOnClickListener(this);
+
+        SignUP_Btn = (Button)findViewById(R.id.SignUPBtn);
+        SignUP_Btn.setOnClickListener(this);
+
+        Verification_Layout = (LinearLayout)findViewById(R.id.Verification_Code_Layout);
+        Verification_Layout.setVisibility(View.INVISIBLE);
+
+        Personal_Layout = (LinearLayout)findViewById(R.id.Personal_inform_Layout);
+        Personal_Layout.setVisibility(View.INVISIBLE);
+
+        timeText = (TextView)findViewById(R.id.TimeText);
+
+        Timelimit = new Handler();
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.radioButton:
+                maleRadio.setChecked(true);
+                femaleRadio.setChecked(false);
+                break;
 
-    public void male_check(View view) {
-            maleRadio.setChecked(true);
-            femaleRadio.setChecked(false);
-    }
-    public void female_check(View view) {
-            femaleRadio.setChecked(true);
-            maleRadio.setChecked(false);
+            case R.id.radioButton2:
+                femaleRadio.setChecked(true);
+                maleRadio.setChecked(false);
+                break;
+
+            case R.id.selected_date:
+                OnDateSetListener callback = new OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        selected_date.setText(year + "/" + (monthOfYear+1) + "/" + dayOfMonth);
+                    }
+                };
+                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback, 2018, 0, 19);
+                datePickerDialog.show();
+                break;
+
+            case R.id.Duplicate_btn:
+                //Dialog
+                new AlertDialog.Builder(SignUPActivity.this)
+                        .setTitle("E-mail")
+                        .setMessage("Email available.")
+                        .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Send_Email_Btn.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .show();
+                break;
+
+            case R.id.Send_Email_btn:
+                //Dialog
+                new AlertDialog.Builder(SignUPActivity.this)
+                        .setTitle("E-mail Verification")
+                        .setMessage("verification code sent to e-mail. Please enter it in 3 minutes.")
+                        .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Verification_Layout.setVisibility(View.VISIBLE);
+                                Timelimit.postDelayed(new TimeLimit(),1000);
+                            }
+                        })
+                        .show();
+                //
+
+                break;
+
+            case R.id.admitBtn:
+                //Dialog match
+                Timelimit.removeMessages(0); // Handler stop
+
+                new AlertDialog.Builder(SignUPActivity.this)
+                        .setTitle("Verification code")
+                        .setMessage("The Verification code is correct")
+                        .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Personal_Layout.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .show();
+
+
+                break;
+            case R.id.SignUPBtn:
+                //Dialog
+                new AlertDialog.Builder(SignUPActivity.this)
+                        .setTitle("Sign-UP")
+                        .setMessage("Sign-UP Complete")
+                        .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .show();
+                break;
+        }
     }
 
-    public void showDatePickerDialog(View v) {
-        OnDateSetListener callback = new OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                selected_date.setText(year + "/" + (monthOfYear+1) + "/" + dayOfMonth);
+    private class TimeLimit implements Runnable {
+        @Override
+        public void run() {
+            StartTimeInt -= 1;
+            timeText.setText((StartTimeInt % 3600 / 60) + ":" + (StartTimeInt % 3600 % 60));
+            if(StartTimeInt > 0) {
+                Timelimit.postDelayed(new TimeLimit(), 1000);
+            }else{
+                new AlertDialog.Builder(SignUPActivity.this)
+                        .setTitle("Time Out")
+                        .setMessage("Validation code input timeout")
+                        .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .show();
             }
-        };
-
-        datePickerDialog = new DatePickerDialog(v.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback, 2018, 0, 19);
-        datePickerDialog.show();
+        }
     }
-
-
 }
 
 
