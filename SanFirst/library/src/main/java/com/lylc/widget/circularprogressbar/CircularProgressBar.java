@@ -205,7 +205,7 @@ public class CircularProgressBar extends ProgressBar{
 			setProgress(start);
 
 		final ObjectAnimator progressBarAnimator = ObjectAnimator.ofFloat(this, "animateProgress", start, end);
-		progressBarAnimator.setDuration(1500);
+		progressBarAnimator.setDuration(1000);
 		//		progressBarAnimator.setInterpolator(new AnticipateOvershootInterpolator(2f, 1.5f));
 		progressBarAnimator.setInterpolator(new LinearInterpolator());
 

@@ -41,6 +41,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.khseob0715.sanfirst.Activity.UserMainActivity;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 import com.example.khseob0715.sanfirst.udoo_btchat.Constants;
@@ -80,12 +81,15 @@ public class Fragment_Main extends Fragment {
     public CircularProgressBar hrseekbar;
     int hrseekstartval = 0;
     int hrseekendval = 0;
+    public TextView heartval;
     TextView temperval;
     CircularProgressBar coseekbar;
     CircularProgressBar so2seekbar;
     CircularProgressBar o3seekbar;
     CircularProgressBar no2seekbar;
     CircularProgressBar pm25seekbar;
+
+    UserMainActivity mainclass = new UserMainActivity();
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -175,6 +179,20 @@ public class Fragment_Main extends Fragment {
         o3seekbar = (CircularProgressBar) view.findViewById(id.o3seekbar);
         no2seekbar = (CircularProgressBar) view.findViewById(id.no2seekbar);
         pm25seekbar = (CircularProgressBar) view.findViewById(id.pm25seekbar);
+
+        heartval = (TextView)view.findViewById(id.receiveheartvalue);
+/*
+        TimerTask receiveheartTimer = new TimerTask() {
+            public void run() {
+                int heart = mainclass.getHeartratevalue();
+                Log.e("Hearthahaha", "heart="+heart);
+                heartval.setText(Integer.toString(heart));
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(receiveheartTimer, 3000, 3000); // 0초후 첫실행, 3초마다 계속실행
+*/
+        startSubThread();
     }
 
     /**
@@ -287,9 +305,6 @@ public class Fragment_Main extends Fragment {
 
                     aqiseekani(aqival);
 
-                    hrseekendval = heartval;
-                    // Run HeartRate Seekbar
-                    heartseekani(hrseekstartval, hrseekendval);
                     temperval.setText(temperatureval);
 
                     // eachval = Cirlib find, airval = bt value
@@ -403,7 +418,6 @@ public class Fragment_Main extends Fragment {
             }
             @Override
             public void onAnimationProgress(int progress) {
-                hrseekbar.setTitle(progress + " bpm");
             }
             @Override
             public void onAnimationFinish() {
@@ -447,4 +461,51 @@ public class Fragment_Main extends Fragment {
             }
         });
     }
+
+    //----------------------------------------------------------------------
+    public void startSubThread()
+    {
+        //작업스레드 생성(매듭 묶는과정)
+        MyRunnable myRunnable = new MyRunnable();
+        Thread heartThread = new Thread(myRunnable);
+        heartThread.setDaemon(true);
+        heartThread.start();
+    }
+
+    android.os.Handler receivehearthandler = new android.os.Handler()
+    {
+        public void handleMessage(Message msg)
+        {
+            if (msg.what == 0)
+            {
+                hrseekstartval = hrseekendval;
+                hrseekendval = mainclass.getHeartratevalue();
+                heartseekani(hrseekstartval, hrseekendval);
+                heartval.setText(String.valueOf(mainclass.getHeartratevalue()));
+            }
+        };
+    };
+
+
+    public class MyRunnable implements Runnable
+    {
+        @Override
+        public void run()
+        {
+            while(true)
+            {
+                Message msg = Message.obtain();
+                msg.what = 0;
+                receivehearthandler.sendMessage(msg);
+                try
+                {
+                    Thread.sleep(1000);
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }
+    }
+
 }
