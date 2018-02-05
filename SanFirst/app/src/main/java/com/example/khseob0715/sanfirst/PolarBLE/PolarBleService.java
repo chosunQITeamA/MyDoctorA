@@ -49,13 +49,13 @@ public class PolarBleService extends Service {
     private static final int STATE_CONNECTED = 2;
 
     public final static String ACTION_GATT_CONNECTED =
-            "edu.ucsd.healthware.fw.device.polar.ACTION_GATT_CONNECTED";
+            "edu.ucsd.healthware.fw.device.PolarSensor.ACTION_GATT_CONNECTED";
     public final static String ACTION_GATT_DISCONNECTED =
-            "edu.ucsd.healthware.fw.device.polar.ACTION_GATT_DISCONNECTED";
+            "edu.ucsd.healthware.fw.device.PolarSensor.ACTION_GATT_DISCONNECTED";
     public final static String ACTION_GATT_SERVICES_DISCOVERED =
-            "edu.ucsd.healthware.fw.device.polar.ACTION_GATT_SERVICES_DISCOVERED";
+            "edu.ucsd.healthware.fw.device.PolarSensor.ACTION_GATT_SERVICES_DISCOVERED";
     public final static String ACTION_DATA_AVAILABLE =
-            "edu.ucsd.healthware.fw.device.polar.ACTION_DATA_AVAILABLE";
+            "edu.ucsd.healthware.fw.device.PolarSensor.ACTION_DATA_AVAILABLE";
     public final static String EXTRA_DATA =
             "edu.ucsd.healthware.fw.device.ble.EXTRA_DATA";
 

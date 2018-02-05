@@ -1,14 +1,9 @@
 package com.example.khseob0715.sanfirst.Activity;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -24,8 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.khseob0715.sanfirst.PolarBLE.HConstants;
-import com.example.khseob0715.sanfirst.PolarBLE.PolarBleService;
+import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Account;
@@ -34,8 +28,9 @@ import com.example.khseob0715.sanfirst.navi_fragment.Fragment_HRHistory;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Main;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_MyDoctor;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Profile;
-
-import java.util.StringTokenizer;
+import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothAQI;
+import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
+import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 
 public class UserMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,17 +42,20 @@ public class UserMainActivity extends AppCompatActivity
     private Fragment accountFragment;
     private Fragment profileFragment;
 
-    private SharedPreferences prefs;
-
-    PolarBleService mPolarBleService;
-    // String mpolarBleDeviceAddress="00:22:D0:A4:96:72";
-    String mpolarBleDeviceAddress="00:22:D0:A4:9D:83";  // 우리꺼
-    int batteryLevel=0;
-
-    //------------------------------
-    String mDefaultDeviceAddress;
-
     public static int heartratevalue = 0;
+
+    public static int udoo_temperature=0;
+    public static int udoo_co=0;
+    public static int udoo_so2=0;
+    public static int udoo_o3=0;
+    public static int udoo_no2=0;
+    public static int udoo_pm25=0;
+
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    private static final int REQUEST_ENABLE_BT = 3;
+    private BluetoothAdapter mBluetoothAdapter = null;
+    private BluetoothChatService mChatService = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +84,27 @@ public class UserMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        prefs = getSharedPreferences(HConstants.DEVICE_CONFIG, Context.MODE_MULTI_PROCESS);
-        mDefaultDeviceAddress = prefs.getString(HConstants.CONFIG_DEFAULT_DEVICE_ADDRESS, null);
 
-        activatePolar();
 
+        // If the adapter is null, then Bluetooth is not supported
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        viewlistBTdevice();
+        startPolarsensor();
+    }
+
+    private void viewlistBTdevice() {
+            Intent bluetoothIntent = new Intent(this, DeviceListActivity.class);
+            startActivityForResult(bluetoothIntent, 1);
+    }
+
+    private void startPolarsensor() {
+        // PolarSensor시작
+        Intent polarservice = new Intent(getApplicationContext(), PolarSensor.class);
+        startService(polarservice);
     }
 
     @Override
@@ -195,8 +209,6 @@ public class UserMainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Log.e(this.getClass().getName(), "onDestroy()");
-
-        deactivatePolar();
     }
 
 
@@ -225,114 +237,37 @@ public class UserMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
-
-    // activate PolarSensor
-    protected void activatePolar() {
-        Log.w(this.getClass().getName(), "** activatePolar()");
-
-        Intent gattactivatePolarServiceIntent = new Intent(this, PolarBleService.class);
-        bindService(gattactivatePolarServiceIntent, mPolarBleServiceConnection, BIND_AUTO_CREATE);
-        registerReceiver(mPolarBleUpdateReceiver, makePolarGattUpdateIntentFilter());
-    }
-
-    protected void deactivatePolar() {
-        Log.w(this.getClass().getName(), "deactivatePolar()");
-        try{
-            if(mPolarBleService!=null){
-                Log.w(this.getClass().getName(), "**** unbindService()");
-                unbindService(mPolarBleServiceConnection);
-                Log.w(this.getClass().getName(), "bindService()");
-            }
-        }catch(Exception e){
-            Log.e(this.getClass().getName(), e.toString());
-        }
-
-        try{
-            unregisterReceiver(mPolarBleUpdateReceiver);
-        }catch(Exception e){
-            Log.e(this.getClass().getName(), e.toString());
-        }
-    }
-
-    private final BroadcastReceiver mPolarBleUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context ctx, Intent intent) {
-            //Log.w(TAG, "####BroadcastReceiver Polar BLE Service ");
-            // receive msg from PolarSensor
-            final String action = intent.getAction();
-            if (PolarBleService.ACTION_GATT_CONNECTED.equals(action)) {
-            } else if (PolarBleService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                Log.w(this.getClass().getName(), "mPolarBleUpdateReceiver received ACTION_GATT_DISCONNECTED");
-            } else if (PolarBleService.ACTION_HR_DATA_AVAILABLE.equals(action)) {
-
-                //heartRate+";"+pnnPercentage+";"+pnnCount+";"+rrThreshold+";"+bioHarnessSessionData.totalNN
-                //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
-                String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
-                StringTokenizer tokens = new StringTokenizer(data, ";");
-                int hr = Integer.parseInt(tokens.nextToken());
-                int prrPercenteage = Integer.parseInt(tokens.nextToken());
-                int prrCount = Integer.parseInt(tokens.nextToken());
-                int rrThreshold = Integer.parseInt(tokens.nextToken());	//50%, 30%, etc.
-                int rrTotal = Integer.parseInt(tokens.nextToken());
-                int rrValue = Integer.parseInt(tokens.nextToken());
-                long sid = Long.parseLong(tokens.nextToken());
-
-                heartratevalue = hr;
-                Log.e(this.getClass().getName(), "Heart rate is " + heartratevalue);
-
-            }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
-                //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
-                String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
-                batteryLevel = Integer.parseInt(data);
-            }else if (PolarBleService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
-                //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
-                StringTokenizer tokens = new StringTokenizer(data, ";");
-                int totalNN = Integer.parseInt(tokens.nextToken());
-                long lSessionId = Long.parseLong(tokens.nextToken());
-            }
-        }
-    };
-
-    private static IntentFilter makePolarGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(PolarBleService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(PolarBleService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(PolarBleService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(PolarBleService.ACTION_HR_DATA_AVAILABLE);
-        intentFilter.addAction(PolarBleService.ACTION_BATTERY_DATA_AVAILABLE);
-        return intentFilter;
-    }
-
-    private final ServiceConnection mPolarBleServiceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            mPolarBleService = ((PolarBleService.LocalBinder) service).getService();
-            if (!mPolarBleService.initialize()) {
-                Log.e(this.getClass().getName(), "Unable to initialize Bluetooth");
-                finish();
-            }
-            // Automatically connects to the device upon successful start-up initialization.
-            //mPolarBleService.connect(app.polarBleDeviceAddress, false);
-            mPolarBleService.connect(mpolarBleDeviceAddress, false);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-            mPolarBleService = null;
-        }
-    };
-
-    public void measurehr(View view) {
-        activatePolar();
-        Log.e("Heartratevalueset", "Heartrate -- "+heartratevalue);
-    }
-
     // set heartrate value to set the value
     public int getHeartratevalue() {
         return heartratevalue;
     }
 
+    // UdooBT
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e("OnActivityResult", "OnActivityResult-UerMainActivity");
+        switch (requestCode) {//블루투스 서비스 실행
+            case 1:
+                // When DeviceListActivity returns with a device to connect
+                if (resultCode == Activity.RESULT_OK) {
+                    connectDevice(data, true);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    private void connectDevice(Intent data, boolean secure) {
+        // Get the device MAC address
+        String address = data.getExtras()
+                .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+        Log.i("MenuActivity_addr", address);
+
+        Intent bluetoothService=new Intent(getApplicationContext(), BluetoothAQI.class);
+        bluetoothService.putExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS, address);
+        try{
+            startService(bluetoothService);
+        }catch(Exception ex){
+            Log.e("MenuActivity", "Exception : "+ex.getMessage());
+        }
+    }
 }
