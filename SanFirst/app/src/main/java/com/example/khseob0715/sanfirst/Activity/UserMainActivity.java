@@ -225,6 +225,8 @@ public class UserMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
+
+    // activate PolarSensor
     protected void activatePolar() {
         Log.w(this.getClass().getName(), "** activatePolar()");
 
@@ -256,7 +258,7 @@ public class UserMainActivity extends AppCompatActivity
         @Override
         public void onReceive(Context ctx, Intent intent) {
             //Log.w(TAG, "####BroadcastReceiver Polar BLE Service ");
-
+            // receive msg from PolarSensor
             final String action = intent.getAction();
             if (PolarBleService.ACTION_GATT_CONNECTED.equals(action)) {
             } else if (PolarBleService.ACTION_GATT_DISCONNECTED.equals(action)) {
@@ -278,8 +280,6 @@ public class UserMainActivity extends AppCompatActivity
                 heartratevalue = hr;
                 Log.e(this.getClass().getName(), "Heart rate is " + heartratevalue);
 
-
-
             }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
                 //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
                 String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
@@ -290,8 +290,6 @@ public class UserMainActivity extends AppCompatActivity
                 StringTokenizer tokens = new StringTokenizer(data, ";");
                 int totalNN = Integer.parseInt(tokens.nextToken());
                 long lSessionId = Long.parseLong(tokens.nextToken());
-
-
             }
         }
     };
@@ -332,10 +330,9 @@ public class UserMainActivity extends AppCompatActivity
         Log.e("Heartratevalueset", "Heartrate -- "+heartratevalue);
     }
 
+    // set heartrate value to set the value
     public int getHeartratevalue() {
-
         return heartratevalue;
-
     }
 
 }

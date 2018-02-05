@@ -38,6 +38,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,21 +77,32 @@ public class Fragment_Main extends Fragment {
     /**
      * Member object for the chat services
      */
+    //-----------------Udoo
     private BluetoothChatService mChatService = null;
 
-    public CircularProgressBar hrseekbar;
-    int hrseekstartval = 0;
-    int hrseekendval = 0;
-    public TextView heartval;
-    TextView temperval;
+    //AQI
+    ImageView aqicon;
+    public CircularProgressBar aqiseekbar;
+
     CircularProgressBar coseekbar;
     CircularProgressBar so2seekbar;
     CircularProgressBar o3seekbar;
     CircularProgressBar no2seekbar;
     CircularProgressBar pm25seekbar;
 
+    CircularProgressBar[] airseekbar = new CircularProgressBar[]{coseekbar, so2seekbar, o3seekbar, no2seekbar, pm25seekbar};
+
+    //Heartrate
+    public CircularProgressBar hrseekbar;
+    int hrseekstartval = 0;
+    int hrseekendval = 0;
+    public TextView heartval;
     UserMainActivity mainclass = new UserMainActivity();
 
+    //Temp
+    TextView temperval;
+
+    // Udoo BTChat
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -171,6 +183,7 @@ public class Fragment_Main extends Fragment {
         // setContentView 이전에 find를 할 시 NullPointerException이 발생함. 이에 따라, View가 Created 된 이후에 Find
 
         hrseekbar = (CircularProgressBar) view.findViewById(id.hrseekbar);
+        aqiseekbar = (CircularProgressBar) view.findViewById(id.aqiseekbar);
 
         temperval = (TextView) view.findViewById(id.temperval);
 
@@ -181,17 +194,9 @@ public class Fragment_Main extends Fragment {
         pm25seekbar = (CircularProgressBar) view.findViewById(id.pm25seekbar);
 
         heartval = (TextView)view.findViewById(id.receiveheartvalue);
-/*
-        TimerTask receiveheartTimer = new TimerTask() {
-            public void run() {
-                int heart = mainclass.getHeartratevalue();
-                Log.e("Hearthahaha", "heart="+heart);
-                heartval.setText(Integer.toString(heart));
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(receiveheartTimer, 3000, 3000); // 0초후 첫실행, 3초마다 계속실행
-*/
+        aqicon = (ImageView)view.findViewById(id.aqi_icon);
+
+        // Handler method (Heartval을 위해서)
         startSubThread();
     }
 
@@ -292,7 +297,7 @@ public class Fragment_Main extends Fragment {
 
                     String readMessage = new String(readBuf, 0, msg.arg1);  // 이게 받는 내용
 
-                    String[] BTSplit = readMessage.split(",");
+                    String[] BTSplit = readMessage.split(",");  // Split Message (split word : ,)
                     int aqival = Integer.valueOf(BTSplit[0]);   // receive AQI value
                     int heartval = Integer.valueOf(BTSplit[1]); // receive HeartRate value
                     int temperatureval = Integer.valueOf(BTSplit[2]);   // receive temperatureval
@@ -308,13 +313,11 @@ public class Fragment_Main extends Fragment {
                     temperval.setText(temperatureval);
 
                     // eachval = Cirlib find, airval = bt value
-                    aireachval(coseekbar,coval );
-                    /*
-                    aireachval(so2val, );
-                    aireachval(o3val, );
-                    aireachval(no2val, );
-                    aireachval(pm25val, );
-                    */
+                    aireachval(0, coval );
+                    aireachval(1, so2val);
+                    aireachval(2, o3val);
+                    aireachval(3, no2val);
+                    aireachval(4, pm25val);
 
                     // 만약 여기서 BT값 받아서 분별까지 된다면 mConversation(이거 채팅기록 띄우는 List임) 이거 지우고 깔면 된다. (fragment_main                break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -427,33 +430,51 @@ public class Fragment_Main extends Fragment {
         hrseekstartval = endval;
     }
 
+
+    // AQI seekbar
     public void aqiseekani(int indexlevel)  {
         // aqi val에 따라 얼굴 변화 및 색변화
         if(indexlevel >= 0 && indexlevel <= 50)    {
-
+            aqicon.setImageResource(R.drawable.aqi_1);
         }   else if(indexlevel > 50 && indexlevel <= 100)    {
-
+            aqicon.setImageResource(R.drawable.aqi_2);
         }   else if(indexlevel > 100 && indexlevel <= 150)    {
-
+            aqicon.setImageResource(R.drawable.aqi_3);
         }   else if(indexlevel > 150 && indexlevel <= 200)  {
-
+            aqicon.setImageResource(R.drawable.aqi_4);
         }   else if(indexlevel > 200 && indexlevel <= 300)  {
-
+            aqicon.setImageResource(R.drawable.aqi_5);
         }   else if(indexlevel > 300 && indexlevel <= 500)  {
-
+            aqicon.setImageResource(R.drawable.aqi_6);
         }   else    {
-
         }
+        aqiseekani(0, indexlevel);  // start = 0, end = indexlevel
     }
 
-    public void aireachval(final CircularProgressBar index, int value)    {
-        index.animateProgressTo(0, value, new CircularProgressBar.ProgressAnimationListener() {
+    // aqi seekbar
+    public void aqiseekani(int startval, int endval) {
+
+        aqiseekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
             @Override
             public void onAnimationStart() {
             }
             @Override
             public void onAnimationProgress(int progress) {
-                index.setTitle(Integer.toString(progress));
+            }
+            @Override
+            public void onAnimationFinish() {
+            }
+        });
+    }
+
+    // each air quality value
+    public void aireachval(int index, int value)    {
+        airseekbar[index].animateProgressTo(0, value, new CircularProgressBar.ProgressAnimationListener() {
+            @Override
+            public void onAnimationStart() {
+            }
+            @Override
+            public void onAnimationProgress(int progress) {
             }
             @Override
             public void onAnimationFinish() {
@@ -462,7 +483,7 @@ public class Fragment_Main extends Fragment {
         });
     }
 
-    //----------------------------------------------------------------------
+    //---------------------------------------------------------------------- heartrate threat
     public void startSubThread()
     {
         //작업스레드 생성(매듭 묶는과정)
@@ -499,7 +520,7 @@ public class Fragment_Main extends Fragment {
                 receivehearthandler.sendMessage(msg);
                 try
                 {
-                    Thread.sleep(1000);
+                    Thread.sleep(1000); // 갱신주기 1초
                 }
                 catch (Exception e)
                 {

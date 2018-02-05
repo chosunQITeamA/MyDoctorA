@@ -39,7 +39,7 @@
             android:layout_weight="1">
 
             <com.lylc.widget.circularprogressbar.CircularProgressBar
-                android:id="@+id/aqieseekbar"
+                android:id="@+id/aqiseekbar"
                 style="@style/Widget.ProgressBar.CircularProgressBar"
                 android:layout_width="150dip"
                 android:layout_height="150dip"
@@ -50,17 +50,11 @@
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal|center_vertical">
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/aqi_icon"
+                    android:padding="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    circular:srcCompat="@drawable/aqi_great" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:textSize="20dp"
-                    android:textColor="#000000"
-                    android:text="OK"/>
+                    circular:srcCompat="@drawable/aqi_1" />
             </LinearLayout>
 
 
