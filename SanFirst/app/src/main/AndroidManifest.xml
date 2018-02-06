@@ -67,6 +67,10 @@
         <service
             android:name=".PolarBLE.PolarSensor"
             android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".AQI_JSON.AQI_Service"
+            android:enabled="true"
             android:exported="true"></service>
     </application>
 

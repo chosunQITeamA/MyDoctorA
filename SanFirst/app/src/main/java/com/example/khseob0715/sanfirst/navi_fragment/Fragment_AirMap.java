@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,19 +25,39 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.android.gms.maps.model.TileProvider;
+import com.google.android.gms.maps.model.UrlTileProvider;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Locale;
 
 import static android.location.LocationManager.GPS_PROVIDER;
 
 public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
     private MapView mapView = null;
 
-    Double lat = 37.56;
-    Double lon = 126.97;
+    public static Double lat = 37.56;
+    public static Double lon = 126.97;
 
     GoogleMap map;
 
     private ListView m_ListView;
     private ArrayAdapter<String> m_Adapter;
+
+    private static final int TRANSPARENCY_MAX = 100;
+
+    /** This returns moon tiles. */
+    /*
+    private static final String MOON_MAP_URL_FORMAT =
+            "http://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/%d/%d/%d.jpg";
+            */
+    private static final String MOON_MAP_URL_FORMAT = "https://tiles.waqi.info/tiles/usepa-aqi/%d/%d/%d.png?token=9f64560eb24586831e1167b1c0e8ecddb1193014";
+    //"https://tiles.breezometer.com/{z}/{x}/{y}.png?key=YOUR_API_KEY";
+
+    private TileOverlay mMoonTiles;
 
     public Fragment_AirMap() {
         // required
@@ -111,6 +132,7 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
     }
 
     private void StartLocationService() {
+        Log.e("startLocationService","startLocationService");
         LocationManager manager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
         GPSListener gpsListener = new GPSListener();
         long minTime = 10000;
@@ -153,7 +175,6 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
             lon = location.getLongitude();
             String msg = "Lat:" + lat + " / Lon:" + lon;
             m_Adapter.add(msg);
-            ShowMyLocaion(lat, lon, map);
         }
 
         @Override
@@ -162,6 +183,7 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
 
         @Override
         public void onProviderEnabled(String s) {
+            ShowMyLocaion(lat, lon, map);
         }
 
         @Override
@@ -176,12 +198,29 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
         markerOptions.title("now location");
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         StartLocationService();
+
+        //--------------------------------------------------------------------AQICN TileOverlay
+        TileProvider tileProvider = new UrlTileProvider(256, 256) {
+            @Override
+            public synchronized URL getTileUrl(int x, int y, int zoom) {
+                // The moon tile coordinate system is reversed.  This is not normal.
+                String s = String.format(Locale.US, MOON_MAP_URL_FORMAT, zoom, x, y);
+                URL url = null;
+                try {
+                    url = new URL(s);
+                } catch (MalformedURLException e) {
+                    throw new AssertionError(e);
+                }
+                return url;
+            }
+        };
+        mMoonTiles = map.addTileOverlay(new TileOverlayOptions().tileProvider(tileProvider));
     }
 }

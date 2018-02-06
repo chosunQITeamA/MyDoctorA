@@ -231,7 +231,7 @@ public class Fragment_Main extends Fragment {
             }
         });
     }
-
+/*
     // each air quality value
     public void aireachval(int index, int value) {
         airseekbar[index].setTitle(String.valueOf(value));
@@ -250,7 +250,7 @@ public class Fragment_Main extends Fragment {
             }
         });
     }
-
+*/
     //---------------------------------------------------------------------- heartrate threat
     public void startSubThread() {
         //작업스레드 생성(매듭 묶는과정)
@@ -267,9 +267,11 @@ public class Fragment_Main extends Fragment {
                 hrseekendval = mainclass.getHeartratevalue();
                 heartseekani(hrseekstartval, hrseekendval);
                 heartval.setText(String.valueOf(mainclass.getHeartratevalue()));
+                /*
                 for (int i = 0; i <= 4; i++) {
                     aireachval(i, airlist[i]);
                 }
+                */
             }
         }
     };
