@@ -1,7 +1,9 @@
 package com.example.khseob0715.sanfirst.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.AQI_JSON.AQI_Service;
@@ -57,6 +60,8 @@ public class UserMainActivity extends AppCompatActivity
     private static final int REQUEST_ENABLE_BT = 3;
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothChatService mChatService = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,30 +227,58 @@ public class UserMainActivity extends AppCompatActivity
 
 
     public void accountbt(View view) {
-        Fragment fragment = new Fragment();
-        fragment = new Fragment_Account();
-        String title = getString(R.string.app_name);
-        title = "Account Management";
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_fragment_layout, fragment);
-        ft.commit();
-        getSupportActionBar().setTitle(title);
+        // 비밀번호를 입력 받아서 맞으면 실행하고 아니면 못 들어가도록 해야 됨.
+        final EditText passwordEdit = new EditText(UserMainActivity.this);
+        new AlertDialog.Builder(UserMainActivity.this)
+                .setTitle("Enter your password")
+                .setView(passwordEdit)
+                .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (!passwordEdit.getText().toString().equals("")) {
+                            Fragment fragment = new Fragment();
+                            fragment = new Fragment_Account();
+                            String title = "Account Management";
+                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            ft.replace(R.id.content_fragment_layout, fragment);
+                            ft.commit();
+                            getSupportActionBar().setTitle(title);
+                        }
+                    }
+                })
+                .show();
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
     public void profilebt(View view) {
-        Fragment fragment = new Fragment();
-        fragment = new Fragment_Profile();
-        String title = getString(R.string.app_name);
-        title = "My Profile";
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_fragment_layout, fragment);
-        ft.commit();
-        getSupportActionBar().setTitle(title);
+        // 비밀번호를 입력 받아서 맞으면 실행하고 아니면 못 들어가도록 해야 됨.
+        final EditText passwordEdit_profile = new EditText(UserMainActivity.this);
+        new AlertDialog.Builder(UserMainActivity.this)
+                .setTitle("Enter your password")
+                .setView(passwordEdit_profile)
+                .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (!passwordEdit_profile.getText().toString().equals("")) {
+                                    Fragment fragment = new Fragment();
+                                    fragment = new Fragment_Profile();
+                                    String title = "My Profile";
+                                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                    ft.replace(R.id.content_fragment_layout, fragment);
+                                    ft.commit();
+                                    getSupportActionBar().setTitle(title);
+                                }
+                            }
+                })
+                .show();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
+
+
     // set heartrate value to set the value
     public int getHeartratevalue() {
         return heartratevalue;
