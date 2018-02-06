@@ -8,11 +8,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.Activity.UserMainActivity;
 import com.example.khseob0715.sanfirst.R;
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
+
+import java.util.List;
 
 
 /**
@@ -20,95 +25,52 @@ import com.lylc.widget.circularprogressbar.CircularProgressBar;
  */
 public class Fragment_HRHistory extends Fragment {
 
-    public int receivenowhrvalue =0;
-    public TextView hrhistory;
+    ListView listView;
+    myAdapter adapter;
 
-    public CircularProgressBar hrseekbar;
-    int hrseekstartval = 0;
-    int hrseekendval = 0;
-
-    UserMainActivity mainclass = new UserMainActivity();
-    public Fragment_HRHistory() {
-        // Required empty public constructor
-    }
-
+    String[] items = {"ss","das"};
+    ViewGroup rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_heartrate_history, container, false);
+       rootView = (ViewGroup)inflater.inflate(R.layout.fragment_heartrate_history, container, false);
+
+        listView = (ListView)rootView.findViewById(R.id.listView);
+        adapter = new myAdapter();
+        listView.setAdapter(adapter);
+
+        return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // Find 시작
-        hrhistory = (TextView)view.findViewById(R.id.hrhistorytext);
-        hrseekbar = (CircularProgressBar)view.findViewById(R.id.hearthistoryseekbar);
 
-        startSubThread();
     }
+    class myAdapter extends BaseAdapter{
 
-    public void startSubThread()
-    {
-        //작업스레드 생성(매듭 묶는과정)
-        MyRunnable myRunnable = new MyRunnable();
-        Thread heartThread = new Thread(myRunnable);
-        heartThread.setDaemon(true);
-        heartThread.start();
-    }
-
-    android.os.Handler receivehearthandler = new android.os.Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            if (msg.what == 0)
-            {
-                hrseekstartval = hrseekendval;
-                hrseekendval = mainclass.getHeartratevalue();
-                heartseekani(hrseekstartval, hrseekendval);
-                hrhistory.setText(String.valueOf(mainclass.getHeartratevalue()));
-            }
-        };
-    };
-
-
-    public class MyRunnable implements Runnable
-    {
         @Override
-        public void run()
-        {
-            while(true)
-            {
-                Message msg = Message.obtain();
-                msg.what = 0;
-                receivehearthandler.sendMessage(msg);
-                try
-                {
-                    Thread.sleep(1000);
-                }
-                catch (Exception e)
-                {
-                }
-            }
+        public int getCount() {
+            return items.length;
         }
-    }
 
-    // Heartrate Seekbar animation (startval, endval)
-    public void heartseekani(int startval, int endval) {
+        @Override
+        public Object getItem(int position) {
+            return items[position];
+        }
 
-        hrseekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
-            @Override
-            public void onAnimationStart() {
-            }
-            @Override
-            public void onAnimationProgress(int progress) {
-            }
-            @Override
-            public void onAnimationFinish() {
-            }
-        });
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 
-        hrseekstartval = endval;
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView view = new TextView(rootView.getContext());
+            view.setText(items[position]);
+            view.setTextSize(40.0f);
+            return view;
+        }
     }
 }
