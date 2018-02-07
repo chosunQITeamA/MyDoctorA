@@ -8,13 +8,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Main;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 
 public class LoginActivity extends FragmentActivity implements Button.OnClickListener{
-    RadioButton selectUser, selectDoctor;
+    private RadioButton selectUser, selectDoctor;
+    private Button Sign_in_Btn, Sign_up_Btn;
+    private TextView Find_PW_Text;
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothChatService mChatService = null;
 
@@ -40,33 +43,21 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
         selectDoctor = (RadioButton)findViewById(R.id.DoctorSelect);
         selectDoctor.setOnClickListener(this);
 
+        Sign_in_Btn = (Button)findViewById(R.id.sign_in_btn);
+        Sign_in_Btn.setOnClickListener(this);
+
+        Sign_up_Btn = (Button)findViewById(R.id.sign_up_btn);
+        Sign_up_Btn.setOnClickListener(this);
+
+        Find_PW_Text = (TextView)findViewById(R.id.FindPasswordText);
+        Find_PW_Text.setOnClickListener(this);
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         confirmBTonoff();
 
     }
-    public void SignIN(View view) { // 로그인
-        //this.finish();
 
-        // 입력한 정보가 일치 할 경우 넘김. // 아닐 경우 메시지 다이얼 로그 출력
-
-        // 일반 사용자와 의사를 구분하여 넘긴다.
-        // 1/21 지금은 그냥 넘김.
-
-        Intent UserMainIntent = new Intent(getApplicationContext(),UserMainActivity.class);
-        startActivity(UserMainIntent);
-        // If the adapter is null, then Bluetooth is not supported
-    }
-
-    public void SignUP(View view) {  // 가입
-        Intent SignUPIntent = new Intent(getApplicationContext(),SignUPActivity.class);
-        startActivity(SignUPIntent);
-    }
-
-    public void FindPW(View view) {
-        Intent FindPWIntent = new Intent(getApplicationContext(),FindPWActivity.class);
-        startActivity(FindPWIntent);
-    }
 
     @Override
     public void onClick(View view) {
@@ -78,6 +69,26 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
             case R.id.DoctorSelect:
                 selectUser.setChecked(false);
                 selectDoctor.setChecked(true);
+                break;
+            case R.id.sign_in_btn:
+                //this.finish();
+
+                // 입력한 정보가 일치 할 경우 넘김. // 아닐 경우 메시지 다이얼 로그 출력
+
+                // 일반 사용자와 의사를 구분하여 넘긴다.
+                // 1/21 지금은 그냥 넘김.
+
+                Intent UserMainIntent = new Intent(getApplicationContext(),UserMainActivity.class);
+                startActivity(UserMainIntent);
+                // If the adapter is null, then Bluetooth is not supported
+                break;
+            case R.id.sign_up_btn:
+                Intent SignUPIntent = new Intent(getApplicationContext(),SignUPActivity.class);
+                startActivity(SignUPIntent);
+                break;
+            case R.id.FindPasswordText:
+                Intent FindPWIntent = new Intent(getApplicationContext(),FindPWActivity.class);
+                startActivity(FindPWIntent);
                 break;
         }
     }

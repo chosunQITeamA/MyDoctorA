@@ -123,7 +123,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_weight="0"
-            android:onClick="FindPW"
             android:text="@string/findpw"
             android:textColor="?attr/colorAccent"
             android:textSize="18sp"
@@ -137,13 +136,12 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/signbtn"
+            android:id="@+id/sign_in_btn"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
-            android:onClick="SignIN"
             android:text="@string/signin"
             android:textAllCaps="false"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
@@ -151,13 +149,12 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/signbtn2"
+            android:id="@+id/sign_up_btn"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
-            android:onClick="SignUP"
             android:text="@string/signup"
             android:textAllCaps="false"
             android:textColor="@color/common_google_signin_btn_text_dark_default"

@@ -196,11 +196,29 @@ public class UserMainActivity extends AppCompatActivity
                 Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_signout :
-                title = "nav_signout";
-                Toast.makeText(this, "nav_sign_out", Toast.LENGTH_SHORT).show();
-                ActivityCompat.finishAffinity(this);
-                android.os.Process.killProcess(android.os.Process.myPid());
+                new AlertDialog.Builder(UserMainActivity.this)
+                        .setTitle("Sign-Out")
+                        .setMessage("Sign-Out Complete")
+                        .setNegativeButton("Login", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent LoginActivityIntent = new Intent(getApplicationContext(),LoginActivity.class);
+                                startActivity(LoginActivityIntent);
+                            }
+                        })
+                        .setPositiveButton("Close App", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                moveTaskToBack(true);
+                                finish();
+                                android.os.Process.killProcess(android.os.Process.myPid());
+                            }
+                        })
+                        .setCancelable(false)
+                        .show();
+
                 break;
+
             default:
                 title = "nav_default";
                 Toast.makeText(this, "nav_default", Toast.LENGTH_SHORT).show();
