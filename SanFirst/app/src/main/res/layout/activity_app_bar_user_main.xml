@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.khseob0715.sanfirst.Activity.UserMainActivity">
+    tools:context="com.example.khseob0715.sanfirst.UserActivity.UserMainActivity">
 
     <ImageView
         android:id="@+id/bgimage"
@@ -17,7 +17,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/common_google_signin_btn_text_light_default"
+        android:background="#ffffff"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar

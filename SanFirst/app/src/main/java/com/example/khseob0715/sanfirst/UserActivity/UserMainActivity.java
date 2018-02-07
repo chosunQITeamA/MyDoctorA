@@ -1,10 +1,11 @@
-package com.example.khseob0715.sanfirst.Activity;
+package com.example.khseob0715.sanfirst.UserActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -169,23 +170,23 @@ public class UserMainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_main  :
                 fragment = new Fragment_Main();
-                title = "nav_main";
-                Toast.makeText(this, "nav_main", Toast.LENGTH_SHORT).show();
+                title = "My Doctor A";
+             //   Toast.makeText(this, "nav_main", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_hr_history :
                 fragment = new Fragment_HRHistory();
                 title = "My History";
-                Toast.makeText(this, "nav_hr_history", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(this, "nav_hr_history", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_air_history :
                 fragment = new Fragment_AQIHistory();
                 title = "My Air History";
-                Toast.makeText(this, "nav_air_history", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(this, "nav_air_history", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_aqi_map :
                 fragment = new Fragment_AirMap();
                 title = "AQI Maps";
-                Toast.makeText(this, "nav_AQI", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(this, "nav_AQI", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_mydoc :
                 fragment = new Fragment_MyDoctor();
@@ -193,7 +194,7 @@ public class UserMainActivity extends AppCompatActivity
                 break;
             case R.id.nav_chat :
                 title = "Chat";
-                Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_signout :
                 new AlertDialog.Builder(UserMainActivity.this)
@@ -221,7 +222,7 @@ public class UserMainActivity extends AppCompatActivity
 
             default:
                 title = "nav_default";
-                Toast.makeText(this, "nav_default", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(this, "nav_default", Toast.LENGTH_SHORT).show();
                 break;
             }
         if (fragment != null) {

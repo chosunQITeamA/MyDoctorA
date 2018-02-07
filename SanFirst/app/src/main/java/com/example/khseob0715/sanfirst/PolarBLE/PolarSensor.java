@@ -11,7 +11,7 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.example.khseob0715.sanfirst.Activity.UserMainActivity;
+import com.example.khseob0715.sanfirst.UserActivity.UserMainActivity;
 
 import java.util.StringTokenizer;
 

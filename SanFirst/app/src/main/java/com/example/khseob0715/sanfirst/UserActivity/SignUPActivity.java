@@ -1,4 +1,4 @@
-package com.example.khseob0715.sanfirst.Activity;
+package com.example.khseob0715.sanfirst.UserActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -173,8 +173,6 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                 String phone = phone_num.getText().toString();
 
                 SignupToDB(id, pw, fname, lname, gender, date, phone);
-
-
 
                 /*
                 //-----------------------under dialog is up when sign success

@@ -1,4 +1,4 @@
-package com.example.khseob0715.sanfirst.Activity;
+package com.example.khseob0715.sanfirst.UserActivity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;

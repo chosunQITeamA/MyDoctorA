@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activity.SplashScreen"
+            android:name=".UserActivity.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -32,13 +32,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.LoginActivity"
+            android:name=".UserActivity.LoginActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Activity.SignUPActivity"
+            android:name=".UserActivity.SignUPActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Activity.UserMainActivity"
+            android:name=".UserActivity.UserMainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".udoo_btchat.DeviceListActivity"
@@ -46,7 +46,7 @@
             android:label="@string/select_device"
             android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
-            android:name=".Activity.FindPWActivity"
+            android:name=".UserActivity.FindPWActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

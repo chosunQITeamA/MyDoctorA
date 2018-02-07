@@ -9,7 +9,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.khseob0715.sanfirst.Activity.UserMainActivity;
+import com.example.khseob0715.sanfirst.UserActivity.UserMainActivity;
 
 /**
  * Created by enemf on 2018-02-04.

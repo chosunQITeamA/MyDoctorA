@@ -1,4 +1,4 @@
-package com.example.khseob0715.sanfirst.Activity;
+package com.example.khseob0715.sanfirst.UserActivity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
