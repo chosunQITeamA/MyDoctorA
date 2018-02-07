@@ -127,7 +127,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/editText8"
+                    android:id="@+id/input_verifactioncode"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
