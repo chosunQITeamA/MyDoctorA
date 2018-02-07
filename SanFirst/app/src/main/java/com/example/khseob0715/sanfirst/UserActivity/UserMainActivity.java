@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -21,9 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.khseob0715.sanfirst.AQI_JSON.AQI_Service;
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
@@ -101,7 +98,6 @@ public class UserMainActivity extends AppCompatActivity
         super.onStart();
         viewlistBTdevice();
         startPolarsensor();
-        startAQIapi();
     }
 
     private void viewlistBTdevice() {
@@ -113,13 +109,6 @@ public class UserMainActivity extends AppCompatActivity
         // PolarSensor시작
         Intent polarservice = new Intent(getApplicationContext(), PolarSensor.class);
         startService(polarservice);
-    }
-
-
-    private void startAQIapi() {
-        // receive aqi value
-        Intent aqiservice = new Intent(getApplicationContext(), AQI_Service.class);
-        startService(aqiservice);
     }
 
     @Override

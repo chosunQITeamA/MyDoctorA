@@ -7,16 +7,21 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.SignIn;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Main;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
+
+import java.io.IOException;
 
 public class LoginActivity extends FragmentActivity implements Button.OnClickListener{
     private RadioButton selectUser, selectDoctor;
     private Button Sign_in_Btn, Sign_up_Btn;
+    private EditText inputID, inputPW;
     private TextView Find_PW_Text;
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothChatService mChatService = null;
@@ -26,6 +31,8 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     private static final int REQUEST_ENABLE_BT = 3;
 
     int changeIntent = 0;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,9 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+        inputID = (EditText)findViewById(R.id.idEditText);
+        inputPW = (EditText)findViewById(R.id.pwEditText);
+
         confirmBTonoff();
 
     }
@@ -77,10 +87,25 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
                 // 일반 사용자와 의사를 구분하여 넘긴다.
                 // 1/21 지금은 그냥 넘김.
-
+/*
                 Intent UserMainIntent = new Intent(getApplicationContext(),UserMainActivity.class);
                 startActivity(UserMainIntent);
+                */
                 // If the adapter is null, then Bluetooth is not supported
+                final String Id = inputID.getText().toString();
+                String Pw = inputPW.getText().toString();
+
+                new Thread() {
+                    public void run() {
+                        try {
+                            SignIn.signin(Id);
+                        } catch (IOException e) {
+
+
+                        }
+                    }
+                }.start();
+
                 break;
             case R.id.sign_up_btn:
                 Intent SignUPIntent = new Intent(getApplicationContext(),SignUPActivity.class);
