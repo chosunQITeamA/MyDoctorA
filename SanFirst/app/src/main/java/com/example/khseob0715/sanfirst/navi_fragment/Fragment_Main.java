@@ -15,8 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.UserActivity.UserMainActivity;
 import com.example.khseob0715.sanfirst.R;
@@ -99,17 +97,17 @@ public class Fragment_Main extends Fragment {
 
         chart = (LineChart) view.findViewById(R.id.chart);
 
-// 차트의 아래 Axis
+        // 차트의 아래 Axis
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
         xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
         xAxis.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
 
-// 차트의 왼쪽 Axis
+        // 차트의 왼쪽 Axis
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
 
-// 차트의 오른쪽 Axis
+        // 차트의 오른쪽 Axis
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false); // rightAxis를 비활성화 함
 
@@ -197,21 +195,13 @@ public class Fragment_Main extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.secure_connect_scan: {
-// Launch the DeviceListActivity to see devices and do scan
+                // Launch the DeviceListActivity to see devices and do scan
                 Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                 return true;
             }
-/*
-case R.id.insecure_connect_scan: {
-// Launch the DeviceListActivity to see devices and do scan
-Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
-startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
-return true;
-}
-*/
             case R.id.discoverable: {
-            // Ensure this device is discoverable by others
+                // Ensure this device is discoverable by others
                 ensureDiscoverable();
                 return true;
             }
@@ -228,86 +218,7 @@ return true;
         }
     }
 
-    /*
-    // Heartrate Seekbar animation (startval, endval)
-    public void heartseekani(int startval, int endval) {
 
-    hrseekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
-    @Override
-    public void onAnimationStart() {
-    }
-
-    @Override
-    public void onAnimationProgress(int progress) {
-    }
-
-    @Override
-    public void onAnimationFinish() {
-    }
-    });
-
-    hrseekstartval = endval;
-    }
-
-//    */
-//// AQI seekbar
-//    public void aqiseekani(int indexlevel) {
-//// aqi val에 따라 얼굴 변화 및 색변화
-//        if (indexlevel >= 0 && indexlevel <= 50) {
-//            aqicon.setImageResource(R.drawable.aqi_1);
-//        } else if (indexlevel > 50 && indexlevel <= 100) {
-//            aqicon.setImageResource(R.drawable.aqi_2);
-//        } else if (indexlevel > 100 && indexlevel <= 150) {
-//            aqicon.setImageResource(R.drawable.aqi_3);
-//        } else if (indexlevel > 150 && indexlevel <= 200) {
-//            aqicon.setImageResource(R.drawable.aqi_4);
-//        } else if (indexlevel > 200 && indexlevel <= 300) {
-//            aqicon.setImageResource(R.drawable.aqi_5);
-//        } else if (indexlevel > 300 && indexlevel <= 500) {
-//            aqicon.setImageResource(R.drawable.aqi_6);
-//        } else {
-//        }
-//        aqiseekani(0, indexlevel); // start = 0, end = indexlevel
-//    }
-//
-//    // aqi seekbar
-//    public void aqiseekani(int startval, int endval) {
-//        aqiseekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
-//            @Override
-//            public void onAnimationStart() {
-//            }
-//
-//            @Override
-//            public void onAnimationProgress(int progress) {
-//            }
-//
-//            @Override
-//            public void onAnimationFinish() {
-//            }
-//        });
-//    }
-
-    /*
-    // each air quality value
-    public void aireachval(int index, int value) {
-    airseekbar[index].setTitle(String.valueOf(value));
-    airseekbar[index].animateProgressTo(0, value, new CircularProgressBar.ProgressAnimationListener() {
-    @Override
-    public void onAnimationStart() {
-    }
-
-    @Override
-    public void onAnimationProgress(int progress) {
-    }
-
-    @Override
-    public void onAnimationFinish() {
-    // heartseek.setSubTitle("done");
-    }
-    });
-    }
-    */
-//---------------------------------------------------------------------- heartrate threat
     public void startSubThread() {
 //작업스레드 생성(매듭 묶는과정)
         MyRunnable myRunnable = new MyRunnable();
@@ -315,24 +226,6 @@ return true;
         heartThread.setDaemon(true);
         heartThread.start();
     }
-/*
-android.os.Handler receivehearthandler = new android.os.Handler() {
-public void handleMessage(Message msg) {
-if (msg.what == 0) {
-hrseekstartval = hrseekendval;
-hrseekendval = mainclass.getHeartratevalue();
-heartseekani(hrseekstartval, hrseekendval);
-heartval.setText(String.valueOf(mainclass.getHeartratevalue()));
-/*
-for (int i = 0; i <= 4; i++) {
-aireachval(i, airlist[i]);
-}
-*/
-/*
-}
-}
-};
-*/
 
     public class MyRunnable implements Runnable {
         @Override
@@ -340,7 +233,6 @@ aireachval(i, airlist[i]);
             while (true) {
                 Message msg = Message.obtain();
                 msg.what = 0;
-// receivehearthandler.sendMessage(msg);
                 try {
                     Thread.sleep(1000); // 갱신주기 1초
                 } catch (Exception e) {

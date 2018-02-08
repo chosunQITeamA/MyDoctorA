@@ -93,8 +93,8 @@ public class UserMainActivity extends AppCompatActivity
 
         // If the adapter is null, then Bluetooth is not supported
 
-        Intent intent = getIntent();
-        usn = intent.getExtras().getInt("usn1");    // 로그인 결과로 넘어온 사용자 식별번호
+//        Intent intent = getIntent();
+//        usn = intent.getExtras().getInt("usn1");    // 로그인 결과로 넘어온 사용자 식별번호
     }
 
     @Override

@@ -29,93 +29,10 @@
         android:layout_height="70dp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal">
-
-            <com.lylc.widget.circularprogressbar.CircularProgressBar
-                android:id="@+id/pm25seekbar"
-                style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                circular:cpb_title="PM2.5"
-                circular:cpb_titleColor="#000000" />
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0" />
-
-            <com.lylc.widget.circularprogressbar.CircularProgressBar
-                android:id="@+id/coseekbar"
-                style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_weight="1"
-                circular:cpb_title="CO"
-                circular:cpb_titleColor="#000000" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <com.lylc.widget.circularprogressbar.CircularProgressBar
-                android:id="@+id/so2seekbar"
-                style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_weight="1"
-                circular:cpb_title="SO2"
-                circular:cpb_titleColor="#000000" />
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <com.lylc.widget.circularprogressbar.CircularProgressBar
-                android:id="@+id/o3seekbar"
-                style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                circular:cpb_strokeWidth="40"
-                circular:cpb_title="O3"
-                circular:cpb_titleColor="#000000" />
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <com.lylc.widget.circularprogressbar.CircularProgressBar
-                android:id="@+id/no2seekbar"
-                style="@style/Widget.ProgressBar.CircularProgressBar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                circular:cpb_title="NO2"
-                circular:cpb_titleColor="#000000" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"
         android:layout_margin="10dp"
+        android:background="@drawable/border"
         android:orientation="horizontal">
 
         <ImageView
@@ -123,7 +40,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_weight="0"
-            circular:srcCompat="@drawable/icon" />
+            circular:srcCompat="@drawable/icon2" />
 
         <LinearLayout
             android:layout_width="120dp"
@@ -138,8 +55,8 @@
                 android:layout_weight="0"
                 android:gravity="center"
                 android:text="AQI Level"
-                android:textStyle="bold"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -154,11 +71,270 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:text="Good"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textStyle="bold" />
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.lylc.widget.circularprogressbar.CircularProgressBar
+                    android:id="@+id/pm25seekbar"
+                    style="@style/Widget.ProgressBar.CircularProgressBar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    circular:cpb_backgroundColor="#b9ffb4"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/DataIndex"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="PM2.5"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/DataValuePM"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:text="50"
+                        android:textColor="#000000"
+                        android:textSize="40dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.lylc.widget.circularprogressbar.CircularProgressBar
+                    android:id="@+id/coseekbar"
+                    style="@style/Widget.ProgressBar.CircularProgressBar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    circular:cpb_backgroundColor="#ffffb4"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/DataIndexCO"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="CO"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/DataValueCO"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:text="50"
+                        android:textColor="#000000"
+                        android:textSize="40dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.lylc.widget.circularprogressbar.CircularProgressBar
+                    android:id="@+id/so2seekbar"
+                    style="@style/Widget.ProgressBar.CircularProgressBar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    circular:cpb_backgroundColor="#ffd6b4"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/DataIndexSO2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="SO2"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/DataValueSO2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:text="50"
+                        android:textColor="#000000"
+                        android:textSize="40dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.lylc.widget.circularprogressbar.CircularProgressBar
+                    android:id="@+id/o3seekbar"
+                    style="@style/Widget.ProgressBar.CircularProgressBar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    circular:cpb_backgroundColor="#ffb4b4"
+                    circular:cpb_strokeWidth="40" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/DataIndexO3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="O3"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/DataValueO3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:text="50"
+                        android:textColor="#000000"
+                        android:textSize="40dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.lylc.widget.circularprogressbar.CircularProgressBar
+                    android:id="@+id/no2seekbar"
+                    style="@style/Widget.ProgressBar.CircularProgressBar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    circular:cpb_backgroundColor="#b9ffb4"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/DataIndexNO2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="NO2"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/DataValueNO2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:text="50"
+                        android:textColor="#000000"
+                        android:textSize="40dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.LineChart

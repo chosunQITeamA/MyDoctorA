@@ -44,8 +44,6 @@ public class Fragment_Account extends Fragment {
             }
         });
 
-
-
         return rootView;
     }
 
