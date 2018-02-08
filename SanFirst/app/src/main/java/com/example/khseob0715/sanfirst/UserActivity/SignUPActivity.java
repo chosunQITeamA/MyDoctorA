@@ -15,8 +15,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.SignUp;
 
 
 public class SignUPActivity extends AppCompatActivity implements Button.OnClickListener{
@@ -29,7 +31,9 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
 
     private Handler Timelimit;
 
-    private EditText User_email, password, Fname, Lname, phone_num;
+    private EditText User_email, password, confirm_password, Fname, Lname, phone_num;
+
+    SignUp signup = new SignUp();
 
     private int gender = 0;
     @Override
@@ -71,6 +75,7 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
         // ------------EditText find
         User_email = (EditText)findViewById(R.id.input_email);
         password = (EditText)findViewById(R.id.input_PW);
+        confirm_password = (EditText)findViewById(R.id.input_pw);
         Fname = (EditText)findViewById(R.id.input_firstname);
         Lname = (EditText)findViewById(R.id.input_lastname);
         // RadioButton 이미 선언됨
@@ -155,16 +160,25 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
             case R.id.SignUPBtn:
                 String id = User_email.getText().toString();
                 String pw = password.getText().toString();
+                String confirm_pw = confirm_password.getText().toString();
                 String fname = Fname.getText().toString();
                 String lname = Lname.getText().toString();
                 String date = selected_date.getText().toString();
                 String phone = phone_num.getText().toString();
-
+                String Sgender = String.valueOf(gender);
+                // PhoneNum Format change
                 StringBuilder phoneBuilder = new StringBuilder(phone);
                 phoneBuilder.insert(3, "-");
                 phoneBuilder.insert(8, "-");
+                String phonenum = String.valueOf(phoneBuilder);
 
-                Log.e("InputData = ", id +" / "+ pw +" / "+ fname +" / "+ lname +" / "+ gender +" / "+ date +" / "+ phoneBuilder);
+                Log.e("InputData = ", id +" / "+ pw + " / " + confirm_pw + " / "+ fname +" / "+ lname +" / "+ Sgender +" / "+ date +" / "+ phonenum);
+
+                if(pw.equals(confirm_pw))   {
+                    signup.signin_Asycn(id, pw, fname, lname, Sgender, date, phonenum);
+                }   else    {
+                    Toast.makeText(this, "password is wrond", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

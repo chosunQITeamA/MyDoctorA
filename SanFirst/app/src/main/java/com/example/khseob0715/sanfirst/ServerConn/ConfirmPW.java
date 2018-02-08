@@ -1,52 +1,32 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.util.Log;
-
-import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginContext;
-
 /**
  * Created by Kim Jin Hyuk on 2018-02-08.
  */
 
-public class SignUp {
-    public static final String url = "http://teama-iot.calit2.net/signupapp";
+public class ConfirmPW {
+    /*
+    //public static final String url = "http://teama-iot.calit2.net/signinapp";
 
     OkHttpClient client = new OkHttpClient();
 
     public static String responseBody = null;
 
-    public void signin_Asycn(final String email, final String pwd, final String fname, final String lname, final String gender, final String birth, final String phone){
+    public void signin_Asycn(final String ID, final String PW){
         (new AsyncTask<LoginActivity, Void, String>(){
             ProgressDialog Loginloading;
 
             @Override
             protected String doInBackground(LoginActivity... mainActivities) {
-                SignUp.ConnectServer connectServerPost = new SignUp.ConnectServer();
-                connectServerPost.requestPost(url, email, pwd, fname, lname, gender, birth, phone);
+                ConfirmPW.ConnectServer connectServerPost = new ConfirmPW.ConnectServer();
+                connectServerPost.requestPost(url, ID, PW);
                 return responseBody;
             }
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                Loginloading = ProgressDialog.show(LoginContext, "Please Wait", "Sign In...,", true, true);
+                Loginloading = ProgressDialog.show(LoginContext, "Please Wait", "Confirm Password...,", true, true);
             }
 
             @Override
@@ -61,18 +41,10 @@ public class SignUp {
     class ConnectServer {
         //Client 생성
 
-        public int requestPost(String url, String email, String pwd, String fname, String lname, String gender, String birth, String phone) {
+        public int requestPost(String url, String usn, String password) {
 
             //Request Body에 서버에 보낼 데이터 작성
-            final RequestBody requestBody = new FormBody.Builder()
-                    .add("email", email)
-                    .add("pwd", pwd)
-                    .add("fname", fname)
-                    .add("lname", lname)
-                    .add("gender", gender)
-                    .add("birth", birth)
-                    .add("phone", phone)
-                    .build();
+            final RequestBody requestBody = new FormBody.Builder().add("usn", usn).add("userpassword", password).build();
             //RequestBody requestBody = new FormBody.Builder().add("email", id).add("password", password).build();
 
             Log.e("RequestBody", requestBody.toString());
@@ -95,7 +67,9 @@ public class SignUp {
 
                         JSONObject jsonObject = new JSONObject(responseBody);
                         String Message = jsonObject.getString("message");
+                        int usn = Integer.parseInt(jsonObject.getString("usn"));
                         Log.e("message", Message);
+                        Log.e("usn", String.valueOf(usn));
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -108,4 +82,6 @@ public class SignUp {
             return 0;
         }
     }
+}
+*/
 }
