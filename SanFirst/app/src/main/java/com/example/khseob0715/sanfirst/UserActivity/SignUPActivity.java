@@ -167,18 +167,33 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                 String phone = phone_num.getText().toString();
                 String Sgender = String.valueOf(gender);
                 // PhoneNum Format change
-                StringBuilder phoneBuilder = new StringBuilder(phone);
-                phoneBuilder.insert(3, "-");
-                phoneBuilder.insert(8, "-");
-                String phonenum = String.valueOf(phoneBuilder);
+                String phonenum = null;
+
+                if(phone.length() == 11) {
+                    StringBuilder phoneBuilder = new StringBuilder(phone);
+                    phoneBuilder.insert(3, "-");
+                    phoneBuilder.insert(8, "-");
+                    phonenum = String.valueOf(phoneBuilder);
+                    if(id.matches("^[_0-9a-zA-Z-]+@[0-9a-zA-Z-]+(.[_0-9a-zA-Z-]+)*$")) {
+                        if (pw.equals(confirm_pw)) {
+                            if (pw.matches(".*[0-9].*") && pw.matches(".*[a-z].*") && pw.length() >= 7) {
+                                signup.signin_Asycn(id, pw, fname, lname, Sgender, date, phonenum);
+                                Toast.makeText(this, "Sign Up Success\nLogin Please", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(this, "password rule is wrong", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(this, "confirm password is wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    }   else    {
+                        Toast.makeText(this, "email password is wrong", Toast.LENGTH_SHORT).show();
+                    }
+                }   else    {
+                    Toast.makeText(this, "phone is wrong", Toast.LENGTH_SHORT).show();
+                }
 
                 Log.e("InputData = ", id +" / "+ pw + " / " + confirm_pw + " / "+ fname +" / "+ lname +" / "+ Sgender +" / "+ date +" / "+ phonenum);
-
-                if(pw.equals(confirm_pw))   {
-                    signup.signin_Asycn(id, pw, fname, lname, Sgender, date, phonenum);
-                }   else    {
-                    Toast.makeText(this, "password is wrond", Toast.LENGTH_SHORT).show();
-                }
                 break;
         }
     }
