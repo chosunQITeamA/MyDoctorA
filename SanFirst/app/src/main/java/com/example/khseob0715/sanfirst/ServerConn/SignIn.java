@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.EditText;
 
 import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
@@ -33,13 +32,7 @@ import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginCo
 
         OkHttpClient client = new OkHttpClient();
 
-        private static EditText id_text;
-        private static EditText pw_text;
-
-        public String ResponseData;
         public static String responseBody = null;
-
-        public String loginStatus = null;
 
         public void signin_Asycn(final String ID, final String PW){
             (new AsyncTask<LoginActivity, Void, String>(){
@@ -69,13 +62,14 @@ import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginCo
 
         class ConnectServer {
             //Client 생성
-            OkHttpClient client = new OkHttpClient();
 
             public int requestPost(String url, String id, String password) {
 
                 //Request Body에 서버에 보낼 데이터 작성
                 final RequestBody requestBody = new FormBody.Builder().add("useremail", id).add("userpassword", password).build();
                 //RequestBody requestBody = new FormBody.Builder().add("email", id).add("password", password).build();
+
+                Log.e("RequestBody", requestBody.toString());
 
                 //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
                 Request request = new Request.Builder().url(url).post(requestBody).build();
