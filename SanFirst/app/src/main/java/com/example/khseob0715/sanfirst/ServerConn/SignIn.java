@@ -94,9 +94,11 @@ import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginCo
                             Log.e("aaaa", "Response Body is " + responseBody);
 
                             JSONObject jsonObject = new JSONObject(responseBody);
-                            String parentJArray = jsonObject.getString("message");
-                            Log.e("message", parentJArray);
-                            LoginSuccess(parentJArray);
+                            String Message = jsonObject.getString("message");
+                            int usn = Integer.parseInt(jsonObject.getString("usn"));
+                            Log.e("message", Message);
+                            Log.e("usn", String.valueOf(usn));
+                            LoginSuccess(Message, usn);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (JSONException e) {
@@ -110,9 +112,10 @@ import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginCo
             }
         }
 
-    private void LoginSuccess(String parentJArray) {
+    private void LoginSuccess(String parentJArray, int usn) {
             if(parentJArray.equals("Success"))  {
                 Intent intent = new Intent(LoginContext.getApplicationContext(), UserMainActivity.class);
+                intent.putExtra("usn1", usn);
                 LoginContext.startActivity(intent);
             }   else    {
                 Log.e("parentJArray", parentJArray);

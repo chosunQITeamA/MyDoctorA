@@ -59,7 +59,7 @@ public class UserMainActivity extends AppCompatActivity
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothChatService mChatService = null;
 
-
+    private int usn = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,16 +88,18 @@ public class UserMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        viewlistBTdevice();
+        startPolarsensor();
 
         // If the adapter is null, then Bluetooth is not supported
+
+        Intent intent = getIntent();
+        usn = intent.getExtras().getInt("usn1");    // 로그인 결과로 넘어온 사용자 식별번호
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        viewlistBTdevice();
-        startPolarsensor();
     }
 
     private void viewlistBTdevice() {
