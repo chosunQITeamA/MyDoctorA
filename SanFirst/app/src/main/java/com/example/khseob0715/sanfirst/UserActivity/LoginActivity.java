@@ -1,6 +1,7 @@
 package com.example.khseob0715.sanfirst.UserActivity;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,11 +13,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
-import com.example.khseob0715.sanfirst.ServerConn.SignIn;
+import com.example.khseob0715.sanfirst.ServerConn.Signin;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Main;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
-
-import java.io.IOException;
 
 public class LoginActivity extends FragmentActivity implements Button.OnClickListener{
     private RadioButton selectUser, selectDoctor;
@@ -32,7 +31,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
     int changeIntent = 0;
 
-
+    public static Context LoginContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +63,9 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
         inputID = (EditText)findViewById(R.id.idEditText);
         inputPW = (EditText)findViewById(R.id.pwEditText);
 
-        confirmBTonoff();
+        LoginContext = this;
 
+        confirmBTonoff();
     }
 
 
@@ -92,19 +92,10 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
                 startActivity(UserMainIntent);
                 */
                 // If the adapter is null, then Bluetooth is not supported
-                final String Id = inputID.getText().toString();
+                String Id = inputID.getText().toString();
                 String Pw = inputPW.getText().toString();
 
-                new Thread() {
-                    public void run() {
-                        try {
-                            SignIn.signin(Id);
-                        } catch (IOException e) {
-
-
-                        }
-                    }
-                }.start();
+                Signin.firstAction(Id, Pw);
 
                 break;
             case R.id.sign_up_btn:
@@ -129,4 +120,6 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
         } else if (mChatService == null) {
         }
     }
+
+
 }

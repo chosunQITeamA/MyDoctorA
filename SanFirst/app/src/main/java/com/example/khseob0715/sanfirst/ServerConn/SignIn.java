@@ -1,55 +1,140 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
-/**
- * Created by Kim Jin Hyuk on 2018-02-07.
- */
-
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
+
+import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
+import com.example.khseob0715.sanfirst.UserActivity.UserMainActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
-import okhttp3.MediaType;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SignIn {
-    public static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
+import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginContext;
 
-    OkHttpClient client = new OkHttpClient();
+/**
+ * Created by Kim Jin Hyuk on 2018-02-07.
+ */
 
-    String post(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(JSON, json);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-        Response response = client.newCall(request).execute();
-        return response.body().string();
+public class Signin {
+
+    public static final String url = "http://teamb-iot.calit2.net/api/auths";
+    //public static final String url = "http://teama-iot.calit2.net/api/auths";
+
+    static String responseBody;
+
+    public static void firstAction(final String ID, final String PW){
+        (new AsyncTask<LoginActivity, Void, Void>(){
+            ProgressDialog Loginloading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                Loginloading = ProgressDialog.show(LoginContext, "Please Wait", "Sign In...,", true, true);
+            }
+
+            @Override
+            protected Void doInBackground(LoginActivity... params) {
+                ConnectServer connectServerPost = new ConnectServer();
+                //connectServerPost.requestPost("user id 값 입력", "user password 값 입력");
+                connectServerPost.requestPost(ID, PW);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                Loginloading.dismiss();
+                //super.onPostExecute(result);
+            }
+        }).execute();
+
+        return;
     }
 
-    String bowlingJson(String ID) {
-        /*
-        return "{'winCondition':'HIGH_SCORE',"
-                + "'name':'Bowling',"
-                + "'round':4,"
-                + "'lastSaved':1367702411696,"
-                + "'dateStarted':1367702378785,"
-                + "'players':["
-                + "{'name':'" + player1 + "','history':[10,8,6,7,8],'color':-13388315,'total':39},"
-                + "{'name':'" + player2 + "','history':[6,10,5,10,10],'color':-48060,'total':41}"
-                + "]}";
-                */
-        String Query = "select USN, Hashed_PW From Users Where User_email Like="+ID;
-        return Query;
+    static class ConnectServer {
+        //Client 생성
+        OkHttpClient client = new OkHttpClient();
+
+        int requestPost(String email, String password) {
+            Log.e("IDPW", email + " / " + password);
+            int result = 0;
+            //Request Body에 서버에 보낼 데이터 작성
+            try {
+
+            /*byte[] emailBytes = email.getBytes("UTF-8");
+            byte[] passwordBytes = password.getBytes("UTF-8");*/
+
+                RequestBody requestBody = new FormBody.Builder().add("email", email)
+                        .add("password", password).build();
+
+                //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
+                final Request request = new Request.Builder().url(url).post(requestBody)
+                        .addHeader("Content-Type", "application/x-www-form-urlencoded").build();
+
+                //request를 Client에 세팅하고 Server로 부터 온 Response를 처리할 Callback 작
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        responseBody = response.body().string();
+
+                        Log.d("aaaa", "Response Body is " + responseBody);
+
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                Thread.sleep(1000);
+                JSONObject json = new JSONObject(responseBody);
+
+                if (json.has("meta")) {
+                    // Error
+                    result = 2;
+                } else if (json.has("data")) {
+                    JSONObject jjson = json.getJSONObject("data");
+                    result = 1;
+                    Log.e("JsonObj", String.valueOf(jjson));
+                    /*
+                    api = jjson.getString(TAG_API);
+                    setapi(api);
+                    */
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //LoginActivity.ActivityChange(result);
+            ActivityChange(result);
+            return 0;
+        }
     }
 
-    public static void signin(String ID) throws IOException {
-        SignIn signin = new SignIn();
-        String json = signin.bowlingJson(ID);
-        String response = signin.post("http://teama-iot@teama-iot.calit2.net", json);
-        Log.e("signin-response == ", response);
+    public static void ActivityChange(int result)  {
+        if(result == 1) {
+            Log.e("Login status", "LoginSuccess!!");
+            Intent intent = new Intent(LoginContext.getApplicationContext(), UserMainActivity.class);
+            LoginContext.startActivity(intent);
+        }   else if (result == 2)    {
+            Log.e("Login status", "LoginFail!!");
+        }
     }
 }
