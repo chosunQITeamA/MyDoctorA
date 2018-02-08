@@ -39,10 +39,10 @@ public class Fragment_HRHistory extends Fragment {
 
     private DatePickerDialog datePickerDialog;
 
-    myAdapter adapter;
+    private myAdapter adapter;
 
     // 서버랑 연결 되면 받을 값.
-    String[] items = {"ss", "das"};
+    private String[] items = {"ss", "das"};
 
 
     ViewGroup rootView;
