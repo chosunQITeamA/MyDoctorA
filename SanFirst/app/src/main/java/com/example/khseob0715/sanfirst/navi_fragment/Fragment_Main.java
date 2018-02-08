@@ -65,24 +65,12 @@ public class Fragment_Main extends Fragment {
     private CircularProgressBar no2seekbar;
     private CircularProgressBar pm25seekbar;
 
-    int coval;
-    int so2val;
-    int o3val;
-    int no2val;
-    int pm25val;
+    private int coval, so2val, o3val, no2val, pm25val;
 
     public int[] airlist = new int[]{coval, so2val, o3val, no2val, pm25val};
     CircularProgressBar[] airseekbar = new CircularProgressBar[]{coseekbar, so2seekbar, o3seekbar, no2seekbar, pm25seekbar};
 
-    //Heartrate
-    public CircularProgressBar hrseekbar;
-    int hrseekstartval = 0;
-    int hrseekendval = 0;
-    public TextView heartval;
     UserMainActivity mainclass = new UserMainActivity();
-
-    //Temp
-    TextView temperval;
 
     private BluetoothAdapter mBluetoothAdapter = null;
     // Intent request codes
@@ -97,7 +85,6 @@ public class Fragment_Main extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
     }
 
     @Override
@@ -126,11 +113,6 @@ public class Fragment_Main extends Fragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         // setContentView 이전에 find를 할 시 NullPointerException이 발생함. 이에 따라, View가 Created 된 이후에 Find
 
-     //   hrseekbar = (CircularProgressBar) view.findViewById(id.hrseekbar);
-     //   aqiseekbar = (CircularProgressBar) view.findViewById(id.aqiseekbar);
-
-     //   temperval = (TextView) view.findViewById(id.temperval);
-
         coseekbar = (CircularProgressBar) view.findViewById(id.coseekbar);    // 각 AQI별 값 (12345까지 필요)
         so2seekbar = (CircularProgressBar) view.findViewById(id.so2seekbar);
         o3seekbar = (CircularProgressBar) view.findViewById(id.o3seekbar);
@@ -147,27 +129,21 @@ public class Fragment_Main extends Fragment {
 
         // 차트의 왼쪽 Axis
         YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setDrawGridLines(false);                // leftAxis의 그리드 라인을 없앰
+        leftAxis.setDrawGridLines(false);                 // leftAxis의 그리드 라인을 없앰
 
         // 차트의 오른쪽 Axis
         YAxis rightAxis = chart.getAxisRight();
-        rightAxis.setEnabled(false);                    // rightAxis를 비활성화 함
+        rightAxis.setEnabled(false);                      // rightAxis를 비활성화 함
 
         LineData data = new LineData();
-        chart.setData(data);                            // LineData를 셋팅함
+        chart.setData(data);                              // LineData를 셋팅함
 
         feedMultiple();                                    // 쓰레드를 활용하여 실시간으로 데이터
 
-     //   heartval = (TextView) view.findViewById(id.receiveheartvalue);
-     //  aqicon = (ImageView) view.findViewById(id.aqi_icon);
-
-        // Handler method (Heartval을 위해서)
         startSubThread();
-
-
     }
-    private void feedMultiple()
-    {
+
+    private void feedMultiple() {
         if(thread != null)
             thread.interrupt();        // 살아있는 쓰레드에 인터럽트를 검
 
@@ -184,11 +160,9 @@ public class Fragment_Main extends Fragment {
                 while (true)
                 {
                     mainclass.runOnUiThread(runnable);    // UI 쓰레드에서 위에서 생성한 runnable를 실행함
-                    try
-                    {
+                    try {
                         Thread.sleep(100);        // 0.1초간 쉼
-                    }catch (InterruptedException ie)
-                    {
+                    }catch (InterruptedException ie) {
                         ie.printStackTrace();
                     }
                 }
@@ -197,17 +171,15 @@ public class Fragment_Main extends Fragment {
         thread.start();
     }
 
-    private void addEntry()
-    {
-        LineData data = chart.getData();    // onCreate에서 생성한 LineData를 가져옴
-        if(data != null)                    // 데이터가 비어있지 않으면
-        {
-            ILineDataSet set = data.getDataSetByIndex(0);    // 0번째 위치의 데이터셋을 가져옴
+    private void addEntry() {
+        LineData data = chart.getData();    // onCreate에서 생성한 LineData를 가져온다.
 
-            if(set == null)                    // 0번에 위치한 값이 없으면
-            {
-                set = createSet();            // createSet을 함
-                data.addDataSet(set);        // createSet을 한 set을 데이터셋에 추가함
+        if(data != null){                    // 데이터가 비어있지 않는다.
+            ILineDataSet set = data.getDataSetByIndex(0);    // 0번째 위치의 데이터셋을 가져온다.
+
+            if(set == null){                      // 0번에 위치한 값이 없을 경우.
+                set = createSet();                // createSet 한다.
+                data.addDataSet(set);             // createSet 을 한 set을 데이터셋에 추가함
             }
 
             // set의 맨 마지막에 랜덤값(30~69.99999)을 Entry로 data에 추가함
@@ -221,8 +193,7 @@ public class Fragment_Main extends Fragment {
     }
 
     private LineDataSet createSet() {
-
-        LineDataSet set = new LineDataSet(null, "Dynamic Data");    // 데이터셋의 이름을 "Dynamic Data"로 설정(기본 데이터는 null)
+        LineDataSet set = new LineDataSet(null, "Heart-Rate");    // 데이터셋의 이름을 "Dynamic Data"로 설정(기본 데이터는 null)
         set.setAxisDependency(YAxis.AxisDependency.LEFT);            // Axis를 YAxis의 LEFT를 기본으로 설정
         set.setColor(ColorTemplate.getHoloBlue());                    // 데이터의 라인색을 HoloBlue로 설정
         set.setCircleColor(Color.WHITE);                            // 데이터의 점을 WHITE로 설정

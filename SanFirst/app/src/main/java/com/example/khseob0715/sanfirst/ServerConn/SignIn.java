@@ -27,7 +27,7 @@ import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginCo
  * Created by Kim Jin Hyuk on 2018-02-07.
  */
 
-public class Signin {
+public class SignIn {
 
     public static final String url = "http://teamb-iot.calit2.net/api/auths";
     //public static final String url = "http://teama-iot.calit2.net/api/auths";

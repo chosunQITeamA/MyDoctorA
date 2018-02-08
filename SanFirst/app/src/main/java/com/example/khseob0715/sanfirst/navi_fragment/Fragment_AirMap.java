@@ -39,8 +39,8 @@ import static android.location.LocationManager.GPS_PROVIDER;
 public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
     private MapView mapView = null;
 
-    public static Double lat = 37.56;
-    public static Double lon = 126.97;
+    public static Double lat = 32.882499;
+    public static Double lon = -117.234644;
 
     GoogleMap map;
 
@@ -198,7 +198,7 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
         markerOptions.title("now location");
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(5));
     }
 
     @Override

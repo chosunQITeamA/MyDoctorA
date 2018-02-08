@@ -13,7 +13,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
-import com.example.khseob0715.sanfirst.ServerConn.Signin;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Main;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 
@@ -96,10 +95,8 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
                 String Id = inputID.getText().toString();
                 String Pw = inputPW.getText().toString();
 
-<<<<<<< HEAD
                 Signin.firstAction(Id, Pw);
 
-=======
                 new Thread() {
                     public void run() {
                         try {
@@ -111,7 +108,6 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
                     }
                 }.start();
 */
->>>>>>> baf55068cf82682d430d1aecf984d23abd576bfd
                 break;
             case R.id.sign_up_btn:
                 Intent SignUPIntent = new Intent(getApplicationContext(),SignUPActivity.class);
