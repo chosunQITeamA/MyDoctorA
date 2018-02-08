@@ -34,7 +34,7 @@ import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothAQI;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 
-public class UserMainActivity extends AppCompatActivity
+public class UserActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //Fragment fragment = new Fragment();
@@ -188,7 +188,7 @@ public class UserMainActivity extends AppCompatActivity
             //    Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_signout :
-                new AlertDialog.Builder(UserMainActivity.this)
+                new AlertDialog.Builder(UserActivity.this)
                         .setTitle("Sign-Out")
                         .setMessage("Sign-Out Complete")
                         .setNegativeButton("Login", new DialogInterface.OnClickListener() {
@@ -238,8 +238,8 @@ public class UserMainActivity extends AppCompatActivity
 
     public void accountbt(View view) {
         // 비밀번호를 입력 받아서 맞으면 실행하고 아니면 못 들어가도록 해야 됨.
-        final EditText passwordEdit = new EditText(UserMainActivity.this);
-        new AlertDialog.Builder(UserMainActivity.this)
+        final EditText passwordEdit = new EditText(UserActivity.this);
+        new AlertDialog.Builder(UserActivity.this)
                 .setTitle("Enter your password")
                 .setView(passwordEdit)
                 .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
@@ -265,8 +265,8 @@ public class UserMainActivity extends AppCompatActivity
 
     public void profilebt(View view) {
         // 비밀번호를 입력 받아서 맞으면 실행하고 아니면 못 들어가도록 해야 됨.
-        final EditText passwordEdit_profile = new EditText(UserMainActivity.this);
-        new AlertDialog.Builder(UserMainActivity.this)
+        final EditText passwordEdit_profile = new EditText(UserActivity.this);
+        new AlertDialog.Builder(UserActivity.this)
                 .setTitle("Enter your password")
                 .setView(passwordEdit_profile)
                 .setNegativeButton("Admit", new DialogInterface.OnClickListener() {

@@ -12,7 +12,7 @@ import com.example.khseob0715.sanfirst.R;
  */
 
 public class FindPWActivity extends AppCompatActivity {
-    LinearLayout verifyLayout, updatePWLayout;
+    private LinearLayout verifyLayout, updatePWLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

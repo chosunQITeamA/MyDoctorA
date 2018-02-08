@@ -38,7 +38,7 @@
             android:name=".UserActivity.SignUPActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".UserActivity.UserMainActivity"
+            android:name=".UserActivity.UserActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".udoo_btchat.DeviceListActivity"

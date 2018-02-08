@@ -19,10 +19,10 @@ import com.example.khseob0715.sanfirst.R;
  */
 public class Fragment_Profile extends Fragment {
 
-    Button BirthSelectBtn;
-    DatePickerDialog datePickerDialog;
+    private Button BirthSelectBtn;
+    private DatePickerDialog datePickerDialog;
 
-    RadioButton maleRadio, femaleRadio;
+    private RadioButton maleRadio, femaleRadio;
     public Fragment_Profile() {
         // Required empty public constructor
     }
