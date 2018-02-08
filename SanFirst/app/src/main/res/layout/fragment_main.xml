@@ -123,7 +123,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_weight="0"
-            circular:srcCompat="@drawable/doctor" />
+            circular:srcCompat="@drawable/icon" />
 
         <LinearLayout
             android:layout_width="120dp"

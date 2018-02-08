@@ -87,16 +87,31 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
                 // 일반 사용자와 의사를 구분하여 넘긴다.
                 // 1/21 지금은 그냥 넘김.
-/*
+
                 Intent UserMainIntent = new Intent(getApplicationContext(),UserMainActivity.class);
                 startActivity(UserMainIntent);
-                */
+
+                /*
                 // If the adapter is null, then Bluetooth is not supported
                 String Id = inputID.getText().toString();
                 String Pw = inputPW.getText().toString();
 
+<<<<<<< HEAD
                 Signin.firstAction(Id, Pw);
 
+=======
+                new Thread() {
+                    public void run() {
+                        try {
+                            SignIn.signin(Id);
+                        } catch (IOException e) {
+
+
+                        }
+                    }
+                }.start();
+*/
+>>>>>>> baf55068cf82682d430d1aecf984d23abd576bfd
                 break;
             case R.id.sign_up_btn:
                 Intent SignUPIntent = new Intent(getApplicationContext(),SignUPActivity.class);

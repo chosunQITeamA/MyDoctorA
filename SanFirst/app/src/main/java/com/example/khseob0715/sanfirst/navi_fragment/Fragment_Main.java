@@ -59,11 +59,11 @@ public class Fragment_Main extends Fragment {
     ImageView aqicon;
     public CircularProgressBar aqiseekbar;
 
-    CircularProgressBar coseekbar;
-    CircularProgressBar so2seekbar;
-    CircularProgressBar o3seekbar;
-    CircularProgressBar no2seekbar;
-    CircularProgressBar pm25seekbar;
+    private CircularProgressBar coseekbar;
+    private CircularProgressBar so2seekbar;
+    private CircularProgressBar o3seekbar;
+    private CircularProgressBar no2seekbar;
+    private CircularProgressBar pm25seekbar;
 
     int coval;
     int so2val;

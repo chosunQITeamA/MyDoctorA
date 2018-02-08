@@ -6,11 +6,82 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="50dp"
+    android:background="#ffffff"
     tools:context="com.example.khseob0715.sanfirst.navi_fragment.Fragment_HRHistory">
 
     <!-- TODO: Update blank fragment layout -->
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center|left"
+            android:text="   Search Date!"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/Start_date_Pick_Layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/Start_date"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:src="@drawable/callendar" />
+
+            <TextView
+                android:id="@+id/Start_date_Pick_text"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:text="Start Date"
+                android:textColor="#000000" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/End_date_Pick_Layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/End_date"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:src="@drawable/callendar" />
+
+            <TextView
+                android:id="@+id/End_date_Pick_text"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:text="End Date"
+                android:textColor="#000000" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,84 +95,12 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/Start_date_Pick_Layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/Start_date"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="0"
-                        android:src="@drawable/callendar" />
-
-                    <TextView
-                        android:id="@+id/Start_date_Pick_text"
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="0"
-                        android:gravity="center"
-                        android:text="Start" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/End_date_Pick_Layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/End_date"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="0"
-                        android:src="@drawable/callendar" />
-
-                    <TextView
-                        android:id="@+id/End_date_Pick_text"
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="0"
-                        android:gravity="center"
-                        android:text="End" />
-                </LinearLayout>
-            </LinearLayout>
-
-
 
             <LinearLayout
                 android:id="@+id/History_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/Date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:text="2018-02-06" />
-
-
-                </LinearLayout>
 
                 <ListView
                     android:id="@+id/listView"

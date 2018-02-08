@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context="com.example.khseob0715.sanfirst.navi_fragment.Fragment_Profile">
 
     <!-- TODO: Update blank fragment layout -->
@@ -20,12 +21,11 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-
-                android:layout_weight="1"
                 android:text="First Name"
-                android:textColor="@color/common_google_signin_btn_text_dark_default"
+                android:layout_marginRight="20dp"
+                android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Last Name"
-                android:textColor="@color/common_google_signin_btn_text_dark_default"
+                android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -50,19 +50,23 @@
 
             <EditText
                 android:id="@+id/editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edit_text_design"
+                android:textColorHint="#aeaeae"
                 android:ems="10"
                 android:hint="Input first name"
                 android:inputType="text" />
 
             <EditText
                 android:id="@+id/editText2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
                 android:layout_weight="1"
+                android:background="@drawable/edit_text_design"
                 android:ems="10"
+                android:textColorHint="#aeaeae"
                 android:hint="Input last name"
                 android:inputType="text" />
         </LinearLayout>
@@ -73,15 +77,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Phone number"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editText3"
             android:layout_width="270dp"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:ems="10"
+            android:background="@drawable/edit_text_design"
+            android:textColorHint="#aeaeae"
             android:hint="Input phone number"
             android:inputType="text" />
 
@@ -91,7 +97,7 @@
             android:layout_height="wrap_content"
             android:text="Birth Date"
             android:layout_marginTop="20dp"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -101,17 +107,11 @@
             android:layout_width="270dp"
             android:layout_height="45dp"
             android:text="Birth date select"
+            android:background="@drawable/edit_text_design"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#aeaeae"
             android:textSize="18sp" />
-
-        <View
-            android:layout_width="270dp"
-            android:layout_height="0.8dp"
-            android:layout_centerInParent="true"
-            android:background="#FFFFFF"/>
-
 
 
         <TextView
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Gender"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -131,20 +131,25 @@
 
             <RadioButton
                 android:id="@+id/maleRadio"
+                android:theme="@style/MyCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:shadowColor="@color/circular_progress_default_background"
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="Male"
-                android:textColor="@color/common_google_signin_btn_text_dark_default" />
+                android:textColor="#000000" />
 
             <RadioButton
                 android:id="@+id/femaleRadio"
+                android:theme="@style/MyCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:shadowColor="@color/circular_progress_default_background"
                 android:layout_weight="1"
                 android:text="Female"
-                android:textColor="@color/common_google_signin_btn_text_dark_default" />
+                android:textColor="#000000" />
+
         </LinearLayout>
 
         <Button
