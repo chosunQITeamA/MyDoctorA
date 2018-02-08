@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.khseob0715.sanfirst.UserActivity.UserMainActivity;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 import com.github.mikephil.charting.charts.LineChart;
@@ -47,7 +47,7 @@ public class Fragment_Main extends Fragment {
     private int coval, so2val, o3val, no2val, pm25val;
     public int[] airlist = new int[]{coval, so2val, o3val, no2val, pm25val};
     private CircularProgressBar[] airseekbar = new CircularProgressBar[]{coseekbar, so2seekbar, o3seekbar, no2seekbar, pm25seekbar};
-    private UserMainActivity mainclass = new UserMainActivity();
+    private UserActivity mainclass = new UserActivity();
     private BluetoothAdapter mBluetoothAdapter = null; /* Intent request codes*/
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;

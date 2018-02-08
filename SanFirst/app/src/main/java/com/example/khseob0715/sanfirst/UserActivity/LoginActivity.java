@@ -29,10 +29,10 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
 
-    int changeIntent = 0;
+    private int changeIntent = 0;
 
     public static Context LoginContext;
-    SignIn signIn = new SignIn();
+    public SignIn signIn = new SignIn();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
                 // 일반 사용자와 의사를 구분하여 넘긴다.
                 // 1/21 지금은 그냥 넘김.
 /*
-                Intent UserMainIntent = new Intent(getApplicationContext(),UserMainActivity.class);
+                Intent UserMainIntent = new Intent(getApplicationContext(),UserActivity.class);
                 startActivity(UserMainIntent);
 */
                 /*

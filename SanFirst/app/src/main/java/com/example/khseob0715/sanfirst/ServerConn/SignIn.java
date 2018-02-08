@@ -7,7 +7,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
-import com.example.khseob0715.sanfirst.UserActivity.UserMainActivity;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,7 +114,7 @@ import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginCo
 
     private void LoginSuccess(String parentJArray, int usn) {
             if(parentJArray.equals("Success"))  {
-                Intent intent = new Intent(LoginContext.getApplicationContext(), UserMainActivity.class);
+                Intent intent = new Intent(LoginContext.getApplicationContext(), UserActivity.class);
                 intent.putExtra("usn1", usn);
                 LoginContext.startActivity(intent);
             }   else    {

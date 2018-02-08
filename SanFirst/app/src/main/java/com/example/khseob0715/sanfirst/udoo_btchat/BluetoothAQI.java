@@ -9,7 +9,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.khseob0715.sanfirst.UserActivity.UserMainActivity;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 
 /**
  * Created by enemf on 2018-02-04.
@@ -158,12 +158,12 @@ public class BluetoothAQI extends Service{
                     int no2val = Integer.valueOf(BTSplit[4]);
                     int pm25val = Integer.valueOf(BTSplit[5]);
 
-                    UserMainActivity.udoo_temperature = temperatureval;
-                    UserMainActivity.udoo_co = coval;
-                    UserMainActivity.udoo_so2 = so2val;
-                    UserMainActivity.udoo_o3 = o3val;
-                    UserMainActivity.udoo_no2 = no2val;
-                    UserMainActivity.udoo_pm25 = pm25val;
+                    UserActivity.udoo_temperature = temperatureval;
+                    UserActivity.udoo_co = coval;
+                    UserActivity.udoo_so2 = so2val;
+                    UserActivity.udoo_o3 = o3val;
+                    UserActivity.udoo_no2 = no2val;
+                    UserActivity.udoo_pm25 = pm25val;
 
                     break;
                 default:

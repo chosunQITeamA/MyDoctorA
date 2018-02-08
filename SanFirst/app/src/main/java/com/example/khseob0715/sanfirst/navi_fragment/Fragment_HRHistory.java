@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
-import com.example.khseob0715.sanfirst.UserActivity.UserMainActivity;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -46,7 +46,7 @@ public class Fragment_HRHistory extends Fragment {
 
     ViewGroup rootView;
 
-    UserMainActivity mainclass = new UserMainActivity(); // ?
+    UserActivity mainclass = new UserActivity(); // ?
 
     private LineChart chart;
     private Thread thread;

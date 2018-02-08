@@ -11,7 +11,7 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.example.khseob0715.sanfirst.UserActivity.UserMainActivity;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 
 import java.util.StringTokenizer;
 
@@ -100,7 +100,7 @@ public class PolarSensor extends Service {
                 int rrValue = Integer.parseInt(tokens.nextToken());
                 long sid = Long.parseLong(tokens.nextToken());
 
-                UserMainActivity.heartratevalue = hr;
+                UserActivity.heartratevalue = hr;
 
             }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
                 //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
