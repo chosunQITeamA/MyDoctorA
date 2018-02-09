@@ -49,7 +49,7 @@ public class Fragment_HRHistory extends Fragment {
 
     UserActivity mainclass = new UserActivity(); // ?
 
-    private LineChart Heartchart,RRchart;
+    private LineChart mChart;
     private Thread thread;
 
     @Override
@@ -102,42 +102,24 @@ public class Fragment_HRHistory extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Heartchart = (LineChart) view.findViewById(R.id.HeartChart);
-        RRchart = (LineChart)view.findViewById(R.id.RRChart);
+        mChart = (LineChart) view.findViewById(R.id.chart);
 
         // 차트의 아래 Axis
-        XAxis xAxis = Heartchart.getXAxis();
+        XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
         xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
         xAxis.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
 
         // 차트의 왼쪽 Axis
-        YAxis leftAxis = Heartchart.getAxisLeft();
+        YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
 
         // 차트의 오른쪽 Axis
-        YAxis rightAxis = Heartchart.getAxisRight();
+        YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false); // rightAxis를 비활성화 함
 
-        // 차트의 아래 Axis
-        XAxis RRxAxis = RRchart.getXAxis();
-        RRxAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
-        RRxAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
-        RRxAxis.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
-
-        // 차트의 왼쪽 Axis
-        YAxis RRleftAxis = RRchart.getAxisLeft();
-        RRleftAxis.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
-
-        // 차트의 오른쪽 Axis
-        YAxis RRrightAxis = RRchart.getAxisRight();
-        RRrightAxis.setEnabled(false); // rightAxis를 비활성화 함
-
         LineData data = new LineData();
-        LineData data2 = new LineData();
-
-        Heartchart.setData(data); // LineData를 셋팅함
-        RRchart.setData(data2);
+        mChart.setData(data); // LineData를 셋팅함
 
         feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
     }
@@ -162,7 +144,7 @@ public class Fragment_HRHistory extends Fragment {
                     mainclass.runOnUiThread(runnable);    // UI 쓰레드에서 위에서 생성한 runnable를 실행함
                     try
                     {
-                        Thread.sleep(500);        // 0.1초간 쉼
+                        Thread.sleep(500);        // 0.5초간 쉼
                     }catch (InterruptedException ie)
                     {
                         ie.printStackTrace();
@@ -174,41 +156,28 @@ public class Fragment_HRHistory extends Fragment {
     }
 
     private void addEntry() {
-        LineData data = Heartchart.getData(); // onCreate에서 생성한 LineData를 가져온다.
-        LineData data2 = RRchart.getData(); // onCreate에서 생성한 LineData를 가져온다.
-        if (data != null) { // 데이터가 비어있지 않는다.
-            ILineDataSet set = data.getDataSetByIndex(0); // 0번째 위치의 데이터셋을 가져온다.
-            if (set == null) { // 0번에 위치한 값이 없을 경우.
-                set = createSet(-65536,"Heart-Rate"); // createSet 한다.
+        LineData data = mChart.getData();
 
-                data.addDataSet(set); // createSet 을 한 set을 데이터셋에 추가함
-            }
+        LineDataSet set0 = (LineDataSet) data.getDataSetByIndex(0);
+        LineDataSet set1 = (LineDataSet) data.getDataSetByIndex(1);
 
-            // 현재 랜덤 값. 추가 중.
-            data.addEntry(new Entry(set.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
-            data.notifyDataChanged(); // data의 값 변동을 감지함
+        if (set0 == null || set1 == null) {
+            // creation of null
+            set0 = createSet(-65536,"Heart-Rate");      // createSet 한다.
+            set1 = createSet(-16711681,"RR-Rate");
 
-            Heartchart.notifyDataSetChanged(); // chart의 값 변동을 감지함
-            Heartchart.setVisibleXRangeMaximum(10); // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-            Heartchart.moveViewToX(data.getEntryCount()); // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+            data.addDataSet(set0);
+            data.addDataSet(set1);
         }
 
-        if (data2 != null) { // 데이터가 비어있지 않는다.
-            ILineDataSet set2 = data2.getDataSetByIndex(0); // 0번째 위치의 데이터셋을 가져온다.
-            if (set2 == null) { // 0번에 위치한 값이 없을 경우.
-                set2 = createSet(-16711681,"RR-Rate"); // createSet 한다.
+        data.addEntry(new Entry(set0.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
+        data.addEntry(new Entry(set1.getEntryCount(), (float) (Math.random() * 40) + 30f), 1);
 
-                data2.addDataSet(set2); // createSet 을 한 set을 데이터셋에 추가함
-            }
+        data.notifyDataChanged();                                      // data의 값 변동을 감지함
 
-            // 현재 랜덤 값. 추가 중.
-            data2.addEntry(new Entry(set2.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
-            data2.notifyDataChanged(); // data의 값 변동을 감지함
-
-            RRchart.notifyDataSetChanged(); // chart의 값 변동을 감지함
-            RRchart.setVisibleXRangeMaximum(10); // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-            RRchart.moveViewToX(data2.getEntryCount()); // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
-        }
+        mChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
+        mChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
+        mChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
     }
 
     private LineDataSet createSet(int setColor, String dataName) {

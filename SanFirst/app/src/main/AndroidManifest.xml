@@ -69,10 +69,6 @@
             android:name=".PolarBLE.PolarSensor"
             android:enabled="true"
             android:exported="true" />
-<<<<<<< HEAD
-
-=======
->>>>>>> c5235f555a1166b31968d6e931edfb46c133d322
     </application>
 
 </manifest>

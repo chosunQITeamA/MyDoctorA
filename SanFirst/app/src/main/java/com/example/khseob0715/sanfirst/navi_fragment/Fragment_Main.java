@@ -63,9 +63,6 @@ public class Fragment_Main extends Fragment {
     private LineChart mChart;
     private Thread thread;
 
-    private ArrayList<ILineDataSet> lineDataSets;
-
-
     private ViewGroup rootView;
 
 
