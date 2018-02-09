@@ -15,13 +15,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+<<<<<<< HEAD
 import android.widget.TextView;
 import android.widget.Toast;
+=======
+import android.widget.LinearLayout;
+>>>>>>> 8a241bc31a68820d938ea48fce515b79d3214844
 
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
@@ -66,6 +71,8 @@ public class UserActivity extends AppCompatActivity
     private int usn = 0;
     private String UserID, Username;
 
+    private EditText passwordEdit_profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +80,7 @@ public class UserActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+      //  passwordEdit_profile = (EditText)findViewById(R.id.PWeditText4);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -96,6 +104,7 @@ public class UserActivity extends AppCompatActivity
         viewlistBTdevice();
         startPolarsensor();
 
+<<<<<<< HEAD
         // If the adapter is null, then Bluetooth is not supported
     }
 
@@ -113,6 +122,10 @@ public class UserActivity extends AppCompatActivity
             Toast.makeText(this, UserID +"\n"+Username, Toast.LENGTH_SHORT).show();
         }
 
+=======
+//        Intent intent = getIntent();
+//        usn = intent.getExtras().getInt("usn1");    // 로그인 결과로 넘어온 사용자 식별번호
+>>>>>>> 8a241bc31a68820d938ea48fce515b79d3214844
     }
 
     @Override
@@ -182,7 +195,7 @@ public class UserActivity extends AppCompatActivity
         String title = getString(R.string.app_name);
 
         switch (id) {
-            case R.id.nav_main  :
+            case R.id.nav_main :
                 fragment = new Fragment_Main();
                 title = "My Doctor A";
              //   Toast.makeText(this, "nav_main", Toast.LENGTH_SHORT).show();
@@ -280,28 +293,25 @@ public class UserActivity extends AppCompatActivity
                     }
                 })
                 .show();
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
     public void profilebt(View view) {
         // 비밀번호를 입력 받아서 맞으면 실행하고 아니면 못 들어가도록 해야 됨.
-        final EditText passwordEdit_profile = new EditText(UserActivity.this);
+        final EditText passwordEdit = new EditText(UserActivity.this);
         new AlertDialog.Builder(UserActivity.this)
                 .setTitle("Enter your password")
-                .setView(passwordEdit_profile)
+                .setView(passwordEdit)
                 .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if (!passwordEdit_profile.getText().toString().equals("")) {
+                                if (!passwordEdit.getText().toString().equals("")) {
                                     Fragment fragment = new Fragment();
                                     fragment = new Fragment_Profile();
                                     String title = "My Profile";
                                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                                     ft.replace(R.id.content_fragment_layout, fragment);
-                                    ft.commit();
                                     getSupportActionBar().setTitle(title);
                                 }
                             }

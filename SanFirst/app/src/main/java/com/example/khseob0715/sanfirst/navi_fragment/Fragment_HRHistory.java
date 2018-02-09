@@ -28,6 +28,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.util.ArrayList;
 
 
 public class Fragment_HRHistory extends Fragment {
@@ -48,7 +49,7 @@ public class Fragment_HRHistory extends Fragment {
 
     UserActivity mainclass = new UserActivity(); // ?
 
-    private LineChart chart;
+    private LineChart mChart;
     private Thread thread;
 
     @Override
@@ -101,26 +102,26 @@ public class Fragment_HRHistory extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        chart = (LineChart)view.findViewById(R.id.chart);
+        mChart = (LineChart) view.findViewById(R.id.chart);
 
         // 차트의 아래 Axis
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);    // xAxis의 위치는 아래쪽
-        xAxis.setTextSize(10f);                            // xAxis에 표출되는 텍스트의 크기는 10f
-        xAxis.setDrawGridLines(false);                    // xAxis의 그리드 라인을 없앰
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
+        xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
+        xAxis.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
 
         // 차트의 왼쪽 Axis
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setDrawGridLines(false);                // leftAxis의 그리드 라인을 없앰
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
 
         // 차트의 오른쪽 Axis
-        YAxis rightAxis = chart.getAxisRight();
-        rightAxis.setEnabled(false);                    // rightAxis를 비활성화 함
+        YAxis rightAxis = mChart.getAxisRight();
+        rightAxis.setEnabled(false); // rightAxis를 비활성화 함
 
         LineData data = new LineData();
-        chart.setData(data);                            // LineData를 셋팅함
+        mChart.setData(data); // LineData를 셋팅함
 
-        feedMultiple();                                    // 쓰레드를 활용하여 실시간으로 데이터
+        feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
     }
 
     private void feedMultiple()
@@ -143,7 +144,7 @@ public class Fragment_HRHistory extends Fragment {
                     mainclass.runOnUiThread(runnable);    // UI 쓰레드에서 위에서 생성한 runnable를 실행함
                     try
                     {
-                        Thread.sleep(100);        // 0.1초간 쉼
+                        Thread.sleep(500);        // 0.5초간 쉼
                     }catch (InterruptedException ie)
                     {
                         ie.printStackTrace();
@@ -154,35 +155,36 @@ public class Fragment_HRHistory extends Fragment {
         thread.start();
     }
 
-    private void addEntry()
-    {
-        LineData data = chart.getData();    // onCreate에서 생성한 LineData를 가져옴
-        if(data != null)                    // 데이터가 비어있지 않으면
-        {
-            ILineDataSet set = data.getDataSetByIndex(0);    // 0번째 위치의 데이터셋을 가져옴
+    private void addEntry() {
+        LineData data = mChart.getData();
 
-            if(set == null)                    // 0번에 위치한 값이 없으면
-            {
-                set = createSet();            // createSet을 함
-                data.addDataSet(set);        // createSet을 한 set을 데이터셋에 추가함
-            }
+        LineDataSet set0 = (LineDataSet) data.getDataSetByIndex(0);
+        LineDataSet set1 = (LineDataSet) data.getDataSetByIndex(1);
 
-            // set의 맨 마지막에 랜덤값(30~69.99999)을 Entry로 data에 추가함
-            data.addEntry(new Entry(set.getEntryCount(), (float)(Math.random() * 40) + 30f), 0);
-            data.notifyDataChanged();        // data의 값 변동을 감지함
+        if (set0 == null || set1 == null) {
+            // creation of null
+            set0 = createSet(-65536,"Heart-Rate");      // createSet 한다.
+            set1 = createSet(-16711681,"RR-Rate");
 
-            chart.notifyDataSetChanged();                // chart의 값 변동을 감지함
-            chart.setVisibleXRangeMaximum(10);            // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-            chart.moveViewToX(data.getEntryCount());    // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+            data.addDataSet(set0);
+            data.addDataSet(set1);
         }
+
+        data.addEntry(new Entry(set0.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
+        data.addEntry(new Entry(set1.getEntryCount(), (float) (Math.random() * 40) + 30f), 1);
+
+        data.notifyDataChanged();                                      // data의 값 변동을 감지함
+
+        mChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
+        mChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
+        mChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
     }
 
-    private LineDataSet createSet() {
-
-        LineDataSet set = new LineDataSet(null, "Dynamic Data");    // 데이터셋의 이름을 "Dynamic Data"로 설정(기본 데이터는 null)
+    private LineDataSet createSet(int setColor, String dataName) {
+        LineDataSet set = new LineDataSet(null, dataName);    // 데이터셋의 이름을 "Dynamic Data"로 설정(기본 데이터는 null)
         set.setAxisDependency(YAxis.AxisDependency.LEFT);            // Axis를 YAxis의 LEFT를 기본으로 설정
-        set.setColor(ColorTemplate.getHoloBlue());                    // 데이터의 라인색을 HoloBlue로 설정
-        set.setCircleColor(Color.WHITE);                            // 데이터의 점을 WHITE로 설정
+        set.setColor(setColor);                    // 데이터의 라인색을 HoloBlue로 설정
+        set.setCircleColor(setColor);                            // 데이터의 점을 WHITE로 설정 // 65536
         set.setLineWidth(2f);                                        // 라인의 두께를 2f로 설정
         set.setCircleRadius(4f);                                    // 데이터 점의 반지름을 4f로 설정
         set.setFillAlpha(65);                                        // 투명도 채우기를 65로 설정
@@ -192,7 +194,13 @@ public class Fragment_HRHistory extends Fragment {
         return set;                                                    // 이렇게 생성한 set을 반환
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(thread != null){
+            thread.interrupt();
+        }
+    }
 
     class myAdapter extends BaseAdapter {
 
