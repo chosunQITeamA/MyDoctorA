@@ -90,9 +90,11 @@ import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginCo
                             JSONObject jsonObject = new JSONObject(responseBody);
                             String Message = jsonObject.getString("message");
                             int usn = Integer.parseInt(jsonObject.getString("usn"));
-                            Log.e("message", Message);
-                            Log.e("usn", String.valueOf(usn));
-                            LoginSuccess(Message, usn);
+                            String ID = jsonObject.getString("email");
+                            String Fname = jsonObject.getString("fname");
+                            String Lname = jsonObject.getString("lname");
+                            Log.e("message", Message +"/"+usn+"/"+ID+"/"+Fname+"/"+Lname);
+                            LoginSuccess(Message, usn, ID, Fname, Lname);;
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (JSONException e) {
@@ -106,13 +108,16 @@ import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginCo
             }
         }
 
-    private void LoginSuccess(String parentJArray, int usn) {
-            if(parentJArray.equals("Success"))  {
+    private void LoginSuccess(String message, int usn, String ID, String Fname, String Lname) {
+            if(message.equals("Success"))  {
+                String name = Fname + Lname;
                 Intent intent = new Intent(LoginContext.getApplicationContext(), UserActivity.class);
-                intent.putExtra("usn1", usn);
+                intent.putExtra("usn", usn);
+                intent.putExtra("ID", ID);
+                intent.putExtra("name", name);
                 LoginContext.startActivity(intent);
             }   else    {
-                Log.e("parentJArray", parentJArray);
+                Log.e("parentJArray", message);
             }
     }
 }

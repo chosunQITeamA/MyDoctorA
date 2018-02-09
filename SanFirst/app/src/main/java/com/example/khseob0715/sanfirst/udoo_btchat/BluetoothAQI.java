@@ -9,8 +9,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
-
 /**
  * Created by enemf on 2018-02-04.
  */
@@ -148,7 +146,7 @@ public class BluetoothAQI extends Service{
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     Log.i(TAG, "Read!!!"+readMessage);
                     //mConversationArrayAdapter.add(mConnectedDeviceName + " : " + readMessage);
-
+/*
                     String[] BTSplit = readMessage.split(",");  // Split Message (split word : ,)
                     int temperatureval = Integer.valueOf(BTSplit[0]);   // receive temperatureval
 
@@ -157,14 +155,16 @@ public class BluetoothAQI extends Service{
                     int o3val = Integer.valueOf(BTSplit[3]);
                     int no2val = Integer.valueOf(BTSplit[4]);
                     int pm25val = Integer.valueOf(BTSplit[5]);
-
+                    Log.e("Udoo", temperatureval +"/"+coval+"/"+so2val+"/"+o3val+"/"+no2val+"/"+pm25val);
+                    */
+/*
                     UserActivity.udoo_temperature = temperatureval;
                     UserActivity.udoo_co = coval;
                     UserActivity.udoo_so2 = so2val;
                     UserActivity.udoo_o3 = o3val;
                     UserActivity.udoo_no2 = no2val;
                     UserActivity.udoo_pm25 = pm25val;
-
+*/
                     break;
                 default:
                     break;

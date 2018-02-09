@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
@@ -59,7 +61,10 @@ public class UserActivity extends AppCompatActivity
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothChatService mChatService = null;
 
+    private TextView Navi_ID, Navi_Name;
+
     private int usn = 0;
+    private String UserID, Username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +97,22 @@ public class UserActivity extends AppCompatActivity
         startPolarsensor();
 
         // If the adapter is null, then Bluetooth is not supported
+    }
 
-//        Intent intent = getIntent();
-//        usn = intent.getExtras().getInt("usn1");    // 로그인 결과로 넘어온 사용자 식별번호
+    private void getUserInfo() {
+        Intent intent = getIntent();
+        usn = intent.getExtras().getInt("usn");    // 로그인 결과로 넘어온 사용자 식별번호
+        if(usn == 0)    {
+            Toast.makeText(this, "Fake Login", Toast.LENGTH_SHORT).show();
+        }   else    {
+            UserID = intent.getExtras().getString("ID");
+            Username = intent.getExtras().getString("name");
+
+            Navi_ID.setText(UserID);
+            Navi_Name.setText(Username);
+            Toast.makeText(this, UserID +"\n"+Username, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -129,6 +147,11 @@ public class UserActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.user_main, menu);
+
+        Navi_ID = (TextView) findViewById(R.id.Navi_user_email);
+        Navi_Name = (TextView) findViewById(R.id.Navi_user_name);
+        getUserInfo();
+
         return true;
     }
 
