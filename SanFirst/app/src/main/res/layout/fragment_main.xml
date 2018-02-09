@@ -54,9 +54,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:gravity="center"
+                android:textSize="24dp"
                 android:text="AQI Level"
                 android:textColor="#000000"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:text="74"
+                android:textColor="#000000"
+                android:textSize="52dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,6 +83,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:gravity="center"
+                android:textSize="36dp"
                 android:text="Good"
                 android:textColor="#000000"
                 android:textStyle="bold" />

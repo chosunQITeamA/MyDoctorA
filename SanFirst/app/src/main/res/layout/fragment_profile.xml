@@ -6,165 +6,213 @@
     tools:context="com.example.khseob0715.sanfirst.navi_fragment.Fragment_Profile">
 
     <!-- TODO: Update blank fragment layout -->
+
     <LinearLayout
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
         android:orientation="vertical">
 
-
         <LinearLayout
-            android:layout_marginTop="70dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="150dp"
+                android:id="@+id/userEmail"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="First Name"
+                android:layout_marginBottom="15dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="E-mail"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Aiden@gmail.com"
+                android:textColor="#000000"
+                android:textSize="18dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_centerInParent="true"
+                android:layout_weight="0"
+                android:background="#aeaeae" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Last Name"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="First Name"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Last Name"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editText"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/edit_text_design"
+                    android:ems="10"
+                    android:hint="Input first name"
+                    android:inputType="text"
+                    android:textColor="#aeaeae"
+                    android:textColorHint="#aeaeae" />
+
+                <EditText
+                    android:id="@+id/editText2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_design"
+                    android:ems="10"
+                    android:hint="Input last name"
+                    android:inputType="text"
+                    android:textColor="#aeaeae"
+                    android:textColorHint="#aeaeae" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Phone number"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:orientation="horizontal">
-
             <EditText
-                android:id="@+id/editText"
-                android:layout_width="150dp"
+                android:id="@+id/editText3"
+                android:layout_width="270dp"
                 android:layout_height="45dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/edit_text_design"
-                android:textColorHint="#aeaeae"
-                android:ems="10"
-                android:hint="Input first name"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/editText2"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_weight="1"
                 android:background="@drawable/edit_text_design"
                 android:ems="10"
-                android:textColorHint="#aeaeae"
-                android:hint="Input last name"
-                android:inputType="text" />
-        </LinearLayout>
+                android:hint="Input phone number"
+                android:inputType="text"
+                android:textColor="#aeaeae"
+                android:textColorHint="#aeaeae" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Phone number"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/editText3"
-            android:layout_width="270dp"
-            android:layout_height="45dp"
-            android:ems="10"
-            android:background="@drawable/edit_text_design"
-            android:textColorHint="#aeaeae"
-            android:hint="Input phone number"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Birth Date"
-            android:layout_marginTop="20dp"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/Birth_select"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="270dp"
-            android:layout_height="45dp"
-            android:text="Birth date select"
-            android:background="@drawable/edit_text_design"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"
-            android:textColor="#aeaeae"
-            android:textSize="18sp" />
-
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Gender"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/maleRadio"
-                android:theme="@style/MyCheckBox"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:shadowColor="@color/circular_progress_default_background"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="Male"
-                android:textColor="#000000" />
+                android:layout_marginTop="20dp"
+                android:text="Birth Date"
+                android:textColor="#aeaeae"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <RadioButton
-                android:id="@+id/femaleRadio"
-                android:theme="@style/MyCheckBox"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/Birth_select"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="270dp"
+                android:layout_height="45dp"
+                android:background="@drawable/edit_text_design"
+                android:text="Birth date select"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#aeaeae"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:shadowColor="@color/circular_progress_default_background"
-                android:layout_weight="1"
-                android:text="Female"
-                android:textColor="#000000" />
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="Gender"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/maleRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:shadowColor="@color/circular_progress_default_background"
+                    android:text="Male"
+                    android:textColor="#000000"
+                    android:theme="@style/MyCheckBox" />
+
+                <RadioButton
+                    android:id="@+id/femaleRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:shadowColor="@color/circular_progress_default_background"
+                    android:text="Female"
+                    android:textColor="#000000"
+                    android:theme="@style/MyCheckBox" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button2"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="60dp"
+                android:text="Update Profile"
+                android:textAllCaps="false"
+                android:textColor="@color/common_google_signin_btn_text_dark_default"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/button2"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_marginTop="60dp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Update Profile"
-            android:textAllCaps="false"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
 
     </LinearLayout>
+
 </FrameLayout>

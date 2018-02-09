@@ -140,7 +140,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
 
     public void fake(View view) {
-        Intent UserMainIntent = new Intent(getApplicationContext(),UserMainActivity.class);
+        Intent UserMainIntent = new Intent(getApplicationContext(),UserActivity.class);
         startActivity(UserMainIntent);
     }
 }

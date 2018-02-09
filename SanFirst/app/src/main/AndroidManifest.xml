@@ -48,6 +48,7 @@
         <activity
             android:name=".UserActivity.FindPWActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -61,17 +62,14 @@
             android:value="@string/google_maps_key" />
 
         <service
-            android:name=".udoo_btchat.UDooBT"
+            android:name=".udoo_btchat.BluetoothAQI"
             android:enabled="true"
             android:exported="true" />
         <service
             android:name=".PolarBLE.PolarSensor"
             android:enabled="true"
             android:exported="true" />
-        <service
-            android:name=".AQI_JSON.AQI_Service"
-            android:enabled="true"
-            android:exported="true"></service>
+
     </application>
 
 </manifest>

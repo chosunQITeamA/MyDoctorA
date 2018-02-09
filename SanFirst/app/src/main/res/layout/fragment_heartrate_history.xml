@@ -12,9 +12,14 @@
     <!-- TODO: Update blank fragment layout -->
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart"
+        android:id="@+id/HeartChart"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="150dp" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/RRChart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
