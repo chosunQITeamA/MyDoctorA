@@ -102,7 +102,7 @@ public class Fragment_HRHistory extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mChart = (LineChart) view.findViewById(R.id.chart);
+        mChart = (LineChart) view.findViewById(R.id.HeartChart);
 
         // 차트의 아래 Axis
         XAxis xAxis = mChart.getXAxis();
