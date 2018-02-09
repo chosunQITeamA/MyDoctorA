@@ -175,6 +175,23 @@ public class Fragment_Main extends Fragment {
         return set;                                                   // 이렇게 생성한 set을 반환
     }
 
+    // aqi seekbar
+    public void aqiseekani(int startval, int endval) {
+        coseekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
+            @Override
+            public void onAnimationStart() {
+            }
+
+            @Override
+            public void onAnimationProgress(int progress) {
+            }
+
+            @Override
+            public void onAnimationFinish() {
+            }
+        });
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.bluetooth_menu, menu);

@@ -1,86 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_weight="0"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/border"
             android:layout_weight="0"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/Time"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
+                android:id="@+id/textView33"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0"
+                android:gravity="center"
+                android:text="18/02/09"
                 android:textColor="#000000"
-                android:text="14:30" />
+                android:textSize="12dp" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/AvgHeart_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="10dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
                 android:layout_weight="0"
-                android:orientation="horizontal">
+                android:gravity="center|right"
+                android:text="83"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/Heart-_Rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:textColor="#000000"
-                    android:text="Heart-Rate : " />
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="53dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="bottom"
+                android:text="bpm"
+                android:textColor="#000000"
+                android:textSize="10dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/Heart_RateAVG"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:textColor="#000000"
-                    android:text="TextView" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/AvgRR_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
                 android:layout_weight="0"
-                android:orientation="horizontal">
+                android:gravity="center|right"
+                android:text="43"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/RR_rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:textColor="#000000"
-                    android:text="RR-Rate : " />
-
-                <TextView
-                    android:id="@+id/RR_rateAVG"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000000"
-                    android:layout_weight="0"
-                    android:text="TextView" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="bottom"
+                android:text="bpm"
+                android:textColor="#000000"
+                android:textSize="10dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_centerInParent="true"
+            android:layout_weight="0"
+            android:background="#aeaeae" />
     </LinearLayout>
 
 </LinearLayout>

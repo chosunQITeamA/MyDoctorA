@@ -296,17 +296,18 @@ public class UserActivity extends AppCompatActivity
                 .setTitle("Enter your password")
                 .setView(passwordEdit)
                 .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (!passwordEdit.getText().toString().equals("")) {
-                                    Fragment fragment = new Fragment();
-                                    fragment = new Fragment_Profile();
-                                    String title = "My Profile";
-                                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                    ft.replace(R.id.content_fragment_layout, fragment);
-                                    getSupportActionBar().setTitle(title);
-                                }
-                            }
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (!passwordEdit.getText().toString().equals("")) {
+                            Fragment fragment = new Fragment();
+                            fragment = new Fragment_Profile();
+                            String title = "Profile Management";
+                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            ft.replace(R.id.content_fragment_layout, fragment);
+                            ft.commit();
+                            getSupportActionBar().setTitle(title);
+                        }
+                    }
                 })
                 .show();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

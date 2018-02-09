@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
@@ -42,7 +43,7 @@ public class Fragment_HRHistory extends Fragment {
     private myAdapter adapter;
 
     // 서버랑 연결 되면 받을 값.
-    private String[] items = {"ss", "das"};
+    private String[] items = {"ss", "das","ss", "das","ss", "das","ss", "das","ss", "das","ss", "das","ss", "das"};
 
 
     ViewGroup rootView;
@@ -62,40 +63,6 @@ public class Fragment_HRHistory extends Fragment {
         adapter = new myAdapter();
         listView.setAdapter(adapter);
 
-        Start_date_text = (TextView)rootView.findViewById(R.id.Start_date_Pick_text);
-        End_date_text = (TextView)rootView.findViewById(R.id.End_date_Pick_text);
-
-        Start_date = (LinearLayout) rootView.findViewById(R.id.Start_date_Pick_Layout);
-        Start_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Start_date_text.setText(year + "/" + (monthOfYear+1) + "/" + dayOfMonth);
-                    }
-                };
-
-                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback, 2018, 0, 19);
-                datePickerDialog.show();
-            }
-        });
-
-        End_date  = (LinearLayout) rootView.findViewById(R.id.End_date_Pick_Layout);
-        End_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        End_date_text.setText(year + "/" + (monthOfYear+1) + "/" + dayOfMonth);
-                    }
-                };
-
-                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback, 2018, 0, 19);
-                datePickerDialog.show();
-            }
-        });
 
         return rootView;
     }
@@ -181,17 +148,17 @@ public class Fragment_HRHistory extends Fragment {
     }
 
     private LineDataSet createSet(int setColor, String dataName) {
-        LineDataSet set = new LineDataSet(null, dataName);    // 데이터셋의 이름을 "Dynamic Data"로 설정(기본 데이터는 null)
+        LineDataSet set = new LineDataSet(null, dataName);           // 데이터셋의 이름을 "Dynamic Data"로 설정(기본 데이터는 null)
         set.setAxisDependency(YAxis.AxisDependency.LEFT);            // Axis를 YAxis의 LEFT를 기본으로 설정
-        set.setColor(setColor);                    // 데이터의 라인색을 HoloBlue로 설정
-        set.setCircleColor(setColor);                            // 데이터의 점을 WHITE로 설정 // 65536
+        set.setColor(setColor);                                      // 데이터의 라인색을 HoloBlue로 설정
+        set.setCircleColor(setColor);                                // 데이터의 점을 WHITE로 설정 // 65536
         set.setLineWidth(2f);                                        // 라인의 두께를 2f로 설정
-        set.setCircleRadius(4f);                                    // 데이터 점의 반지름을 4f로 설정
+        set.setCircleRadius(4f);                                     // 데이터 점의 반지름을 4f로 설정
         set.setFillAlpha(65);                                        // 투명도 채우기를 65로 설정
-        set.setFillColor(ColorTemplate.getHoloBlue());                // 채우기 색을 HoloBlue로 설정
-        set.setHighLightColor(Color.rgb(244, 117, 117));            // 하이라이트 컬러(선택시 색)을 rgb(244, 117, 117)로 설정
-        set.setDrawValues(false);                                    // 각 데이터의 값을 텍스트로 나타내지 않게함(false)
-        return set;                                                    // 이렇게 생성한 set을 반환
+        set.setFillColor(ColorTemplate.getHoloBlue());               // 채우기 색을 HoloBlue로 설정
+        set.setHighLightColor(Color.rgb(244, 117, 117));             // 하이라이트 컬러(선택시 색)을 rgb(244, 117, 117)로 설정
+        set.setDrawValues(false);                                   // 각 데이터의 값을 텍스트로 나타내지 않게함(false)
+        return set;                                                 // 이렇게 생성한 set을 반환
     }
 
     @Override

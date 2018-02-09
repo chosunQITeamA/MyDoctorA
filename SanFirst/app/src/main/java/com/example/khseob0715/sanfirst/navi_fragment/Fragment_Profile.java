@@ -23,6 +23,7 @@ public class Fragment_Profile extends Fragment {
     private DatePickerDialog datePickerDialog;
 
     private RadioButton maleRadio, femaleRadio;
+
     public Fragment_Profile() {
         // Required empty public constructor
     }
@@ -68,8 +69,6 @@ public class Fragment_Profile extends Fragment {
                 datePickerDialog.show();
             }
         });
-
-
 
         return rootView;
 
