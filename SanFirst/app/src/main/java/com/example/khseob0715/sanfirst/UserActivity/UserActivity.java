@@ -15,18 +15,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-<<<<<<< HEAD
 import android.widget.TextView;
 import android.widget.Toast;
-=======
-import android.widget.LinearLayout;
->>>>>>> 8a241bc31a68820d938ea48fce515b79d3214844
 
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
@@ -104,7 +99,6 @@ public class UserActivity extends AppCompatActivity
         viewlistBTdevice();
         startPolarsensor();
 
-<<<<<<< HEAD
         // If the adapter is null, then Bluetooth is not supported
     }
 
@@ -122,10 +116,8 @@ public class UserActivity extends AppCompatActivity
             Toast.makeText(this, UserID +"\n"+Username, Toast.LENGTH_SHORT).show();
         }
 
-=======
 //        Intent intent = getIntent();
 //        usn = intent.getExtras().getInt("usn1");    // 로그인 결과로 넘어온 사용자 식별번호
->>>>>>> 8a241bc31a68820d938ea48fce515b79d3214844
     }
 
     @Override
