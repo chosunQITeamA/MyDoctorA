@@ -47,6 +47,7 @@ public class UserActivity extends AppCompatActivity
     private Fragment profileFragment;
 
     public static int heartratevalue = 0;
+    public static int val[] = {0,0,0,0,0};
 
     public static int udoo_temperature=0;
     public static int udoo_co=0;
@@ -316,8 +317,8 @@ public class UserActivity extends AppCompatActivity
 
 
     // set heartrate value to set the value
-    public int getHeartratevalue() {
-        return heartratevalue;
+    public int getAQIvalue(int i) {
+        return val[i];
     }
 
     // UdooBT

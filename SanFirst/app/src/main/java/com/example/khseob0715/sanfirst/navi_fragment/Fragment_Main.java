@@ -41,10 +41,9 @@ public class Fragment_Main extends Fragment {
     private CircularProgressBar no2seekbar;
     private CircularProgressBar pm25seekbar;
 
-    private int coval, so2val, o3val, no2val, pm25val;
-
-    public int[] airlist = new int[]{coval, so2val, o3val, no2val, pm25val};
-
+    private int Scoval, Sso2val, So3val, Sno2val, Spm25val;
+    public int[] aqistart = {0,0,0,0,0};
+    public int[] aqiend = {0,0,0,0,0};
     private CircularProgressBar[] airseekbar = new CircularProgressBar[]{coseekbar, so2seekbar, o3seekbar, no2seekbar, pm25seekbar};
 
     UserActivity mainclass = new UserActivity();
@@ -60,8 +59,6 @@ public class Fragment_Main extends Fragment {
     private Thread thread;
 
     private ViewGroup rootView;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -84,8 +81,6 @@ public class Fragment_Main extends Fragment {
         pm25seekbar = (CircularProgressBar) view.findViewById(id.pm25seekbar);
 
         mChart = (LineChart) view.findViewById(R.id.chart);
-
-        startSubThread();
 
         // 차트의 아래 Axis
         XAxis xAxis = mChart.getXAxis();
@@ -174,8 +169,8 @@ public class Fragment_Main extends Fragment {
     }
 
     // aqi seekbar
-    public void coseekani(int startval, int endval) {
-        coseekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
+    public void seekani(int i, int startval, int endval) {
+        airseekbar[i].animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
             @Override
             public void onAnimationStart() {
             }
@@ -188,6 +183,7 @@ public class Fragment_Main extends Fragment {
             public void onAnimationFinish() {
             }
         });
+        aqistart[i] = aqiend[i];
     }
 
     @Override
@@ -277,8 +273,11 @@ public class Fragment_Main extends Fragment {
     android.os.Handler receivehearthandler = new android.os.Handler() {
         public void handleMessage(Message msg) {
             if (msg.what == 0) {
-                int hrseekendval = mainclass.getHeartratevalue();
-                coseekani(0, hrseekendval);
+                for(int i=0; i<=4; i++) {
+                    aqiend[i] = mainclass.getAQIvalue(i);
+                    seekani(i, 0, aqiend[i]);
+                }
+
             }
         }
     };

@@ -165,7 +165,7 @@ public class BluetoothAQI extends Service{
 
                             String message="Server connected!";
                             String sendData="sensor";
-
+                            //startSubThread();
                             /*for(int i=0;i<9;i++){
                                 ran=Math.random()*500;
                                 sendData=sendData+","+String.valueOf(ran);
@@ -200,10 +200,26 @@ public class BluetoothAQI extends Service{
                     broadcastUpdate(ACTION_SEND_AQI_DATA, readMessage);
 
                     String[] value = readMessage.split(",");
-                    float val = Float.valueOf(value[0]);
-                    int val2 = (int)val;
-                    Log.e("val", String.valueOf(val2));
-                    UserActivity.heartratevalue = val2;
+                    float pm25val = Float.valueOf(value[4]);
+                    float coval = Float.valueOf(value[2]);
+                    float so2val = Float.valueOf(value[3]);
+                    float o3val = Float.valueOf(value[0]);
+                    float no2val = Float.valueOf(value[1]);
+                    float temp = Float.valueOf(value[5]);
+
+                    int i_pm25val = (int)pm25val;
+                    int i_coval = (int)coval;
+                    int i_so2val = (int)so2val;
+                    int i_o3val = (int)o3val;
+                    int i_no2val = (int)no2val;
+
+                    int val[] = {i_pm25val, i_coval, i_so2val, i_o3val, i_no2val};
+
+                    Log.e("val", String.valueOf(i_pm25val) +"/"+String.valueOf(i_coval) +"/"+String.valueOf(i_so2val) +"/"+String.valueOf(i_o3val) +"/"+String.valueOf(i_no2val));
+
+                    for(int i=0; i<=4; i++) {
+                        UserActivity.val[i] = val[i];
+                    }
 
                     Log.i(TAG, "Read!!!"+readMessage);
                     break;
