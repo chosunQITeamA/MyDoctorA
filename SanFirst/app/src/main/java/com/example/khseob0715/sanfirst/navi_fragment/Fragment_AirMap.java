@@ -57,7 +57,7 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
     /*
     private static final String MOON_MAP_URL_FORMAT =
             "http://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/%d/%d/%d.jpg";
-            */
+    */
     private static final String MOON_MAP_URL_FORMAT = "https://tiles.waqi.info/tiles/usepa-aqi/%d/%d/%d.png?token=9f64560eb24586831e1167b1c0e8ecddb1193014";
     //"https://tiles.breezometer.com/{z}/{x}/{y}.png?key=YOUR_API_KEY";
 
