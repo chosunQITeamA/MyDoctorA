@@ -77,8 +77,8 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
     public void confirmGPSOnOff(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
-        alertDialog.setTitle("GPS 사용유무셋팅");
-        alertDialog.setMessage("GPS 셋팅이 되지 않았을수도 있습니다.\n 설정창으로 가시겠습니까?");
+        alertDialog.setTitle("GPS Setting");
+        alertDialog.setMessage("GPS not setting \n Go to the setting menu?");
 
                 // OK 를 누르게 되면 설정창으로 이동합니다.
                 alertDialog.setPositiveButton("Settings",
