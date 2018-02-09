@@ -10,6 +10,8 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
+
 /**
  * Created by chony on 2018-02-04.
  */
@@ -196,6 +198,12 @@ public class BluetoothAQI extends Service{
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     broadcastUpdate(ACTION_SEND_AQI_DATA, readMessage);
+
+                    String[] value = readMessage.split(",");
+                    float val = Float.valueOf(value[0]);
+                    int val2 = (int)val;
+                    Log.e("val", String.valueOf(val2));
+                    UserActivity.heartratevalue = val2;
 
                     Log.i(TAG, "Read!!!"+readMessage);
                     break;

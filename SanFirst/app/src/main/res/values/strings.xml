@@ -38,4 +38,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
 
+    <!-- UUID -->
+    <string name="Udoo_uuid">94f39d29-7d6d-437d-973b-fba39e49d4ee</string>
+    <string name="sample_uuid">fa87c0d0-afac-11de-8a39-0800200c9a66</string>
+
 </resources>

@@ -15,10 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -26,11 +25,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
-
-import java.util.ArrayList;
 
 import static com.example.khseob0715.sanfirst.R.id;
 
@@ -88,6 +84,8 @@ public class Fragment_Main extends Fragment {
         pm25seekbar = (CircularProgressBar) view.findViewById(id.pm25seekbar);
 
         mChart = (LineChart) view.findViewById(R.id.chart);
+
+        startSubThread();
 
         // 차트의 아래 Axis
         XAxis xAxis = mChart.getXAxis();
@@ -176,7 +174,7 @@ public class Fragment_Main extends Fragment {
     }
 
     // aqi seekbar
-    public void aqiseekani(int startval, int endval) {
+    public void coseekani(int startval, int endval) {
         coseekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
             @Override
             public void onAnimationStart() {
@@ -264,6 +262,40 @@ public class Fragment_Main extends Fragment {
         super.onResume();
         if(thread != null){
             thread.interrupt();
+        }
+    }
+
+    //---------------------------------------------------------------------- heartrate threat
+    public void startSubThread() {
+        //작업스레드 생성(매듭 묶는과정)
+        MyRunnable2 aqiRunnable = new MyRunnable2();
+        Thread aqiThread = new Thread(aqiRunnable);
+        aqiThread.setDaemon(true);
+        aqiThread.start();
+    }
+
+    android.os.Handler receivehearthandler = new android.os.Handler() {
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+                int hrseekendval = mainclass.getHeartratevalue();
+                coseekani(0, hrseekendval);
+            }
+        }
+    };
+
+
+    public class MyRunnable2 implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                Message msg = Message.obtain();
+                msg.what = 0;
+                receivehearthandler.sendMessage(msg);
+                try {
+                    Thread.sleep(1000); // 갱신주기 1초
+                } catch (Exception e) {
+                }
+            }
         }
     }
 }
