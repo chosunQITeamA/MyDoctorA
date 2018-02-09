@@ -192,7 +192,6 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                 }   else    {
                     Toast.makeText(this, "phone is wrong", Toast.LENGTH_SHORT).show();
                 }
-
                 Log.e("InputData = ", id +" / "+ pw + " / " + confirm_pw + " / "+ fname +" / "+ lname +" / "+ Sgender +" / "+ date +" / "+ phonenum);
                 break;
         }
