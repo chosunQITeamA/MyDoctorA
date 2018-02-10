@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
     private DatePickerDialog datePickerDialog;
     private LinearLayout Verification_Layout, Personal_Layout;
     private int StartTimeInt = 180;
-
+    private ImageView calendar;
     private Handler Timelimit;
 
     private EditText User_email, password, confirm_password, Fname, Lname, phone_num;
@@ -51,12 +52,11 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
         selected_date = (TextView)findViewById(R.id.selected_date);
         selected_date.setOnClickListener(this);
 
-        Duplicate_Btn = (Button)findViewById(R.id.Duplicate_btn);
-        Duplicate_Btn.setOnClickListener(this);
+        calendar = (ImageView)findViewById(R.id.calendar);
+        calendar.setOnClickListener(this);
 
         Send_Email_Btn = (Button)findViewById(R.id.Send_Email_btn);
         Send_Email_Btn.setOnClickListener(this);
-        Send_Email_Btn.setVisibility(View.GONE);
 
         Admit_Btn = (Button)findViewById(R.id.admitBtn);
         Admit_Btn.setOnClickListener(this);
@@ -101,6 +101,7 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                 break;
 
             case R.id.selected_date:
+            case R.id.calendar:
                 OnDateSetListener callback = new OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -111,22 +112,8 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                 datePickerDialog.show();
                 break;
 
-            case R.id.Duplicate_btn:
-                //Dialog
-                new AlertDialog.Builder(SignUPActivity.this)
-                        .setTitle("E-mail")
-                        .setMessage("Email available.")
-                        .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Send_Email_Btn.setVisibility(View.VISIBLE);
-                            }
-                        })
-                        .show();
-                break;
-
             case R.id.Send_Email_btn:
-                //Dialog
+                //Dialog  // 중복 확인 후 이메일 보내기.
                 new AlertDialog.Builder(SignUPActivity.this)
                         .setTitle("E-mail Verification")
                         .setMessage("verification code sent to e-mail. Please enter it in 3 minutes.")
@@ -139,7 +126,6 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                         })
                         .show();
                 //
-
                 break;
 
             case R.id.admitBtn:
@@ -157,6 +143,7 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                         })
                         .show();
                 break;
+
             case R.id.SignUPBtn:
                 String id = User_email.getText().toString();
                 String pw = password.getText().toString();

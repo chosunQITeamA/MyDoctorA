@@ -69,6 +69,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:hint="Input your E-mail address"
                         android:inputType="textPersonName"
                         android:selectAllOnFocus="false" />
                 </LinearLayout>
@@ -79,20 +80,6 @@
                     android:layout_gravity="right"
                     android:layout_marginRight="10dp"
                     android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/Duplicate_btn"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-
-                        android:layout_weight="0"
-                        android:onClick="Duplication_Email"
-                        android:text="Duplicate "
-                        android:textAllCaps="false"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textStyle="bold" />
 
                     <Button
                         android:id="@+id/Send_Email_btn"
@@ -132,6 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
+                    android:hint="Input Code"
                     android:inputType="textPersonName" />
 
                 <TextView
@@ -150,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="0"
-                    android:text="admit"
+                    android:text="Admit"
                     android:textAllCaps="false"
                     android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textStyle="bold" />
@@ -191,6 +179,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:ems="10"
+                            android:hint="Input password"
                             android:inputType="textPassword" />
                     </LinearLayout>
 
@@ -225,6 +214,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:ems="10"
+                            android:hint="Input confirm password"
                             android:inputType="textPassword" />
                     </LinearLayout>
 
@@ -251,6 +241,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:hint="Input first name"
                         android:inputType="textPersonName" />
                 </LinearLayout>
 
@@ -275,6 +266,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:hint="lnput last name"
                         android:inputType="textPersonName" />
                 </LinearLayout>
 
@@ -317,7 +309,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
@@ -331,12 +323,35 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/selected_date"
+                    <ImageView
+                        android:id="@+id/calendar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Select Date" />
+                        android:layout_weight="0"
+                        android:src="@drawable/callendar"
+                        android:tint="#ffffff" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/selected_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:text="Select Date" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_centerInParent="true"
+                            android:layout_weight="0"
+                            android:background="#ffffff" />
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -361,6 +376,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:hint="Input phone number"
                         android:inputType="phone" />
                 </LinearLayout>
                 <LinearLayout
