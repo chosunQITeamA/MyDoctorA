@@ -32,6 +32,7 @@ import com.example.khseob0715.sanfirst.navi_fragment.Fragment_HRHistory;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Main;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_MyDoctor;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Profile;
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothAQI;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
@@ -84,7 +85,8 @@ public class UserActivity extends AppCompatActivity
         toggle.syncState();
 
         //fragment = new Fragment_Main();
-        btchatFragment = new Fragment_Main();
+//        btchatFragment = new Fragment_Main();
+        btchatFragment = new Fragment_TabMain();
         hrhistoryFragment = new Fragment_HRHistory();
         airqualfragment = new Fragment_AirMap();
         accountFragment = new Fragment_AirMap();
@@ -189,7 +191,7 @@ public class UserActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_main :
-                fragment = new Fragment_Main();
+                fragment = new Fragment_TabMain();
                 title = "My Doctor A";
              //   Toast.makeText(this, "nav_main", Toast.LENGTH_SHORT).show();
                 break;
