@@ -82,37 +82,10 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
                 selectDoctor.setChecked(true);
                 break;
             case R.id.sign_in_btn:
-                //this.finish();
-
-                // 입력한 정보가 일치 할 경우 넘김. // 아닐 경우 메시지 다이얼 로그 출력
-
-                // 일반 사용자와 의사를 구분하여 넘긴다.
-                // 1/21 지금은 그냥 넘김.
-/*
-                Intent UserMainIntent = new Intent(getApplicationContext(),UserActivity.class);
-                startActivity(UserMainIntent);
-*/
-                /*
-                // If the adapter is null, then Bluetooth is not supported
-
-
-                Signin.firstAction(Id, Pw);
-
-                new Thread() {
-                    public void run() {
-                        try {
-                            SignIn.signin(Id);
-                        } catch (IOException e) {
-
-
-                        }
-                    }
-                }.start();
-*/
                 String Id = inputID.getText().toString();
-                String Pw = inputPW.getText().toString();
+                String PW = inputPW.getText().toString();
 
-                signIn.signin_Asycn(Id, Pw);
+                signIn.signin_Asycn(Id, PW);
 
                 break;
             case R.id.sign_up_btn:
