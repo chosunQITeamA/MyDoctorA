@@ -208,15 +208,10 @@ public class UserActivity extends AppCompatActivity
             case R.id.nav_aqi_map :
                 fragment = new Fragment_AirMap();
                 title = "AQI Maps";
-             //   Toast.makeText(this, "nav_AQI", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_mydoc :
                 fragment = new Fragment_MyDoctor();
                 title = "My Doctor";
-                break;
-            case R.id.nav_chat :
-                title = "Chat";
-            //    Toast.makeText(this, "nav_chat", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_signout :
                 new AlertDialog.Builder(UserActivity.this)
