@@ -37,8 +37,6 @@ public class BluetoothAQI extends Service{
     public void onCreate(){
         super.onCreate();
         Log.i(TAG,"onCreate");
-
-
     }
 
     @Override

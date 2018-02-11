@@ -15,6 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.khseob0715.sanfirst.Dialog.Dialog_Password;
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
@@ -261,53 +264,59 @@ public class UserActivity extends AppCompatActivity
         Log.e(this.getClass().getName(), "onDestroy()");
     }
 
-
     public void accountbt(View view) {
         // 비밀번호를 입력 받아서 맞으면 실행하고 아니면 못 들어가도록 해야 됨.
-        final EditText passwordEdit = new EditText(UserActivity.this);
-        new AlertDialog.Builder(UserActivity.this)
-                .setTitle("Enter your password")
-                .setView(passwordEdit)
-                .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (!passwordEdit.getText().toString().equals("")) {
-                            Fragment fragment = new Fragment();
-                            fragment = new Fragment_Account();
-                            String title = "Account Management";
-                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            ft.replace(R.id.content_fragment_layout, fragment);
-                            ft.commit();
-                            getSupportActionBar().setTitle(title);
-                        }
-                    }
-                })
-                .show();
+        final EditText passwordEdit = new EditText(this);
+        passwordEdit.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        passwordEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Enter your password");
+        alertDialog.setView(passwordEdit,80,0,200,0);
+        alertDialog.setButton("Admit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (!passwordEdit.getText().toString().equals("")) {
+                    Fragment fragment = new Fragment();
+                    fragment = new Fragment_Account();
+                    String title = "Account Management";
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.content_fragment_layout, fragment);
+                    ft.commit();
+                    getSupportActionBar().setTitle(title);
+                }
+            }
+        });
+        alertDialog.show();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
     public void profilebt(View view) {
-        // 비밀번호를 입력 받아서 맞으면 실행하고 아니면 못 들어가도록 해야 됨.
-        final EditText passwordEdit = new EditText(UserActivity.this);
-        new AlertDialog.Builder(UserActivity.this)
-                .setTitle("Enter your password")
-                .setView(passwordEdit)
-                .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (!passwordEdit.getText().toString().equals("")) {
-                            Fragment fragment = new Fragment();
-                            fragment = new Fragment_Profile();
-                            String title = "Profile Management";
-                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            ft.replace(R.id.content_fragment_layout, fragment);
-                            ft.commit();
-                            getSupportActionBar().setTitle(title);
-                        }
-                    }
-                })
-                .show();
+        final EditText passwordEdit = new EditText(this);
+        passwordEdit.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        passwordEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Enter your password");
+        alertDialog.setView(passwordEdit,80,0,200,0);
+        alertDialog.setButton("Admit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (!passwordEdit.getText().toString().equals("")) {
+                    Fragment fragment = new Fragment();
+                    fragment = new Fragment_Profile();
+                    String title = "Profile Management";
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.content_fragment_layout, fragment);
+                    ft.commit();
+                    getSupportActionBar().setTitle(title);
+                }
+            }
+        });
+
+        alertDialog.show();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
