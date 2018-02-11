@@ -44,6 +44,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     private CircularProgressBar pm25_seekbar;
 
     private LineChart mChart;
+    private LineChart mChart2;
     private Thread thread;
 
     private ViewGroup rootView;
@@ -73,12 +74,10 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         spec.setContent(R.id.tab_content1);
         host.addTab(spec);
 
-
         spec = host.newTabSpec("tab2");
         spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.hearttext, null));
         spec.setContent(R.id.tab_content2);
         host.addTab(spec);
-
 
         return rootView;
     }
@@ -125,6 +124,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         alphaSO2.setAlpha(50);
 
         mChart = (LineChart) view.findViewById(R.id.chart);
+        mChart2 = (LineChart)view.findViewById(R.id.chart2);
 
         Heart = (ImageView)view.findViewById(R.id.smallheart);
 
@@ -135,7 +135,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         // 차트의 아래 Axis
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
-        xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
+       // xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
         xAxis.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
 
         // 차트의 왼쪽 Axis
@@ -146,8 +146,27 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false); // rightAxis를 비활성화 함
 
+
+        // 차트의 아래 Axis
+        XAxis xAxis2 = mChart2.getXAxis();
+        xAxis2.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
+        // xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
+        xAxis2.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
+
+        // 차트의 왼쪽 Axis
+        YAxis leftAxis2 = mChart2.getAxisLeft();
+        leftAxis2.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
+
+        // 차트의 오른쪽 Axis
+        YAxis rightAxis2 = mChart2.getAxisRight();
+        rightAxis2.setEnabled(false); // rightAxis를 비활성화 함
+
+
         LineData data = new LineData();
         mChart.setData(data); // LineData를 셋팅함
+
+        LineData data2 = new LineData();
+        mChart2.setData(data2);
 
         feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
     }
@@ -224,22 +243,38 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
 
     private void addEntry() {
         LineData data = mChart.getData();
+        LineData data2 = mChart2.getData();
+
 
         LineDataSet set1 = (LineDataSet) data.getDataSetByIndex(0);
+        LineDataSet set2 = (LineDataSet) data.getDataSetByIndex(0);
+
 
         if (set1 == null) {
             // creation of null
-            set1 = createSet(Color.parseColor("#FFFF7A87"),"RR-Rate");
+            set1 = createSet(Color.parseColor("#FFFF7A87"),"Heart-Rate");
             data.addDataSet(set1);
         }
 
+        if(set2 == null){
+            set2 = createSet(Color.parseColor("#FFFF7A87"),"RR-Rate");
+            data2.addDataSet(set2);
+        }
+
         data.addEntry(new Entry(set1.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
+        data2.addEntry(new Entry(set1.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
 
         data.notifyDataChanged();                                      // data의 값 변동을 감지함
+        data2.notifyDataChanged();
 
         mChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
         mChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
         mChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+
+        mChart2.notifyDataSetChanged();                                // chart의 값 변동을 감지함
+        mChart2.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
+        mChart2.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+
     }
 
     private LineDataSet createSet(int setColor, String dataName) {
