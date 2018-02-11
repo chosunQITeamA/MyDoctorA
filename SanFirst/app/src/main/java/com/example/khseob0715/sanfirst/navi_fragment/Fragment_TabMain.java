@@ -1,5 +1,7 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.graphics.drawable.ColorDrawable;
@@ -11,6 +13,9 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,7 +49,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     private ViewGroup rootView;
 
     private LinearLayout PMLayout, COLayout, O3Layout, NO2Layout, SO2Layout;
-    private ImageView PM_Cloud, CO_Cloud, O3_Cloud, NO2_Cloud, SO2_Cloud;
+    private ImageView PM_Cloud, CO_Cloud, O3_Cloud, NO2_Cloud, SO2_Cloud, Heart;
 
     private Drawable alphaPM, alphaCO, alphaO3, alphaNO2, alphaSO2;
 
@@ -119,8 +124,13 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         alphaSO2 = ((ImageView) view.findViewById(R.id.SO_Cloud)).getDrawable();
         alphaSO2.setAlpha(50);
 
-
         mChart = (LineChart) view.findViewById(R.id.chart);
+
+        Heart = (ImageView)view.findViewById(R.id.smallheart);
+
+        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.wave);
+        animation.setRepeatCount(Animation.INFINITE);
+        Heart.startAnimation(animation);
 
         // 차트의 아래 Axis
         XAxis xAxis = mChart.getXAxis();
@@ -140,7 +150,6 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         mChart.setData(data); // LineData를 셋팅함
 
         feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
-
     }
 
     @Override
@@ -176,7 +185,6 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         alphaO3.setAlpha(d);
         alphaSO2.setAlpha(e);
     }
-
 
     private void visible_layout(int a, int b, int c, int d, int e) {
         PMLayout.setVisibility(a);
@@ -217,20 +225,15 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     private void addEntry() {
         LineData data = mChart.getData();
 
-        LineDataSet set0 = (LineDataSet) data.getDataSetByIndex(0);
-        LineDataSet set1 = (LineDataSet) data.getDataSetByIndex(1);
+        LineDataSet set1 = (LineDataSet) data.getDataSetByIndex(0);
 
-        if (set0 == null || set1 == null) {
+        if (set1 == null) {
             // creation of null
-            set0 = createSet(-65536,"Heart-Rate");      // createSet 한다.
-            set1 = createSet(-16711681,"RR-Rate");
-
-            data.addDataSet(set0);
+            set1 = createSet(Color.parseColor("#FFFF7A87"),"RR-Rate");
             data.addDataSet(set1);
         }
 
-        data.addEntry(new Entry(set0.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
-        data.addEntry(new Entry(set1.getEntryCount(), (float) (Math.random() * 40) + 30f), 1);
+        data.addEntry(new Entry(set1.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
 
         data.notifyDataChanged();                                      // data의 값 변동을 감지함
 
