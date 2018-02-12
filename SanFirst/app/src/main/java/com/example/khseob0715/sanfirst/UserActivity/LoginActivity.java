@@ -89,7 +89,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
                 break;
             case R.id.sign_up_btn:
-                Intent SignUPIntent = new Intent(getApplicationContext(),SignUPActivity.class);
+                Intent SignUPIntent = new Intent(getApplicationContext(),SignUPEmailActivity.class);
                 startActivity(SignUPIntent);
                 break;
             case R.id.FindPasswordText:

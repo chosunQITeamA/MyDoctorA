@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -24,15 +25,16 @@ import com.example.khseob0715.sanfirst.ServerConn.SignUp;
 
 public class SignUPActivity extends AppCompatActivity implements Button.OnClickListener{
     private RadioButton maleRadio, femaleRadio;
-    private TextView selected_date, timeText;
+    private TextView selected_date, E_mailText;
     private Button Duplicate_Btn, Send_Email_Btn, Admit_Btn, SignUP_Btn;
     private DatePickerDialog datePickerDialog;
     private LinearLayout Verification_Layout, Personal_Layout;
-    private int StartTimeInt = 180;
-    private ImageView calendar;
-    private Handler Timelimit;
 
-    private EditText User_email, password, confirm_password, Fname, Lname, phone_num;
+    private ImageView calendar;
+
+
+    private String User_email;
+    private EditText  password, confirm_password, Fname, Lname, phone_num;
 
     SignUp signup = new SignUp();
 
@@ -55,34 +57,23 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
         calendar = (ImageView)findViewById(R.id.calendar);
         calendar.setOnClickListener(this);
 
-        Send_Email_Btn = (Button)findViewById(R.id.Send_Email_btn);
-        Send_Email_Btn.setOnClickListener(this);
-
-        Admit_Btn = (Button)findViewById(R.id.admitBtn);
-        Admit_Btn.setOnClickListener(this);
 
         SignUP_Btn = (Button)findViewById(R.id.SignUPBtn);
         SignUP_Btn.setOnClickListener(this);
 
-        Verification_Layout = (LinearLayout)findViewById(R.id.Verification_Code_Layout);
-        Verification_Layout.setVisibility(View.INVISIBLE);
-
         Personal_Layout = (LinearLayout)findViewById(R.id.Personal_inform_Layout);
-        Personal_Layout.setVisibility(View.INVISIBLE);
-
-        timeText = (TextView)findViewById(R.id.TimeText);
 
         // ------------EditText find
-        User_email = (EditText)findViewById(R.id.input_email);
         password = (EditText)findViewById(R.id.input_PW);
         confirm_password = (EditText)findViewById(R.id.input_pw);
         Fname = (EditText)findViewById(R.id.input_firstname);
         Lname = (EditText)findViewById(R.id.input_lastname);
-        // RadioButton 이미 선언됨
-        // selected_date 이미 선언됨
         phone_num = (EditText)findViewById(R.id.input_phone);
 
-        Timelimit = new Handler();
+        E_mailText = (TextView)findViewById(R.id.Emailtext);
+        Intent intent = getIntent();
+        User_email = intent.getStringExtra("Email");
+        E_mailText.setText(User_email);
     }
 
     @Override
@@ -121,7 +112,7 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Verification_Layout.setVisibility(View.VISIBLE);
-                                Timelimit.postDelayed(new TimeLimit(),1000);
+
                             }
                         })
                         .show();
@@ -130,7 +121,6 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
 
             case R.id.admitBtn:
                 //Dialog match
-                Timelimit.removeMessages(0); // Handler stop
 
                 new AlertDialog.Builder(SignUPActivity.this)
                         .setTitle("Verification code")
@@ -145,7 +135,7 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                 break;
 
             case R.id.SignUPBtn:
-                String id = User_email.getText().toString();
+                String id = User_email;
                 String pw = password.getText().toString();
                 String confirm_pw = confirm_password.getText().toString();
                 String fname = Fname.getText().toString();
@@ -184,27 +174,7 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
         }
     }
 
-    private class TimeLimit implements Runnable {
-        @Override
-        public void run() {
-            StartTimeInt -= 1;
-            timeText.setText((StartTimeInt % 3600 / 60) + ":" + (StartTimeInt % 3600 % 60));
-            if(StartTimeInt > 0) {
-                Timelimit.postDelayed(new TimeLimit(), 1000);
-            }else{
-                new AlertDialog.Builder(SignUPActivity.this)
-                        .setTitle("Time Out")
-                        .setMessage("Validation code input timeout")
-                        .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        })
-                        .show();
-            }
-        }
-    }
+
 }
 
 

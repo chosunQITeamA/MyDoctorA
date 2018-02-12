@@ -29,381 +29,320 @@
         android:textAlignment="textEnd"
         android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/Sign_UP_Layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
 
         <LinearLayout
-            android:id="@+id/Sign_UP_Layout"
+            android:id="@+id/Email_Layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/Email_Input_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/emailText"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:text="E-mail"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/Emailtext"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="left|center"
+                    android:textSize="16dp"
+                    android:text="TextView"
+                    android:textColor="#ffffff" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Personal_inform_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/Email_Layout"
+                android:id="@+id/Password_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+
                 <LinearLayout
-                    android:id="@+id/Email_Input_Layout"
+                    android:id="@+id/Password_Input_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/emailText"
+                        android:id="@+id/PW_Text"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        android:text="E-mail"
+                        android:text="Password"
                         android:textColor="@color/common_google_signin_btn_text_dark_default"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/input_email"
+                        android:id="@+id/input_PW"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="60dp"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="Input your E-mail address"
-                        android:inputType="textPersonName"
-                        android:selectAllOnFocus="false" />
+                        android:hint="Input password"
+                        android:inputType="textPassword" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right"
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
+                    android:text="@string/pwError"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+                <LinearLayout
+                    android:id="@+id/Confirm_Password_Input_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/Send_Email_btn"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                    <TextView
+                        android:id="@+id/ConfirmPW_Text"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="0"
-                        android:text="Send E-mail"
-                        android:textAllCaps="false"
+                        android:text="Confirm\nPassword"
                         android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textStyle="bold"
-                        android:visibility="visible" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/input_pw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Input confirm password"
+                        android:inputType="textPassword" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/Verification_Code_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView16"
+                    android:id="@+id/firstnameText"
                     android:layout_width="100dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Verfication\nCode"
+                    android:text="FirstName"
                     android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/input_verifactioncode"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/input_firstname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="Input Code"
+                    android:hint="Input first name"
                     android:inputType="textPersonName" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/TimeText"
-                    android:layout_width="8dp"
+                    android:id="@+id/lastnameText"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="LastName"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/input_lastname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="lnput last name"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/sexText"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="Gender"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="Male"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="3:00"
-                    android:textAlignment="center"
-                    android:textColor="@color/common_google_signin_btn_text_dark_default" />
+                    android:checked="false"
+                    android:text="Female"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/oldText"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:layout_weight="0"
+                    android:text="Birth"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:src="@drawable/callendar"
+                    android:tint="#ffffff" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/selected_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center"
+                        android:text="Select Date"
+                        android:textColor="#ffffff"
+                        android:textSize="16dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerInParent="true"
+                        android:layout_weight="0"
+                        android:layout_marginRight="5dp"
+                        android:background="#c1c1c1" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/phoneText"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="Phone"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/input_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Input phone number"
+                    android:inputType="phone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/SignUpBtn_Layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/admitBtn"
+                    android:id="@+id/SignUPBtn"
                     style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="wrap_content"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="0"
-                    android:text="Admit"
+                    android:text="Sign UP"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/Personal_inform_Layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/Password_Layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:id="@+id/Password_Input_Layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/PW_Text"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:text="Password"
-                            android:textColor="@color/common_google_signin_btn_text_dark_default"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/input_PW"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:hint="Input password"
-                            android:inputType="textPassword" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/textView15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="@string/pwError"
-                        android:textAlignment="textEnd"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default" />
-
-                    <LinearLayout
-                        android:id="@+id/Confirm_Password_Input_Layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/ConfirmPW_Text"
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:text="Confirm\nPassword"
-                            android:textColor="@color/common_google_signin_btn_text_dark_default"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/input_pw"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:hint="Input confirm password"
-                            android:inputType="textPassword" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/firstnameText"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:text="FirstName"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/input_firstname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="Input first name"
-                        android:inputType="textPersonName" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/lastnameText"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:text="LastName"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/input_lastname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="lnput last name"
-                        android:inputType="textPersonName" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/sexText"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:text="Gender"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <RadioButton
-                        android:id="@+id/radioButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:text="Male"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textSize="18sp" />
-
-                    <RadioButton
-                        android:id="@+id/radioButton2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="false"
-                        android:text="Female"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/oldText"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:text="Birth"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/calendar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:src="@drawable/callendar"
-                        android:tint="#ffffff" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/selected_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:layout_weight="1"
-                            android:text="Select Date" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerInParent="true"
-                            android:layout_weight="0"
-                            android:background="#ffffff" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/phoneText"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:text="Phone"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/input_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="Input phone number"
-                        android:inputType="phone" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/SignUpBtn_Layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/SignUPBtn"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="0"
-                        android:text="Sign UP"
-                        android:textAlignment="center"
-                        android:textAllCaps="false"
-                        android:textColor="@color/common_google_signin_btn_text_dark_default"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-
         </LinearLayout>
-    </ScrollView>
+
+
+    </LinearLayout>
+
 </LinearLayout>
