@@ -1,28 +1,28 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TabHost;
-import android.widget.TextView;
-
+import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
@@ -33,9 +33,17 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
 
-public class Fragment_TabMain extends Fragment implements  View.OnClickListener {
+import static android.location.LocationManager.GPS_PROVIDER;
+
+public class Fragment_TabMain extends Fragment implements  View.OnClickListener , OnMapReadyCallback{
 
     private CircularProgressBar co_seekbar;
     private CircularProgressBar so2_seekbar;
@@ -55,6 +63,11 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     private Drawable alphaPM, alphaCO, alphaO3, alphaNO2, alphaSO2;
 
     UserActivity mainclass = new UserActivity();
+
+    GoogleMap map;
+    MapView mapView = null;
+    public static Double lat = 32.882499;
+    public static Double lon = -117.234644;
 
     public Fragment_TabMain() {
         // Required empty public constructor
@@ -169,6 +182,13 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         mChart2.setData(data2);
 
         feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
+
+        mapView = (MapView) view.findViewById(R.id.mapView);
+        mapView.getMapAsync(this);
+
+        if(mapView != null) {
+            mapView.onCreate(savedInstanceState);
+        }
     }
 
     @Override
@@ -291,5 +311,121 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         return set;                                                   // 이렇게 생성한 set을 반환
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        StartLocationService();
+    }
+
+    private void StartLocationService() {
+        Log.e("startLocationService","startLocationService");
+        LocationManager manager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        GPSListener gpsListener = new GPSListener();
+        long minTime = 10000;
+        float minDistance = 0;
+        try {   //GPS 위치 요청
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            manager.requestLocationUpdates(GPS_PROVIDER, minTime, minDistance, (LocationListener) gpsListener);
+
+            // location request with network
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, (LocationListener) gpsListener);
+
+            Location lastLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if (lastLocation != null) {
+                Double latitude = lastLocation.getLatitude();
+                Double longitude = lastLocation.getLongitude();
+
+                Toast.makeText(getActivity(), "Lat:"+latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private class GPSListener implements LocationListener{
+        @Override
+        public void onLocationChanged(Location location) {
+            lat = location.getLatitude();
+            lon = location.getLongitude();
+            String msg = "Lat:" + lat + " / Lon:" + lon;
+            ShowMyLocaion(lat, lon, map);
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+            ShowMyLocaion(lat, lon, map);
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+        }
+    }
+
+    private void ShowMyLocaion(Double lat, Double lon, GoogleMap googleMap) {
+        LatLng nowLocation = new LatLng(lat, lon);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(nowLocation);
+        markerOptions.title("now location");
+        googleMap.addMarker(markerOptions);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+    }
 }

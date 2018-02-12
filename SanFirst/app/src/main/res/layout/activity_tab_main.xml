@@ -30,75 +30,6 @@
 
 
             <LinearLayout
-                android:gravity="center"
-                android:id="@+id/tab_content2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp">
-
-                    <com.lylc.widget.circularprogressbar.CircularProgressBar
-                        android:id="@+id/heartseekbar"
-                        style="@style/Widget.ProgressBar.CircularProgressBar"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        circular:cpb_backgroundColor="#ff7a87" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/smallheart"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            circular:srcCompat="@drawable/heartimage" />
-
-                        <TextView
-                            android:id="@+id/DataValueHeart"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:gravity="top|center"
-                            android:text="50"
-                            android:textColor="#000000"
-                            android:textSize="40dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/BPMIndex"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="BPM"
-                            android:textColor="#000000"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </FrameLayout>
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp" />
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/chart2"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/tab_content1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,8 +38,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_margin="10dp"
                     android:layout_gravity="top"
+                    android:layout_margin="10dp"
                     android:gravity="top"
                     android:orientation="horizontal">
 
@@ -151,6 +82,408 @@
                         android:layout_marginRight="3dp"
                         android:layout_weight="1"
                         circular:srcCompat="@drawable/cloud5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/O3Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp">
+
+                        <com.lylc.widget.circularprogressbar.CircularProgressBar
+                            android:id="@+id/o3seekbar"
+                            style="@style/Widget.ProgressBar.CircularProgressBar"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            circular:cpb_backgroundColor="#b9ffb4" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/DataIndex4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="O3"
+                                android:textColor="#000000"
+                                android:textSize="15dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/DataValueO3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:gravity="top"
+                                android:text="50"
+                                android:textColor="#000000"
+                                android:textSize="40dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <Button
+                            android:layout_width="160dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/rounded_corner_button"
+                            android:text="Moderate"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView45"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Concentration : "
+                                android:textColor="#000000" />
+
+                            <TextView
+                                android:id="@+id/concentrationValueO3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TextView"
+                                android:textColor="#000000" />
+
+                            <TextView
+                                android:id="@+id/textView41"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" (ppb)"
+                                android:textColor="#000000" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/SO2Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp">
+
+                        <com.lylc.widget.circularprogressbar.CircularProgressBar
+                            android:id="@+id/so2seekbar"
+                            style="@style/Widget.ProgressBar.CircularProgressBar"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            circular:cpb_backgroundColor="#b9ffb4" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/DataIndex5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="SO2"
+                                android:textColor="#000000"
+                                android:textSize="15dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/DataValueSO2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:gravity="top"
+                                android:text="50"
+                                android:textColor="#000000"
+                                android:textSize="40dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <Button
+                            android:layout_width="160dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/rounded_corner_button"
+                            android:text="Moderate"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView42"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Concentration : "
+                                android:textColor="#000000" />
+
+                            <TextView
+                                android:id="@+id/concentrationValueSO2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TextView"
+                                android:textColor="#000000" />
+
+                            <TextView
+                                android:id="@+id/textView43"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" (ppb)"
+                                android:textColor="#000000" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/NO2Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp">
+
+                        <com.lylc.widget.circularprogressbar.CircularProgressBar
+                            android:id="@+id/no2seekbar"
+                            style="@style/Widget.ProgressBar.CircularProgressBar"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            circular:cpb_backgroundColor="#b9ffb4" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/DataIndex3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="NO2"
+                                android:textColor="#000000"
+                                android:textSize="15dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/DataValueNO2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:gravity="top"
+                                android:text="50"
+                                android:textColor="#000000"
+                                android:textSize="40dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <Button
+                            android:layout_width="160dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/rounded_corner_button"
+                            android:text="Moderate"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView39"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Concentration : "
+                                android:textColor="#000000" />
+
+                            <TextView
+                                android:id="@+id/concentrationValueNO2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TextView"
+                                android:textColor="#000000" />
+
+                            <TextView
+                                android:id="@+id/textView40"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" (ppb)"
+                                android:textColor="#000000" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/COLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp">
+
+                        <com.lylc.widget.circularprogressbar.CircularProgressBar
+                            android:id="@+id/coseekbar"
+                            style="@style/Widget.ProgressBar.CircularProgressBar"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            circular:cpb_backgroundColor="#b9ffb4" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/DataIndex2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="CO"
+                                android:textColor="#000000"
+                                android:textSize="15dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/DataValueCO"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:gravity="top"
+                                android:text="50"
+                                android:textColor="#000000"
+                                android:textSize="40dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <Button
+                            android:layout_width="160dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/rounded_corner_button"
+                            android:text="Moderate"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView36"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Concentration : "
+                                android:textColor="#000000" />
+
+                            <TextView
+                                android:id="@+id/concentrationValueCO"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TextView"
+                                android:textColor="#000000" />
+
+                            <TextView
+                                android:id="@+id/textView37"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" (ppm)"
+                                android:textColor="#000000" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -255,410 +588,82 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/COLayout"
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="400dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary" />
 
-                    <FrameLayout
-                        android:layout_marginLeft="5dp"
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:id="@+id/tab_content2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp">
+
+                    <com.lylc.widget.circularprogressbar.CircularProgressBar
+                        android:id="@+id/heartseekbar"
+                        style="@style/Widget.ProgressBar.CircularProgressBar"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        circular:cpb_backgroundColor="#ff7a87" />
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
 
-                        <com.lylc.widget.circularprogressbar.CircularProgressBar
-                            android:id="@+id/coseekbar"
-                            style="@style/Widget.ProgressBar.CircularProgressBar"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#b9ffb4" />
+                        <ImageView
+                            android:id="@+id/smallheart"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            circular:srcCompat="@drawable/heartimage" />
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/DataValueHeart"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:gravity="top|center"
+                            android:text="50"
+                            android:textColor="#000000"
+                            android:textSize="40dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/BPMIndex"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/DataIndex2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="CO"
-                                android:textColor="#000000"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/DataValueCO"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="top"
-                                android:gravity="top"
-                                android:text="50"
-                                android:textColor="#000000"
-                                android:textSize="40dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity = "center"
-                        android:orientation="vertical">
-
-
-                        <Button
-                            android:layout_width="160dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/rounded_corner_button"
-                            android:text="Moderate"
-                            android:textColor="#ffffff"
+                            android:gravity="center"
+                            android:text="BPM"
+                            android:textColor="#000000"
+                            android:textSize="15dp"
                             android:textStyle="bold" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView36"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Concentration : "
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:id="@+id/concentrationValueCO"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="TextView"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:id="@+id/textView37"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" (ppm)"
-                                android:textColor="#000000" />
-
-                        </LinearLayout>
-
                     </LinearLayout>
-                </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/NO2Layout"
+                </FrameLayout>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="150dp" />
 
-                    <FrameLayout
-                        android:layout_marginLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-
-                        <com.lylc.widget.circularprogressbar.CircularProgressBar
-                            android:id="@+id/no2seekbar"
-                            style="@style/Widget.ProgressBar.CircularProgressBar"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#b9ffb4" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/DataIndex3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="NO2"
-                                android:textColor="#000000"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/DataValueNO2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="top"
-                                android:gravity="top"
-                                android:text="50"
-                                android:textColor="#000000"
-                                android:textSize="40dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-
-                        <Button
-                            android:layout_width="160dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/rounded_corner_button"
-                            android:text="Moderate"
-                            android:textColor="#ffffff"
-                            android:textStyle="bold" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView39"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Concentration : "
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:id="@+id/concentrationValueNO2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="TextView"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:id="@+id/textView40"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" (ppb)"
-                                android:textColor="#000000" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/O3Layout"
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_marginLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-
-                        <com.lylc.widget.circularprogressbar.CircularProgressBar
-                            android:id="@+id/o3seekbar"
-                            style="@style/Widget.ProgressBar.CircularProgressBar"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#b9ffb4" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/DataIndex4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="O3"
-                                android:textColor="#000000"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/DataValueO3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="top"
-                                android:gravity="top"
-                                android:text="50"
-                                android:textColor="#000000"
-                                android:textSize="40dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-
-                        <Button
-                            android:layout_width="160dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/rounded_corner_button"
-                            android:text="Moderate"
-                            android:textColor="#ffffff"
-                            android:textStyle="bold" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView45"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Concentration : "
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:id="@+id/concentrationValueO3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="TextView"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:id="@+id/textView41"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" (ppb)"
-                                android:textColor="#000000" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/SO2Layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_marginLeft="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-
-                        <com.lylc.widget.circularprogressbar.CircularProgressBar
-                            android:id="@+id/so2seekbar"
-                            style="@style/Widget.ProgressBar.CircularProgressBar"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#b9ffb4" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/DataIndex5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="SO2"
-                                android:textColor="#000000"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/DataValueSO2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="top"
-                                android:gravity="top"
-                                android:text="50"
-                                android:textColor="#000000"
-                                android:textSize="40dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-
-                        <Button
-                            android:layout_width="160dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/rounded_corner_button"
-                            android:text="Moderate"
-                            android:textColor="#ffffff"
-                            android:textStyle="bold" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView42"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Concentration : "
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:id="@+id/concentrationValueSO2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="TextView"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:id="@+id/textView43"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" (ppb)"
-                                android:textColor="#000000" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
+                    android:layout_height="150dp" />
 
             </LinearLayout>
 
