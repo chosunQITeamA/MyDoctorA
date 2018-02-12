@@ -3,6 +3,7 @@ package com.example.khseob0715.sanfirst.navi_fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,9 @@ public class Fragment_Account extends Fragment {
                 Toast.makeText(getContext(),"complete",Toast.LENGTH_SHORT).show();
             }
         });
+
+        String usn = getArguments().getString("usn");
+        Log.e("Account usn = " , usn);
 
         return rootView;
     }

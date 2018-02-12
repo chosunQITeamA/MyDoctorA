@@ -1,6 +1,7 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -112,10 +113,14 @@ public class ConfirmPW {
     public void changePW(int usn) {
         Fragment fragment = null;
         fragment = new Fragment_Account();
+
+        Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
+        bundle.putString("usn", String.valueOf(usn)); // key , value
+        fragment.setArguments(bundle);
+
         FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_fragment_layout, fragment);
         ft.commit();
-        Log.e("changepw", "Changepw");
     }
 }
 
