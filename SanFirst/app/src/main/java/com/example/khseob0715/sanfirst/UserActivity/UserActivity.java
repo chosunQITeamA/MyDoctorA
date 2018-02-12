@@ -25,16 +25,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.khseob0715.sanfirst.Dialog.Dialog_Password;
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.ConfirmPW;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Account;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AirMap;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_HRHistory;
-import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Main;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_MyDoctor;
-import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Profile;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothAQI;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
@@ -73,6 +71,9 @@ public class UserActivity extends AppCompatActivity
 
     private EditText passwordEdit_profile;
 
+    public static UserActivity UserActContext;
+    ConfirmPW confirmpw = new ConfirmPW();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +93,7 @@ public class UserActivity extends AppCompatActivity
         btchatFragment = new Fragment_TabMain();
         hrhistoryFragment = new Fragment_HRHistory();
         airqualfragment = new Fragment_AirMap();
-        accountFragment = new Fragment_AirMap();
+        accountFragment = new Fragment_Account();
         profileFragment = new Fragment_AirMap();
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -106,6 +107,7 @@ public class UserActivity extends AppCompatActivity
         startPolarsensor();
 
         // If the adapter is null, then Bluetooth is not supported
+        UserActContext = this;
     }
 
     private void getUserInfo() {
@@ -276,15 +278,7 @@ public class UserActivity extends AppCompatActivity
         alertDialog.setButton("Admit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (!passwordEdit.getText().toString().equals("")) {
-                    Fragment fragment = new Fragment();
-                    fragment = new Fragment_Account();
-                    String title = "Account Management";
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.content_fragment_layout, fragment);
-                    ft.commit();
-                    getSupportActionBar().setTitle(title);
-                }
+            confirmpw.Confirmpw_Asycn(usn, passwordEdit.getText().toString());
             }
         });
         alertDialog.show();
@@ -304,15 +298,7 @@ public class UserActivity extends AppCompatActivity
         alertDialog.setButton("Admit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (!passwordEdit.getText().toString().equals("")) {
-                    Fragment fragment = new Fragment();
-                    fragment = new Fragment_Profile();
-                    String title = "Profile Management";
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.content_fragment_layout, fragment);
-                    ft.commit();
-                    getSupportActionBar().setTitle(title);
-                }
+
             }
         });
 
