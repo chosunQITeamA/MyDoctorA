@@ -1,9 +1,13 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Account;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +21,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static com.example.khseob0715.sanfirst.UserActivity.UserActivity.UserActContext;
 
 
 /**
@@ -102,7 +108,14 @@ public class ConfirmPW {
         }
     }
 
-    private void changePW(int usn) {
+
+    public void changePW(int usn) {
+        Fragment fragment = null;
+        fragment = new Fragment_Account();
+        FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_fragment_layout, fragment);
+        ft.commit();
+        Log.e("changepw", "Changepw");
     }
 }
 
