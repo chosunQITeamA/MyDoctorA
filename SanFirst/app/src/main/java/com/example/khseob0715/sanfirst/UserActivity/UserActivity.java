@@ -278,7 +278,7 @@ public class UserActivity extends AppCompatActivity
         alertDialog.setButton("Admit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-            confirmpw.Confirmpw_Asycn(usn, passwordEdit.getText().toString());
+            confirmpw.Confirmpw_Asycn(1, usn, passwordEdit.getText().toString());
             }
         });
         alertDialog.show();
@@ -298,7 +298,7 @@ public class UserActivity extends AppCompatActivity
         alertDialog.setButton("Admit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                confirmpw.Confirmpw_Asycn(2, usn, passwordEdit.getText().toString());
             }
         });
 

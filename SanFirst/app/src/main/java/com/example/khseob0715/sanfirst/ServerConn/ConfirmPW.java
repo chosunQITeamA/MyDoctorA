@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Account;
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Profile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,17 +115,31 @@ public class ConfirmPW {
 
 
     public void changePW(int setfragment, int usn, String password) {   // setfragment는 Account냐 Profile이냐 구분해서 넘어가는 화면 다르게 할거임
-        Fragment fragment = null;
-        fragment = new Fragment_Account();
+        if(setfragment ==  1)   {
+            Fragment fragment = null;
+            fragment = new Fragment_Account();
 
-        Bundle bundle = new Bundle(2); // 파라미터는 전달할 데이터 개수
-        bundle.putString("usn", String.valueOf(usn)); // key , value
-        bundle.putString("pw", password ); // key , value
-        fragment.setArguments(bundle);
+            Bundle bundle = new Bundle(2); // 파라미터는 전달할 데이터 개수
+            bundle.putString("usn", String.valueOf(usn)); // key , value
+            bundle.putString("pw", password ); // key , value
+            fragment.setArguments(bundle);
 
-        FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_fragment_layout, fragment);
-        ft.commit();
+            FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_fragment_layout, fragment);
+            ft.commit();
+        }   else if (setfragment == 2)  {
+            Fragment fragment = null;
+            fragment = new Fragment_Profile();
+
+            Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
+            bundle.putString("usn", String.valueOf(usn)); // key , value
+            fragment.setArguments(bundle);
+
+            FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_fragment_layout, fragment);
+            ft.commit();
+        }
+
     }
 }
 
