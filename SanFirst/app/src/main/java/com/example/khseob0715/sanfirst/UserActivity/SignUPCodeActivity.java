@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,15 +18,17 @@ import com.example.khseob0715.sanfirst.R;
 public class SignUPCodeActivity extends AppCompatActivity implements Button.OnClickListener{
     private Button AdmitBtn;
     private TextView timeText,emailText;
+    private EditText verificationCode;
     private Handler Timelimit;
 
     private int StartTimeInt = 180;
-    private String e_mail;
+    private String e_mail, code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_code);
 
+        verificationCode = (EditText)findViewById(R.id.input_verifactioncode);
         AdmitBtn = (Button)findViewById(R.id.admitBtn);
         AdmitBtn.setOnClickListener(this);
 
@@ -37,7 +40,11 @@ public class SignUPCodeActivity extends AppCompatActivity implements Button.OnCl
         emailText = (TextView)findViewById(R.id.EmailText);
 
         Intent intent = getIntent();
-        e_mail = intent.getStringExtra("Email");
+        e_mail = intent.getStringExtra("email");
+        code = intent.getStringExtra("code");
+
+        Log.e("SignUPCode = ", e_mail + "/" + code);
+
         emailText.setText(e_mail);
     }
 
@@ -45,12 +52,17 @@ public class SignUPCodeActivity extends AppCompatActivity implements Button.OnCl
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.admitBtn:
-                Intent SignUP = new Intent(getApplicationContext(),SignUPActivity.class);
-                SignUP.putExtra("Email",e_mail);
-                startActivity(SignUP);
-                Timelimit.removeMessages(0); // Handler stop
-                finish();
-                break;
+                if(verificationCode.getText().toString().equals(code))   {
+                    Intent SignUP = new Intent(getApplicationContext(),SignUPActivity.class);
+                    SignUP.putExtra("Email",e_mail);
+                    startActivity(SignUP);
+                    Timelimit.removeMessages(0); // Handler stop
+                    finish();
+                    break;
+                }   else    {
+                    Toast.makeText(this, "Verification Code is Wrong", Toast.LENGTH_SHORT).show();
+                }
+
         }
     }
 

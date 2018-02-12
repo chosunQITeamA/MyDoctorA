@@ -6,7 +6,6 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -154,7 +153,7 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                     if(id.matches("^[_0-9a-zA-Z-]+@[0-9a-zA-Z-]+(.[_0-9a-zA-Z-]+)*$")) {
                         if (pw.equals(confirm_pw)) {
                             if (pw.matches(".*[0-9].*") && pw.matches(".*[a-z].*") && pw.length() >= 7) {
-                                signup.signin_Asycn(id, pw, fname, lname, Sgender, date, phonenum);
+                                signup.signup_Asycn(id, pw, fname, lname, Sgender, date, phonenum);
                                 Toast.makeText(this, "Sign Up Success\nLogin Please", Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {
