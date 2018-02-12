@@ -1,12 +1,11 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
-import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Account;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,6 +107,7 @@ public class ChangePW {
 
 
     public void changePW_Success() {
+        /*
         Fragment fragment = null;
         //fragment = new Fragment_TabMain();
         fragment = new Fragment_Account();
@@ -115,6 +115,9 @@ public class ChangePW {
         FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
         ft.remove(fragment);
         ft.commit();
+        */
+        Intent LoginPage = new Intent(UserActContext.getApplicationContext(), LoginActivity.class);
+        UserActContext.startActivity(LoginPage);
     }
 }
 

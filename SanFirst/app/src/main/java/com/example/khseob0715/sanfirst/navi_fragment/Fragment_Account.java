@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.ChangePW;
+import com.example.khseob0715.sanfirst.ServerConn.DeleteAccount;
 
 
 /**
@@ -21,7 +22,10 @@ import com.example.khseob0715.sanfirst.ServerConn.ChangePW;
 public class Fragment_Account extends Fragment {
 
     private EditText newPW, confirm_newPW;
+    private String pw;
+
     ChangePW changepw = new ChangePW();
+    DeleteAccount delaccount = new DeleteAccount();
 
     public Fragment_Account() {
         // Required empty public constructor
@@ -39,7 +43,7 @@ public class Fragment_Account extends Fragment {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getContext(),"complete",Toast.LENGTH_SHORT).show();
+                account_delete();
             }
         });
 
@@ -53,12 +57,17 @@ public class Fragment_Account extends Fragment {
 
         String usnS = getArguments().getString("usn");
         usn = Integer.valueOf(usnS);
-        Log.e("Account usn = " , String.valueOf(usn));
+        pw = getArguments().getString("pw");
+        Log.e("Account usn = " , String.valueOf(usn) +"/"+ pw);
 
         newPW = (EditText) rootView.findViewById(R.id.newPW);
         confirm_newPW = (EditText)rootView.findViewById(R.id.confirm_newPW);
 
         return rootView;
+    }
+
+    private void account_delete() {
+        delaccount.DeleteAccount_Asycn(usn, pw);
     }
 
 

@@ -71,32 +71,6 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        confirmGPSOnOff();
-    }
-
-    public void confirmGPSOnOff(){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-        alertDialog.setTitle("GPS Setting");
-        alertDialog.setMessage("GPS not setting \nGo to the setting menu?");
-
-                // OK 를 누르게 되면 설정창으로 이동합니다.
-                alertDialog.setPositiveButton("Settings",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int which) {
-                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                getActivity().startActivity(intent);
-                            }
-                        });
-        // Cancle 하면 종료 합니다.
-        alertDialog.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-        alertDialog.show();
     }
 
     @Nullable
