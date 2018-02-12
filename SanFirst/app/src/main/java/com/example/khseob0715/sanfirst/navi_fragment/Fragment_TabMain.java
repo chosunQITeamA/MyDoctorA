@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
@@ -50,6 +52,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     private CircularProgressBar o3_seekbar;
     private CircularProgressBar no2_seekbar;
     private CircularProgressBar pm25_seekbar;
+    private CircularProgressBar heart_seekbar;
 
     private LineChart mChart;
     private LineChart mChart2;
@@ -62,6 +65,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
 
     private Drawable alphaPM, alphaCO, alphaO3, alphaNO2, alphaSO2;
 
+    private TextView HeartRateText;
     UserActivity mainclass = new UserActivity();
 
     GoogleMap map;
@@ -69,6 +73,9 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     public static Double lat = 32.882499;
     public static Double lon = -117.234644;
 
+
+    public static int heart_rate_value = 0, rr_rate_value = 00;
+    private int heart_start = 0;
     public Fragment_TabMain() {
         // Required empty public constructor
     }
@@ -102,6 +109,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         o3_seekbar = (CircularProgressBar) view.findViewById(R.id.o3seekbar);
         no2_seekbar = (CircularProgressBar) view.findViewById(R.id.no2seekbar);
         pm25_seekbar = (CircularProgressBar) view.findViewById(R.id.pm25seekbar);
+        heart_seekbar = (CircularProgressBar)view.findViewById(R.id.heartseekbar);
 
         PMLayout = (LinearLayout) view.findViewById(R.id.PMLayout);
         COLayout = (LinearLayout) view.findViewById(R.id.COLayout);
@@ -140,6 +148,8 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         mChart2 = (LineChart)view.findViewById(R.id.chart2);
 
         Heart = (ImageView)view.findViewById(R.id.smallheart);
+
+        HeartRateText = (TextView)view.findViewById(R.id.DataValueHeart);
 
         Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.wave);
         animation.setRepeatCount(Animation.INFINITE);
@@ -186,6 +196,8 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         mapView = (MapView) view.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
 
+        startSubThread();
+
         if(mapView != null) {
             mapView.onCreate(savedInstanceState);
         }
@@ -228,9 +240,9 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     private void visible_layout(int a, int b, int c, int d, int e) {
         PMLayout.setVisibility(a);
         COLayout.setVisibility(b);
-        O3Layout.setVisibility(c);
-        SO2Layout.setVisibility(d);
-        NO2Layout.setVisibility(e);
+        NO2Layout.setVisibility(c);
+        O3Layout.setVisibility(d);
+        SO2Layout.setVisibility(e);
     }
 
 
@@ -281,8 +293,8 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
             data2.addDataSet(set2);
         }
 
-        data.addEntry(new Entry(set1.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
-        data2.addEntry(new Entry(set1.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
+        data.addEntry(new Entry(set1.getEntryCount(), heart_rate_value), 0);
+        data2.addEntry(new Entry(set1.getEntryCount(),rr_rate_value), 0);
 
         data.notifyDataChanged();                                      // data의 값 변동을 감지함
         data2.notifyDataChanged();
@@ -428,4 +440,59 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
     }
+
+    // aqi seekbar
+    public void seekani(int startval, int endval) {
+        heart_seekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
+            @Override
+            public void onAnimationStart() {
+            }
+
+            @Override
+            public void onAnimationProgress(int progress) {
+            }
+
+            @Override
+            public void onAnimationFinish() {
+            }
+        });
+    }
+
+    public void startSubThread() {
+        //작업스레드 생성(매듭 묶는과정)
+        heartHandler aqiRunnable = new heartHandler();
+        Thread aqiThread = new Thread(aqiRunnable);
+        aqiThread.setDaemon(true);
+        aqiThread.start();
+    }
+
+    android.os.Handler receivehearthandler = new android.os.Handler() {
+        public void handleMessage(Message msg) {
+            //if (msg.what == 0) {
+              //  for(int i=0; i<=4; i++) {
+                    //aqiend[i] = mainclass.getAQIvalue(i);
+                    seekani(heart_start, heart_rate_value);
+                    heart_start = heart_rate_value;
+                    //}
+            //}
+        }
+    };
+
+    public class heartHandler implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                Message msg = Message.obtain();
+                msg.what = 0;
+                receivehearthandler.sendMessage(msg);
+                try {
+                    Thread.sleep(1000); // 갱신주기 1초
+
+                    HeartRateText.setText(String.valueOf(heart_rate_value));
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+
 }

@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 
 import java.util.StringTokenizer;
 
@@ -100,7 +101,8 @@ public class PolarSensor extends Service {
                 int rrValue = Integer.parseInt(tokens.nextToken());
                 long sid = Long.parseLong(tokens.nextToken());
 
-                UserActivity.heartratevalue = hr;
+                Fragment_TabMain.heart_rate_value = hr;
+                Fragment_TabMain.rr_rate_value = rrValue;
 
             }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
                 //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);

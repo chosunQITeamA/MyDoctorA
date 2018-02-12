@@ -77,21 +77,24 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
                 selectUser.setChecked(true);
                 selectDoctor.setChecked(false);
                 break;
+
             case R.id.DoctorSelect:
                 selectUser.setChecked(false);
                 selectDoctor.setChecked(true);
                 break;
+
             case R.id.sign_in_btn:
                 String Id = inputID.getText().toString();
                 String PW = inputPW.getText().toString();
 
                 signIn.signin_Asycn(Id, PW);
-
                 break;
+
             case R.id.sign_up_btn:
                 Intent SignUPIntent = new Intent(getApplicationContext(),SignUPEmailActivity.class);
                 startActivity(SignUPIntent);
                 break;
+
             case R.id.FindPasswordText:
                 Intent FindPWIntent = new Intent(getApplicationContext(),FindPWActivity.class);
                 startActivity(FindPWIntent);
