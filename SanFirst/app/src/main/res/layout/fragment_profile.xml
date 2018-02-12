@@ -158,45 +158,6 @@
                 android:textSize="18sp" />
 
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:text="Gender"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/maleRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:shadowColor="@color/circular_progress_default_background"
-                    android:text="Male"
-                    android:textColor="#000000"
-                    android:theme="@style/MyCheckBox" />
-
-                <RadioButton
-                    android:id="@+id/femaleRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:shadowColor="@color/circular_progress_default_background"
-                    android:text="Female"
-                    android:textColor="#000000"
-                    android:theme="@style/MyCheckBox" />
-
-            </LinearLayout>
-
             <Button
                 android:id="@+id/button2"
                 style="@style/Widget.AppCompat.Button.Colored"
