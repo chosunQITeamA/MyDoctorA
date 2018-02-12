@@ -36,58 +36,11 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="top"
-                    android:layout_margin="10dp"
-                    android:gravity="top"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/PM_Cloud"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        circular:srcCompat="@drawable/cloud1" />
-
-                    <ImageView
-                        android:id="@+id/CO_Cloud"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        circular:srcCompat="@drawable/cloud2" />
-
-                    <ImageView
-                        android:id="@+id/NO_Cloud"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        circular:srcCompat="@drawable/cloud3" />
-
-                    <ImageView
-                        android:id="@+id/O_Cloud"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        circular:srcCompat="@drawable/cloud4" />
-
-                    <ImageView
-                        android:id="@+id/SO_Cloud"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        circular:srcCompat="@drawable/cloud5" />
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/O3Layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <FrameLayout
@@ -107,6 +60,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+
                             android:orientation="vertical">
 
                             <TextView
@@ -140,7 +94,6 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-
                         <Button
                             android:layout_width="160dp"
                             android:layout_height="40dp"
@@ -151,19 +104,11 @@
                             android:textStyle="bold" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView45"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Concentration : "
-                                android:textColor="#000000" />
 
                             <TextView
                                 android:id="@+id/concentrationValueO3"
@@ -189,11 +134,12 @@
                     android:id="@+id/SO2Layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp">
 
                         <com.lylc.widget.circularprogressbar.CircularProgressBar
@@ -252,19 +198,11 @@
                             android:textStyle="bold" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView42"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Concentration : "
-                                android:textColor="#000000" />
 
                             <TextView
                                 android:id="@+id/concentrationValueSO2"
@@ -290,6 +228,7 @@
                     android:id="@+id/NO2Layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <FrameLayout
@@ -353,19 +292,11 @@
                             android:textStyle="bold" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView39"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Concentration : "
-                                android:textColor="#000000" />
 
                             <TextView
                                 android:id="@+id/concentrationValueNO2"
@@ -390,6 +321,7 @@
                     android:id="@+id/COLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <FrameLayout
@@ -442,7 +374,6 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-
                         <Button
                             android:layout_width="160dp"
                             android:layout_height="40dp"
@@ -453,19 +384,11 @@
                             android:textStyle="bold" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView36"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Concentration : "
-                                android:textColor="#000000" />
 
                             <TextView
                                 android:id="@+id/concentrationValueCO"
@@ -490,6 +413,7 @@
                     android:id="@+id/PMLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <FrameLayout
@@ -554,19 +478,11 @@
                             android:textStyle="bold" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView35"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Concentration : "
-                                android:textColor="#000000" />
 
                             <TextView
                                 android:id="@+id/concentrationValuePM"
@@ -588,6 +504,77 @@
 
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:gravity="top"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/PM_Cloud"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="0"
+                            circular:srcCompat="@drawable/cloud1" />
+
+                        <ImageView
+                            android:id="@+id/CO_Cloud"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="0"
+                            circular:srcCompat="@drawable/cloud2" />
+
+                        <ImageView
+                            android:id="@+id/NO_Cloud"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="0"
+                            circular:srcCompat="@drawable/cloud3" />
+
+                        <ImageView
+                            android:id="@+id/O_Cloud"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="0"
+                            circular:srcCompat="@drawable/cloud4" />
+
+                        <ImageView
+                            android:id="@+id/SO_Cloud"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="0"
+                            circular:srcCompat="@drawable/cloud5" />
+
+                        <TextView
+                            android:id="@+id/textView39"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:text="15℃"
+                            android:textColor="#000000"
+                            android:textSize="26dp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/mapView"
                     android:layout_width="match_parent"
@@ -595,7 +582,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="0"
                     android:background="@color/colorPrimary" />
-
 
             </LinearLayout>
 
