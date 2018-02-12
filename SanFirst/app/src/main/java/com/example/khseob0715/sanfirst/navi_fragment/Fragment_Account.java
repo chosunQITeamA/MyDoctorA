@@ -55,8 +55,7 @@ public class Fragment_Account extends Fragment {
             }
         });
 
-        String usnS = getArguments().getString("usn");
-        usn = Integer.valueOf(usnS);
+        usn = getArguments().getInt("usn");
         pw = getArguments().getString("pw");
         Log.e("Account usn = " , String.valueOf(usn) +"/"+ pw);
 

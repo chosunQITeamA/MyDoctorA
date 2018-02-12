@@ -31,7 +31,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView23"
+                android:id="@+id/Email_editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -90,7 +90,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/Fname_editText"
                     android:layout_width="150dp"
                     android:layout_height="45dp"
                     android:layout_marginRight="20dp"
@@ -102,7 +102,7 @@
                     android:textColorHint="#aeaeae" />
 
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/Lname_editText"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:layout_weight="1"
@@ -124,16 +124,70 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/editText3"
+            <LinearLayout
                 android:layout_width="270dp"
                 android:layout_height="45dp"
-                android:background="@drawable/edit_text_design"
-                android:ems="10"
-                android:hint="Input phone number"
-                android:inputType="text"
-                android:textColor="#aeaeae"
-                android:textColorHint="#aeaeae" />
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/phone_editText1"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/edit_text_design"
+                    android:ems="10"
+                    android:hint="Input phone number"
+                    android:inputType="text"
+                    android:textColor="#aeaeae"
+                    android:textColorHint="#aeaeae" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal|center"
+                    android:text="-"
+                    android:textColor="#000000"
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/phone_editText2"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/edit_text_design"
+                    android:ems="10"
+                    android:hint="Input phone number"
+                    android:inputType="text"
+                    android:textColor="#aeaeae"
+                    android:textColorHint="#aeaeae" />
+
+                <TextView
+                    android:id="@+id/textView48"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal|center"
+                    android:text="-"
+                    android:textColor="#000000"
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/phone_editText3"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/edit_text_design"
+                    android:ems="10"
+                    android:hint="Input phone number"
+                    android:inputType="text"
+                    android:textColor="#aeaeae"
+                    android:textColorHint="#aeaeae" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView7"
@@ -159,7 +213,7 @@
 
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/update_profile_btn"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"

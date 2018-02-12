@@ -45,6 +45,7 @@ public class ConfirmPW {
 
             @Override
             protected String doInBackground(UserActivity... mainActivities) {
+                setfragment = fragment;
                 ConfirmPW.ConnectServer connectServerPost = new ConfirmPW.ConnectServer();
                 connectServerPost.requestPost(url, usn, PW);
                 return responseBody;
@@ -52,7 +53,6 @@ public class ConfirmPW {
 
             @Override
             protected void onPreExecute() {
-                setfragment = fragment;
                 super.onPreExecute();
             }
 
@@ -67,7 +67,7 @@ public class ConfirmPW {
     class ConnectServer {
         //Client 생성
 
-        public int requestPost(String url, final int usn, final String password) {
+        public int requestPost(final String url, final int usn, final String password) {
 
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
@@ -97,7 +97,20 @@ public class ConfirmPW {
                         String Message = jsonObject.getString("message");
 
                         if(Message.equals("Success"))   {
-                            changePW(setfragment, usn, password);
+                            if(setfragment ==  1)   {
+                                Log.e("changePW", "changePW");
+                                changePW(usn, password);
+                            }   else if (setfragment == 2)  {
+                                Log.e("changeProfile", "changeProfile");
+                                String email = jsonObject.getString("email");
+                                String Fname = jsonObject.getString("fname");
+                                String Lname = jsonObject.getString("lname");
+                                String Phone = jsonObject.getString("phone");
+                                String Birth = jsonObject.getString("birth");
+
+                                changeprofile(usn, email, Fname, Lname, Phone, Birth);
+                            }
+
                         }
 
                     } catch (IOException e) {
@@ -114,32 +127,37 @@ public class ConfirmPW {
     }
 
 
-    public void changePW(int setfragment, int usn, String password) {   // setfragment는 Account냐 Profile이냐 구분해서 넘어가는 화면 다르게 할거임
-        if(setfragment ==  1)   {
-            Fragment fragment = null;
-            fragment = new Fragment_Account();
+    public void changePW(int usn, String password) {   // setfragment는 Account냐 Profile이냐 구분해서 넘어가는 화면 다르게 할거임
 
-            Bundle bundle = new Bundle(2); // 파라미터는 전달할 데이터 개수
-            bundle.putString("usn", String.valueOf(usn)); // key , value
-            bundle.putString("pw", password ); // key , value
-            fragment.setArguments(bundle);
+        Fragment fragment = null;
+        fragment = new Fragment_Account();
 
-            FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_fragment_layout, fragment);
-            ft.commit();
-        }   else if (setfragment == 2)  {
-            Fragment fragment = null;
-            fragment = new Fragment_Profile();
+        Bundle bundle = new Bundle(2); // 파라미터는 전달할 데이터 개수
+        bundle.putInt("usn", usn); // key , value
+        bundle.putString("pw", password ); // key , value
+        fragment.setArguments(bundle);
 
-            Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
-            bundle.putString("usn", String.valueOf(usn)); // key , value
-            fragment.setArguments(bundle);
+        FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_fragment_layout, fragment);
+        ft.commit();
 
-            FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_fragment_layout, fragment);
-            ft.commit();
-        }
+    }
+    public void changeprofile(int usn, String email, String Fname, String Lname, String phone, String birth)  {
+        Fragment fragment = null;
+        fragment = new Fragment_Profile();
 
+        Bundle bundle = new Bundle(2); // 파라미터는 전달할 데이터 개수
+        bundle.putInt("usn", usn); // key , value
+        bundle.putString("email", email); // key , value
+        bundle.putString("fname", Fname);
+        bundle.putString("lname", Lname);
+        bundle.putString("phone", phone);
+        bundle.putString("birth", birth);
+        fragment.setArguments(bundle);
+
+        FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_fragment_layout, fragment);
+        ft.commit();
     }
 }
 
