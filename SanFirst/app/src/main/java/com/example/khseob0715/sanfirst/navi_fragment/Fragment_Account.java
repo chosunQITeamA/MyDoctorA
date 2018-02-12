@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.ChangePW;
 
 
 /**
@@ -18,10 +20,14 @@ import com.example.khseob0715.sanfirst.R;
  */
 public class Fragment_Account extends Fragment {
 
+    private EditText newPW, confirm_newPW;
+    ChangePW changepw = new ChangePW();
+
     public Fragment_Account() {
         // Required empty public constructor
     }
 
+    int usn = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,14 +47,29 @@ public class Fragment_Account extends Fragment {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"complete",Toast.LENGTH_SHORT).show();
+                account_updatePW();
             }
         });
 
-        String usn = getArguments().getString("usn");
-        Log.e("Account usn = " , usn);
+        String usnS = getArguments().getString("usn");
+        usn = Integer.valueOf(usnS);
+        Log.e("Account usn = " , String.valueOf(usn));
+
+        newPW = (EditText) rootView.findViewById(R.id.newPW);
+        confirm_newPW = (EditText)rootView.findViewById(R.id.confirm_newPW);
 
         return rootView;
     }
 
+
+    public void account_updatePW() {
+        if(newPW.getText().toString().equals(confirm_newPW.getText().toString()))   {
+            Toast.makeText(getContext(),"complete",Toast.LENGTH_SHORT).show();
+            changepw.changepw_Asycn(usn, newPW.getText().toString());
+        }   else    {
+            Toast.makeText(getContext(), "Password is different", Toast.LENGTH_SHORT).show();
+            Log.e("PW confirm", newPW +"/"+ confirm_newPW);
+        }
+
+    }
 }
