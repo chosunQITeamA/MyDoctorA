@@ -45,14 +45,11 @@ import com.lylc.widget.circularprogressbar.CircularProgressBar;
 
 import static android.location.LocationManager.GPS_PROVIDER;
 
-public class Fragment_TabMain extends Fragment implements  View.OnClickListener , OnMapReadyCallback{
+public class Fragment_TabMain extends Fragment implements View.OnClickListener, OnMapReadyCallback {
 
-    private CircularProgressBar co_seekbar;
-    private CircularProgressBar so2_seekbar;
-    private CircularProgressBar o3_seekbar;
-    private CircularProgressBar no2_seekbar;
-    private CircularProgressBar pm25_seekbar;
+    private CircularProgressBar co_seekbar, so2_seekbar, o3_seekbar, no2_seekbar, pm25_seekbar;
     private CircularProgressBar heart_seekbar;
+    public static int heart_rate_value = 50, rr_rate_value = 00;
 
     private LineChart mChart;
     private LineChart mChart2;
@@ -66,6 +63,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     private Drawable alphaPM, alphaCO, alphaO3, alphaNO2, alphaSO2;
 
     private TextView HeartRateText;
+
     UserActivity mainclass = new UserActivity();
 
     GoogleMap map;
@@ -73,9 +71,10 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     public static Double lat = 32.882499;
     public static Double lon = -117.234644;
 
+    private TextView CC_Value_SO2, CC_Value_NO2, CC_Value_O3, CC_Value_PM, CC_Value_CO;
 
-    public static int heart_rate_value = 0, rr_rate_value = 00;
     private int heart_start = 0;
+
     public Fragment_TabMain() {
         // Required empty public constructor
     }
@@ -109,7 +108,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         o3_seekbar = (CircularProgressBar) view.findViewById(R.id.o3seekbar);
         no2_seekbar = (CircularProgressBar) view.findViewById(R.id.no2seekbar);
         pm25_seekbar = (CircularProgressBar) view.findViewById(R.id.pm25seekbar);
-        heart_seekbar = (CircularProgressBar)view.findViewById(R.id.heartseekbar);
+        heart_seekbar = (CircularProgressBar) view.findViewById(R.id.heartseekbar);
 
         PMLayout = (LinearLayout) view.findViewById(R.id.PMLayout);
         COLayout = (LinearLayout) view.findViewById(R.id.COLayout);
@@ -145,44 +144,24 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         alphaSO2.setAlpha(50);
 
         mChart = (LineChart) view.findViewById(R.id.chart);
-        mChart2 = (LineChart)view.findViewById(R.id.chart2);
+        mChart2 = (LineChart) view.findViewById(R.id.chart2);
 
-        Heart = (ImageView)view.findViewById(R.id.smallheart);
+        Heart = (ImageView) view.findViewById(R.id.smallheart);
 
-        HeartRateText = (TextView)view.findViewById(R.id.DataValueHeart);
+        HeartRateText = (TextView) view.findViewById(R.id.DataValueHeart);
 
-        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.wave);
+        CC_Value_CO = (TextView) view.findViewById(R.id.concentrationValueCO);
+        CC_Value_NO2 = (TextView) view.findViewById(R.id.concentrationValueNO2);
+        CC_Value_SO2 = (TextView) view.findViewById(R.id.concentrationValueSO2);
+        CC_Value_O3 = (TextView) view.findViewById(R.id.concentrationValueO3);
+        CC_Value_PM = (TextView) view.findViewById(R.id.concentrationValuePM);
+
+
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.wave);
         animation.setRepeatCount(Animation.INFINITE);
         Heart.startAnimation(animation);
 
-        // 차트의 아래 Axis
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
-       // xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
-        xAxis.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
-
-        // 차트의 왼쪽 Axis
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
-
-        // 차트의 오른쪽 Axis
-        YAxis rightAxis = mChart.getAxisRight();
-        rightAxis.setEnabled(false); // rightAxis를 비활성화 함
-
-
-        // 차트의 아래 Axis
-        XAxis xAxis2 = mChart2.getXAxis();
-        xAxis2.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
-        // xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
-        xAxis2.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
-
-        // 차트의 왼쪽 Axis
-        YAxis leftAxis2 = mChart2.getAxisLeft();
-        leftAxis2.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
-
-        // 차트의 오른쪽 Axis
-        YAxis rightAxis2 = mChart2.getAxisRight();
-        rightAxis2.setEnabled(false); // rightAxis를 비활성화 함
+        chart_setting();
 
 
         LineData data = new LineData();
@@ -198,35 +177,66 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
 
         startSubThread();
 
-        if(mapView != null) {
+        if (mapView != null) {
             mapView.onCreate(savedInstanceState);
         }
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.PM_Cloud:
-                alpha_setting(255,50,50,50,50);
+                alpha_setting(255, 50, 50, 50, 50);
                 visible_layout(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE);
                 break;
             case R.id.CO_Cloud:
-                alpha_setting(50,255,50,50,50);
+                alpha_setting(50, 255, 50, 50, 50);
                 visible_layout(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE);
                 break;
             case R.id.NO_Cloud:
-                alpha_setting(50,50,255,50,50);
+                alpha_setting(50, 50, 255, 50, 50);
                 visible_layout(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE);
                 break;
             case R.id.O_Cloud:
-                alpha_setting(50,50,50,255,50);
+                alpha_setting(50, 50, 50, 255, 50);
                 visible_layout(View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE);
                 break;
             case R.id.SO_Cloud:
-                alpha_setting(50,50,50,50,255);
+                alpha_setting(50, 50, 50, 50, 255);
                 visible_layout(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 break;
         }
+    }
+
+    private void chart_setting() {
+        // 차트의 아래 Axis
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
+        // xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
+        xAxis.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
+
+        // 차트의 왼쪽 Axis
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
+
+        // 차트의 오른쪽 Axis
+        YAxis rightAxis = mChart.getAxisRight();
+        rightAxis.setEnabled(false); // rightAxis를 비활성화 함
+
+        // 차트의 아래 Axis
+        XAxis xAxis2 = mChart2.getXAxis();
+        xAxis2.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
+        // xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
+        xAxis2.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
+
+        // 차트의 왼쪽 Axis
+        YAxis leftAxis2 = mChart2.getAxisLeft();
+        leftAxis2.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
+
+        // 차트의 오른쪽 Axis
+        YAxis rightAxis2 = mChart2.getAxisRight();
+        rightAxis2.setEnabled(false); // rightAxis를 비활성화 함
     }
 
     private void alpha_setting(int a, int b, int c, int d, int e) {
@@ -284,17 +294,17 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
 
         if (set1 == null) {
             // creation of null
-            set1 = createSet(Color.parseColor("#FFFF7A87"),"Heart-Rate");
+            set1 = createSet(Color.parseColor("#FFFF7A87"), "Heart-Rate");
             data.addDataSet(set1);
         }
 
-        if(set2 == null){
-            set2 = createSet(Color.parseColor("#FFFF7A87"),"RR-Rate");
+        if (set2 == null) {
+            set2 = createSet(Color.parseColor("#FFFF7A87"), "RR-Rate");
             data2.addDataSet(set2);
         }
 
         data.addEntry(new Entry(set1.getEntryCount(), heart_rate_value), 0);
-        data2.addEntry(new Entry(set1.getEntryCount(),rr_rate_value), 0);
+        data2.addEntry(new Entry(set1.getEntryCount(), rr_rate_value), 0);
 
         data.notifyDataChanged();                                      // data의 값 변동을 감지함
         data2.notifyDataChanged();
@@ -372,8 +382,8 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     }
 
     private void StartLocationService() {
-        Log.e("startLocationService","startLocationService");
-        LocationManager manager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Log.e("startLocationService", "startLocationService");
+        LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         GPSListener gpsListener = new GPSListener();
         long minTime = 10000;
         float minDistance = 0;
@@ -399,7 +409,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
                 Double latitude = lastLocation.getLatitude();
                 Double longitude = lastLocation.getLongitude();
 
-                Toast.makeText(getActivity(), "Lat:"+latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
             }
         } catch (SecurityException e) {
             e.printStackTrace();
@@ -408,7 +418,7 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
     }
 
 
-    private class GPSListener implements LocationListener{
+    private class GPSListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
             lat = location.getLatitude();
@@ -441,9 +451,10 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
     }
 
+
     // aqi seekbar
-    public void seekani(int startval, int endval) {
-        heart_seekbar.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
+    public void seekani(CircularProgressBar item, int startval, int endval) {
+        item.animateProgressTo(startval, endval, new CircularProgressBar.ProgressAnimationListener() {
             @Override
             public void onAnimationStart() {
             }
@@ -456,6 +467,8 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
             public void onAnimationFinish() {
             }
         });
+
+
     }
 
     public void startSubThread() {
@@ -468,13 +481,21 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
 
     android.os.Handler receivehearthandler = new android.os.Handler() {
         public void handleMessage(Message msg) {
-            //if (msg.what == 0) {
-              //  for(int i=0; i<=4; i++) {
-                    //aqiend[i] = mainclass.getAQIvalue(i);
-                    seekani(heart_start, heart_rate_value);
-                    heart_start = heart_rate_value;
-                    //}
-            //}
+
+            seekani(heart_seekbar, heart_start, heart_rate_value);
+            seekani(co_seekbar, heart_start, heart_rate_value);
+            seekani(no2_seekbar, heart_start, heart_rate_value);
+            seekani(o3_seekbar, heart_start, heart_rate_value);
+            seekani(so2_seekbar, heart_start, heart_rate_value);
+            seekani(pm25_seekbar, heart_start, heart_rate_value);
+
+            heart_start = heart_rate_value;
+            CC_Value_CO.setText(String.valueOf(heart_rate_value));
+            CC_Value_PM.setText(String.valueOf(heart_rate_value));
+            CC_Value_NO2.setText(String.valueOf(heart_rate_value));
+            CC_Value_SO2.setText(String.valueOf(heart_rate_value));
+            CC_Value_O3.setText(String.valueOf(heart_rate_value));
+            HeartRateText.setText(String.valueOf(heart_rate_value));
         }
     };
 
@@ -487,12 +508,9 @@ public class Fragment_TabMain extends Fragment implements  View.OnClickListener 
                 receivehearthandler.sendMessage(msg);
                 try {
                     Thread.sleep(1000); // 갱신주기 1초
-
-                    HeartRateText.setText(String.valueOf(heart_rate_value));
                 } catch (Exception e) {
                 }
             }
         }
     }
-
 }

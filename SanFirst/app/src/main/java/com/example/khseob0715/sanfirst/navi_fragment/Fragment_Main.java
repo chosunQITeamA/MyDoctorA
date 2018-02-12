@@ -144,7 +144,7 @@ public class Fragment_Main extends Fragment {
     }
 
 
-    //---------------------------------------------------------------------- heartrate threat
+    //heartrate threat
     public void startSubThread() {
         //작업스레드 생성(매듭 묶는과정)
         MyRunnable2 aqiRunnable = new MyRunnable2();
