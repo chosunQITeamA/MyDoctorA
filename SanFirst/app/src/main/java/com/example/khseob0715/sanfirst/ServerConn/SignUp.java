@@ -1,12 +1,18 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.khseob0715.sanfirst.Dialog.Dialog_Password;
+import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
 import com.example.khseob0715.sanfirst.UserActivity.SignUPActivity;
 import com.example.khseob0715.sanfirst.UserActivity.SignUPCodeActivity;
 import com.example.khseob0715.sanfirst.UserActivity.SignUPEmailActivity;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +34,8 @@ import static com.example.khseob0715.sanfirst.UserActivity.SignUPEmailActivity.S
  */
 
 public class SignUp {
+
+
     OkHttpClient client = new OkHttpClient();
 
     public static String responseBody = null;
@@ -115,24 +123,42 @@ public class SignUp {
                         if(Message.equals("Success")) {
                             String code = jsonObject.getString("code");
                             signup_email_Success(email, code);
+                            SignUPEmailActivity.Duplicate_check = 0;
 
                         }   else    {
+
+                            SignUPEmailActivity aActivity = (SignUPEmailActivity)SignUPEmailActivity.AActivity;
+
+                            SignUPEmailActivity.Duplicate_check = 1;
+
+                            Intent intent = new Intent(SignupEmailContext.getApplicationContext(), SignUPEmailActivity.class);
+                            aActivity.finish();
+
+                            SignupEmailContext.startActivity(intent);
+
                             Log.e("SignUp_Email = ", Message);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
+                        SignUPEmailActivity aActivity = (SignUPEmailActivity)SignUPEmailActivity.AActivity;
+
+                        SignUPEmailActivity.Duplicate_check = 1;
+
+                        Intent intent = new Intent(SignupEmailContext.getApplicationContext(), SignUPEmailActivity.class);
+                        aActivity.finish();
+
+                        SignupEmailContext.startActivity(intent);
                         e.printStackTrace();
                     }
-                    //Log.e("aaaa", "Response Body is " + response.body().string());
-
                 }
             });
             return 0;
         }
 
-        public int requestPost(String url, String email, String pwd, String fname, String lname, String gender, String birth, String phone) {
 
+
+        public int requestPost(String url, String email, String pwd, String fname, String lname, String gender, String birth, String phone) {
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
                     .add("email", email)
@@ -179,6 +205,7 @@ public class SignUp {
         }
     }
 
+
     private void signup_email_Success(String email, String code) {
         Intent intent = new Intent(SignupEmailContext.getApplicationContext(), SignUPCodeActivity.class);
         intent.putExtra("email", email);
@@ -187,7 +214,4 @@ public class SignUp {
         SignupEmailContext.startActivity(intent);
     }
 
-    private void findPW_email_Success(int usn, String email, String code)   {
-
-    }
 }

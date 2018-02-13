@@ -36,10 +36,12 @@ public class Fragment_Account extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_account, container, false);
 
         Button deleteBtn = (Button)rootView.findViewById(R.id.idDeleteBtn);
+
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

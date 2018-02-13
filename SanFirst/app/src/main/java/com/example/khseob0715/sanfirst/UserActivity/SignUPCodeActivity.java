@@ -1,6 +1,7 @@
 package com.example.khseob0715.sanfirst.UserActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +38,13 @@ public class SignUPCodeActivity extends AppCompatActivity implements Button.OnCl
         Timelimit = new Handler();
         Timelimit.postDelayed(new TimeLimit(),1000);
 
+        new AlertDialog.Builder(this)
+                .setTitle("Send an E-mail")
+                .setMessage("An email was sent containing \nthe verification code. \nEnter verification code in 3 minutes.")
+                .setNegativeButton("Admit",null)
+                .setCancelable(false)
+                .show();
+
         emailText = (TextView)findViewById(R.id.EmailText);
 
         Intent intent = getIntent();
@@ -53,16 +61,30 @@ public class SignUPCodeActivity extends AppCompatActivity implements Button.OnCl
         switch (view.getId()){
             case R.id.admitBtn:
                 if(verificationCode.getText().toString().equals(code))   {
+
                     Intent SignUP = new Intent(getApplicationContext(),SignUPActivity.class);
                     SignUP.putExtra("Email",e_mail);
+
                     startActivity(SignUP);
+
                     Timelimit.removeMessages(0); // Handler stop
                     finish();
-                    break;
-                }   else    {
-                    Toast.makeText(this, "Verification Code is Wrong", Toast.LENGTH_SHORT).show();
-                }
 
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Verification Code Error")
+                            .setMessage("Verification code is wrong. \nPlease re-enter")
+                            .setNegativeButton("Admit",null)
+                            .setPositiveButton("Resend", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
+                }
+                break;
         }
     }
 
@@ -74,16 +96,18 @@ public class SignUPCodeActivity extends AppCompatActivity implements Button.OnCl
             if(StartTimeInt > 0) {
                 Timelimit.postDelayed(new TimeLimit(), 1000);
             }else{
-                new AlertDialog.Builder(getApplicationContext())
-                        .setTitle("Time Out")
-                        .setMessage("Validation code input timeout")
-                        .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        })
-                        .show();
+//                Timelimit.removeMessages(0); // Handler stop
+//                new AlertDialog.Builder(this)
+//                        .setTitle("Time Out")
+//                        .setMessage("Validation code input timeout")
+//                        .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                finish();
+//                            }
+//                        })
+//                        .show();
+                finish();
             }
         }
     }

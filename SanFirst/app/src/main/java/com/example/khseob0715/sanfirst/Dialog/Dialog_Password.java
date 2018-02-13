@@ -14,18 +14,11 @@ import com.example.khseob0715.sanfirst.R;
  * Created by Aiden on 2018-02-11.
  */
 
-public class Dialog_Password extends Dialog implements View.OnClickListener {
+public class Dialog_Password extends Dialog {
     private static final int LAYOUT = R.layout.dialog_password;
-
-    private Context context;
-
-    private TextInputEditText Password_Input;
-    private TextView Title;
-
 
     public Dialog_Password(@NonNull Context context) {
         super(context);
-        this.context = context;
     }
 
     @Override
@@ -33,11 +26,5 @@ public class Dialog_Password extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
     }
-
-    @Override
-    public void onClick(View view) {
-
-    }
-
 
 }
