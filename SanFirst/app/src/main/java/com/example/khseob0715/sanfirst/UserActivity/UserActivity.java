@@ -198,17 +198,14 @@ public class UserActivity extends AppCompatActivity
             case R.id.nav_main :
                 fragment = new Fragment_TabMain();
                 title = "My Doctor A";
-             //   Toast.makeText(this, "nav_main", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_hr_history :
                 fragment = new Fragment_HRHistory();
-                title = "My History";
-             //   Toast.makeText(this, "nav_hr_history", Toast.LENGTH_SHORT).show();
+                title = "My Heart History";
                 break;
             case R.id.nav_air_history :
                 fragment = new Fragment_AQIHistory();
                 title = "My Air History";
-             //   Toast.makeText(this, "nav_air_history", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_aqi_map :
                 fragment = new Fragment_AirMap();

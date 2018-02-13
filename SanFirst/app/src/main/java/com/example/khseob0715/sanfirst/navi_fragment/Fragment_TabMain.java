@@ -255,7 +255,6 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         SO2Layout.setVisibility(e);
     }
 
-
     private void feedMultiple() {
         if (thread != null)
             thread.interrupt(); // 살아있는 쓰레드에 인터럽트를 검
@@ -482,12 +481,12 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     android.os.Handler receivehearthandler = new android.os.Handler() {
         public void handleMessage(Message msg) {
 
-            seekani(heart_seekbar, heart_start, heart_rate_value);
-            seekani(co_seekbar, heart_start, heart_rate_value);
-            seekani(no2_seekbar, heart_start, heart_rate_value);
-            seekani(o3_seekbar, heart_start, heart_rate_value);
-            seekani(so2_seekbar, heart_start, heart_rate_value);
-            seekani(pm25_seekbar, heart_start, heart_rate_value);
+            seekani(heart_seekbar, heart_start, heart_rate_value/5);
+            seekani(co_seekbar, heart_start, heart_rate_value/5);
+            seekani(no2_seekbar, heart_start, heart_rate_value/5);
+            seekani(o3_seekbar, heart_start, heart_rate_value/5);
+            seekani(so2_seekbar, heart_start, heart_rate_value/5);
+            seekani(pm25_seekbar, heart_start, heart_rate_value/5);
 
             heart_start = heart_rate_value;
             CC_Value_CO.setText(String.valueOf(heart_rate_value));

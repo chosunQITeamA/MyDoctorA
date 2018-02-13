@@ -13,7 +13,7 @@
             <item
                 android:id="@+id/nav_hr_history"
                 android:icon="@drawable/ic_jogging"
-                android:title="My History" />
+                android:title="My Heart History" />
             <item
                 android:id="@+id/nav_air_history"
                 android:icon="@drawable/ic_jogging"

@@ -22,7 +22,6 @@ public class BluetoothAQI extends Service{
     public final static String ACTION_SEND_AQI_DATA =
             "com.example.jeonghoon.googlemap.bluetooth.ACTION_SEND_AQI_DATA";
 
-
     /**
      * String buffer for outgoing messages
      */
@@ -30,8 +29,8 @@ public class BluetoothAQI extends Service{
 
     private String address;
     private Intent bluetoothIntent;
-    private BluetoothAdapter mBluetoothAdapter=null;
-    private BluetoothChatService mChatService=null;
+    private BluetoothAdapter mBluetoothAdapter = null;
+    private BluetoothChatService mChatService = null;
 
     @Override
     public void onCreate(){
@@ -81,22 +80,7 @@ public class BluetoothAQI extends Service{
         }catch(NullPointerException nex){
             Log.e(TAG, "Exception_onStart : "+nex.getMessage());
         }
-/*
-        int count=0;
-        String sendData="";
-        while(count<=3){
-            double ran=Math.random()*500;
-            sendData=String.valueOf(ran);
-            for(int i=0;i<8;i++){
-                ran=Math.random()*500;
-                sendData=sendData+","+String.valueOf(ran);
-            }
-            Log.i(TAG,"data : "+sendData);
-            broadcastUpdate(ACTION_SEND_AQI_DATA, sendData);
-            SystemClock.sleep(1000);
-            count++;
-        }
-*/
+
         return super.onStartCommand(intent, flags, startId);
     }
 

@@ -229,7 +229,7 @@
                                     android:id="@+id/aqiIndex"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="32dp"
+                                    android:layout_marginTop="31dp"
                                     android:text="AQI"
                                     android:textColor="#9b9b9b"
                                     android:textSize="8dp" />
@@ -358,7 +358,7 @@
                                     android:id="@+id/aqiIndex4"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="22dp"
+                                    android:layout_marginTop="20dp"
                                     android:text="AQI"
                                     android:textColor="#9b9b9b"
                                     android:textSize="8dp" />
@@ -485,7 +485,7 @@
                                     android:id="@+id/aqiIndex2"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="32dp"
+                                    android:layout_marginTop="31dp"
                                     android:text="AQI"
                                     android:textColor="#9b9b9b"
                                     android:textSize="8dp" />
@@ -611,7 +611,7 @@
                                     android:id="@+id/aqiIndex3"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="22dp"
+                                    android:layout_marginTop="20dp"
                                     android:text="AQI"
                                     android:textColor="#9b9b9b"
                                     android:textSize="8dp" />
