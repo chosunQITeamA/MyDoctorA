@@ -12,13 +12,12 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.khseob0715.sanfirst.Database.PolarDatabase;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain.TabMainContext;
 
 public class PolarSensor extends Service {
 
@@ -36,6 +35,8 @@ public class PolarSensor extends Service {
     private Timer m_Timer;
 
     TextView displayheartvalue;
+
+    PolarDatabase polardb = new PolarDatabase();
 
     //------------------------------
     String mDefaultDeviceAddress;
@@ -58,11 +59,8 @@ public class PolarSensor extends Service {
         m_Task = new TimerTask() {
             @Override
             public void run() {//실제 기능 구현
-                TabMainContext.getActivity().runOnUiThread(new Runnable(){ //이 부분 추가   // 이부분 TimerTask에서 UI작업시 필요
-                    public void run(){  //실제 기능 구현
-                        Log.e("heartratevalue","Renew : " + heartrateValue);
-                    }
-                }); //여기까지
+                polardb.PolarDB_heartratevalue = heartrateValue;
+                Log.e("PolarDB = ", String.valueOf(polardb.PolarDB_heartratevalue));
             }
         };
         m_Timer = new Timer();

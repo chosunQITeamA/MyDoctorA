@@ -87,13 +87,18 @@
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name="com.example.khseob0715.sanfirst.PolarBLE.PolarSensor"
+            android:name=".PolarBLE.PolarSensor"
             android:enabled="true"
             android:exported="true" />
-
-        <service android:name="com.example.khseob0715.sanfirst.PolarBLE.PolarBleService" android:enabled="true"/>
+        <service
+            android:name=".PolarBLE.PolarBleService"
+            android:enabled="true" />
         <service
             android:name=".Background_Service.PolarBgService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".Database.PolarDatabase"
             android:enabled="true"
             android:exported="true"></service>
     </application>
