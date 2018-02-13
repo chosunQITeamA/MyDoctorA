@@ -127,7 +127,7 @@ public class PolarSensor extends Service {
                 heartrateValue = hr;
                 RR_value = rrValue;
 
-                Log.e("Heartrate = ", String.valueOf(hr));
+                Log.e("Heartrate = ", String.valueOf(hr) +"/"+ String.valueOf(prrPercenteage)+"/"+String.valueOf(prrCount)+"/"+String.valueOf(rrThreshold)+"/"+String.valueOf(rrTotal)+"/"+String.valueOf(rrValue)+"/"+String.valueOf(sid));
                 Fragment_TabMain.heart_rate_value = hr;
                 Fragment_TabMain.rr_rate_value = rrValue;
 

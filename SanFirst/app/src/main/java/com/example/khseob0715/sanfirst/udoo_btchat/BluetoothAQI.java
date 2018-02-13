@@ -10,7 +10,6 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 
 /**
@@ -193,10 +192,11 @@ public class BluetoothAQI extends Service{
                     int i_so2val = (int)so2val;
                     int i_o3val = (int)o3val;
                     int i_no2val = (int)no2val;
+                    int i_temp = (int)temp;
 
                     int val[] = {i_pm25val, i_coval, i_so2val, i_o3val, i_no2val};
 
-                    Log.e("val", String.valueOf(i_pm25val) +"/"+String.valueOf(i_coval) +"/"+String.valueOf(i_so2val) +"/"+String.valueOf(i_o3val) +"/"+String.valueOf(i_no2val));
+                    Log.e("val", String.valueOf(i_pm25val) +"/"+String.valueOf(i_coval) +"/"+String.valueOf(i_so2val) +"/"+String.valueOf(i_o3val) +"/"+String.valueOf(i_no2val) +"/" + String.valueOf(i_temp));
 
                     for(int i=0; i<=4; i++) {
                      //   UserActivity.val[i] = val[i];

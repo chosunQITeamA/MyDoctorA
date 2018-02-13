@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.khseob0715.sanfirst.GPSTracker.GPSTracker;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.SignIn;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
@@ -36,6 +37,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     public static Context LoginContext;
     public SignIn signIn = new SignIn();
 
+<<<<<<< Updated upstream
     public static int sign_in_complete = 1;
     public static int Password_change_complete = 0;
     public static int Delete_complete = 0;
@@ -43,6 +45,9 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     public static Activity tempLoginActivity;
 
     public static String Id;
+=======
+    GPSTracker gps = null;
+>>>>>>> Stashed changes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +116,6 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
         confirmBTonoff();
     }
-
 
     @Override
     public void onClick(View view) {

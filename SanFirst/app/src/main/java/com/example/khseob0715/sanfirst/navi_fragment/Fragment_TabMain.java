@@ -76,10 +76,13 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
 
     GoogleMap map;
     MapView mapView = null;
-    public static Double lat = 32.882499;
-    public static Double lon = -117.234644;
+
+    //32.882499 / -117.234644
+    public static Double lat = 0.00;
+    public static Double lon = 0.00;
 
     private TextView CC_Value_SO2, CC_Value_NO2, CC_Value_O3, CC_Value_PM, CC_Value_CO;
+    private TextView SeekValue_SO2,SeekValue_NO2, SeekValue_O3, SeekValue_PM, SeekValue_CO;
 
 
     private BluetoothAdapter mBluetoothAdapter = null; /* Intent request codes*/
@@ -177,6 +180,11 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         CC_Value_O3 = (TextView) view.findViewById(R.id.concentrationValueO3);
         CC_Value_PM = (TextView) view.findViewById(R.id.concentrationValuePM);
 
+        SeekValue_CO = (TextView)view.findViewById(R.id.DataValueCO);
+        SeekValue_NO2 = (TextView)view.findViewById(R.id.DataValueNO2);
+        SeekValue_SO2 = (TextView)view.findViewById(R.id.DataValueSO2);
+        SeekValue_O3 = (TextView)view.findViewById(R.id.DataValueO3);
+        SeekValue_PM = (TextView)view.findViewById(R.id.DataValuePM);
 
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.wave);
         animation.setRepeatCount(Animation.INFINITE);
@@ -214,19 +222,28 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         switch (item.getItemId()) {
             case R.id.secure_connect_scan: {
                 // Launch the DeviceListActivity to see devices and do scan
-                Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+                Intent bluetoothIntent = new Intent(getActivity(), DeviceListActivity.class);
+                startActivityForResult(bluetoothIntent, 1);
                 return true;
             }
+
+            case R.id.insecure_connect_scan: {
+                // Launch the DeviceListActivity to see devices and do scan
+                Intent bluetoothIntent = new Intent(getActivity(), DeviceListActivity.class);
+                startActivityForResult(bluetoothIntent, 2);
+                return true;
+            }
+/*
             case R.id.discoverable: {
                 // Ensure this device is discoverable by others
-                ensureDiscoverable();
+//                ensureDiscoverable();
                 return true;
             }
+            */
         }
         return false;
     }
-
+/*
     private void ensureDiscoverable() {
         if (mBluetoothAdapter.getScanMode() !=
                 BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
@@ -235,7 +252,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             startActivity(discoverableIntent);
         }
     }
-
+*/
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -505,7 +522,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         markerOptions.title("now location");
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
 
@@ -558,6 +575,12 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             CC_Value_CO.setText(String.valueOf(ConcenVal[2]));
             CC_Value_SO2.setText(String.valueOf(ConcenVal[3]));
             CC_Value_PM.setText(String.valueOf(ConcenVal[4]));
+
+            SeekValue_O3.setText(String.valueOf(ConcenVal[0]));
+            SeekValue_NO2.setText(String.valueOf(ConcenVal[1]));
+            SeekValue_CO.setText(String.valueOf(ConcenVal[2]));
+            SeekValue_SO2.setText(String.valueOf(ConcenVal[3]));
+            SeekValue_PM.setText(String.valueOf(ConcenVal[4]));
 
             HeartRateText.setText(String.valueOf(heart_rate_value));
         }

@@ -6,6 +6,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -25,6 +27,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.khseob0715.sanfirst.GPSTracker.GPSTracker;
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.ConfirmPW;
@@ -38,8 +41,17 @@ import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothAQI;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 
-public class UserActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class UserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static int RENEW_GPS = 1;
+    public static int SEND_PRINT = 2;
+
+    // GPSTracker class
+    GPSTracker gps = null;
+    public Handler GPSHandler;
 
     //Fragment fragment = new Fragment();
     private Fragment btchatFragment;
@@ -71,6 +83,8 @@ public class UserActivity extends AppCompatActivity
 
     private EditText passwordEdit_profile;
 
+    private Thread gpsThread;
+
     public static UserActivity UserActContext;
     ConfirmPW confirmpw = new ConfirmPW();
 
@@ -87,6 +101,20 @@ public class UserActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        GPSHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg){
+                if(msg.what==RENEW_GPS){
+                    makeNewGpsService();
+                }
+                if(msg.what==SEND_PRINT){
+                    logPrint((String)msg.obj);
+                }
+            }
+        };
+
+        startGPSSubThread();
 
         //fragment = new Fragment_Main();
 //        btchatFragment = new Fragment_Main();
@@ -108,6 +136,72 @@ public class UserActivity extends AppCompatActivity
 
         // If the adapter is null, then Bluetooth is not supported
         UserActContext = this;
+    }
+
+    private void logPrint(String str) {
+        Log.e("LogPrint = ", getTimeStr()+" "+str);
+    }
+
+    public String getTimeStr(){
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdfNow = new SimpleDateFormat("MM/dd HH:mm:ss");
+        return sdfNow.format(date);
+    }
+
+    private void makeNewGpsService() {
+        if(gps == null) {
+//            gps = new GPSTracker(UserActivity.this,GPSHandler);
+        }else{
+            gps.Update();
+        }
+    }
+
+    public void startGPSSubThread() {
+        //작업스레드 생성(매듭 묶는과정)
+        GPStrackerHandler gpsRunnable = new GPStrackerHandler();
+        gpsThread = new Thread(gpsRunnable);
+        gpsThread.setDaemon(true);
+        gpsThread.start();
+    }
+
+    android.os.Handler getgpshandler = new android.os.Handler() {
+        public void handleMessage(Message msg) {
+            if(gps == null) {
+                gps = new GPSTracker(UserActivity.this,GPSHandler);
+            }else{
+                gps.Update();
+            }
+
+            // check if GPS enabled
+            if(gps.canGetLocation()){
+                double latitude = gps.getLatitude();
+                double longitude = gps.getLongitude();
+                // \n is for new line
+                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                //Log.e("Location = ", latitude +"/"+longitude);
+            }else{
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                gps.showSettingsAlert();
+            }
+        }
+    };
+
+    public class GPStrackerHandler implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                Message msg = Message.obtain();
+                msg.what = 0;
+                getgpshandler.sendMessage(msg);
+                try {
+                    Thread.sleep(5000); // 갱신주기 1초
+                } catch (Exception e) {
+                }
+            }
+        }
     }
 
     private void getUserInfo() {

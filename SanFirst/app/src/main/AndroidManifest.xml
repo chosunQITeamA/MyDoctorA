@@ -94,13 +94,14 @@
             android:name=".PolarBLE.PolarBleService"
             android:enabled="true" />
         <service
-            android:name=".Background_Service.PolarBgService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name=".Database.PolarDatabase"
             android:enabled="true"
             android:exported="true"></service>
+
+        <service
+            android:name="com.example.khseob0715.sanfirst.GPSTracker.GPSTracker"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

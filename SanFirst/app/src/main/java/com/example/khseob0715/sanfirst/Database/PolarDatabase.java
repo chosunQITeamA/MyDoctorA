@@ -20,11 +20,7 @@ public class PolarDatabase extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
         // 초반 디비 생성
         // 1분 핸들러   -> 디비 보내고 드랍 후 생성
-
     }
-
-
 }

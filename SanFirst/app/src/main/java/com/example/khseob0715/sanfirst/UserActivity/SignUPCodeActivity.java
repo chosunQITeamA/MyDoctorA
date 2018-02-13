@@ -1,7 +1,6 @@
 package com.example.khseob0715.sanfirst.UserActivity;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.SignUp;
 
 public class SignUPCodeActivity extends AppCompatActivity implements Button.OnClickListener{
     private Button AdmitBtn;
@@ -24,6 +23,9 @@ public class SignUPCodeActivity extends AppCompatActivity implements Button.OnCl
 
     private int StartTimeInt = 180;
     private String e_mail, code;
+
+    SignUp signup = new SignUp();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +80,8 @@ public class SignUPCodeActivity extends AppCompatActivity implements Button.OnCl
                             .setPositiveButton("Resend", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    finish();
+                                    signup.signup_email_Asycn(e_mail);
                                 }
                             })
                             .setCancelable(false)
