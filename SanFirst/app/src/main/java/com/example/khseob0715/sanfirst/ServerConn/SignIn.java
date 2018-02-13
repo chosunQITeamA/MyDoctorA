@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
@@ -117,6 +118,9 @@ public class SignIn {
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
+                        Intent intent = new Intent(LoginContext.getApplicationContext(), LoginActivity.class);
+                        LoginContext.startActivity(intent);
+
                         e.printStackTrace();
                     }
                 }
@@ -136,8 +140,8 @@ public class SignIn {
             intent.putExtra("name", name);
 
             LoginContext.startActivity(intent);
-
         } else {
+
             Log.e("parentJArray", message);
         }
     }
