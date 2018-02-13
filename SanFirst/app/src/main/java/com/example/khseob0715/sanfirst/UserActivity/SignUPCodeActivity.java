@@ -63,15 +63,22 @@ public class SignUPCodeActivity extends AppCompatActivity implements Button.OnCl
         switch (view.getId()){
             case R.id.admitBtn:
                 if(verificationCode.getText().toString().equals(code))   {
-
-                    Intent SignUP = new Intent(getApplicationContext(),SignUPActivity.class);
-                    SignUP.putExtra("Email",e_mail);
-
-                    startActivity(SignUP);
-
                     Timelimit.removeMessages(0); // Handler stop
-                    finish();
-
+                    new AlertDialog.Builder(this)
+                            .setTitle("Check Verification code")
+                            .setMessage("Verification code match")
+                            .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent SignUP = new Intent(getApplicationContext(),SignUPActivity.class);
+                                    SignUP.putExtra("Email",e_mail);
+                                    startActivity(SignUP);
+                                    overridePendingTransition(0, 0);
+                                    finish();
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
                 } else {
                     new AlertDialog.Builder(this)
                             .setTitle("Verification Code Error")

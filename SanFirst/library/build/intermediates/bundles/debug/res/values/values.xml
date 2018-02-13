@@ -9,7 +9,7 @@
     <style name="Widget.ProgressBar.CircularProgressBar" parent="Widget">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:adjustViewBounds">true</item>
-        <item name="cpb_progressColor">#ff0400</item>
+        <item name="cpb_progressColor">#00b774</item>
         <item name="cpb_hasShadow">true</item>
         <item name="cpb_strokeWidth">40</item>  <!-- SeekBar Width (Default:20) -->
         <item name="cpb_titleColor">@color/circular_progress_default_title</item>

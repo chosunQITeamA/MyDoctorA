@@ -54,12 +54,12 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#b6b6b6" />
+                            circular:cpb_backgroundColor="#acffc5" />
 
                         <LinearLayout
-                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:orientation="horizontal">
 
                             <LinearLayout
@@ -70,10 +70,10 @@
 
                                 <TextView
                                     android:id="@+id/DataIndex4"
-                                    android:layout_marginLeft="5dp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
+                                    android:layout_marginLeft="5dp"
                                     android:gravity="center"
                                     android:text="O3"
                                     android:textColor="#000000"
@@ -99,22 +99,22 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:layout_marginTop = "20dp"
                                     android:id="@+id/textView8"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:text="AQI"
                                     android:textColor="#9b9b9b"
-                                    android:textSize ="8dp"
-                                    android:text="AQI" />
+                                    android:textSize="8dp" />
 
                                 <TextView
-                                    android:layout_marginTop = "10dp"
                                     android:id="@+id/textView35"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textSize ="7dp"
+                                    android:layout_marginTop="10dp"
+                                    android:text="/500"
                                     android:textColor="#9b9b9b"
-                                    android:text="/500" />
+                                    android:textSize="7dp" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -181,7 +181,7 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#b6b6b6" />
+                            circular:cpb_backgroundColor="#acffc5" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -309,7 +309,7 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#b6b6b6" />
+                            circular:cpb_backgroundColor="#acffc5" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -437,7 +437,7 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#b6b6b6" />
+                            circular:cpb_backgroundColor="#acffc5" />
 
                         <LinearLayout
                             android:layout_gravity="center"
@@ -563,7 +563,7 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#b6b6b6" />
+                            circular:cpb_backgroundColor="#acffc5" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -772,7 +772,8 @@
                         android:layout_width="200dp"
                         android:layout_height="200dp"
                         android:layout_gravity="center_horizontal|center_vertical"
-                        circular:cpb_backgroundColor="#b6b6b6" />
+                        circular:cpb_backgroundColor="#ffa5a5"
+                        circular:cpb_progressColor="#ff442c"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
