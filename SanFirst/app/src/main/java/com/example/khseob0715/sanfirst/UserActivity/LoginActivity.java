@@ -96,7 +96,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
                 break;
 
             case R.id.FindPasswordText:
-                Intent FindPWIntent = new Intent(getApplicationContext(),FindPWActivity.class);
+                Intent FindPWIntent = new Intent(getApplicationContext(),FindPWEmailActivity.class);
                 startActivity(FindPWIntent);
                 break;
         }

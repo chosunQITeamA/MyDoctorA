@@ -64,7 +64,17 @@
             android:theme="@android:style/Theme.Holo.Dialog"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UserActivity.FindPWActivity"
+            android:name=".UserActivity.FindPWCodeActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".UserActivity.FindPWEmailActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".UserActivity.FindPWNewActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:screenOrientation="portrait" />
 
