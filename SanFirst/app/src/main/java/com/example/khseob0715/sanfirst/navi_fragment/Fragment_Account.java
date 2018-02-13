@@ -89,7 +89,6 @@ public class Fragment_Account extends Fragment {
 
     public void account_updatePW() {
         if(newPW.getText().toString().equals(confirm_newPW.getText().toString()))   {
-<<<<<<< HEAD
             //Toast.makeText(getContext(),"Password change Complete",Toast.LENGTH_SHORT).show();
             new AlertDialog.Builder(getContext())
                     .setTitle("Update password")
@@ -104,14 +103,12 @@ public class Fragment_Account extends Fragment {
                     })
                     .setCancelable(false)
                     .show();
-=======
             if (newPW.getText().toString().matches(".*[0-9].*") && newPW.getText().toString().matches(".*[a-z].*") && newPW.getText().toString().length() >= 7) {
                 //Toast.makeText(getContext(),"Password change Complete",Toast.LENGTH_SHORT).show();
                 changepw.changepw_Asycn(usn, newPW.getText().toString());
             }   else    {
                 Toast.makeText(getContext(), "Password rule is wrong", Toast.LENGTH_SHORT).show();
             }
->>>>>>> 49fe84128af9506ab2f0fc39409434b681bd156c
         }   else    {
             Toast.makeText(getContext(), "Password is not match", Toast.LENGTH_SHORT).show();
             Log.e("PW confirm", newPW +"/"+ confirm_newPW);
