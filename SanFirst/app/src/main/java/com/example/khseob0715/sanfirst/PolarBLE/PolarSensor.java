@@ -10,20 +10,32 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.TextView;
 
-import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 
 import java.util.StringTokenizer;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain.TabMainContext;
 
 public class PolarSensor extends Service {
 
     private SharedPreferences prefs;
 
+    int heartrateValue = 0;
+    int RR_value = 0;
+
     PolarBleService mPolarBleService;
     // String mpolarBleDeviceAddress="00:22:D0:A4:96:72";
     String mpolarBleDeviceAddress="00:22:D0:A4:9D:83";  // 우리꺼
     int batteryLevel=0;
+
+    private TimerTask m_Task;
+    private Timer m_Timer;
+
+    TextView displayheartvalue;
 
     //------------------------------
     String mDefaultDeviceAddress;
@@ -42,6 +54,19 @@ public class PolarSensor extends Service {
         prefs = getSharedPreferences(HConstants.DEVICE_CONFIG, Context.MODE_MULTI_PROCESS);
         mDefaultDeviceAddress = prefs.getString(HConstants.CONFIG_DEFAULT_DEVICE_ADDRESS, null);
         activatePolar();
+
+        m_Task = new TimerTask() {
+            @Override
+            public void run() {//실제 기능 구현
+                TabMainContext.getActivity().runOnUiThread(new Runnable(){ //이 부분 추가   // 이부분 TimerTask에서 UI작업시 필요
+                    public void run(){  //실제 기능 구현
+                        Log.e("heartratevalue","Renew : " + heartrateValue);
+                    }
+                }); //여기까지
+            }
+        };
+        m_Timer = new Timer();
+        m_Timer.schedule(m_Task, 3000, 5000);
     }
 
     @Override
@@ -101,6 +126,10 @@ public class PolarSensor extends Service {
                 int rrValue = Integer.parseInt(tokens.nextToken());
                 long sid = Long.parseLong(tokens.nextToken());
 
+                heartrateValue = hr;
+                RR_value = rrValue;
+
+                Log.e("Heartrate = ", String.valueOf(hr));
                 Fragment_TabMain.heart_rate_value = hr;
                 Fragment_TabMain.rr_rate_value = rrValue;
 

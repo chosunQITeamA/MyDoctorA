@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.SignIn;
-import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Main;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 
 public class LoginActivity extends FragmentActivity implements Button.OnClickListener{
@@ -29,6 +28,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
 
+    private int who = 0;
     private int changeIntent = 0;
 
     public static Context LoginContext;
@@ -41,7 +41,6 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            Fragment_Main fragment = new Fragment_Main();
         }
 
         // find
@@ -76,18 +75,20 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
             case R.id.UserSelect:
                 selectUser.setChecked(true);
                 selectDoctor.setChecked(false);
+                who = 0;
                 break;
 
             case R.id.DoctorSelect:
                 selectUser.setChecked(false);
                 selectDoctor.setChecked(true);
+                who = 1;
                 break;
 
             case R.id.sign_in_btn:
                 String Id = inputID.getText().toString();
                 String PW = inputPW.getText().toString();
 
-                signIn.signin_Asycn(Id, PW);
+                signIn.signin_Asycn(who, Id, PW);
                 break;
 
             case R.id.sign_up_btn:

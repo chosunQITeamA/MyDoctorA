@@ -47,14 +47,14 @@ public class SignIn {
         this.context = c;
     }
 
-    public void signin_Asycn(final String ID, final String PW) {
+    public void signin_Asycn(final int who, final String ID, final String PW) {
         (new AsyncTask<LoginActivity, Void, String>() {
             ProgressDialog Loginloading;
 
             @Override
             protected String doInBackground(LoginActivity... mainActivities) {
                 ConnectServer connectServerPost = new ConnectServer();
-                connectServerPost.requestPost(url, ID, PW);
+                connectServerPost.requestPost(url, who,  ID, PW);
                 return responseBody;
             }
 
@@ -75,10 +75,13 @@ public class SignIn {
 
     class ConnectServer {//Client 생성
 
-        public int requestPost(String url, String id, String password) {
+        public int requestPost(String url, int who, String id, String password) {
 
             //Request Body에 서버에 보낼 데이터 작성
-            final RequestBody requestBody = new FormBody.Builder().add("useremail", id).add("userpassword", password).build();
+            final RequestBody requestBody = new FormBody.Builder()
+                    .add("who", String.valueOf(who))
+                    .add("useremail", id)
+                    .add("userpassword", password).build();
 
             Log.e("RequestBody", requestBody.toString());
 

@@ -1,7 +1,9 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -16,6 +18,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -28,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
+import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -75,6 +81,14 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
 
     private int heart_start = 0;
 
+    private BluetoothAdapter mBluetoothAdapter = null; /* Intent request codes*/
+
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    private static final int REQUEST_ENABLE_BT = 3;
+
+    public static Fragment_TabMain TabMainContext;
+
     public Fragment_TabMain() {
         // Required empty public constructor
     }
@@ -97,6 +111,10 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.hearttext, null));
         spec.setContent(R.id.tab_content2);
         host.addTab(spec);
+
+        setHasOptionsMenu(true);
+
+        TabMainContext = this;
 
         return rootView;
     }
@@ -181,6 +199,38 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             mapView.onCreate(savedInstanceState);
         }
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.bluetooth_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.secure_connect_scan: {
+                // Launch the DeviceListActivity to see devices and do scan
+                Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+                return true;
+            }
+            case R.id.discoverable: {
+                // Ensure this device is discoverable by others
+                ensureDiscoverable();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void ensureDiscoverable() {
+        if (mBluetoothAdapter.getScanMode() !=
+                BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+            startActivity(discoverableIntent);
+        }
     }
 
     @Override

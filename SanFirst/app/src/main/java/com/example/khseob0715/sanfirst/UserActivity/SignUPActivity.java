@@ -80,13 +80,13 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
             case R.id.radioButton:
                 maleRadio.setChecked(true);
                 femaleRadio.setChecked(false);
-                gender = 0; // Male
+                gender = 1; // Male
                 break;
 
             case R.id.radioButton2:
                 femaleRadio.setChecked(true);
                 maleRadio.setChecked(false);
-                gender = 1; // Female
+                gender = 0; // Female
                 break;
 
             case R.id.selected_date:

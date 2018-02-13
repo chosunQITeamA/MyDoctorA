@@ -142,6 +142,7 @@ public class UserActivity extends AppCompatActivity
         // PolarSensor시작
         Intent polarservice = new Intent(getApplicationContext(), PolarSensor.class);
         startService(polarservice);
+        //startService(new Intent("com.example.khseob0715.sanfirst.PolarBLE.PolarSensor"));
     }
 
     @Override
