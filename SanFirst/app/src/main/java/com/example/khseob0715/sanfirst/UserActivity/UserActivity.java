@@ -152,6 +152,8 @@ public class UserActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            Intent polarservice = new Intent(getApplicationContext(), PolarSensor.class);
+            stopService(polarservice);
             ActivityCompat.finishAffinity(this);
             android.os.Process.killProcess(android.os.Process.myPid()); // ProcessKill
         }
@@ -230,6 +232,8 @@ public class UserActivity extends AppCompatActivity
                         .setPositiveButton("Close App", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent polarservice = new Intent(getApplicationContext(), PolarSensor.class);
+                                stopService(polarservice);
                                 moveTaskToBack(true);
                                 finish();
                                 android.os.Process.killProcess(android.os.Process.myPid());
