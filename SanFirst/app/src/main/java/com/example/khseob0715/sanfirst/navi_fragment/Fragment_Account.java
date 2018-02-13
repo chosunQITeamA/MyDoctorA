@@ -90,7 +90,19 @@ public class Fragment_Account extends Fragment {
     public void account_updatePW() {
         if(newPW.getText().toString().equals(confirm_newPW.getText().toString()))   {
             //Toast.makeText(getContext(),"Password change Complete",Toast.LENGTH_SHORT).show();
-            changepw.changepw_Asycn(usn, newPW.getText().toString());
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Update password")
+                    .setMessage("Are you sure you want to update your password?")
+                    .setPositiveButton("Cancel",null)
+                    .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            changepw.changepw_Asycn(usn, newPW.getText().toString());
+                            Log.e("checkDelete","check");
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
         }   else    {
             Toast.makeText(getContext(), "Password rule is wrong", Toast.LENGTH_SHORT).show();
             Log.e("PW confirm", newPW +"/"+ confirm_newPW);
