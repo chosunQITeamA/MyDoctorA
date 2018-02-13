@@ -1,12 +1,14 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.khseob0715.sanfirst.UserActivity.FindPWCodeActivity;
 import com.example.khseob0715.sanfirst.UserActivity.FindPWEmailActivity;
+import com.example.khseob0715.sanfirst.UserActivity.FindPWNewActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +43,7 @@ public class FindPW_Email {
             protected String doInBackground(FindPWEmailActivity... mainActivities) {
                 FindPW_Email.ConnectServer connectServerPost = new FindPW_Email.ConnectServer();
                 connectServerPost.requestPost(url, email);
+
                 return responseBody;
             }
 
@@ -60,6 +63,8 @@ public class FindPW_Email {
 
     class ConnectServer {
         //Client 생성
+
+        FindPWEmailActivity findactivity = (FindPWEmailActivity)FindPWEmailActivity.FindPWActivity;
 
         public int requestPost(String url, final String email) {
 
@@ -93,16 +98,18 @@ public class FindPW_Email {
                             int usn = jsonObject.getInt("usn");
                             String code = jsonObject.getString("code");
                             FindPW_email_Success(email, usn, code);
+                        }else{
+                            FindPWEmailActivity.isUser_id = 1;
 
-
+                            Intent intent = new Intent(FindPWEmailContext.getApplicationContext(), FindPWEmailActivity.class);
+                            FindPWEmailContext.startActivity(intent);
                         }
+                        findactivity.finish();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    //Log.e("aaaa", "Response Body is " + response.body().string());
-
                 }
             });
             return 0;

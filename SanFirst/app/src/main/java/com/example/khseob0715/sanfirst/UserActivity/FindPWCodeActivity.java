@@ -1,5 +1,7 @@
 package com.example.khseob0715.sanfirst.UserActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,15 +53,24 @@ public class FindPWCodeActivity extends AppCompatActivity {
     }
 
     public void FPW_Send_Verify_Code(View view) {
-
         if(verifycode.getText().toString().equals(code))    {
-            Intent intent = new Intent(getApplicationContext(),FindPWNewActivity.class);
-            intent.putExtra("usn", usn);
-            intent.putExtra("email", email);
             Timelimit.removeMessages(0); // Handler stop
-            startActivity(intent);
-            overridePendingTransition(0, 0);
-            finish();
+            new AlertDialog.Builder(this)
+                    .setTitle("Check Verification code")
+                    .setMessage("Verification code match")
+                    .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(getApplicationContext(),FindPWNewActivity.class);
+                            intent.putExtra("usn", usn);
+                            intent.putExtra("email", email);
+                            startActivity(intent);
+                            overridePendingTransition(0, 0);
+                            finish();
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
         }   else    {
             Log.e("verify code error", verifycode.getText().toString() +" / "+ code);
         }
