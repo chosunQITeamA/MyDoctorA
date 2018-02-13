@@ -44,7 +44,10 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     public static Activity tempLoginActivity;
 
     public static String Id;
+<<<<<<< HEAD
 
+=======
+>>>>>>> a1ac10d5f812c0bca059cff810c4bbd4400e4cb5
     GPSTracker gps = null;
 
     @Override

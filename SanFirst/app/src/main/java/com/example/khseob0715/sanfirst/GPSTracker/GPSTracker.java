@@ -1,9 +1,7 @@
 package com.example.khseob0715.sanfirst.GPSTracker;
 
-import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -11,12 +9,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.os.Handler;
 
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 
@@ -177,6 +174,7 @@ public class GPSTracker extends Service implements LocationListener {
      * Function to show settings alert dialog
      * On pressing Settings button will lauch Settings Options
      * */
+    /*
     public void showSettingsAlert(){    // 여기 GPS Alert
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
@@ -204,6 +202,7 @@ public class GPSTracker extends Service implements LocationListener {
         // Showing Alert Message
         alertDialog.show();
     }
+    */
 
     @Override
     public void onLocationChanged(Location location) {
