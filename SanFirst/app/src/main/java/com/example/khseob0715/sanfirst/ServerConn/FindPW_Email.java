@@ -1,5 +1,6 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -50,6 +51,7 @@ public class FindPW_Email {
 
             @Override
             protected void onPostExecute(String result) {
+
             }
         }).execute();
 
@@ -91,8 +93,9 @@ public class FindPW_Email {
                             int usn = jsonObject.getInt("usn");
                             String code = jsonObject.getString("code");
                             FindPW_email_Success(email, usn, code);
-                        }
 
+
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -113,6 +116,5 @@ public class FindPW_Email {
         intent.putExtra("code", code);
 
         FindPWEmailContext.startActivity(intent);
-
     }
 }

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 
 /**
  * Created by chony on 2018-02-04.
@@ -22,9 +23,6 @@ public class BluetoothAQI extends Service{
     public final static String ACTION_SEND_AQI_DATA =
             "com.example.jeonghoon.googlemap.bluetooth.ACTION_SEND_AQI_DATA";
 
-    /**
-     * String buffer for outgoing messages
-     */
     private StringBuffer mOutStringBuffer;
 
     private String address;
@@ -182,11 +180,12 @@ public class BluetoothAQI extends Service{
                     broadcastUpdate(ACTION_SEND_AQI_DATA, readMessage);
 
                     String[] value = readMessage.split(",");
-                    float pm25val = Float.valueOf(value[4]);
-                    float coval = Float.valueOf(value[2]);
-                    float so2val = Float.valueOf(value[3]);
+
                     float o3val = Float.valueOf(value[0]);
                     float no2val = Float.valueOf(value[1]);
+                    float coval = Float.valueOf(value[2]);
+                    float so2val = Float.valueOf(value[3]);
+                    float pm25val = Float.valueOf(value[4]);
                     float temp = Float.valueOf(value[5]);
 
                     int i_pm25val = (int)pm25val;
@@ -200,7 +199,8 @@ public class BluetoothAQI extends Service{
                     Log.e("val", String.valueOf(i_pm25val) +"/"+String.valueOf(i_coval) +"/"+String.valueOf(i_so2val) +"/"+String.valueOf(i_o3val) +"/"+String.valueOf(i_no2val));
 
                     for(int i=0; i<=4; i++) {
-                        UserActivity.val[i] = val[i];
+                     //   UserActivity.val[i] = val[i];
+                        Fragment_TabMain.ConcenVal[i] = val[i];
                     }
 
                     Log.i(TAG, "Read!!!"+readMessage);

@@ -56,7 +56,9 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     private CircularProgressBar co_seekbar, so2_seekbar, o3_seekbar, no2_seekbar, pm25_seekbar;
     private CircularProgressBar heart_seekbar;
     public static int heart_rate_value = 50, rr_rate_value = 00;
-
+    public static int ConcenVal[] = {30, 20, 50, 10, 50};
+    private int heart_start = 0;
+    private int ConcenVal_Start[] = {20, 10, 40, 30, 20};
     private LineChart mChart;
     private LineChart mChart2;
     private Thread thread;
@@ -79,7 +81,6 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
 
     private TextView CC_Value_SO2, CC_Value_NO2, CC_Value_O3, CC_Value_PM, CC_Value_CO;
 
-    private int heart_start = 0;
 
     private BluetoothAdapter mBluetoothAdapter = null; /* Intent request codes*/
 
@@ -89,6 +90,8 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
 
     public static Fragment_TabMain TabMainContext;
 
+
+    private Thread aqiThread;
     public Fragment_TabMain() {
         // Required empty public constructor
     }
@@ -237,22 +240,27 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.PM_Cloud:
+               // ConcenVal_Start[4] = 0;
                 alpha_setting(255, 50, 50, 50, 50);
                 visible_layout(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE);
                 break;
             case R.id.CO_Cloud:
+               // ConcenVal_Start[2] = 0;
                 alpha_setting(50, 255, 50, 50, 50);
                 visible_layout(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE);
                 break;
             case R.id.NO_Cloud:
+               // ConcenVal_Start[1] = 0;
                 alpha_setting(50, 50, 255, 50, 50);
                 visible_layout(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE);
                 break;
             case R.id.O_Cloud:
+               // ConcenVal_Start[0] = 0;
                 alpha_setting(50, 50, 50, 255, 50);
                 visible_layout(View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE);
                 break;
             case R.id.SO_Cloud:
+               // ConcenVal_Start[3] = 0;
                 alpha_setting(50, 50, 50, 50, 255);
                 visible_layout(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 break;
@@ -523,7 +531,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     public void startSubThread() {
         //작업스레드 생성(매듭 묶는과정)
         heartHandler aqiRunnable = new heartHandler();
-        Thread aqiThread = new Thread(aqiRunnable);
+        aqiThread = new Thread(aqiRunnable);
         aqiThread.setDaemon(true);
         aqiThread.start();
     }
@@ -531,19 +539,26 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     android.os.Handler receivehearthandler = new android.os.Handler() {
         public void handleMessage(Message msg) {
 
-            seekani(heart_seekbar, heart_start, heart_rate_value/5);
-            seekani(co_seekbar, heart_start, heart_rate_value/5);
-            seekani(no2_seekbar, heart_start, heart_rate_value/5);
-            seekani(o3_seekbar, heart_start, heart_rate_value/5);
-            seekani(so2_seekbar, heart_start, heart_rate_value/5);
-            seekani(pm25_seekbar, heart_start, heart_rate_value/5);
+            seekani(heart_seekbar, heart_start, heart_rate_value );
+
+            seekani(o3_seekbar, ConcenVal_Start[0], ConcenVal[0]);
+            seekani(no2_seekbar, ConcenVal_Start[1], ConcenVal[1]);
+            seekani(co_seekbar, ConcenVal_Start[2], ConcenVal[2]);
+            seekani(so2_seekbar, ConcenVal_Start[3], ConcenVal[3]);
+            seekani(pm25_seekbar, ConcenVal_Start[4], ConcenVal[4]);
 
             heart_start = heart_rate_value;
-            CC_Value_CO.setText(String.valueOf(heart_rate_value));
-            CC_Value_PM.setText(String.valueOf(heart_rate_value));
-            CC_Value_NO2.setText(String.valueOf(heart_rate_value));
-            CC_Value_SO2.setText(String.valueOf(heart_rate_value));
-            CC_Value_O3.setText(String.valueOf(heart_rate_value));
+
+            for(int i = 0 ; i < 5; i++){
+                ConcenVal_Start[i] = ConcenVal[i];
+            }
+
+            CC_Value_O3.setText(String.valueOf(ConcenVal[0]));
+            CC_Value_NO2.setText(String.valueOf(ConcenVal[1]));
+            CC_Value_CO.setText(String.valueOf(ConcenVal[2]));
+            CC_Value_SO2.setText(String.valueOf(ConcenVal[3]));
+            CC_Value_PM.setText(String.valueOf(ConcenVal[4]));
+
             HeartRateText.setText(String.valueOf(heart_rate_value));
         }
     };
