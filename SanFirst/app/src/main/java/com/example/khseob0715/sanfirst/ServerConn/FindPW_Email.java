@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
-import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
+import com.example.khseob0715.sanfirst.UserActivity.FindPWCodeActivity;
+import com.example.khseob0715.sanfirst.UserActivity.FindPWEmailActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,27 +20,26 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.example.khseob0715.sanfirst.UserActivity.FindPWNewActivity.FindPWNewContext;
-import static com.example.khseob0715.sanfirst.UserActivity.UserActivity.UserActContext;
+import static com.example.khseob0715.sanfirst.UserActivity.FindPWEmailActivity.FindPWEmailContext;
 
 /**
- * Created by Kim Jin Hyuk on 2018-02-08.
+ * Created by Kim Jin Hyuk on 2018-02-12.
  */
 
-public class ChangePW {
-    public static final String url = "http://teama-iot.calit2.net/changepwdapp";
+public class FindPW_Email {
+    public static final String url = "http://teama-iot.calit2.net/fmailcheckapp";
 
     OkHttpClient client = new OkHttpClient();
 
     public static String responseBody = null;
 
-    public void changepw_Asycn(final int usn, final String PW){
-        (new AsyncTask<UserActivity, Void, String>(){
+    public void findpw_Asycn(final String email){
+        (new AsyncTask<FindPWEmailActivity, Void, String>(){
 
             @Override
-            protected String doInBackground(UserActivity... mainActivities) {
-                ChangePW.ConnectServer connectServerPost = new ChangePW.ConnectServer();
-                connectServerPost.requestPost(url, usn, PW);
+            protected String doInBackground(FindPWEmailActivity... mainActivities) {
+                FindPW_Email.ConnectServer connectServerPost = new FindPW_Email.ConnectServer();
+                connectServerPost.requestPost(url, email);
                 return responseBody;
             }
 
@@ -60,12 +59,11 @@ public class ChangePW {
     class ConnectServer {
         //Client 생성
 
-        public int requestPost(String url, final int usn, String password) {
+        public int requestPost(String url, final String email) {
 
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
-                    .add("usn", String.valueOf(usn))
-                    .add("pwd", password).build();
+                    .add("email", email).build();
             //RequestBody requestBody = new FormBody.Builder().add("email", id).add("password", password).build();
 
             Log.e("RequestBody", requestBody.toString());
@@ -90,7 +88,9 @@ public class ChangePW {
                         String Message = jsonObject.getString("message");
 
                         if(Message.equals("Success"))   {
-                            changePW_Success();
+                            int usn = jsonObject.getInt("usn");
+                            String code = jsonObject.getString("code");
+                            FindPW_email_Success(email, usn, code);
                         }
 
                     } catch (IOException e) {
@@ -106,26 +106,13 @@ public class ChangePW {
         }
     }
 
+    private void FindPW_email_Success(String email, int usn, String code) {
+        Intent intent = new Intent(FindPWEmailContext.getApplicationContext(), FindPWCodeActivity.class);
+        intent.putExtra("usn", usn);
+        intent.putExtra("email", email);
+        intent.putExtra("code", code);
 
-    public void changePW_Success() {
-        /*
-        Fragment fragment = null;
-        //fragment = new Fragment_TabMain();
-        fragment = new Fragment_Account();
+        FindPWEmailContext.startActivity(intent);
 
-        FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
-        ft.remove(fragment);
-        ft.commit();
-        */
-
-        try {
-            Intent LoginPage1 = new Intent(UserActContext.getApplicationContext(), LoginActivity.class);
-            UserActContext.startActivity(LoginPage1);
-        }   catch (NullPointerException e) {
-            Intent LoginPage2 = new Intent(FindPWNewContext.getApplicationContext(), LoginActivity.class);
-            LoginPage2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            FindPWNewContext.startActivities(new Intent[]{LoginPage2});
-        }
     }
 }
-

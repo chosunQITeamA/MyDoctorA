@@ -31,7 +31,6 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
 
     private ImageView calendar;
 
-
     private String User_email;
     private EditText  password, confirm_password, Fname, Lname, phone_num;
 

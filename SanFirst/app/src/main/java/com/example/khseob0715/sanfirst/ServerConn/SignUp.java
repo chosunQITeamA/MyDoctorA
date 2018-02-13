@@ -115,6 +115,7 @@ public class SignUp {
                         if(Message.equals("Success")) {
                             String code = jsonObject.getString("code");
                             signup_email_Success(email, code);
+
                         }   else    {
                             Log.e("SignUp_Email = ", Message);
                         }
@@ -184,5 +185,9 @@ public class SignUp {
         intent.putExtra("code", code);
 
         SignupEmailContext.startActivity(intent);
+    }
+
+    private void findPW_email_Success(int usn, String email, String code)   {
+
     }
 }
