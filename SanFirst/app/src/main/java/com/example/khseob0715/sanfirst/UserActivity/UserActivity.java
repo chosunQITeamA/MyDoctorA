@@ -134,8 +134,9 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        viewlistBTdevice();
+        viewlistBTdevice(1);
         startPolarsensor();
+
 
         // If the adapter is null, then Bluetooth is not supported
         UserActContext = this;
@@ -230,9 +231,9 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
     }
 
-    private void viewlistBTdevice() {
+    public void viewlistBTdevice(int i) {
             Intent bluetoothIntent = new Intent(this, DeviceListActivity.class);
-            startActivityForResult(bluetoothIntent, 1);
+            startActivityForResult(bluetoothIntent, i);
     }
 
     private void startPolarsensor() {
@@ -260,10 +261,11 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.user_main, menu);
-
         Navi_ID = (TextView) findViewById(R.id.Navi_user_email);
         Navi_Name = (TextView) findViewById(R.id.Navi_user_name);
         getUserInfo();
+
+        getMenuInflater().inflate(R.menu.bluetooth_menu, menu);
 
         return true;
     }
@@ -275,25 +277,46 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.secure_connect_scan: {
+                /*
+                // Launch the DeviceListActivity to see devices and do scan
+                Intent bluetoothIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
+                startActivityForResult(bluetoothIntent, 1);
+                */
+                Log.e("secure", "Udoo");
+                Intent serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+                return true;
+            }
+
+            case R.id.insecure_connect_scan: {
+                // Launch the DeviceListActivity to see devices and do scan
+                Log.e("insecure", "BT");
+                Intent serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
+                return true;
+            }
+            /*
+            case R.id.discoverable: {
+                // Ensure this device is discoverable by others
+//                ensureDiscoverable();
+                return true;
+            }
+            */
         }
 
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     // NavigationMap select item -> view in fragment
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         Fragment fragment = null;
-
         String title = getString(R.string.app_name);
-
         switch (id) {
             case R.id.nav_main :
                 fragment = new Fragment_TabMain();
@@ -419,6 +442,12 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
                     connectDevice(data, true);
+                }
+                break;
+            case REQUEST_CONNECT_DEVICE_INSECURE:
+                // When DeviceListActivity returns with a device to connect
+                if (resultCode == Activity.RESULT_OK) {
+                    connectDevice(data, false);
                 }
                 break;
             default:

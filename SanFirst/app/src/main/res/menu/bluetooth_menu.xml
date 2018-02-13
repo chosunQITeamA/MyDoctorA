@@ -4,12 +4,12 @@
         android:id="@+id/secure_connect_scan"
         android:icon="@drawable/ic_settings"
         android:showAsAction="ifRoom"
-        android:title="@string/secure_connect"/>
+        android:title="Udoo Connect"/>
 
     <item
         android:id="@+id/insecure_connect_scan"
         android:icon="@drawable/ic_settings"
         android:showAsAction="ifRoom"
-        android:title="@string/insecure_connect"/>
+        android:title="BTChat Connect"/>
 
 </menu>
