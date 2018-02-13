@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
@@ -67,7 +68,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
 
     private LinearLayout PMLayout, COLayout, O3Layout, NO2Layout, SO2Layout;
     private ImageView PM_Cloud, CO_Cloud, O3_Cloud, NO2_Cloud, SO2_Cloud, Heart;
-
+    private Button so2Btn, no2Btn, o3Btn, pmBtn, coBtn;
     private Drawable alphaPM, alphaCO, alphaO3, alphaNO2, alphaSO2;
 
     private TextView HeartRateText, tempText;
@@ -139,6 +140,12 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         O3Layout = (LinearLayout) view.findViewById(R.id.O3Layout);
         SO2Layout = (LinearLayout) view.findViewById(R.id.SO2Layout);
         NO2Layout = (LinearLayout) view.findViewById(R.id.NO2Layout);
+
+        pmBtn = (Button) view.findViewById(R.id.PMBtn);
+        coBtn = (Button) view.findViewById(R.id.COBtn);
+        o3Btn = (Button) view.findViewById(R.id.O3Btn);
+        so2Btn = (Button) view.findViewById(R.id.SO2Btn);
+        no2Btn = (Button) view.findViewById(R.id.NO2Btn);
 
         visible_layout(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE);
 
@@ -281,6 +288,63 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
                 visible_layout(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 break;
         }
+    }
+
+    private void AQI_Button_Set(int i, int value)  {
+        Button setButton = null;
+        switch (i) {
+            case 0:
+                setButton = pmBtn;
+                break;
+            case 1:
+                setButton = coBtn;
+                break;
+            case 2:
+                setButton = no2Btn;
+                break;
+            case 3:
+                setButton = o3Btn;
+                break;
+            case 4:
+                setButton = so2Btn;
+                break;
+            default:
+                setButton = pmBtn;
+                break;
+        }
+        
+        String Texture = null;
+        String TextColor = null;
+        String BColor = null;
+        if(value>0 && value<=50)    {
+            Texture = "Good";
+            TextColor = "#000000";
+            BColor = "#00E400";
+        }   else if (value>50 && value<=100)    {
+            Texture = "Moderate";
+            TextColor = "#000000";
+            BColor = "#FFFF00";
+        }   else if (value>100 && value<=150)   {
+            Texture = "Sensitive Unhealthy";
+            TextColor = "#FFFFFF";
+            BColor = "#FF7E00";
+        }   else if (value>150 && value<=200)   {
+            Texture = "Unhealthy";
+            TextColor = "#FFFFFF";
+            BColor = "#FF0000";
+        }   else if (value>200 && value<=300)   {
+            Texture = "Very Unhealthy";
+            TextColor = "#FFFFFF";
+            BColor = "#8F3F97";
+        }   else    {
+            Texture = "Hazardous";
+            TextColor = "#FFFFFF";
+            BColor = "#7E0023";
+
+        }
+        setButton.setText(Texture);
+        setButton.setTextColor(Color.parseColor(TextColor));
+        setButton.setBackgroundColor(Color.parseColor(BColor));
     }
 
     private void chart_setting() {
@@ -581,6 +645,10 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             SeekValue_SO2.setText(String.valueOf(ConcenVal[3]));
             SeekValue_PM.setText(String.valueOf(ConcenVal[4]));
             tempText.setText(String.valueOf(ConcenVal[5]) +"℃");
+
+            for(int i=0; i<5; i++)  {
+                AQI_Button_Set(i, ConcenVal[i]);
+            }
 
             HeartRateText.setText(String.valueOf(heart_rate_value));
         }

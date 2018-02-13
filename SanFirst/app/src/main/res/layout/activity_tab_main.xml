@@ -128,6 +128,7 @@
                         android:orientation="vertical">
 
                         <Button
+                            android:id="@+id/O3Btn"
                             android:layout_width="160dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
@@ -255,6 +256,7 @@
 
 
                         <Button
+                            android:id="@+id/SO2Btn"
                             android:layout_width="160dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
@@ -385,6 +387,7 @@
 
 
                         <Button
+                            android:id="@+id/NO2Btn"
                             android:layout_width="160dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
@@ -511,6 +514,7 @@
                         android:orientation="vertical">
 
                         <Button
+                            android:id="@+id/COBtn"
                             android:layout_width="160dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
@@ -638,6 +642,7 @@
 
 
                         <Button
+                            android:id="@+id/PMBtn"
                             android:layout_width="160dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
