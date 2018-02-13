@@ -70,7 +70,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
 
     private Drawable alphaPM, alphaCO, alphaO3, alphaNO2, alphaSO2;
 
-    private TextView HeartRateText;
+    private TextView HeartRateText, tempText;
 
     UserActivity mainclass = new UserActivity();
 
@@ -171,7 +171,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         mChart2 = (LineChart) view.findViewById(R.id.chart2);
 
         Heart = (ImageView) view.findViewById(R.id.smallheart);
-
+        tempText = (TextView) view.findViewById(R.id.tabMain_temp);
         HeartRateText = (TextView) view.findViewById(R.id.DataValueHeart);
 
         CC_Value_CO = (TextView) view.findViewById(R.id.concentrationValueCO);
@@ -581,6 +581,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             SeekValue_CO.setText(String.valueOf(ConcenVal[2]));
             SeekValue_SO2.setText(String.valueOf(ConcenVal[3]));
             SeekValue_PM.setText(String.valueOf(ConcenVal[4]));
+            tempText.setText(String.valueOf(ConcenVal[5]));
 
             HeartRateText.setText(String.valueOf(heart_rate_value));
         }

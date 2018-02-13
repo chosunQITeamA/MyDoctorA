@@ -53,6 +53,9 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     GPSTracker gps = null;
     public Handler GPSHandler;
 
+    public Double Latitude = 0.00;
+    public Double Longitude = 0.00;
+
     //Fragment fragment = new Fragment();
     private Fragment btchatFragment;
     private Fragment hrhistoryFragment;
@@ -175,8 +178,8 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
             // check if GPS enabled
             if(gps.canGetLocation()){
-                double latitude = gps.getLatitude();
-                double longitude = gps.getLongitude();
+                Latitude = gps.getLatitude();
+                Longitude = gps.getLongitude();
                 // \n is for new line
                 //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 //Log.e("Location = ", latitude +"/"+longitude);

@@ -728,16 +728,16 @@
                             circular:srcCompat="@drawable/cloud5" />
 
                         <TextView
-                            android:id="@+id/textView39"
+                            android:id="@+id/tabMain_temp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
                             android:layout_weight="0"
                             android:gravity="center"
-                            android:textStyle="bold"
                             android:text="15℃"
                             android:textColor="#000000"
-                            android:textSize="26dp" />
+                            android:textSize="26dp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
