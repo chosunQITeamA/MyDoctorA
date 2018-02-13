@@ -178,13 +178,13 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 double latitude = gps.getLatitude();
                 double longitude = gps.getLongitude();
                 // \n is for new line
-                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 //Log.e("Location = ", latitude +"/"+longitude);
             }else{
                 // can't get location
                 // GPS or Network is not enabled
                 // Ask user to enable GPS/network in settings
-                gps.showSettingsAlert();
+                //gps.showSettingsAlert();
             }
         }
     };

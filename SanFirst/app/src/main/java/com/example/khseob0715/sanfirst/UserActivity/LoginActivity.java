@@ -37,7 +37,6 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     public static Context LoginContext;
     public SignIn signIn = new SignIn();
 
-<<<<<<< Updated upstream
     public static int sign_in_complete = 1;
     public static int Password_change_complete = 0;
     public static int Delete_complete = 0;
@@ -45,9 +44,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     public static Activity tempLoginActivity;
 
     public static String Id;
-=======
     GPSTracker gps = null;
->>>>>>> Stashed changes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
