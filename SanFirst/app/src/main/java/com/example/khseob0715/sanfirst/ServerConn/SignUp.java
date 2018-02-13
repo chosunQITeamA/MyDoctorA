@@ -211,6 +211,9 @@ public class SignUp {
         intent.putExtra("email", email);
         intent.putExtra("code", code);
 
+        SignUPEmailActivity aActivity = (SignUPEmailActivity)SignUPEmailActivity.AActivity;
+        aActivity.finish();
+
         SignupEmailContext.startActivity(intent);
     }
 
