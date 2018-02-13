@@ -56,7 +56,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     private CircularProgressBar co_seekbar, so2_seekbar, o3_seekbar, no2_seekbar, pm25_seekbar;
     private CircularProgressBar heart_seekbar;
     public static int heart_rate_value = 50, rr_rate_value = 00;
-    public static int ConcenVal[] = {30, 20, 50, 10, 50};
+    public static int ConcenVal[] = {30, 20, 50, 10, 50, 20};
     private int heart_start = 0;
     private int ConcenVal_Start[] = {20, 10, 40, 30, 20};
     private LineChart mChart;
@@ -191,7 +191,6 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         Heart.startAnimation(animation);
 
         chart_setting();
-
 
         LineData data = new LineData();
         mChart.setData(data); // LineData를 셋팅함
@@ -581,7 +580,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             SeekValue_CO.setText(String.valueOf(ConcenVal[2]));
             SeekValue_SO2.setText(String.valueOf(ConcenVal[3]));
             SeekValue_PM.setText(String.valueOf(ConcenVal[4]));
-            tempText.setText(String.valueOf(ConcenVal[5]));
+            tempText.setText(String.valueOf(ConcenVal[5]) +"℃");
 
             HeartRateText.setText(String.valueOf(heart_rate_value));
         }
