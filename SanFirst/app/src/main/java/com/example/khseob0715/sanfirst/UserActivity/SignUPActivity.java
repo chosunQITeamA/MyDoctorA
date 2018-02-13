@@ -145,35 +145,37 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                 // PhoneNum Format change
                 String phonenum = null;
 
-                if(id != null && pw != null && confirm_pw != null && fname != null && lname != null && !date.equals("0000-00-00") && phone != null) {
-                    if(phone.length() == 10) {
-                        StringBuilder phoneBuilder = new StringBuilder(phone);
-                        phoneBuilder.insert(3, "-");
-                        phoneBuilder.insert(7, "-");
-                        phonenum = String.valueOf(phoneBuilder);
-                        if(id.matches("^[_0-9a-zA-Z-]+@[0-9a-zA-Z-]+(.[_0-9a-zA-Z-]+)*$")) {
-                            if(!date.equals("0000-00-00"))   {
-                                if (pw.equals(confirm_pw)) {
-                                    if (pw.matches(".*[0-9].*") && pw.matches(".*[a-z].*") && pw.length() >= 7) {
+                if(id.equals("") || pw.equals("") || confirm_pw.equals("") || fname.equals("") || lname.equals("") || date.equals("Select Date") || phone.equals("")) {
+                    Log.e("InputData = ", id +" / "+ pw + " / " + confirm_pw + " / "+ fname +" / "+ lname +" / "+ Sgender +" / "+ date +" / "+ phonenum);
+                }   else    {
+                    if(id.matches("^[_0-9a-zA-Z-]+@[0-9a-zA-Z-]+(.[_0-9a-zA-Z-]+)*$")) {
+                        if(date.equals("Select Date"))   {
+                            Toast.makeText(this, "Confirm your birth", Toast.LENGTH_SHORT).show();
+                        }   else    {
+                            if (pw.equals(confirm_pw)) {
+                                if (pw.matches(".*[0-9].*") && pw.matches(".*[a-z].*") && pw.length() >= 7) {
+                                    if(phone.length() == 10) {
+                                        StringBuilder phoneBuilder = new StringBuilder(phone);
+                                        phoneBuilder.insert(3, "-");
+                                        phoneBuilder.insert(7, "-");
+                                        phonenum = String.valueOf(phoneBuilder);
+
                                         signup.signup_Asycn(id, pw, fname, lname, Sgender, date, phonenum);
                                         Toast.makeText(this, "Sign Up Success\nLogin Please", Toast.LENGTH_SHORT).show();
                                         finish();
-                                    } else {
-                                        Toast.makeText(this, "Password rule is wrong", Toast.LENGTH_SHORT).show();
+                                    }   else    {
+                                        Toast.makeText(this, "Phone number is wrong", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(this, "Confirm password is wrong", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, "Password rule is wrong", Toast.LENGTH_SHORT).show();
                                 }
-                            }   else    {
-                                Toast.makeText(this, "Confirm your birth", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "Confirm password is wrong", Toast.LENGTH_SHORT).show();
                             }
-                        }   else    {
-                            Toast.makeText(this, "E-mail password is wrong", Toast.LENGTH_SHORT).show();
                         }
                     }   else    {
-                        Toast.makeText(this, "Phone number is wrong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "E-mail password is wrong", Toast.LENGTH_SHORT).show();
                     }
-                    Log.e("InputData = ", id +" / "+ pw + " / " + confirm_pw + " / "+ fname +" / "+ lname +" / "+ Sgender +" / "+ date +" / "+ phonenum);
                 }
                 break;
         }
