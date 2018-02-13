@@ -1,6 +1,8 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -68,16 +70,29 @@ public class Fragment_Account extends Fragment {
     }
 
     private void account_delete() {
-        delaccount.DeleteAccount_Asycn(usn, pw);
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete Account")
+                .setMessage("Are you sure you want to delete your account?")
+                .setPositiveButton("Cancel",null)
+                .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        delaccount.DeleteAccount_Asycn(usn, pw);
+                        Log.e("checkDelete","check");
+                    }
+                })
+                .setCancelable(false)
+                .show();
+
     }
 
 
     public void account_updatePW() {
         if(newPW.getText().toString().equals(confirm_newPW.getText().toString()))   {
-            Toast.makeText(getContext(),"complete",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(),"Password change Complete",Toast.LENGTH_SHORT).show();
             changepw.changepw_Asycn(usn, newPW.getText().toString());
         }   else    {
-            Toast.makeText(getContext(), "Password is different", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Password rule is wrong", Toast.LENGTH_SHORT).show();
             Log.e("PW confirm", newPW +"/"+ confirm_newPW);
         }
 

@@ -117,15 +117,21 @@ public class SignIn {
 
                     } catch (IOException e) {
                         e.printStackTrace();
+
                     } catch (JSONException e) {
+                        // 로그인이 틀렸을 때,
                         Intent intent = new Intent(LoginContext.getApplicationContext(), LoginActivity.class);
+                        LoginActivity.sign_in_complete = 0;
+
+                        LoginActivity aLoginActivity = (LoginActivity)LoginActivity.tempLoginActivity;
+
                         LoginContext.startActivity(intent);
+                        aLoginActivity.finish();
 
                         e.printStackTrace();
                     }
                 }
             });
-
             return 0;
         }
     }

@@ -108,21 +108,14 @@ public class ChangePW {
 
 
     public void changePW_Success() {
-        /*
-        Fragment fragment = null;
-        //fragment = new Fragment_TabMain();
-        fragment = new Fragment_Account();
-
-        FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
-        ft.remove(fragment);
-        ft.commit();
-        */
-
-        try {
+        try {  // login state password change
             Intent LoginPage1 = new Intent(UserActContext.getApplicationContext(), LoginActivity.class);
+            LoginActivity.Password_change_complete = 1;
             UserActContext.startActivity(LoginPage1);
-        }   catch (NullPointerException e) {
+
+        }   catch (NullPointerException e) {  //forgotten password
             Intent LoginPage2 = new Intent(FindPWNewContext.getApplicationContext(), LoginActivity.class);
+            LoginActivity.Password_change_complete = 1;
             LoginPage2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             FindPWNewContext.startActivities(new Intent[]{LoginPage2});
         }

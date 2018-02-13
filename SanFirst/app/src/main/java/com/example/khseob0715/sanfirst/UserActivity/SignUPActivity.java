@@ -70,6 +70,7 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
 
         E_mailText = (TextView)findViewById(R.id.Emailtext);
         Intent intent = getIntent();
+
         User_email = intent.getStringExtra("Email");
         E_mailText.setText(User_email);
     }
@@ -144,10 +145,10 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                 // PhoneNum Format change
                 String phonenum = null;
 
-                if(phone.length() == 11) {
+                if(phone.length() == 10) {
                     StringBuilder phoneBuilder = new StringBuilder(phone);
                     phoneBuilder.insert(3, "-");
-                    phoneBuilder.insert(8, "-");
+                    phoneBuilder.insert(7, "-");
                     phonenum = String.valueOf(phoneBuilder);
                     if(id.matches("^[_0-9a-zA-Z-]+@[0-9a-zA-Z-]+(.[_0-9a-zA-Z-]+)*$")) {
                         if (pw.equals(confirm_pw)) {
@@ -156,16 +157,16 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                                 Toast.makeText(this, "Sign Up Success\nLogin Please", Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {
-                                Toast.makeText(this, "password rule is wrong", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Password rule is wrong", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(this, "confirm password is wrong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Confirm password is wrong", Toast.LENGTH_SHORT).show();
                         }
                     }   else    {
-                        Toast.makeText(this, "email password is wrong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "E-mail password is wrong", Toast.LENGTH_SHORT).show();
                     }
                 }   else    {
-                    Toast.makeText(this, "phone is wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Phone number is wrong", Toast.LENGTH_SHORT).show();
                 }
                 Log.e("InputData = ", id +" / "+ pw + " / " + confirm_pw + " / "+ fname +" / "+ lname +" / "+ Sgender +" / "+ date +" / "+ phonenum);
                 break;

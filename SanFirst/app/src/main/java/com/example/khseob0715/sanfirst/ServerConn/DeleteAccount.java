@@ -98,8 +98,6 @@ public class DeleteAccount {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    //Log.e("aaaa", "Response Body is " + response.body().string());
-
                 }
             });
             return 0;

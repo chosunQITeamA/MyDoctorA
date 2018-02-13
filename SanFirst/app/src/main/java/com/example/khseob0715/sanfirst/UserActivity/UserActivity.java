@@ -121,7 +121,7 @@ public class UserActivity extends AppCompatActivity
 
             Navi_ID.setText(UserID);
             Navi_Name.setText(Username);
-            Toast.makeText(this, UserID +"\n"+Username, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, UserID +"\n"+Username, Toast.LENGTH_SHORT).show();
         }
 
 //        Intent intent = getIntent();
@@ -221,8 +221,7 @@ public class UserActivity extends AppCompatActivity
             case R.id.nav_signout :
                 new AlertDialog.Builder(UserActivity.this)
                         .setTitle("Sign-Out")
-                        .setMessage("Sign-Out Complete")
-                        .setNegativeButton("Login", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Login Page", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent LoginActivityIntent = new Intent(getApplicationContext(),LoginActivity.class);

@@ -1,10 +1,13 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +34,8 @@ public class Fragment_Profile extends Fragment {
     private TextView email;
     private EditText Fname, Lname, Phone1, Phone2, Phone3;
     private RadioButton maleRadio, femaleRadio;
+
+    private String S_Fname, S_Lname, S_Phone, S_Bitrh;
 
     ChangeProfile changeprofile = new ChangeProfile();
 
@@ -69,8 +74,8 @@ public class Fragment_Profile extends Fragment {
         Fname.setText(SFname);
         Lname.setText(SLname);
         Phone1.setText(SPhone.substring(0,3));
-        Phone2.setText(SPhone.substring(4,8));
-        Phone3.setText(SPhone.substring(9,13));
+        Phone2.setText(SPhone.substring(4,7));
+        Phone3.setText(SPhone.substring(8,12));
         BirthSelectBtn.setText(SBirth);
 
         BirthSelectBtn.setOnClickListener(new View.OnClickListener() {
@@ -91,24 +96,35 @@ public class Fragment_Profile extends Fragment {
         updateBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String S_Fname = Fname.getText().toString();
-                String S_Lname = Lname.getText().toString();
-                String S_Phone = Phone1.getText().toString() + "-" + Phone2.getText().toString() + "-" + Phone3.getText().toString();
-                String S_Bitrh = BirthSelectBtn.getText().toString();
+                S_Fname = Fname.getText().toString();
+                S_Lname = Lname.getText().toString();
+                S_Phone = Phone1.getText().toString() + "-" + Phone2.getText().toString() + "-" + Phone3.getText().toString();
+                S_Bitrh = BirthSelectBtn.getText().toString();
 
                 if(S_Fname != null && S_Lname != null && S_Phone != null && S_Bitrh != null) {
-                    changeprofile.changeprofile_Asycn(usn, S_Fname, S_Lname, S_Bitrh, S_Phone);
-                    Toast.makeText(getActivity(), "profile update successfully", Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Update Profile")
+                            .setMessage("Are you sure you want to update your profile?")
+                            .setPositiveButton("Cancel",null)
+                            .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    changeprofile.changeprofile_Asycn(usn, S_Fname, S_Lname, S_Bitrh, S_Phone);
+                                    Log.e("checkDelete","check");
 
-                    Fragment fragment = null;
-                    fragment = new Fragment_TabMain();
+                                    Fragment fragment = null;
+                                    fragment = new Fragment_TabMain();
 
-                    FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.content_fragment_layout, fragment);
-                    ft.commit();
+                                    FragmentTransaction ft = UserActContext.getSupportFragmentManager().beginTransaction();
+                                    ft.replace(R.id.content_fragment_layout, fragment);
+                                    ft.commit();
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
 
                 }   else    {
-                    Toast.makeText(getActivity(), "please fill the blank", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please fill the blank", Toast.LENGTH_SHORT).show();
                 }
             }
         });

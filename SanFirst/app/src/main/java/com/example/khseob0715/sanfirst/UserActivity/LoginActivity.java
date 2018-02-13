@@ -1,5 +1,7 @@
 package com.example.khseob0715.sanfirst.UserActivity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -34,14 +36,20 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     public static Context LoginContext;
     public SignIn signIn = new SignIn();
 
+    public static int sign_in_complete = 1;
+    public static int Password_change_complete = 0;
+    public static int Delete_complete = 0;
+
+    public static Activity tempLoginActivity;
+
+    public static String Id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loginmain);
 
-        if (savedInstanceState == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        }
+        tempLoginActivity = LoginActivity.this;
 
         // find
         selectUser = (RadioButton)findViewById(R.id.UserSelect);
@@ -62,6 +70,42 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
         inputID = (EditText)findViewById(R.id.idEditText);
         inputPW = (EditText)findViewById(R.id.pwEditText);
+
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        }
+
+        if(sign_in_complete == 0){
+            new AlertDialog.Builder(this)
+                    .setTitle("Sign In Error")
+                    .setMessage("Incorrect username or password.")
+                    .setNegativeButton("Admit",null)
+                    .setCancelable(false)
+                    .show();
+            inputID.setText(Id);
+            sign_in_complete = 1;
+        }
+
+
+        if(Password_change_complete == 1){
+            new AlertDialog.Builder(this)
+                    .setTitle("Password Change")
+                    .setMessage("Password has changed. \nPlease sign-in again.")
+                    .setNegativeButton("Admit",null)
+                    .setCancelable(false)
+                    .show();
+            inputID.setText(Id);
+            Password_change_complete = 0;
+        }
+
+        if(Delete_complete == 1){
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete Account")
+                    .setMessage("ID cancel complete")
+                    .setNegativeButton("Admit",null)
+                    .setCancelable(false)
+                    .show();
+        }
 
         LoginContext = this;
 
@@ -85,7 +129,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
                 break;
 
             case R.id.sign_in_btn:
-                String Id = inputID.getText().toString();
+                Id = inputID.getText().toString();
                 String PW = inputPW.getText().toString();
 
                 signIn.signin_Asycn(who, Id, PW);
