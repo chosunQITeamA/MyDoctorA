@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_HRHistory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,10 +44,10 @@ public class ReceiveHR {
     }
 
     public void ReceiveHR_Asycn(final int usn, final String fdate, final String ldate) {
-        (new AsyncTask<UserActivity, Void, String>() {
+        (new AsyncTask<Fragment_HRHistory, Void, String>() {
 
             @Override
-            protected String doInBackground(UserActivity... mainActivities) {
+            protected String doInBackground(Fragment_HRHistory... mainActivities) {
                 ConnectServer connectServerPost = new ConnectServer();
                 connectServerPost.requestPost(url, usn, fdate, ldate);
                 return responseBody;
@@ -70,7 +70,7 @@ public class ReceiveHR {
     class ConnectServer {//Client 생성
 
         public int requestPost(String url, int usn, String fdate, String ldate) {
-
+            Log.e("HR request","go");
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
                     .add("usn", String.valueOf(usn))
@@ -111,7 +111,6 @@ public class ReceiveHR {
 
                             Log.i("HRData = ", i+" / "+TS+" / "+ Heart_rate+" / "+RR_rate+" / "+LAT+" / "+LNG);
                         }
-
                     } catch (IOException e) {
                         e.printStackTrace();
 

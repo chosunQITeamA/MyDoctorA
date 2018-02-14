@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.ReceiveHR;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -60,6 +62,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     private ListView listView;
     private LinearLayout Start_date, End_date;
     private TextView Start_date_text, End_date_text;
+    private Button HRsearchBtn;
 
     private DatePickerDialog datePickerDialog;
 
@@ -73,6 +76,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     ViewGroup rootView;
 
     UserActivity mainclass = new UserActivity(); // ?
+    ReceiveHR receiveHR = new ReceiveHR();
 
     private LineChart mChart;
     private Thread thread;
@@ -94,6 +98,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         startLayout.setOnClickListener(this);
         endLayout = (LinearLayout)rootView.findViewById(R.id.end_date);
         endLayout.setOnClickListener(this);
+        HRsearchBtn = (Button)rootView.findViewById(R.id.HRDataSearchBtn);
+        HRsearchBtn.setOnClickListener(this);
 
         Start_date_text = (TextView)rootView.findViewById(R.id.Start_date_text);
         End_date_text = (TextView)rootView.findViewById(R.id.End_date_text);
@@ -315,10 +321,13 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                 datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, endcallback, 2018, 0, 19);
                 datePickerDialog.show();
                 break;
-
+            case R.id.HRDataSearchBtn :
+                int usn = UserActivity.getUSN();
+                Log.e("HRDataSearchBtn",usn +"/"+ Start_date_text.getText().toString()+"/"+End_date_text.getText().toString());
+                receiveHR.ReceiveHR_Asycn(usn, Start_date_text.getText().toString(), End_date_text.getText().toString());
+                break;
         }
     }
-
 
     private class GPSListener implements LocationListener{
 

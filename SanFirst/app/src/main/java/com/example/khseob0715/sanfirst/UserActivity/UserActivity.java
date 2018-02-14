@@ -81,7 +81,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
     private TextView Navi_ID, Navi_Name;
 
-    private int usn = 0;
+    private static int usn = 0;
     private String UserID, Username;
 
     private EditText passwordEdit_profile;
@@ -245,6 +245,10 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
 //        Intent intent = getIntent();
 //        usn = intent.getExtras().getInt("usn1");    // 로그인 결과로 넘어온 사용자 식별번호
+    }
+
+    public static int getUSN() {
+        return usn;
     }
 
     @Override
