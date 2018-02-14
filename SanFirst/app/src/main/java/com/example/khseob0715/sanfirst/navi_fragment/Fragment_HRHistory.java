@@ -22,7 +22,6 @@ import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,25 +33,15 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
-import com.google.android.gms.maps.model.TileProvider;
-import com.google.android.gms.maps.model.UrlTileProvider;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import static android.location.LocationManager.GPS_PROVIDER;
 
@@ -66,13 +55,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
     GoogleMap map;
 
-
     private static final int TRANSPARENCY_MAX = 100;
-
-    private static final String MOON_MAP_URL_FORMAT = "https://tiles.waqi.info/tiles/usepa-aqi/%d/%d/%d.png?token=9f64560eb24586831e1167b1c0e8ecddb1193014";
-    //"https://tiles.breezometer.com/{z}/{x}/{y}.png?key=YOUR_API_KEY";
-
-    private TileOverlay mMoonTiles;
 
     private ListView listView;
     private LinearLayout Start_date, End_date;
@@ -375,22 +358,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         StartLocationService();
-
-        TileProvider tileProvider = new UrlTileProvider(256, 256) {
-            @Override
-            public synchronized URL getTileUrl(int x, int y, int zoom) {
-                // The moon tile coordinate system is reversed.  This is not normal.
-                String s = String.format(Locale.US, MOON_MAP_URL_FORMAT, zoom, x, y);
-                URL url = null;
-                try {
-                    url = new URL(s);
-                } catch (MalformedURLException e) {
-                    throw new AssertionError(e);
-                }
-                return url;
-            }
-        };
-        mMoonTiles = map.addTileOverlay(new TileOverlayOptions().tileProvider(tileProvider));
     }
 
 

@@ -1,18 +1,12 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.khseob0715.sanfirst.Dialog.Dialog_Password;
-import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
 import com.example.khseob0715.sanfirst.UserActivity.SignUPActivity;
 import com.example.khseob0715.sanfirst.UserActivity.SignUPCodeActivity;
 import com.example.khseob0715.sanfirst.UserActivity.SignUPEmailActivity;
-import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
