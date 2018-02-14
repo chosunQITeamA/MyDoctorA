@@ -263,27 +263,27 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.PM_Cloud:
-               // ConcenVal_Start[4] = 0;
+                ConcenVal_Start[4] = 0;
                 alpha_setting(255, 50, 50, 50, 50);
                 visible_layout(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE);
                 break;
             case R.id.CO_Cloud:
-               // ConcenVal_Start[2] = 0;
+                ConcenVal_Start[2] = 0;
                 alpha_setting(50, 255, 50, 50, 50);
                 visible_layout(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE);
                 break;
             case R.id.NO_Cloud:
-               // ConcenVal_Start[1] = 0;
+                ConcenVal_Start[1] = 0;
                 alpha_setting(50, 50, 255, 50, 50);
                 visible_layout(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE);
                 break;
             case R.id.O_Cloud:
-               // ConcenVal_Start[0] = 0;
+                ConcenVal_Start[0] = 0;
                 alpha_setting(50, 50, 50, 255, 50);
                 visible_layout(View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE);
                 break;
             case R.id.SO_Cloud:
-               // ConcenVal_Start[3] = 0;
+                ConcenVal_Start[3] = 0;
                 alpha_setting(50, 50, 50, 50, 255);
                 visible_layout(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 break;
@@ -318,33 +318,45 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         String BColor = null;
         if(value>0 && value<=50)    {
             Texture = "Good";
-            TextColor = "#000000";
-            BColor = "#00E400";
+            TextColor = "#FFFFFF";
+            //BColor = "#00E400";
+            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button));
+            setButton.setBackgroundResource(R.drawable.rounded_corner_button);
         }   else if (value>50 && value<=100)    {
             Texture = "Moderate";
             TextColor = "#000000";
-            BColor = "#FFFF00";
+            //BColor = "#FFFF00";
+            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button2));
+            setButton.setBackgroundResource(R.drawable.rounded_corner_button2);
         }   else if (value>100 && value<=150)   {
             Texture = "Sensitive Unhealthy";
             TextColor = "#FFFFFF";
-            BColor = "#FF7E00";
+            //BColor = "#FF7E00";
+            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button3));
+            setButton.setBackgroundResource(R.drawable.rounded_corner_button3);
         }   else if (value>150 && value<=200)   {
             Texture = "Unhealthy";
             TextColor = "#FFFFFF";
-            BColor = "#FF0000";
+            //BColor = "#FF0000";
+            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button4));
+            setButton.setBackgroundResource(R.drawable.rounded_corner_button4);
         }   else if (value>200 && value<=300)   {
             Texture = "Very Unhealthy";
             TextColor = "#FFFFFF";
-            BColor = "#8F3F97";
+            //BColor = "#8F3F97";
+            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button5));
+            setButton.setBackgroundResource(R.drawable.rounded_corner_button5);
         }   else    {
             Texture = "Hazardous";
             TextColor = "#FFFFFF";
-            BColor = "#7E0023";
-
+            //BColor = "#7E0023";
+            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button6));
+            setButton.setBackgroundResource(R.drawable.rounded_corner_button6);
         }
         setButton.setText(Texture);
         setButton.setTextColor(Color.parseColor(TextColor));
-        setButton.setBackgroundColor(Color.parseColor(BColor));
+        //setButton.setBackgroundColor(Color.parseColor(BColor));
+
     }
 
     private void chart_setting() {
@@ -644,6 +656,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             SeekValue_CO.setText(String.valueOf(ConcenVal[2]));
             SeekValue_SO2.setText(String.valueOf(ConcenVal[3]));
             SeekValue_PM.setText(String.valueOf(ConcenVal[4]));
+
             tempText.setText(String.valueOf(ConcenVal[5]) +"℃");
 
             for(int i=0; i<5; i++)  {
