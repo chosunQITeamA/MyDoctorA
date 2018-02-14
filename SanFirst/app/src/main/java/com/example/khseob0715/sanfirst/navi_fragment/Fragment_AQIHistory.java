@@ -114,7 +114,6 @@ public class Fragment_AQIHistory extends Fragment {
         host.addTab(spec);
 
         spec = host.newTabSpec("tab6");
-        //spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.bigcloud_so, null));
         spec.setIndicator("SO2");
         spec.setContent(R.id.tab6);
         host.addTab(spec);
@@ -150,8 +149,8 @@ public class Fragment_AQIHistory extends Fragment {
         LineData data5 = new LineData();
         soChart.setData(data5);
 
-        feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
-
+      //  feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
+        addEntry();
         return rootView;
     }
 
@@ -262,7 +261,6 @@ public class Fragment_AQIHistory extends Fragment {
         LineData data4 = noChart.getData();
         LineData data5 = soChart.getData();
 
-
         LineDataSet set1 = (LineDataSet) data.getDataSetByIndex(0);
         LineDataSet set2 = (LineDataSet) data.getDataSetByIndex(0);
         LineDataSet set3 = (LineDataSet) data.getDataSetByIndex(0);
@@ -364,8 +362,7 @@ public class Fragment_AQIHistory extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             HistoricalAir view = new HistoricalAir(rootView.getContext());
-            //view.setText(items[position]);
-            //view.setTextSize(40.0f);
+
             return view;
         }
     }
@@ -389,4 +386,14 @@ public class Fragment_AQIHistory extends Fragment {
         }
 
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(thread != null){
+            thread.interrupt();
+        }
+    }
+
+
 }

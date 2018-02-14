@@ -21,6 +21,9 @@ import android.widget.Toast;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.SignUp;
 
+/**
+ * Created by Aiden on 2018-02-08.
+ */
 
 public class SignUPActivity extends AppCompatActivity implements Button.OnClickListener{
     private RadioButton maleRadio, femaleRadio;

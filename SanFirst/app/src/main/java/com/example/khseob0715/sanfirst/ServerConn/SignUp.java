@@ -48,6 +48,7 @@ public class SignUp {
             protected String doInBackground(SignUPEmailActivity... mainActivities) {
                 SignUp.ConnectServer connectServerPost = new SignUp.ConnectServer();
                 connectServerPost.requestPost(url, email);
+
                 return responseBody;
             }
 
@@ -137,6 +138,7 @@ public class SignUp {
                             SignupEmailContext.startActivity(intent);
 
                             Log.e("SignUp_Email = ", Message);
+
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

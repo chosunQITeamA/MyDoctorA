@@ -100,8 +100,10 @@ public class ConfirmPW {
                             if(setfragment ==  1)   {
                                 Log.e("changePW", "changePW");
                                 changePW(usn, password);
+
                             }   else if (setfragment == 2)  {
                                 Log.e("changeProfile", "changeProfile");
+
                                 String email = jsonObject.getString("email");
                                 String Fname = jsonObject.getString("fname");
                                 String Lname = jsonObject.getString("lname");
@@ -110,7 +112,6 @@ public class ConfirmPW {
 
                                 changeprofile(usn, email, Fname, Lname, Phone, Birth);
                             }
-
                         }
 
                     } catch (IOException e) {
