@@ -4,11 +4,17 @@
     tools:showIn="navigation_view"    >
 
     <item
-        android:id="@+id/nav_main"
+        android:id="@+id/nav_user_main"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="Main page" />
 
-    <item android:title="History">
+    <item
+        android:id="@+id/nav_doctor_main"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Main page" />
+
+    <item android:title="History"
+        android:id="@+id/user_history">
         <menu>
             <item
                 android:id="@+id/nav_hr_history"
@@ -16,8 +22,23 @@
                 android:title="My Heart History" />
             <item
                 android:id="@+id/nav_air_history"
-                android:icon="@drawable/ic_jogging"
+                android:icon="@drawable/cloud_img"
                 android:title="My Air History" />
+        </menu>
+    </item>
+
+    <item android:title="Patient"
+        android:id="@+id/Dr_drawer">
+        <menu>
+            <item
+                android:id="@+id/nav_patient_list"
+                android:icon="@drawable/patient_list_img"
+                android:title="My Patient List" />
+
+            <item
+                android:id="@+id/nav_patient_search"
+                android:icon="@drawable/user_search_img"
+                android:title="User Search" />
         </menu>
     </item>
 
@@ -30,7 +51,7 @@
             <item
                 android:id="@+id/nav_mydoc"
                 android:icon="@drawable/ic_doctor_icon"
-                android:title="My Doctor" />
+                android:title="Doctor Search" />
         </menu>
     </item>
 

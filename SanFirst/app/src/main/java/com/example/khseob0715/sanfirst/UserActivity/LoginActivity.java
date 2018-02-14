@@ -31,7 +31,7 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
 
-    private int who = 0;
+    public static int who = 0;
     private int changeIntent = 0;
 
     public static Context LoginContext;

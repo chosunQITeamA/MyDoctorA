@@ -119,8 +119,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
         startGPSSubThread();
 
-        //fragment = new Fragment_Main();
-//        btchatFragment = new Fragment_Main();
         btchatFragment = new Fragment_TabMain();
         hrhistoryFragment = new Fragment_HRHistory();
         airqualfragment = new Fragment_AirMap();
@@ -134,12 +132,35 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Menu menu = navigationView.getMenu();
+
+        if(LoginActivity.who == 0) {
+            // 환자용 일때는 지워야 함.
+            MenuItem doctor = menu.findItem(R.id.Dr_drawer);
+            doctor.setVisible(false);
+
+            MenuItem doctor_main = menu.findItem(R.id.nav_doctor_main);
+            doctor_main.setVisible(false);
+        }else {
+            // 의사용 일때는 지워야 함.
+            MenuItem doctor_search = menu.findItem(R.id.nav_mydoc);
+            doctor_search.setVisible(false);
+
+            MenuItem user_history = menu.findItem(R.id.user_history);
+            user_history.setVisible(false);
+
+            MenuItem user_main = menu.findItem(R.id.nav_user_main);
+            user_main.setVisible(false);
+        }
+
+
         viewlistBTdevice(1);
         startPolarsensor();
 
 
-        // If the adapter is null, then Bluetooth is not supported
         UserActContext = this;
+
+
     }
 
     private void logPrint(String str) {
@@ -318,7 +339,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
         String title = getString(R.string.app_name);
         switch (id) {
-            case R.id.nav_main :
+            case R.id.nav_user_main :
                 fragment = new Fragment_TabMain();
                 title = "My Doctor A";
                 break;
