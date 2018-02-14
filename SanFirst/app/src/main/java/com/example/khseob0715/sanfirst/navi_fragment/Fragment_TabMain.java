@@ -213,47 +213,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         }
 
     }
-/*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.bluetooth_menu, menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.secure_connect_scan: {
-                // Launch the DeviceListActivity to see devices and do scan
-                Intent bluetoothIntent = new Intent(getActivity(), DeviceListActivity.class);
-                startActivityForResult(bluetoothIntent, 1);
-                return true;
-            }
-
-            case R.id.insecure_connect_scan: {
-                // Launch the DeviceListActivity to see devices and do scan
-                Intent bluetoothIntent = new Intent(getActivity(), DeviceListActivity.class);
-                startActivityForResult(bluetoothIntent, 2);
-                return true;
-            }
-            case R.id.discoverable: {
-                // Ensure this device is discoverable by others
-//                ensureDiscoverable();
-                return true;
-            }
-        }
-        return false;
-    }
-    */
-/*
-    private void ensureDiscoverable() {
-        if (mBluetoothAdapter.getScanMode() !=
-                BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-            startActivity(discoverableIntent);
-        }
-    }
-*/
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

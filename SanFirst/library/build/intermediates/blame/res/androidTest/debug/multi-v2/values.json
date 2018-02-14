@@ -6,14 +6,6 @@
                 {
                     "source": "C:\\Users\\Aiden\\Desktop\\MyDoctorA\\SanFirst\\library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "from": {
-                        "startLines": "-1,-1,-1,-1,-1,8",
-                        "startColumns": "-1,-1,-1,-1,-1,4",
-                        "startOffsets": "-1,-1,-1,-1,-1,794",
-                        "endLines": "-1,-1,-1,-1,-1,16",
-                        "endColumns": "-1,-1,-1,-1,-1,12",
-                        "endOffsets": "-1,-1,-1,-1,-1,1349"
-                    },
-                    "to": {
                         "startLines": "2,3,4,5,7,8",
                         "startColumns": "4,4,4,4,4,4",
                         "startOffsets": "55,126,195,264,767,794",

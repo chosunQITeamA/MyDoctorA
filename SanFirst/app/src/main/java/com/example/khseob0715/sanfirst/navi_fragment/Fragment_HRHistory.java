@@ -49,13 +49,15 @@ import com.google.android.gms.maps.model.UrlTileProvider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 import static android.location.LocationManager.GPS_PROVIDER;
 
 
-public class Fragment_HRHistory extends Fragment {
+public class Fragment_HRHistory extends Fragment implements View.OnClickListener{
 
     private MapView mapView = null;
 
@@ -83,6 +85,7 @@ public class Fragment_HRHistory extends Fragment {
     // 서버랑 연결 되면 받을 값.
     private String[] items = {"ss", "das","ss", "das","ss", "das","ss", "das","ss", "das","ss", "das","ss", "das"};
 
+    private LinearLayout startLayout, endLayout;
 
     ViewGroup rootView;
 
@@ -104,6 +107,22 @@ public class Fragment_HRHistory extends Fragment {
         adapter = new myAdapter();
         listView.setAdapter(adapter);
 
+        startLayout = (LinearLayout)rootView.findViewById(R.id.start_date);
+        startLayout.setOnClickListener(this);
+        endLayout = (LinearLayout)rootView.findViewById(R.id.end_date);
+        endLayout.setOnClickListener(this);
+
+        Start_date_text = (TextView)rootView.findViewById(R.id.Start_date_text);
+        End_date_text = (TextView)rootView.findViewById(R.id.End_date_text);
+
+        long now = System.currentTimeMillis();
+
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String getTime = sdf.format(date);
+
+        Start_date_text.setText(getTime);
+        End_date_text.setText(getTime);
 
         return rootView;
     }
@@ -282,6 +301,39 @@ public class Fragment_HRHistory extends Fragment {
             e.printStackTrace();
         }
         Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.start_date:
+
+                DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Start_date_text.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                    }
+                };
+
+                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback, 2018, 0, 19);
+                datePickerDialog.show();
+
+                break;
+
+            case R.id.end_date:
+
+                DatePickerDialog.OnDateSetListener endcallback = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        End_date_text.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                    }
+                };
+
+                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, endcallback, 2018, 0, 19);
+                datePickerDialog.show();
+                break;
+
+        }
     }
 
 
