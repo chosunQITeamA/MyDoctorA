@@ -314,13 +314,11 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         if(value>0 && value<=50)    {
             Texture = "Good";
             TextColor = "#FFFFFF";
-<<<<<<< HEAD
             //BColor = "#00E400";
             //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button));
             setButton.setBackgroundResource(R.drawable.rounded_corner_button);
-=======
+
             BColor = "#00E400";
->>>>>>> dd625a5ec0511ff7cb4ab1747583ccf85182264b
         }   else if (value>50 && value<=100)    {
             Texture = "Moderate";
             TextColor = "#000000";
