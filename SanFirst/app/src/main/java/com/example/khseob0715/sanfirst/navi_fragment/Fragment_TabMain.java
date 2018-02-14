@@ -3,7 +3,6 @@ package com.example.khseob0715.sanfirst.navi_fragment;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -18,9 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -34,7 +30,6 @@ import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
-import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -120,6 +115,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         host.addTab(spec);
 
         setHasOptionsMenu(true);
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         TabMainContext = this;
 
@@ -217,7 +213,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         }
 
     }
-
+/*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.bluetooth_menu, menu);
@@ -239,16 +235,15 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
                 startActivityForResult(bluetoothIntent, 2);
                 return true;
             }
-/*
             case R.id.discoverable: {
                 // Ensure this device is discoverable by others
 //                ensureDiscoverable();
                 return true;
             }
-            */
         }
         return false;
     }
+    */
 /*
     private void ensureDiscoverable() {
         if (mBluetoothAdapter.getScanMode() !=
@@ -319,9 +314,13 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         if(value>0 && value<=50)    {
             Texture = "Good";
             TextColor = "#FFFFFF";
+<<<<<<< HEAD
             //BColor = "#00E400";
             //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button));
             setButton.setBackgroundResource(R.drawable.rounded_corner_button);
+=======
+            BColor = "#00E400";
+>>>>>>> dd625a5ec0511ff7cb4ab1747583ccf85182264b
         }   else if (value>50 && value<=100)    {
             Texture = "Moderate";
             TextColor = "#000000";

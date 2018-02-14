@@ -3,6 +3,7 @@ package com.example.khseob0715.sanfirst.udoo_btchat;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
@@ -16,6 +17,11 @@ import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
  * Created by chony on 2018-02-04.
  */
 public class BluetoothAQI extends Service{
+
+    // Intent request codes
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    private static final int REQUEST_ENABLE_BT = 3;
 
     private static final String TAG = "BluetoothService";
 
@@ -136,6 +142,7 @@ public class BluetoothAQI extends Service{
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            Context context = getApplicationContext();
             switch (msg.what) {
                 case Constants.MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
