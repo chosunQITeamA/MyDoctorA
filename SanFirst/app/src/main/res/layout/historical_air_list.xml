@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="0"
         android:orientation="vertical">
 
@@ -19,14 +19,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/Date"
-                android:layout_width="30dp"
+                android:id="@+id/Historical_AQI_date"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
                 android:layout_weight="0"
                 android:gravity="center"
-                android:text="2/7"
+                android:text="2018-02-15"
                 android:textColor="#000000" />
 
             <LinearLayout
@@ -38,19 +38,51 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/AQI_text"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/PM_avg"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="AQI Level:"
+                    android:text="PM"
                     android:textColor="#000000" />
 
                 <TextView
-                    android:id="@+id/Heart_RateAVG"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/CO_avg"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="4Level"
+                    android:text="CO"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/NO2_avg"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="NO2"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/O3_avg"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="O3"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/SO2_avg"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="SO2"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/F_avg"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="F"
                     android:textColor="#000000" />
 
             </LinearLayout>
@@ -59,11 +91,11 @@
         </LinearLayout>
 
         <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_centerInParent="true"
-        android:layout_weight="0"
-        android:background="#aeaeae" />
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_centerInParent="true"
+            android:layout_weight="0"
+            android:background="#aeaeae" />
 
     </LinearLayout>
 </LinearLayout>

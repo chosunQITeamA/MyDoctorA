@@ -101,6 +101,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     public static LineDataSet set0 = null , set1 = null;
 
     private String pre_dp = "1";
+
+    public static int flag = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -119,8 +121,10 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 chart_date_text = "" + listView.getItemAtPosition(position);
 
+
+
                 Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
-                if(!pre_dp.equals(chart_date_text)) {
+                if(!pre_dp.equals(chart_date_text) && flag == 0) {
                     if (set0 != null) {
                         set0.clear();
                     }
@@ -129,6 +133,10 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                         set1.clear();
                     }
                     receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, chart_date_text, chart_date_text);
+
+                    flag = 1;
+           //         handler.postDelayed(new enableBtn(),2000);
+
                 }
                pre_dp = "" + chart_date_text;
             }
@@ -402,7 +410,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                 int usn = UserActivity.getUSN();
                 Log.e("HRDataSearchBtn", usn + "/" + Start_date_text.getText().toString() + "/" + End_date_text.getText().toString());
                 receiveHR.ReceiveHR_Asycn(usn, Start_date_text.getText().toString(), End_date_text.getText().toString());
-                //Heart_adapter.notifyDataSetChanged();
                 handler.postDelayed(new Update_list(),1200);
                 break;
         }
@@ -499,6 +506,14 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         @Override
         public void run() {
             Heart_adapter.notifyDataSetChanged();
+        }
+    }
+
+    private class enableBtn implements Runnable{
+
+        @Override
+        public void run() {
+            listView.setClickable(true);
         }
     }
 }

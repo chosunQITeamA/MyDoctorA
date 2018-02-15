@@ -22,13 +22,21 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
+<<<<<<< HEAD
  * Created by Kim Jin Hyuk on 2018-02-07.
+=======
+ * Created by Aiden on 2018-02-15.
+>>>>>>> master
  */
 
 
 public class ReceiveAQI {
 
+<<<<<<< HEAD
     public static final String url = "http://teama-iot.calit2.net/apiapp";
+=======
+    public static final String url = "http://teama-iot.calit2.net/aqiapp";
+>>>>>>> master
 
     OkHttpClient client = new OkHttpClient();
 
@@ -38,8 +46,18 @@ public class ReceiveAQI {
 
     private int error_message = 0;
 
+<<<<<<< HEAD
     private double total_Heart_rate = 0;
     private double total_RR_rate = 0;
+=======
+    private double total_PM_value = 0;
+    private double total_CO_value = 0;
+    private double total_NO_value = 0;
+    private double total_SO_value = 0;
+    private double total_O3_value = 0;
+    private double total_TP_value = 0;
+
+>>>>>>> master
     private int date_count = 0;
 
     public ReceiveAQI(){
@@ -76,7 +94,11 @@ public class ReceiveAQI {
     class ConnectServer {//Client 생성
 
         public int requestPost(String url, int usn, String fdate, String ldate) {
+<<<<<<< HEAD
             Log.e("HR request","go");
+=======
+            Log.e("AQI request","go");
+>>>>>>> master
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
                     .add("usn", String.valueOf(usn))
@@ -85,8 +107,17 @@ public class ReceiveAQI {
 
             Log.e("RequestBody", requestBody.toString());
 
+<<<<<<< HEAD
             total_Heart_rate = 0;
             total_RR_rate = 0;
+=======
+            total_PM_value = 0;
+            total_CO_value = 0;
+            total_NO_value = 0;
+            total_SO_value = 0;
+            total_O3_value = 0;
+            total_TP_value = 0;
+>>>>>>> master
             date_count = 0;
 
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
@@ -109,6 +140,7 @@ public class ReceiveAQI {
                         Log.e("message", Message + "/" + responseBody);
 
                         JSONArray AQIData = jsonObject.getJSONArray("data");
+<<<<<<< HEAD
                         Log.e("HRData.length = ", String.valueOf(AQIData.length()));
                         String compare = "1";
                         Fragment_HRHistory.response_count = 0;
@@ -131,10 +163,39 @@ public class ReceiveAQI {
                             /*
                             total_Heart_rate += Heart_rate;
                             total_RR_rate += RR_rate;
+=======
+                        Log.e("AQIData.length = ", String.valueOf(AQIData.length()));
+
+                        String compare = "1";
+                        Fragment_AQIHistory.Air_response_count = 0;
+
+
+                        for(int i=0; i<AQIData.length(); i++)    {
+                            JSONObject getAQIData = AQIData.getJSONObject(i);
+                            String TS = getAQIData.getString("TS");
+                            Log.i("substring",TS.substring(0,10));
+
+                            Double CO = getAQIData.getDouble("CO");
+                            Double SO2 = getAQIData.getDouble("SO2");
+                            Double NO2 = getAQIData.getDouble("NO2");
+                            Double O3 = getAQIData.getDouble("O3");
+                            Double PM = getAQIData.getDouble("PM2.5");
+                            Double TEMP = getAQIData.getDouble("Temperature");
+                            Double LAT = getAQIData.getDouble("LAT");
+                            Double LNG = getAQIData.getDouble("LNG");
+
+                            total_PM_value += PM;
+                            total_CO_value += CO;
+                            total_NO_value += NO2;
+                            total_SO_value += SO2;
+                            total_O3_value += O3;
+                            total_TP_value += TEMP;
+>>>>>>> master
                             date_count++;
 
                             if(!compare.equals(TS.substring(0,10))){
                                 compare = TS.substring(0,10);
+<<<<<<< HEAD
                                 Fragment_HRHistory.items[Fragment_HRHistory.response_count] = compare;
                                 Fragment_HRHistory.HeartAvg[Fragment_HRHistory.response_count] = (int)total_Heart_rate / date_count;
                                 Fragment_HRHistory.RRAvg[Fragment_HRHistory.response_count] = (int)total_RR_rate / date_count;
@@ -148,12 +209,39 @@ public class ReceiveAQI {
                             Log.i("HRData = ", i+" / "+TS+" / "+ CO+" / "+SO2 +" / " + NO2 + "/" + O3 + "/" + PM + "/" + TEMP + "/" +LAT+" / "+LNG);
                         }
                         Log.i("count :", "a " + Fragment_HRHistory.response_count);
+=======
+                                Fragment_AQIHistory.AQI_date_items[Fragment_AQIHistory.Air_response_count] = compare;
+                                Fragment_AQIHistory.PM_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_PM_value / date_count;
+                                Fragment_AQIHistory.CO_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_CO_value / date_count;
+                                Fragment_AQIHistory.NO_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_NO_value / date_count;
+                                Fragment_AQIHistory.SO_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_SO_value / date_count;
+                                Fragment_AQIHistory.O3_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_O3_value / date_count;
+                                Fragment_AQIHistory.TP_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_TP_value / date_count;
+
+                                Fragment_AQIHistory.Air_response_count++;
+
+                                total_PM_value = 0;
+                                total_CO_value = 0;
+                                total_NO_value = 0;
+                                total_SO_value = 0;
+                                total_O3_value = 0;
+                                total_TP_value = 0;
+
+                                date_count = 0;
+                            }
+                            Log.i("AQIData = ", i+" / "+TS+" / "+ CO+" / "+SO2 +" / " + NO2 + "/" + O3 + "/" + PM + "/" + TEMP + "/" +LAT+" / "+LNG);
+                        }
+>>>>>>> master
 
                     } catch (IOException e) {
                         e.printStackTrace();
 
                     } catch (JSONException e) {
+<<<<<<< HEAD
                         Log.e("ReceiveHRJsonEx", "Error");
+=======
+                        Log.e("ReceiveAQIJsonEx", "Error");
+>>>>>>> master
                         e.printStackTrace();
                     }
                 }

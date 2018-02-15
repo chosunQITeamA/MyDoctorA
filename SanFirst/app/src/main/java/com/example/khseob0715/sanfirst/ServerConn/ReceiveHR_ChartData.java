@@ -61,7 +61,7 @@ public class ReceiveHR_ChartData {
 
             @Override
             protected void onPostExecute(String result) {
-
+                Fragment_HRHistory.flag = 0;
             }
         }).execute();
 
