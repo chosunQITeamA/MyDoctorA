@@ -34,6 +34,9 @@ import com.example.khseob0715.sanfirst.GPSTracker.GPSTracker;
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.ConfirmPW;
+import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_main;
+import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_patientlist;
+import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_usersearch;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Account;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AirMap;
@@ -65,6 +68,9 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     private Fragment airqualfragment;
     private Fragment accountFragment;
     private Fragment profileFragment;
+    private Fragment D_mainFragment;
+    private Fragment D_listFragment;
+    private Fragment D_searchFragment;
 
     public static int heartratevalue = 0;
     public static int val[] = {0,0,0,0,0};
@@ -131,15 +137,16 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         accountFragment = new Fragment_Account();
         profileFragment = new Fragment_AirMap();
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_fragment_layout, btchatFragment);
-        ft.commit();
+        D_mainFragment = new D_Fragment_main();
+        D_listFragment = new D_Fragment_patientlist();
+        D_searchFragment = new D_Fragment_usersearch();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         Menu menu = navigationView.getMenu();
 
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if(LoginActivity.who == 0) {
             // 환자용 일때는 지워야 함.
             MenuItem doctor = menu.findItem(R.id.Dr_drawer);
@@ -147,6 +154,8 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
             MenuItem doctor_main = menu.findItem(R.id.nav_doctor_main);
             doctor_main.setVisible(false);
+
+            ft.replace(R.id.content_fragment_layout, btchatFragment);
         }else {
             // 의사용 일때는 지워야 함.
             MenuItem doctor_search = menu.findItem(R.id.nav_mydoc);
@@ -157,7 +166,12 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
             MenuItem user_main = menu.findItem(R.id.nav_user_main);
             user_main.setVisible(false);
+
+            ft.replace(R.id.content_fragment_layout, D_mainFragment);
+
         }
+        ft.commit();
+
 
 
         viewlistBTdevice(1);
@@ -383,6 +397,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
         String title = getString(R.string.app_name);
         switch (id) {
+            // 환자용
             case R.id.nav_user_main :
                 fragment = new Fragment_TabMain();
                 title = "My Doctor A";
@@ -428,6 +443,21 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
 
+            // 의사용
+            case R.id.nav_doctor_main :
+                fragment = new D_Fragment_main();
+                title = "My Doctor A";
+                break;
+
+            case R.id.nav_patient_list :
+                fragment = new D_Fragment_patientlist();
+                title = "Patient List";
+                break;
+
+            case R.id.nav_patient_search :
+                fragment = new D_Fragment_usersearch();
+                title = "Patient Search";
+                break;
             default:
                 title = "nav_default";
              //   Toast.makeText(this, "nav_default", Toast.LENGTH_SHORT).show();
