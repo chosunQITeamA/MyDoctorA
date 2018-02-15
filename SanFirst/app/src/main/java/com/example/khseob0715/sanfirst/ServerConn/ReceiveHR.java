@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_HRHistory;
 
 import org.json.JSONArray;

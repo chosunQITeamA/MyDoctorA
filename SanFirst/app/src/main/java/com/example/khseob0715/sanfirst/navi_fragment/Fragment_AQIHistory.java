@@ -1,9 +1,12 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
 
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
@@ -11,14 +14,20 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.ReceiveAQI;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -27,20 +36,36 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.w3c.dom.Text;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fragment_AQIHistory extends Fragment {
+public class Fragment_AQIHistory extends Fragment implements View.OnClickListener{
 
     private ListView listView;
     private ViewGroup rootView;
     private ProgressBar PM25_Bar,CO_Bar,NO2_Bar,SO2_Bar,O3_Bar;
 
-    private myAdapter adapter2;
+    private myAdapter AQIadapter;
+
+    private Handler handler;
 
     // 서버랑 연결 되면 받을 값.
-    private String[] items = {"ss", "das","s","s","s","s","s","f","s","s","s","s","f"};
+    public static String[] AQI_date_items = new String[50];
+
+    public static int[] PM_Avg = new int[50];
+    public static int[] CO_Avg = new int[50];
+    public static int[] NO_Avg = new int[50];
+    public static int[] SO_Avg = new int[50];
+    public static int[] O3_Avg = new int[50];
+
+    public static int[] TP_Avg = new int[50];
 
     private LineChart pmChart;
     private LineChart coChart;
@@ -50,6 +75,20 @@ public class Fragment_AQIHistory extends Fragment {
 
     private Thread thread;
 
+    private LinearLayout Start_date_layout, End_date_layout;
+    private TextView Start_date_text, End_date_text;
+
+    private DatePickerDialog datePickerDialog;
+
+    private Button SearchBtn;
+
+    private ReceiveAQI receiveAQI = new ReceiveAQI();
+
+    public static int Air_response_count = 0;
+
+    private String chart_date_text = "";
+
+    private String pre_dp = "1";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,8 +97,37 @@ public class Fragment_AQIHistory extends Fragment {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_aqi_history, container, false);
 
         listView = (ListView) rootView.findViewById(R.id.airlistview);
-        adapter2 = new myAdapter();
-        listView.setAdapter(adapter2);
+        AQIadapter = new myAdapter();
+        listView.setAdapter(AQIadapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Cursor mycursor = (Cursor)listView.getItemAtPosition(position);
+
+                //chart_date_text = "" + listView.getItemAtPosition(position);
+
+                //Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "chart : " + mycursor.getString(3), Toast.LENGTH_SHORT).show();
+                if(!pre_dp.equals(chart_date_text)) {
+
+
+
+
+
+
+//                    if (set0 != null) {
+//                        set0.clear();
+//                    }
+//                    if (set1 != null) {
+//                        set1.clear();
+//                    }
+//                    receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, chart_date_text, chart_date_text);
+                }
+                pre_dp = "" + chart_date_text;
+            }
+        });
 
         PM25_Bar = (ProgressBar)rootView.findViewById(R.id.PM25_progress);
         PM25_Bar.getProgressDrawable().setColorFilter(Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
@@ -80,6 +148,17 @@ public class Fragment_AQIHistory extends Fragment {
         O3_Bar = (ProgressBar)rootView.findViewById(R.id.O3_progress);
         O3_Bar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
         O3_Bar.setProgress(50);
+
+        Start_date_layout = (LinearLayout)rootView.findViewById(R.id.Start_date_layout);
+        Start_date_layout.setOnClickListener(this);
+        End_date_layout = (LinearLayout)rootView.findViewById(R.id.End_date_layout);
+        End_date_layout.setOnClickListener(this);
+
+        Start_date_text = (TextView)rootView.findViewById(R.id.Start_date);
+        End_date_text = (TextView)rootView.findViewById(R.id.End_date);
+
+        SearchBtn = (Button)rootView.findViewById(R.id.SearchBtn);
+        SearchBtn.setOnClickListener(this);
 
         TabHost host = (TabHost)rootView.findViewById(R.id.AirTabhost);
         host.setup();
@@ -118,13 +197,10 @@ public class Fragment_AQIHistory extends Fragment {
         spec.setContent(R.id.tab6);
         host.addTab(spec);
 
-
-        for(int i=0;i<host.getTabWidget().getChildCount();i++)
-        {
+        for(int i=0;i<host.getTabWidget().getChildCount();i++){
             TextView tv = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(Color.parseColor("#000000"));
         }
-
 
         pmChart = (LineChart)rootView.findViewById(R.id.pmChart);
         coChart = (LineChart)rootView.findViewById(R.id.coChart);
@@ -149,7 +225,20 @@ public class Fragment_AQIHistory extends Fragment {
         LineData data5 = new LineData();
         soChart.setData(data5);
 
-      //  feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
+        long now = System.currentTimeMillis();
+
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String getTime = sdf.format(date);
+
+        Start_date_text.setText(getTime);
+        End_date_text.setText(getTime);
+
+
+        handler = new Handler();
+
+
+        // feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
         addEntry();
         return rootView;
     }
@@ -340,17 +429,70 @@ public class Fragment_AQIHistory extends Fragment {
         return set;                                                   // 이렇게 생성한 set을 반환
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.Start_date_layout:
+                DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        String data = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        SimpleDateFormat startdata = new SimpleDateFormat("yyyy-MM-dd");
+
+                        Date date = null ;
+                        try {
+                            date = startdata.parse(data);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Start_date_text.setText(startdata.format(date));
+                    }
+                };
+
+                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback, 2018, 1, 1);
+                datePickerDialog.show();
+                break;
+
+            case R.id.End_date_layout:
+                DatePickerDialog.OnDateSetListener callback2 = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        String data = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        SimpleDateFormat startdata = new SimpleDateFormat("yyyy-MM-dd");
+
+                        Date date = null ;
+                        try {
+                            date = startdata.parse(data);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        End_date_text.setText(startdata.format(date));
+                    }
+                };
+
+                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback2, 2018, 1, 1);
+                datePickerDialog.show();
+                break;
+
+            case R.id.SearchBtn:
+                int usn = UserActivity.getUSN();
+                receiveAQI.ReceiveAQI_Asycn(usn,Start_date_text.getText().toString(), End_date_text.getText().toString());
+                handler.postDelayed(new Update_list(),1200);
+                break;
+        }
+    }
+
 
     class myAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            return items.length;
+            return Air_response_count;
         }
 
         @Override
         public Object getItem(int position) {
-            return items[position];
+            return AQI_date_items[position];
         }
 
         @Override
@@ -361,6 +503,22 @@ public class Fragment_AQIHistory extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             HistoricalAir view = new HistoricalAir(rootView.getContext());
+
+            TextView date = (TextView)view.findViewById(R.id.Historical_AQI_date);
+            date.setText(AQI_date_items[position]);
+
+            TextView PM = (TextView)view.findViewById(R.id.PM_avg);
+            PM.setText(String.valueOf(PM_Avg[position]));
+            TextView CO = (TextView)view.findViewById(R.id.CO_avg);
+            CO.setText(String.valueOf(CO_Avg[position]));
+            TextView NO = (TextView)view.findViewById(R.id.NO2_avg);
+            NO.setText(String.valueOf(NO_Avg[position]));
+            TextView SO = (TextView)view.findViewById(R.id.SO2_avg);
+            SO.setText(String.valueOf(SO_Avg[position]));
+            TextView O3 = (TextView)view.findViewById(R.id.O3_avg);
+            O3.setText(String.valueOf(O3_Avg[position]));
+            TextView TP = (TextView)view.findViewById(R.id.F_avg);
+            TP.setText(String.valueOf(TP_Avg[position]));
 
             return view;
         }
@@ -391,6 +549,14 @@ public class Fragment_AQIHistory extends Fragment {
         super.onPause();
         if(thread != null){
             thread.interrupt();
+        }
+    }
+
+    private class Update_list implements Runnable{
+
+        @Override
+        public void run() {
+            AQIadapter.notifyDataSetChanged();
         }
     }
 
