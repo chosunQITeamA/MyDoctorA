@@ -42,6 +42,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -52,7 +53,7 @@ import java.util.Date;
 import static android.location.LocationManager.GPS_PROVIDER;
 
 
-public class Fragment_HRHistory extends Fragment implements View.OnClickListener {
+public class Fragment_HRHistory extends Fragment implements View.OnClickListener, OnMapReadyCallback {
 
     private MapView mapView = null;
 
@@ -107,7 +108,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_heartrate_history, container, false);
 
         usn = UserActivity.getUSN();
-        mapView = (MapView) rootView.findViewById(R.id.map);
         // mapView.getMapAsync((OnMapReadyCallback) this);
 
         listView = (ListView) rootView.findViewById(R.id.listView);
@@ -157,12 +157,11 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         handler = new Handler();
 
-
         return rootView;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         HRChart = (LineChart) view.findViewById(R.id.HeartChart);
 
         // 차트의 아래 Axis
@@ -184,6 +183,13 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         // feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
         // addEntry();
+
+        mapView = (MapView) view.findViewById(R.id.mapView);
+        mapView.getMapAsync(this);
+
+        if (mapView != null) {
+            mapView.onCreate(savedInstanceState);
+        }
     }
 
     private void feedMultiple() {
@@ -308,6 +314,11 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         }
     }
 
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        StartLocationService();
+    }
+
     private void StartLocationService() {
         Log.e("startLocationService", "startLocationService");
         LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -330,6 +341,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
             if (lastLocation != null) {
                 Double latitude = lastLocation.getLatitude();
                 Double longitude = lastLocation.getLongitude();
+
+                Toast.makeText(getActivity(), "HR-" + "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
             }
         } catch (SecurityException e) {
             e.printStackTrace();
@@ -399,10 +412,10 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         @Override
         public void onLocationChanged(Location location) {
-//            lat = location.getLatitude();
-//            lon = location.getLongitude();
-//            String msg = "Lat:" + lat + " / Lon:" + lon;
-//            m_Adapter.add(msg);
+            HR_Lat = location.getLatitude();
+            HR_lon = location.getLongitude();
+            String msg = "Lat:" + HR_Lat + " / Lon:" + HR_lon;
+            ShowMyLocation(HR_Lat, HR_lon, map);
         }
 
         @Override
@@ -427,11 +440,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
-    }
-
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-        StartLocationService();
     }
 
     class myAdapter extends BaseAdapter {
