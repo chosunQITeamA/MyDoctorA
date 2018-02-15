@@ -600,11 +600,11 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
 
             seekani(heart_seekbar, heart_start, heart_rate_value );
 
-            seekani(o3_seekbar, ConcenVal_Start[0], ConcenVal[0]);
-            seekani(no2_seekbar, ConcenVal_Start[1], ConcenVal[1]);
-            seekani(co_seekbar, ConcenVal_Start[2], ConcenVal[2]);
-            seekani(so2_seekbar, ConcenVal_Start[3], ConcenVal[3]);
-            seekani(pm25_seekbar, ConcenVal_Start[4], ConcenVal[4]);
+            seekani(o3_seekbar, Integer.valueOf(ConcenVal_Start[0]/3), Integer.valueOf(ConcenVal[0]/3));
+            seekani(no2_seekbar,Integer.valueOf(ConcenVal_Start[1]/3), Integer.valueOf(ConcenVal[1]/3));
+            seekani(co_seekbar, Integer.valueOf(ConcenVal_Start[2]/3), Integer.valueOf(ConcenVal[2]/3));
+            seekani(so2_seekbar, Integer.valueOf(ConcenVal_Start[3]/3), Integer.valueOf(ConcenVal[3]/3));
+            seekani(pm25_seekbar, Integer.valueOf(ConcenVal_Start[4]/3), Integer.valueOf(ConcenVal[4]/3));
 
             heart_start = heart_rate_value;
 
