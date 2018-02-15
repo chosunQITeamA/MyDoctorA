@@ -55,12 +55,12 @@ import static android.location.LocationManager.GPS_PROVIDER;
 
 public class Fragment_HRHistory extends Fragment implements View.OnClickListener, OnMapReadyCallback {
 
-    private MapView mapView = null;
-
-    private Double HR_Lat = 32.882499;
-    private Double HR_lon = -117.234644;
-
     GoogleMap map;
+    MapView mapView = null;
+
+    //32.882499 / -117.234644
+    public static Double lat = 0.00;
+    public static Double lon = 0.00;
 
     private static final int TRANSPARENCY_MAX = 100;
 
@@ -135,10 +135,10 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                     receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, chart_date_text, chart_date_text);
 
                     flag = 1;
-           //         handler.postDelayed(new enableBtn(),2000);
+                    //         handler.postDelayed(new enableBtn(),2000);
 
                 }
-               pre_dp = "" + chart_date_text;
+                pre_dp = "" + chart_date_text;
             }
         });
 
@@ -250,7 +250,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         HRChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
         HRChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-    //    HRChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+        //    HRChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
         HRChart.moveViewToX(0);
     }
 
@@ -311,15 +311,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     public void onDestroy() {
         super.onDestroy();
         mapView.onLowMemory();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //액티비티가 처음 생성될 때 실행되는 함수
-        if (mapView != null) {
-            mapView.onCreate(savedInstanceState);
-        }
     }
 
     public void onMapReady(GoogleMap googleMap) {
@@ -419,10 +410,10 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         @Override
         public void onLocationChanged(Location location) {
-            HR_Lat = location.getLatitude();
-            HR_lon = location.getLongitude();
-            String msg = "Lat:" + HR_Lat + " / Lon:" + HR_lon;
-            ShowMyLocation(HR_Lat, HR_lon, map);
+            lat = location.getLatitude();
+            lon = location.getLongitude();
+            String msg = "Lat:" + lat + " / Lon:" + lon;
+            ShowMyLocaion(lat, lon, map);
         }
 
         @Override
@@ -431,7 +422,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         @Override
         public void onProviderEnabled(String s) {
-            ShowMyLocation(HR_Lat, HR_lon, map);
+            ShowMyLocaion(lat, lon, map);
         }
 
         @Override
@@ -439,17 +430,17 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         }
     }
 
-    private void ShowMyLocation(Double lat, Double lon, GoogleMap googleMap) {
+    private void ShowMyLocaion(Double lat, Double lon, GoogleMap googleMap) {
         LatLng nowLocation = new LatLng(lat, lon);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(nowLocation);
         markerOptions.title("now location");
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
-    class myAdapter extends BaseAdapter {
+class myAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
