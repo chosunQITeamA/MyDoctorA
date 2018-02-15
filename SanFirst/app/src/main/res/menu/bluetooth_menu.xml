@@ -2,14 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/secure_connect_scan"
-        android:icon="@drawable/ic_settings"
-        android:showAsAction="ifRoom"
         android:title="Udoo Connect"/>
 
     <item
         android:id="@+id/insecure_connect_scan"
-        android:icon="@drawable/ic_settings"
-        android:showAsAction="ifRoom"
         android:title="BTChat Connect"/>
 
+    <item
+        android:id="@+id/createTable"
+        android:title="createTable"/>
+
+    <item
+        android:id="@+id/insertTable"
+        android:title="insertTable"/>
+
+    <item
+        android:id="@+id/selectData"
+        android:title="selectData"/>
+
+    <item
+        android:id="@+id/dropTable"
+        android:title="dropTable"/>
 </menu>

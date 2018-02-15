@@ -185,6 +185,9 @@ public class BluetoothAQI extends Service{
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     broadcastUpdate(ACTION_SEND_AQI_DATA, readMessage);
 
+                    Log.e("UDOO = ", readMessage);
+                    //-------------------------------------------------------------------------------------
+
                     String[] value = readMessage.split(",");
 
                     float o3val = Float.valueOf(value[0]);
@@ -194,16 +197,16 @@ public class BluetoothAQI extends Service{
                     float pm25val = Float.valueOf(value[4]);
                     float temp = Float.valueOf(value[5]);
 
-                    int i_pm25val = (int)pm25val;
-                    int i_coval = (int)coval;
-                    int i_so2val = (int)so2val;
                     int i_o3val = (int)o3val;
                     int i_no2val = (int)no2val;
+                    int i_coval = (int)coval;
+                    int i_so2val = (int)so2val;
+                    int i_pm25val = (int)pm25val;
                     int i_temp = (int)temp;
 
-                    int val[] = {i_pm25val, i_coval, i_so2val, i_o3val, i_no2val, i_temp};
+                    int val[] = {i_o3val, i_no2val, i_coval, i_so2val, i_pm25val, i_temp};
 
-                    Log.e("val", String.valueOf(i_pm25val) +"/"+String.valueOf(i_coval) +"/"+String.valueOf(i_so2val) +"/"+String.valueOf(i_o3val) +"/"+String.valueOf(i_no2val) +"/" + String.valueOf(i_temp));
+                    Log.e("val", String.valueOf(i_o3val) +"/"+String.valueOf(i_no2val) +"/"+String.valueOf(i_coval) +"/"+String.valueOf(i_so2val) +"/"+String.valueOf(i_pm25val) +"/" + String.valueOf(i_temp));
 
                     for(int i=0; i<=5; i++) {
                      //   UserActivity.val[i] = val[i];

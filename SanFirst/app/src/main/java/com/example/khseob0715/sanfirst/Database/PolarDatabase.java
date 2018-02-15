@@ -8,8 +8,6 @@ public class PolarDatabase extends Service {
 
     public int PolarDB_heartratevalue = 0;
 
-    private DBHelper dbHelper;
-
     public PolarDatabase() {
 
     }

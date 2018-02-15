@@ -23,8 +23,8 @@ public class PolarSensor extends Service {
 
     private SharedPreferences prefs;
 
-    int heartrateValue = 0;
-    int RR_value = 0;
+    public static int heartrateValue = 0;
+    public static int RR_value = 0;
 
     PolarBleService mPolarBleService;
     // String mpolarBleDeviceAddress="00:22:D0:A4:96:72";
