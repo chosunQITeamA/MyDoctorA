@@ -13,7 +13,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <!-- Account Activity-->
-    <string name="warning">If you do not have to use My door A again and want to clear your account, we will delete your account. Please remember that deleted accounts can not be restored and the information of the accounts will be deleted completely.</string>
+    <string name="warning">If you do not have to use My doctor A again and want to clear your account, we will delete your account. Please remember that deleted accounts can not be restored and the information of the accounts will be deleted completely.</string>
     <string name="delete_account_btn">Delete your account</string>
 
     <!--  BluetoothChat -->

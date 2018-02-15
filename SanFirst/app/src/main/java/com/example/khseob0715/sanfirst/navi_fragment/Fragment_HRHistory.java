@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.ReceiveHR;
+import com.example.khseob0715.sanfirst.ServerConn.ReceiveHR_ChartData;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -42,13 +45,14 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.location.LocationManager.GPS_PROVIDER;
 
 
-public class Fragment_HRHistory extends Fragment implements View.OnClickListener{
+public class Fragment_HRHistory extends Fragment implements View.OnClickListener {
 
     private MapView mapView = null;
 
@@ -66,10 +70,14 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
     private DatePickerDialog datePickerDialog;
 
-    private myAdapter adapter;
+    public static myAdapter Heart_adapter;
 
     // 서버랑 연결 되면 받을 값.
-    private String[] items = {"ss", "das","ss", "das","ss", "das","ss", "das","ss", "das","ss", "das","ss", "das"};
+    public static String[] items = new String[50];
+    public static int[] HeartAvg = new int[50];
+    public static int[] RRAvg = new int[50];
+
+    public static int response_count = 0;
 
     private LinearLayout startLayout, endLayout;
 
@@ -77,9 +85,18 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
     UserActivity mainclass = new UserActivity(); // ?
     ReceiveHR receiveHR = new ReceiveHR();
+    ReceiveHR_ChartData receiveHR_chartData = new ReceiveHR_ChartData(); // chart data receive
 
-    private LineChart mChart;
+    public static LineChart HRChart;
     private Thread thread;
+
+    private Handler handler;
+
+    private String chart_date_text = "";
+
+    private int usn;
+
+    public static LineData data;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,22 +104,35 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         // Inflate the layout for this fragment
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_heartrate_history, container, false);
 
+        usn = UserActivity.getUSN();
         mapView = (MapView) rootView.findViewById(R.id.map);
-       // mapView.getMapAsync((OnMapReadyCallback) this);
+        // mapView.getMapAsync((OnMapReadyCallback) this);
 
         listView = (ListView) rootView.findViewById(R.id.listView);
-        adapter = new myAdapter();
-        listView.setAdapter(adapter);
+        Heart_adapter = new myAdapter();
+        listView.setAdapter(Heart_adapter);
 
-        startLayout = (LinearLayout)rootView.findViewById(R.id.start_date);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                chart_date_text = "" + listView.getItemAtPosition(position);
+                Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
+                receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, chart_date_text,chart_date_text);
+
+            }
+        });
+
+        startLayout = (LinearLayout) rootView.findViewById(R.id.start_date);
         startLayout.setOnClickListener(this);
-        endLayout = (LinearLayout)rootView.findViewById(R.id.end_date);
+
+        endLayout = (LinearLayout) rootView.findViewById(R.id.end_date);
         endLayout.setOnClickListener(this);
-        HRsearchBtn = (Button)rootView.findViewById(R.id.HRDataSearchBtn);
+
+        HRsearchBtn = (Button) rootView.findViewById(R.id.HRDataSearchBtn);
         HRsearchBtn.setOnClickListener(this);
 
-        Start_date_text = (TextView)rootView.findViewById(R.id.Start_date_text);
-        End_date_text = (TextView)rootView.findViewById(R.id.End_date_text);
+        Start_date_text = (TextView) rootView.findViewById(R.id.Start_date_text);
+        End_date_text = (TextView) rootView.findViewById(R.id.End_date_text);
 
         long now = System.currentTimeMillis();
 
@@ -113,55 +143,56 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         Start_date_text.setText(getTime);
         End_date_text.setText(getTime);
 
+        handler = new Handler();
+
+
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mChart = (LineChart) view.findViewById(R.id.HeartChart);
+        HRChart = (LineChart) view.findViewById(R.id.HeartChart);
 
         // 차트의 아래 Axis
-        XAxis xAxis = mChart.getXAxis();
+        XAxis xAxis = HRChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
         xAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
         xAxis.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
 
         // 차트의 왼쪽 Axis
-        YAxis leftAxis = mChart.getAxisLeft();
+        YAxis leftAxis = HRChart.getAxisLeft();
         leftAxis.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
 
         // 차트의 오른쪽 Axis
-        YAxis rightAxis = mChart.getAxisRight();
+        YAxis rightAxis = HRChart.getAxisRight();
         rightAxis.setEnabled(false); // rightAxis를 비활성화 함
 
         LineData data = new LineData();
-        mChart.setData(data); // LineData를 셋팅함
+        HRChart.setData(data); // LineData를 셋팅함
 
-        feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
+        // feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
+        // addEntry();
     }
 
     private void feedMultiple() {
-        if(thread != null)
+        if (thread != null)
             thread.interrupt();        // 살아있는 쓰레드에 인터럽트를 검
 
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                addEntry();            // addEntry를 실행하게 함
+                addEntry(0,0);            // addEntry를 실행하게 함
             }
         };
 
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true)
-                {
+                while (true) {
                     mainclass.runOnUiThread(runnable);    // UI 쓰레드에서 위에서 생성한 runnable를 실행함
-                    try
-                    {
+                    try {
                         Thread.sleep(500);        // 0.5초간 쉼
-                    }catch (InterruptedException ie)
-                    {
+                    } catch (InterruptedException ie) {
                         ie.printStackTrace();
                     }
                 }
@@ -170,32 +201,33 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         thread.start();
     }
 
-    private void addEntry() {
-        LineData data = mChart.getData();
+
+    public static void addEntry(double HR, double RR) {
+        data = HRChart.getData();
 
         LineDataSet set0 = (LineDataSet) data.getDataSetByIndex(0);
         LineDataSet set1 = (LineDataSet) data.getDataSetByIndex(1);
 
         if (set0 == null || set1 == null) {
             // creation of null
-            set0 = createSet(-65536,"Heart-Rate");      // createSet 한다.
-            set1 = createSet(-16711681,"RR-Rate");
+            set0 = createSet(-65536, "Heart-Rate");      // createSet 한다.
+            set1 = createSet(-16711681, "RR-Interval");
 
             data.addDataSet(set0);
             data.addDataSet(set1);
         }
 
-        data.addEntry(new Entry(set0.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
-        data.addEntry(new Entry(set1.getEntryCount(), (float) (Math.random() * 40) + 30f), 1);
+        data.addEntry(new Entry(set0.getEntryCount(), (float)HR), 0);
+        data.addEntry(new Entry(set1.getEntryCount(), (float)RR), 1);
 
         data.notifyDataChanged();                                      // data의 값 변동을 감지함
 
-        mChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
-        mChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-        mChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+        HRChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
+        HRChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
+        HRChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
     }
 
-    private LineDataSet createSet(int setColor, String dataName) {
+    public static LineDataSet createSet(int setColor, String dataName) {
         LineDataSet set = new LineDataSet(null, dataName);           // 데이터셋의 이름을 "Dynamic Data"로 설정(기본 데이터는 null)
         set.setAxisDependency(YAxis.AxisDependency.LEFT);            // Axis를 YAxis의 LEFT를 기본으로 설정
         set.setColor(setColor);                                      // 데이터의 라인색을 HoloBlue로 설정
@@ -236,7 +268,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     @Override
     public void onPause() {
         super.onPause();
-        if(thread != null){
+        if (thread != null) {
             thread.interrupt();
         }
         mapView.onPause();
@@ -264,8 +296,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     }
 
     private void StartLocationService() {
-        Log.e("startLocationService","startLocationService");
-        LocationManager manager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Log.e("startLocationService", "startLocationService");
+        LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         GPSListener gpsListener = new GPSListener();
         long minTime = 10000;
         float minDistance = 0;
@@ -294,42 +326,63 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.start_date:
 
                 DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Start_date_text.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                        String data = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        SimpleDateFormat startdata = new SimpleDateFormat("yyyy-MM-dd");
+
+                        Date date = null ;
+                        try {
+                            date = startdata.parse(data);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Start_date_text.setText(startdata.format(date));
                     }
                 };
 
-                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback, 2018, 0, 19);
+                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, callback, 2018, 1, 11);
                 datePickerDialog.show();
 
                 break;
 
             case R.id.end_date:
-
                 DatePickerDialog.OnDateSetListener endcallback = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        End_date_text.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                        String data = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        SimpleDateFormat enddata = new SimpleDateFormat("yyyy-MM-dd");
+
+                        Date date = null ;
+                        try {
+                            date = enddata.parse(data);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        End_date_text.setText(enddata.format(date));
                     }
                 };
 
-                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, endcallback, 2018, 0, 19);
+                datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog_Alert, endcallback, 2018, 1, 1);
                 datePickerDialog.show();
                 break;
-            case R.id.HRDataSearchBtn :
+
+            case R.id.HRDataSearchBtn:
                 int usn = UserActivity.getUSN();
-                Log.e("HRDataSearchBtn",usn +"/"+ Start_date_text.getText().toString()+"/"+End_date_text.getText().toString());
+                Log.e("HRDataSearchBtn", usn + "/" + Start_date_text.getText().toString() + "/" + End_date_text.getText().toString());
                 receiveHR.ReceiveHR_Asycn(usn, Start_date_text.getText().toString(), End_date_text.getText().toString());
+                //Heart_adapter.notifyDataSetChanged();
+                handler.postDelayed(new Update_list(),1500);
                 break;
         }
     }
 
-    private class GPSListener implements LocationListener{
+    private class GPSListener implements LocationListener {
 
         @Override
         public void onLocationChanged(Location location) {
@@ -363,20 +416,17 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
     }
 
-
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         StartLocationService();
     }
 
-
     class myAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            return items.length;
+            return response_count;
         }
-
         @Override
         public Object getItem(int position) {
             return items[position];
@@ -390,8 +440,16 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             HistoricalHeart view = new HistoricalHeart(rootView.getContext());
-            //view.setText(items[position]);
-            //view.setTextSize(40.0f);
+
+            TextView date = (TextView)view.findViewById(R.id.HistoryHeartDate);
+            date.setText(items[position]);
+
+            TextView Heart_avg = (TextView)view.findViewById(R.id.AvgHeart_text);
+            Heart_avg.setText(String.valueOf(HeartAvg[position]));
+
+            TextView RR_avg = (TextView)view.findViewById(R.id.AvgRR_text);
+            RR_avg.setText(String.valueOf(RRAvg[position]));
+
             return view;
         }
     }
@@ -411,8 +469,15 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         private void init(Context context) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater.inflate(R.layout.historical_heart_list, this);
+            View view = inflater.inflate(R.layout.historical_heart_list, this);
         }
+    }
 
+    private class Update_list implements Runnable{
+
+        @Override
+        public void run() {
+            Heart_adapter.notifyDataSetChanged();
+        }
     }
 }
