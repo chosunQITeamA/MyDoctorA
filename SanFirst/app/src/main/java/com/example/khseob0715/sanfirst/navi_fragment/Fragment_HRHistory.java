@@ -97,7 +97,9 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     private int usn;
 
     public static LineData data;
+    public static LineDataSet set0 = null , set1 = null;
 
+    private String pre_dp = "1";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -116,9 +118,19 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 chart_date_text = "" + listView.getItemAtPosition(position);
-                Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
-                receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, chart_date_text,chart_date_text);
 
+                Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
+                if(!pre_dp.equals(chart_date_text)) {
+                    if (set0 != null) {
+                        set0.clear();
+                    }
+
+                    if (set1 != null) {
+                        set1.clear();
+                    }
+                    receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, chart_date_text, chart_date_text);
+                }
+               pre_dp = "" + chart_date_text;
             }
         });
 
@@ -205,8 +217,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     public static void addEntry(double HR, double RR) {
         data = HRChart.getData();
 
-        LineDataSet set0 = (LineDataSet) data.getDataSetByIndex(0);
-        LineDataSet set1 = (LineDataSet) data.getDataSetByIndex(1);
+        set0 = (LineDataSet) data.getDataSetByIndex(0);
+        set1 = (LineDataSet) data.getDataSetByIndex(1);
 
         if (set0 == null || set1 == null) {
             // creation of null
@@ -224,7 +236,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         HRChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
         HRChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-        HRChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+    //    HRChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+        HRChart.moveViewToX(0);
     }
 
     public static LineDataSet createSet(int setColor, String dataName) {
@@ -377,7 +390,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                 Log.e("HRDataSearchBtn", usn + "/" + Start_date_text.getText().toString() + "/" + End_date_text.getText().toString());
                 receiveHR.ReceiveHR_Asycn(usn, Start_date_text.getText().toString(), End_date_text.getText().toString());
                 //Heart_adapter.notifyDataSetChanged();
-                handler.postDelayed(new Update_list(),1500);
+                handler.postDelayed(new Update_list(),1200);
                 break;
         }
     }

@@ -70,8 +70,6 @@ public class ReceiveHR_ChartData {
 
     class ConnectServer {//Client 생성
 
-//        Fragment_HRHistory fhr = new Fragment_HRHistory();
-
         public int requestPost(String url, int usn, String fdate, String ldate) {
             Log.e("HR request","go");
             //Request Body에 서버에 보낼 데이터 작성
