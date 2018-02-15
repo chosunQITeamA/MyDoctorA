@@ -267,7 +267,6 @@ public class Fragment_AQIHistory extends Fragment {
         LineDataSet set4 = (LineDataSet) data.getDataSetByIndex(0);
         LineDataSet set5 = (LineDataSet) data.getDataSetByIndex(0);
 
-
         if (set1 == null) {
             // creation of null
             set1 = createSet(Color.parseColor("#FFFF7A87"), "PM2.5");

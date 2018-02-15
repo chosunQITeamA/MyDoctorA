@@ -24,20 +24,6 @@ public class Fragment_MyDoctor extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_mydoctor, container, false);
 
-        Button search = (Button)rootView.findViewById(R.id.Doctor_Search_Fragment_Btn);
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(),"MyDoctorSearch",Toast.LENGTH_SHORT).show();
-                fragment = new Fragment_SearchDoctor();
-
-                if (fragment != null) {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.content_fragment_layout, fragment);
-                    ft.commit();
-                }
-            }
-        });
 
 /*
         Button updateBtn = (Button)rootView.findViewById(R.id.updateBtn);

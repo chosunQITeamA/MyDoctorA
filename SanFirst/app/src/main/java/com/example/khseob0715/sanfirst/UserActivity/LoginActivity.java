@@ -53,6 +53,8 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
 
         tempLoginActivity = LoginActivity.this;
 
+        who = 0;
+
         // find
         selectUser = (RadioButton)findViewById(R.id.UserSelect);
         selectUser.setOnClickListener(this);

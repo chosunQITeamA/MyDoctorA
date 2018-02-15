@@ -42,6 +42,7 @@ import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Account;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AirMap;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_HRHistory;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_MyDoctor;
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_SearchDoctor;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothAQI;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
@@ -415,7 +416,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 title = "AQI Maps";
                 break;
             case R.id.nav_mydoc :
-                fragment = new Fragment_MyDoctor();
+                fragment = new Fragment_SearchDoctor();
                 title = "My Doctor";
                 break;
             case R.id.nav_signout :
