@@ -114,7 +114,6 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Verification_Layout.setVisibility(View.VISIBLE);
-
                             }
                         })
                         .show();

@@ -116,11 +116,11 @@ public class PolarSensor extends Service {
                 //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
                 String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
                 StringTokenizer tokens = new StringTokenizer(data, ";");
-                int hr = Integer.parseInt(tokens.nextToken());
+                int hr = Integer.parseInt(tokens.nextToken());  //
                 int prrPercenteage = Integer.parseInt(tokens.nextToken());
-                int prrCount = Integer.parseInt(tokens.nextToken());
+                int prrCount = Integer.parseInt(tokens.nextToken());    //
                 int rrThreshold = Integer.parseInt(tokens.nextToken());	//50%, 30%, etc.
-                int rrTotal = Integer.parseInt(tokens.nextToken());
+                int rrTotal = Integer.parseInt(tokens.nextToken()); //
                 int rrValue = Integer.parseInt(tokens.nextToken());
                 long sid = Long.parseLong(tokens.nextToken());
 
