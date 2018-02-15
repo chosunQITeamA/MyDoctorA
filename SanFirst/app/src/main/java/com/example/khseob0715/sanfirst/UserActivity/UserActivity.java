@@ -3,8 +3,10 @@ package com.example.khseob0715.sanfirst.UserActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.khseob0715.sanfirst.Database.SQLiteHelper;
 import com.example.khseob0715.sanfirst.GPSTracker.GPSTracker;
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
@@ -88,8 +91,11 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
     private Thread gpsThread;
 
+    SQLiteDatabase db;
+
     public static UserActivity UserActContext;
     ConfirmPW confirmpw = new ConfirmPW();
+    SQLiteHelper sqlhelper = new SQLiteHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +162,14 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
         viewlistBTdevice(1);
         startPolarsensor();
-
+        DBservice();
 
         UserActContext = this;
+    }
 
-
+    private void DBservice() {
+        db = openOrCreateDatabase("MyDoctorA", Context.MODE_PRIVATE, null);
+        Log.e("Database", "Create");
     }
 
     private void logPrint(String str) {
@@ -321,6 +330,37 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 Intent serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
                 return true;
+            }
+
+
+            //-----------------------------------------------------------------------------------------------------[DB Test]
+            case R.id.createTable : {
+                sqlhelper.createTable(db);
+                Toast.makeText(this, "Create Table", Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            case R.id.insertTable : {
+                String TS = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(System.currentTimeMillis()));;
+                Double LAT = GPSTracker.latitude;
+                Double LNG = GPSTracker.longitude;;
+                Double Heart_rate = Double.valueOf(PolarSensor.heartrateValue);
+                Double RR_rate = Double.valueOf(PolarSensor.RR_value);
+                sqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
+                Toast.makeText(this, "insert Data", Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            case R.id.selectData : {
+                sqlhelper.selectAll(db);
+                Toast.makeText(this, "select All", Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            case R.id.dropTable : {
+                sqlhelper.dropTable(db);
+                Toast.makeText(this, "drop Table", Toast.LENGTH_SHORT).show();
+                break;
             }
             /*
             case R.id.discoverable: {

@@ -271,7 +271,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         String Texture = null;
         String TextColor = null;
         String BColor = null;
-        if(value>0 && value<=50)    {
+        if(value>=0 && value<=50)    {
             Texture = "Good";
             TextColor = "#FFFFFF";
             //BColor = "#00E400";
