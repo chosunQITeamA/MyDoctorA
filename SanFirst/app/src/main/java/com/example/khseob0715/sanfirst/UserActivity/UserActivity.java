@@ -680,7 +680,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         }   else    {
             Log.e("heartrate value is ", "Noooooooooooooooooooo Zero!!!");
             //HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
-            //sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
+            sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
         }
 
 

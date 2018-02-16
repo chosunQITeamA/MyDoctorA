@@ -174,8 +174,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         spec.setContent(R.id.tab1);
         host.addTab(spec);
 
-        spec = host.newTabSpec("RR-Rate");
-        spec.setIndicator("RR-Rate");
+        spec = host.newTabSpec("RR-Interval");
+        spec.setIndicator("RR-Interval");
         //spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.bigcloud_pm, null));
         spec.setContent(R.id.tab2);
         host.addTab(spec);
