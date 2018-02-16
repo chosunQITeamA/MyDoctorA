@@ -1,16 +1,12 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -41,12 +37,13 @@ import java.util.Locale;
 import static android.location.LocationManager.GPS_PROVIDER;
 
 public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
-    private MapView mapView = null;
-
-    public static Double lat = 32.882499;
-    public static Double lon = -117.234644;
 
     GoogleMap map;
+    MapView mapView = null;
+
+    //32.882499 / -117.234644
+    public static Double lat = 0.00;
+    public static Double lon = 0.00;
 
     private ListView m_ListView;
     private ArrayAdapter<String> m_Adapter;
@@ -79,6 +76,11 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
         View layout = inflater.inflate(R.layout.fragment_air_map, container, false);
         mapView = (MapView) layout.findViewById(R.id.map);
         mapView.getMapAsync(this);
+
+        if (mapView != null) {
+            mapView.onCreate(savedInstanceState);
+        }
+
         m_Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
         m_ListView = (ListView) layout.findViewById(R.id.locationlistview);
         m_ListView.setAdapter(m_Adapter);
@@ -127,6 +129,7 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
         mapView.onLowMemory();
     }
 
+    /*
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -134,6 +137,30 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
         if (mapView != null) {
             mapView.onCreate(savedInstanceState);
         }
+    }
+    */
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        StartLocationService();
+
+        //--------------------------------------------------------------------AQICN TileOverlay
+        TileProvider tileProvider = new UrlTileProvider(256, 256) {
+            @Override
+            public synchronized URL getTileUrl(int x, int y, int zoom) {
+                // The moon tile coordinate system is reversed.  This is not normal.
+                String s = String.format(Locale.US, MOON_MAP_URL_FORMAT, zoom, x, y);
+                URL url = null;
+                try {
+                    url = new URL(s);
+                } catch (MalformedURLException e) {
+                    throw new AssertionError(e);
+                }
+                return url;
+            }
+        };
+        mMoonTiles = map.addTileOverlay(new TileOverlayOptions().tileProvider(tileProvider));
     }
 
     private void StartLocationService() {
@@ -179,7 +206,7 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
             lat = location.getLatitude();
             lon = location.getLongitude();
             String msg = "Lat:" + lat + " / Lon:" + lon;
-            m_Adapter.add(msg);
+            ShowMyLocaion(lat, lon, map);
         }
 
         @Override
@@ -206,26 +233,4 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(5));
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-        StartLocationService();
-
-        //--------------------------------------------------------------------AQICN TileOverlay
-        TileProvider tileProvider = new UrlTileProvider(256, 256) {
-            @Override
-            public synchronized URL getTileUrl(int x, int y, int zoom) {
-                // The moon tile coordinate system is reversed.  This is not normal.
-                String s = String.format(Locale.US, MOON_MAP_URL_FORMAT, zoom, x, y);
-                URL url = null;
-                try {
-                    url = new URL(s);
-                } catch (MalformedURLException e) {
-                    throw new AssertionError(e);
-                }
-                return url;
-            }
-        };
-        mMoonTiles = map.addTileOverlay(new TileOverlayOptions().tileProvider(tileProvider));
-    }
 }

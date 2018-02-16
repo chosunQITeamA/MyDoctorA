@@ -11,8 +11,6 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
-
 /**
  * Created by chony on 2018-02-04.
  */
@@ -187,7 +185,7 @@ public class BluetoothAQI extends Service{
 
                     Log.e("UDOO = ", readMessage);
                     //-------------------------------------------------------------------------------------
-
+/*
                     String[] value = readMessage.split(",");
 
                     float o3val = Float.valueOf(value[0]);
@@ -212,7 +210,7 @@ public class BluetoothAQI extends Service{
                      //   UserActivity.val[i] = val[i];
                         Fragment_TabMain.ConcenVal[i] = val[i];
                     }
-
+*/
                     Log.i(TAG, "Read!!!"+readMessage);
                     break;
                 default:
