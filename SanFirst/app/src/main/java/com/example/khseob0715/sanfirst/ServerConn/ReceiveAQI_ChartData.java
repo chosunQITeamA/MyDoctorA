@@ -25,7 +25,7 @@ import okhttp3.Response;
  */
 
 
-public class ReceiveAQI {
+public class ReceiveAQI_ChartData {
 
     public static final String url = "http://teama-iot.calit2.net/aqiapp";
 
@@ -46,14 +46,14 @@ public class ReceiveAQI {
 
     private int date_count = 0;
 
-    public ReceiveAQI(){
+    public ReceiveAQI_ChartData() {
     }
 
-    public ReceiveAQI(Context c) {
+    public ReceiveAQI_ChartData(Context c) {
         this.context = c;
     }
 
-    public void ReceiveAQI_Asycn(final int usn, final String fdate, final String ldate) {
+    public void ReceiveAQI_ChartData_Asycn(final int usn, final String fdate, final String ldate) {
         (new AsyncTask<Fragment_AQIHistory, Void, String>() {
 
             @Override
@@ -80,7 +80,7 @@ public class ReceiveAQI {
     class ConnectServer {//Client 생성
 
         public int requestPost(String url, int usn, String fdate, String ldate) {
-            Log.e("AQI request","go");
+            Log.e("AQI request", "go");
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
                     .add("usn", String.valueOf(usn))
@@ -123,10 +123,10 @@ public class ReceiveAQI {
                         Fragment_AQIHistory.Air_response_count = 0;
 
 
-                        for(int i=0; i<AQIData.length(); i++)    {
+                        for (int i = 0; i < AQIData.length(); i++) {
                             JSONObject getAQIData = AQIData.getJSONObject(i);
                             String TS = getAQIData.getString("TS");
-                            Log.i("substring",TS.substring(0,10));
+                            Log.i("substring", TS.substring(0, 10));
 
                             Double CO = getAQIData.getDouble("CO");
                             Double SO2 = getAQIData.getDouble("SO2");
@@ -134,6 +134,7 @@ public class ReceiveAQI {
                             Double O3 = getAQIData.getDouble("O3");
                             Double PM = getAQIData.getDouble("PM2.5");
                             Double TEMP = getAQIData.getDouble("Temperature");
+
                             Double LAT = getAQIData.getDouble("LAT");
                             Double LNG = getAQIData.getDouble("LNG");
 
@@ -143,38 +144,37 @@ public class ReceiveAQI {
                             total_SO_value += SO2;
                             total_O3_value += O3;
                             total_TP_value += TEMP;
+
                             date_count++;
+                            Log.i("AQIData = ", i + " / " + TS + " / " + CO + " / " + SO2 + " / " + NO2 + "/" + O3 + "/" + PM + "/" + TEMP + "/" + LAT + " / " + LNG);
 
-                            if(!compare.equals(TS.substring(0,10))){
-                                compare = TS.substring(0,10);
-                                Fragment_AQIHistory.AQI_date_items[Fragment_AQIHistory.Air_response_count] = compare;
-                                Fragment_AQIHistory.PM_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_PM_value / date_count;
-                                Fragment_AQIHistory.CO_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_CO_value / date_count;
-                                Fragment_AQIHistory.NO_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_NO_value / date_count;
-                                Fragment_AQIHistory.SO_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_SO_value / date_count;
-                                Fragment_AQIHistory.O3_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_O3_value / date_count;
-                                Fragment_AQIHistory.TP_Avg[Fragment_AQIHistory.Air_response_count] = (int)total_TP_value / date_count;
-
-                                Fragment_AQIHistory.Air_response_count++;
-
-                                total_PM_value = 0;
-                                total_CO_value = 0;
-                                total_NO_value = 0;
-                                total_SO_value = 0;
-                                total_O3_value = 0;
-                                total_TP_value = 0;
-
-                                date_count = 0;
-                            }
-                            Log.i("AQIData = ", i+" / "+TS+" / "+ CO+" / "+SO2 +" / " + NO2 + "/" + O3 + "/" + PM + "/" + TEMP + "/" +LAT+" / "+LNG);
                         }
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                            Fragment_AQIHistory.AQI_date_items[Fragment_AQIHistory.Air_response_count] = compare;
 
-                    } catch (JSONException e) {
-                        Log.e("ReceiveAQIJsonEx", "Error");
-                        e.printStackTrace();
+                            Fragment_AQIHistory.pmValue = (int) total_PM_value / date_count;
+                            Fragment_AQIHistory.coValue = (int) total_CO_value / date_count;
+                            Fragment_AQIHistory.noValue = (int) total_NO_value / date_count;
+                            Fragment_AQIHistory.soValue = (int) total_SO_value / date_count;
+                            Fragment_AQIHistory.o3Value = (int) total_O3_value / date_count;
+                            Fragment_AQIHistory.tpValue = (int) total_TP_value / date_count;
+
+                            Fragment_AQIHistory.Air_response_count++;
+
+                            total_PM_value = 0;
+                            total_CO_value = 0;
+                            total_NO_value = 0;
+                            total_SO_value = 0;
+                            total_O3_value = 0;
+                            total_TP_value = 0;
+
+                            date_count = 0;
+
+
+                        } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
                 }
             });

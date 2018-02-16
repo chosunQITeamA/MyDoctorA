@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.ReceiveAQI;
+import com.example.khseob0715.sanfirst.ServerConn.ReceiveAQI_ChartData;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -83,12 +84,19 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
     private Button SearchBtn;
 
     private ReceiveAQI receiveAQI = new ReceiveAQI();
-
+    private ReceiveAQI_ChartData receiveAQI_chartData = new ReceiveAQI_ChartData();
     public static int Air_response_count = 0;
 
     private String chart_date_text = "";
 
     private String pre_dp = "1";
+
+    private TextView pm25_data, co_data, so_data, no_data, o3_data, tp_data;
+
+    private int usn;
+
+    public static int pmValue = 0, coValue = 0, soValue = 0, noValue = 0, o3Value = 0, tpValue = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,30 +108,42 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         AQIadapter = new myAdapter();
         listView.setAdapter(AQIadapter);
 
+        pm25_data = (TextView)rootView.findViewById(R.id.pm25_data);
+
+        co_data = (TextView)rootView.findViewById(R.id.co_data);
+        no_data = (TextView)rootView.findViewById(R.id.no2_data);
+        so_data = (TextView)rootView.findViewById(R.id.so2_data);
+        o3_data = (TextView)rootView.findViewById(R.id.o3_data);
+        tp_data = (TextView)rootView.findViewById(R.id.Temp_data);
+
+        usn = UserActivity.getUSN();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Cursor mycursor = (Cursor)listView.getItemAtPosition(position);
+               // Cursor mycursor = (Cursor)listView.getItemAtPosition(position);
 
-                //chart_date_text = "" + listView.getItemAtPosition(position);
+                chart_date_text = "" + listView.getItemAtPosition(position);
 
-                //Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "chart : " + mycursor.getString(3), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "chart : " + mycursor.getString(3), Toast.LENGTH_SHORT).show();
                 if(!pre_dp.equals(chart_date_text)) {
 
+                    pm25_data.setText(String.valueOf(PM_Avg[position]));
+                    co_data.setText(String.valueOf((CO_Avg[position])));
+                    so_data.setText(String.valueOf((SO_Avg[position])));
+                    no_data.setText(String.valueOf((NO_Avg[position])));
+                    o3_data.setText(String.valueOf((O3_Avg[position])));
+                    tp_data.setText(String.valueOf((TP_Avg[position])));
 
-
-
-
-
+//                    receiveAQI_chartData.ReceiveAQI_ChartData_Asycn(usn, chart_date_text, chart_date_text);
+//                    handler.postDelayed(new Update_data(),500);
 //                    if (set0 != null) {
 //                        set0.clear();
 //                    }
 //                    if (set1 != null) {
 //                        set1.clear();
 //                    }
-//                    receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, chart_date_text, chart_date_text);
                 }
                 pre_dp = "" + chart_date_text;
             }
@@ -557,6 +577,20 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         @Override
         public void run() {
             AQIadapter.notifyDataSetChanged();
+        }
+    }
+
+    private class Update_data implements Runnable{
+
+        @Override
+        public void run() {
+            pm25_data.setText(String.valueOf(pmValue));
+            co_data.setText(String.valueOf(coValue));
+            so_data.setText(String.valueOf(soValue));
+            no_data.setText(String.valueOf(noValue));
+            o3_data.setText(String.valueOf(o3Value));
+            tp_data.setText(String.valueOf(tpValue));
+
         }
     }
 
