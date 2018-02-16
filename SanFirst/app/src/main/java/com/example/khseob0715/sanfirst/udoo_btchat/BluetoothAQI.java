@@ -11,6 +11,9 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by chony on 2018-02-04.
  */
@@ -185,8 +188,33 @@ public class BluetoothAQI extends Service{
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     broadcastUpdate(ACTION_SEND_AQI_DATA, readMessage);
-
+//------------------------------------------------------------------------------------------------------------maybe UDoo Receive and JSON
                     Log.e("UDOO = ", readMessage);
+
+                    try {
+                        JSONObject UdooJson = new JSONObject(readMessage);
+                        Log.e("convert json", "Success");
+                        String type = UdooJson.getString("type");
+
+                        String data = UdooJson.getString("data");
+                        JSONObject AQIJson = new JSONObject(data);
+                        String aqi_co = AQIJson.getString("co");
+                        String aqi_so2 = AQIJson.getString("so2");
+                        String aqi_no2 = AQIJson.getString("no2");
+                        String aqi_o3 = AQIJson.getString("o3");
+                        String aqi_pm25 = AQIJson.getString("pm25");
+                        String aqi_time = AQIJson.getString("time");
+
+                        if(type.equals("aqi"))  {
+                            Log.e("UDOO_RECEIVE","AQI _ Receive" + aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_time);
+                        }   else if(type.equals("historical"))  {
+                            Log.e("UDOO_RECEIVE","HISTORICAL _ Receive"+ aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_time);
+                        }
+
+                    } catch (JSONException e) {
+                        Log.e("convert json", "Error");
+                        e.printStackTrace();
+                    }
                     //-------------------------------------------------------------------------------------
 /*
                     String[] value = readMessage.split(",");

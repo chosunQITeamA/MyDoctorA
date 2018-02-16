@@ -568,6 +568,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.heart_icon);
         markerOptions.icon(icon);
 
+        googleMap.clear();
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));

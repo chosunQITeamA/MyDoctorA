@@ -5,7 +5,6 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -15,7 +14,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,10 +45,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -573,6 +571,11 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(nowLocation);
         markerOptions.title("now location");
+
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.heart_icon);
+        markerOptions.icon(icon);
+
+        googleMap.clear();
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
