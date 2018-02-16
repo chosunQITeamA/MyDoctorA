@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.Database.PolarDatabase;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 
 import java.util.StringTokenizer;
@@ -37,6 +38,7 @@ public class PolarSensor extends Service {
     TextView displayheartvalue;
 
     PolarDatabase polardb = new PolarDatabase();
+    UserActivity userAct = new UserActivity();
 
     //------------------------------
     String mDefaultDeviceAddress;
@@ -61,10 +63,13 @@ public class PolarSensor extends Service {
             public void run() {//실제 기능 구현
                 polardb.PolarDB_heartratevalue = heartrateValue;
                 Log.e("PolarDB = ", String.valueOf(polardb.PolarDB_heartratevalue));
+                //UserActivity.HeartSendHandler();
+                //  userAct.HeartSendHandler(); Server로 실질적으로 전송하는 소스
+
             }
         };
         m_Timer = new Timer();
-        m_Timer.schedule(m_Task, 3000, 5000);
+        m_Timer.schedule(m_Task, 3000, 1000);   // 원래 period 5000 임
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class SQLiteHelper{
+public class HeartSQLiteHelper {
 
     public int dbMode = Context.MODE_PRIVATE;
 
@@ -14,7 +14,7 @@ public class SQLiteHelper{
 
     // Table 생성
     public  void createTable(SQLiteDatabase db){
-        String Heart_CT = "create table if not exists HEART_HISTORY(usn INTEGER, ts TEXT, Lat DOUBLE, Lng DOUBLE, Heart_rate DOUBLE, RR_rate DOUBLE);";
+        String Heart_CT = "create table if not exists HEART_HISTORY(usn INTEGER, ts TEXT, Lat DOUBLE, Lng DOUBLE, Heart_rate DOUBLE, RR_rate DOUBLE) ";
         db.execSQL(Heart_CT);
         Log.e("SQLite-CreateTable", Heart_CT);
     }
@@ -30,7 +30,7 @@ public class SQLiteHelper{
     public  void insertData(SQLiteDatabase db, int usn, String ts, double lat, double lng, double heart_rate, double rr_rate){
         String Heart_ID = "insert into HEART_HISTORY values(" + usn +", '" + ts + "',"+lat+","+lng+","+heart_rate+","+rr_rate+");";
         db.execSQL(Heart_ID);
-        Log.e("SQLite", Heart_ID);
+        Log.e("SQLite-Insert", Heart_ID);
     }
 
     //--------------------------insert 확인
@@ -56,19 +56,19 @@ public class SQLiteHelper{
 /*
     public  final String DB_NAME = "MyDoctorA";
     public  final int DB_VERSION = 1;
-    private  final String TAG = "SQLiteHelper";
+    private  final String TAG = "HeartSQLiteHelper";
 
-    private  SQLiteHelper INSTANCE;
+    private  HeartSQLiteHelper INSTANCE;
     private  SQLiteDatabase mDb;
     public String Heart_CT, Heart_DT;
 
-    public SQLiteHelper(Context context) {
+    public HeartSQLiteHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    public  SQLiteHelper getInstance(Context context) {
+    public  HeartSQLiteHelper getInstance(Context context) {
         if (INSTANCE == null) {
-            INSTANCE = new SQLiteHelper(context.getApplicationContext());
+            INSTANCE = new HeartSQLiteHelper(context.getApplicationContext());
             mDb = INSTANCE.getWritableDatabase();
         }
 

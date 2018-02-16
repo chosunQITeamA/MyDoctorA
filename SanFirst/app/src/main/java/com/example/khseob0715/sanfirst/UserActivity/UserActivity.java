@@ -6,8 +6,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
@@ -29,11 +33,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.khseob0715.sanfirst.Database.SQLiteHelper;
+import com.example.khseob0715.sanfirst.Database.AQISQLiteHelper;
+import com.example.khseob0715.sanfirst.Database.HeartSQLiteHelper;
 import com.example.khseob0715.sanfirst.GPSTracker.GPSTracker;
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.ConfirmPW;
+import com.example.khseob0715.sanfirst.ServerConn.SendAQI;
+import com.example.khseob0715.sanfirst.ServerConn.SendHR;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_main;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_patientlist;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_usersearch;
@@ -41,13 +48,16 @@ import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_Account;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AirMap;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_HRHistory;
-import com.example.khseob0715.sanfirst.navi_fragment.Fragment_MyDoctor;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_SearchDoctor;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothAQI;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
+import com.opencsv.CSVWriter;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -101,8 +111,18 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     SQLiteDatabase db;
 
     public static UserActivity UserActContext;
+
+    private String TS;
+    private Double LAT;
+    private Double LNG;
+    private Double Heart_rate;
+    private Double RR_rate;
+
     ConfirmPW confirmpw = new ConfirmPW();
-    SQLiteHelper sqlhelper = new SQLiteHelper();
+    HeartSQLiteHelper HRsqlhelper = new HeartSQLiteHelper();
+    AQISQLiteHelper AQIsqlhelper = new AQISQLiteHelper();
+    SendHR sendhr = new SendHR();
+    SendAQI sendaqi = new SendAQI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,26 +236,29 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
     android.os.Handler getgpshandler = new android.os.Handler() {
         public void handleMessage(Message msg) {
-            if(gps == null) {
-                gps = new GPSTracker(UserActivity.this,GPSHandler);
-            }else{
+            if (gps == null) {
+                gps = new GPSTracker(UserActivity.this, GPSHandler);
+            } else {
                 gps.Update();
             }
 
             // check if GPS enabled
-            if(gps.canGetLocation()){
+            if (gps.canGetLocation()) {
                 Latitude = gps.getLatitude();
                 Longitude = gps.getLongitude();
                 // \n is for new line
                 //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 //Log.e("Location = ", latitude +"/"+longitude);
-            }else{
+            } else {
                 // can't get location
                 // GPS or Network is not enabled
                 // Ask user to enable GPS/network in settings
                 //gps.showSettingsAlert();
             }
         }
+
+        //SendHR_Asycn(final int usn, final String datetime, final Double lat, final Double lon, final Double hr, final Double rr) {}
+
     };
 
     public class GPStrackerHandler implements Runnable {
@@ -350,33 +373,47 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
             //-----------------------------------------------------------------------------------------------------[DB Test]
             case R.id.createTable : {
-                sqlhelper.createTable(db);
+                HRsqlhelper.createTable(db);
+//                AQIsqlhelper.AQIcreateTable(db);
                 Toast.makeText(this, "Create Table", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.insertTable : {
-                String TS = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(System.currentTimeMillis()));;
+                String TS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));;
                 Double LAT = GPSTracker.latitude;
                 Double LNG = GPSTracker.longitude;;
                 Double Heart_rate = Double.valueOf(PolarSensor.heartrateValue);
                 Double RR_rate = Double.valueOf(PolarSensor.RR_value);
-                sqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
+//                HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
+//                AQIsqlhelper.AQIinsertData(db, usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                  ------------------------------------------------------
+//                sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
+//                sendaqi.SendAQI_Asycn(usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                           ------------------------------------------------------
                 Toast.makeText(this, "insert Data", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.selectData : {
-                sqlhelper.selectAll(db);
+                HRsqlhelper.selectAll(db);
+                //AQIsqlhelper.AQIselectAll(db);
                 Toast.makeText(this, "select All", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.dropTable : {
-                sqlhelper.dropTable(db);
+                HRsqlhelper.dropTable(db);
+                //AQIsqlhelper.AQIdropTable(db);
                 Toast.makeText(this, "drop Table", Toast.LENGTH_SHORT).show();
                 break;
             }
+
+            case R.id.ExportDB : {
+                //exportDB();
+                new ExportDatabaseCSVTask().execute("");
+                //Toast.makeText(this, "DB_Export", Toast.LENGTH_SHORT).show();
+                break;
+            }
+
             /*
             case R.id.discoverable: {
                 // Ensure this device is discoverable by others
@@ -388,6 +425,156 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
         return false;
     }
+
+    public class ExportDatabaseCSVTask extends AsyncTask<String, Void, Boolean>
+    {
+        @Override
+        protected void onPreExecute()
+        {
+        }
+        protected Boolean doInBackground(final String... args)
+        {
+            File dbFile=getDatabasePath("MyDoctorA.db");
+            //File dbFile = new File(Environment.getDataDirectory(), "//data//com.example.khseob0715.sanfirst/databases//MyDoctorA");
+            Log.e("DBFile = ", String.valueOf(dbFile));
+
+            File exportDir = new File(Environment.getExternalStorageDirectory(), "MyDoctorAF");
+            if (!exportDir.exists())
+            {
+                exportDir.mkdirs();
+            }
+            File file = new File(exportDir, "MyDoctorA.csv");
+            try
+            {
+                file.createNewFile();
+                CSVWriter csvWrite = new CSVWriter(new FileWriter(file));
+                Cursor curCSV = db.rawQuery("select * from HEART_HISTORY",null);
+                csvWrite.writeNext(curCSV.getColumnNames());
+                while(curCSV.moveToNext())
+                {
+                    String arrStr[] ={curCSV.getString(0),curCSV.getString(1),curCSV.getString(2),curCSV.getString(3),curCSV.getString(4),curCSV.getString(5)};
+/* curCSV.getString(3),curCSV.getString(4)};*/
+                    csvWrite.writeNext(arrStr);
+                }
+                csvWrite.close();
+                curCSV.close();
+                return true;
+            }
+            catch(SQLException sqlEx)
+            {
+                Log.e("CSVWriter", sqlEx.getMessage(), sqlEx);
+                return false;
+            }
+            catch (IOException e)
+            {
+                Log.e("CSVWriter", e.getMessage(), e);
+                return false;
+            }
+        }
+        protected void onPostExecute(final Boolean success)
+        {
+            if (success)
+            {
+                Toast.makeText(getApplicationContext(), "Export successful!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Export failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+/*
+    private void exportDB() {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                File currentDB =
+                        new File(data, "//data//com.example.khseob0715.sanfirst/databases//MyDoctorA");
+                File backupDB = new File(sd, "MyDoctorA.csv");
+
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+
+                Toast.makeText(getApplicationContext(),
+                        "저장 OK", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(),
+                    "저장 Fail", Toast.LENGTH_SHORT).show();
+        }
+    }
+    */
+/*
+    private void exportDB() {
+            try {
+                File sd = Environment.getExternalStorageDirectory();
+                File data = Environment.getDataDirectory();
+                Log.e("ExportDB", "a");
+
+                if (sd.canWrite()) {
+                    Log.e("ExportDB", "b");
+                    String currentDBPath = "//data//com.example.khseob0715.sanfirst//databases//MyDoctorA";
+                    String backupDBPath = "MyDoctorA.csv";
+                    File currentDB = new File(data, currentDBPath);
+                    File backupDB = new File(sd, backupDBPath);
+                    Log.e("ExportDB", "c");
+
+                    if (currentDB.exists()) {
+                        Log.e("ExportDB", "d");
+                        FileChannel src = new FileInputStream(currentDB).getChannel();
+                        FileChannel dst = new FileOutputStream(backupDB).getChannel();
+
+                        Log.e("ExportDB", "e");
+                        dst.transferFrom(src, 0, src.size());
+                        Log.e("ExportDB", "f");
+                        src.close();
+                        Log.e("ExportDB", "g");
+                        dst.close();
+                    }
+                    Log.e("ExportDB", "h");
+                    if(backupDB.exists()){
+                        Log.e("ExportDB", "i");
+                        Toast.makeText(this, "DB Export Complete!!", Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("ExportDB", "j");
+                }
+                Log.e("ExportDB", "k");
+            } catch (Exception e) {
+                Log.e("ExportDB", "l");
+            }
+
+    }
+    */
+/*
+    private void exportDB() {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//data//" + this.getApplicationContext().getPackageName() + "//databases//"
+                        + "MyDoctorA";
+                String backupDBPath = "MyDoctorA";
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    */
 
     // NavigationMap select item -> view in fragment
     @Override
@@ -563,5 +750,16 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         }catch(Exception ex){
             Log.e("MenuActivity", "Exception : "+ex.getMessage());
         }
+    }
+
+    public void HeartSendHandler()  {
+        TS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));;
+        LAT = GPSTracker.latitude;
+        LNG = GPSTracker.longitude;;
+        Heart_rate = Double.valueOf(PolarSensor.heartrateValue);
+        RR_rate = Double.valueOf(PolarSensor.RR_value);
+//        HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
+        sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
+
     }
 }

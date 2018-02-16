@@ -33,6 +33,7 @@ public class BluetoothAQI extends Service{
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothChatService mChatService = null;
 
+    public Double o3val, no2val, coval, so2val, pm25val, tempval;
     @Override
     public void onCreate(){
         super.onCreate();
@@ -188,12 +189,12 @@ public class BluetoothAQI extends Service{
 /*
                     String[] value = readMessage.split(",");
 
-                    float o3val = Float.valueOf(value[0]);
-                    float no2val = Float.valueOf(value[1]);
-                    float coval = Float.valueOf(value[2]);
-                    float so2val = Float.valueOf(value[3]);
-                    float pm25val = Float.valueOf(value[4]);
-                    float temp = Float.valueOf(value[5]);
+                    o3val = Float.valueOf(value[0]);
+                    no2val = Float.valueOf(value[1]);
+                    coval = Float.valueOf(value[2]);
+                    so2val = Float.valueOf(value[3]);
+                    pm25val = Float.valueOf(value[4]);
+                    temp = Float.valueOf(value[5]);
 
                     int i_o3val = (int)o3val;
                     int i_no2val = (int)no2val;
