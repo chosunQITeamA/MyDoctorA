@@ -17,6 +17,8 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -159,6 +161,8 @@ public class PolarBleService extends Service {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
                 Log.e(TAG, "Disconnected from GATT server.");
+                PolarSensor.heartrateValue = 0;
+                Fragment_TabMain.heart_rate_value =0;
                 broadcastUpdate(intentAction);
             }
         }

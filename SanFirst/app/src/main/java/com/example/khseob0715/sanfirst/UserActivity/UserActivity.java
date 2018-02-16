@@ -765,8 +765,16 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         LNG = GPSTracker.longitude;;
         Heart_rate = Double.valueOf(PolarSensor.heartrateValue);
         RR_rate = Double.valueOf(PolarSensor.RR_value);
-//        HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
-        sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
+
+        int confirmZero = 0;
+        if(PolarSensor.heartrateValue == confirmZero)    {
+            Log.e("heartrate value is ", "Zero!!!");
+        }   else    {
+            Log.e("heartrate value is ", "Noooooooooooooooooooo Zero!!!");
+            //HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
+            //sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
+        }
+
 
     }
 }
