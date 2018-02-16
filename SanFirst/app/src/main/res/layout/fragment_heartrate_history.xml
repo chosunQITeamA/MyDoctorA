@@ -142,36 +142,36 @@
                     android:id="@+id/textView34"
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:textStyle="bold"
                     android:layout_marginLeft="7dp"
+                    android:layout_weight="0"
                     android:text=" Date"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView32"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:textStyle="bold"
                     android:text="Heart-Rate "
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView19"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
-                    android:textStyle="bold"
                     android:text="RR-Rate"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/AvgIndex"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="right"
                     android:layout_weight="0"
+                    android:gravity="right"
                     android:text="(Avg)"
                     android:textColor="#8e8e8e" />
 
@@ -180,7 +180,7 @@
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="wrap_content"
-                android:layout_height="140dp"
+                android:layout_height="115dp"
                 android:layout_weight="0"></ListView>
         </LinearLayout>
 
@@ -193,17 +193,9 @@
         android:layout_weight="0"
         android:background="#aeaeae" />
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/HeartChart"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_weight="0">
-
-    </com.github.mikephil.charting.charts.LineChart>
-
     <tools:RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
         android:layout_weight="0"
         android:background="#000000"
         tools:context="com.example.khseob0715.sanfirst.navi_fragment.Fragment_AirMap">
@@ -214,9 +206,74 @@
             android:id="@+id/mapView"
             android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="200dp" />
 
     </tools:RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_centerInParent="true"
+        android:layout_weight="0"
+        android:background="#aeaeae" />
+
+    <TabHost
+        android:id="@+id/HeartTabhost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/tab1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/HeartChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_weight="0"
+                        android:paddingBottom="10dp"></com.github.mikephil.charting.charts.LineChart>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/RRChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp" />
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Time"
+        android:textColor="#000000" />
 
 
 </LinearLayout>

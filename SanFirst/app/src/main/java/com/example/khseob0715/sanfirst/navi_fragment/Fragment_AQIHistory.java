@@ -1,16 +1,23 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +43,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.w3c.dom.Text;
 
@@ -43,11 +56,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.location.LocationManager.GPS_PROVIDER;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fragment_AQIHistory extends Fragment implements View.OnClickListener{
+public class Fragment_AQIHistory extends Fragment implements View.OnClickListener, OnMapReadyCallback {
 
     private ListView listView;
     private ViewGroup rootView;
@@ -68,11 +83,23 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
 
     public static int[] TP_Avg = new int[50];
 
-    private LineChart pmChart;
-    private LineChart coChart;
-    private LineChart o3Chart;
-    private LineChart noChart;
-    private LineChart soChart;
+    public static LineChart pmChart;
+    public static LineChart coChart;
+    public static LineChart o3Chart;
+    public static LineChart noChart;
+    public static LineChart soChart;
+
+    public static LineDataSet AQI_set1 = null;
+    public static LineDataSet AQI_set2 = null;
+    public static LineDataSet AQI_set3 = null;
+    public static LineDataSet AQI_set4 = null;
+    public static LineDataSet AQI_set5 = null;
+
+    public static LineData AQI_data1;
+    public static LineData AQI_data2;
+    public static LineData AQI_data3;
+    public static LineData AQI_data4;
+    public static LineData AQI_data5;
 
     private Thread thread;
 
@@ -97,6 +124,13 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
 
     public static int pmValue = 0, coValue = 0, soValue = 0, noValue = 0, o3Value = 0, tpValue = 0;
 
+    GoogleMap map;
+    MapView mapView = null;
+
+    //32.882499 / -117.234644
+    public static Double lat = 0.00;
+    public static Double lon = 0.00;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -118,56 +152,31 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
 
         usn = UserActivity.getUSN();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-               // Cursor mycursor = (Cursor)listView.getItemAtPosition(position);
-
-                chart_date_text = "" + listView.getItemAtPosition(position);
-
-                Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getContext(), "chart : " + mycursor.getString(3), Toast.LENGTH_SHORT).show();
-                if(!pre_dp.equals(chart_date_text)) {
-
-                    pm25_data.setText(String.valueOf(PM_Avg[position]));
-                    co_data.setText(String.valueOf((CO_Avg[position])));
-                    so_data.setText(String.valueOf((SO_Avg[position])));
-                    no_data.setText(String.valueOf((NO_Avg[position])));
-                    o3_data.setText(String.valueOf((O3_Avg[position])));
-                    tp_data.setText(String.valueOf((TP_Avg[position])));
-
-//                    receiveAQI_chartData.ReceiveAQI_ChartData_Asycn(usn, chart_date_text, chart_date_text);
-//                    handler.postDelayed(new Update_data(),500);
-//                    if (set0 != null) {
-//                        set0.clear();
-//                    }
-//                    if (set1 != null) {
-//                        set1.clear();
-//                    }
-                }
-                pre_dp = "" + chart_date_text;
-            }
-        });
 
         PM25_Bar = (ProgressBar)rootView.findViewById(R.id.PM25_progress);
         PM25_Bar.getProgressDrawable().setColorFilter(Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
-        PM25_Bar.setProgress(50);
+        PM25_Bar.setProgress(0);
+        PM25_Bar.setMax(300);
 
         CO_Bar = (ProgressBar)rootView.findViewById(R.id.CO_progress);
         CO_Bar.getProgressDrawable().setColorFilter(Color.YELLOW, android.graphics.PorterDuff.Mode.SRC_IN);
-        CO_Bar.setProgress(50);
+        CO_Bar.setProgress(0);
+        CO_Bar.setMax(300);
 
         NO2_Bar = (ProgressBar)rootView.findViewById(R.id.NO2_progress);
         NO2_Bar.getProgressDrawable().setColorFilter(Color.CYAN, android.graphics.PorterDuff.Mode.SRC_IN);
-        NO2_Bar.setProgress(50);
+        NO2_Bar.setProgress(0);
+        NO2_Bar.setMax(300);
 
         SO2_Bar = (ProgressBar)rootView.findViewById(R.id.SO2_progress);
         SO2_Bar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
-        SO2_Bar.setProgress(50);
+        SO2_Bar.setProgress(0);
+        SO2_Bar.setMax(300);
 
         O3_Bar = (ProgressBar)rootView.findViewById(R.id.O3_progress);
         O3_Bar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
-        O3_Bar.setProgress(50);
+        O3_Bar.setProgress(0);
+        O3_Bar.setMax(300);
 
         Start_date_layout = (LinearLayout)rootView.findViewById(R.id.Start_date_layout);
         Start_date_layout.setOnClickListener(this);
@@ -179,6 +188,60 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
 
         SearchBtn = (Button)rootView.findViewById(R.id.SearchBtn);
         SearchBtn.setOnClickListener(this);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // Cursor mycursor = (Cursor)listView.getItemAtPosition(position);
+
+                chart_date_text = "" + listView.getItemAtPosition(position);
+
+                Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "chart : " + mycursor.getString(3), Toast.LENGTH_SHORT).show();
+                if(!pre_dp.equals(chart_date_text)) {
+                    // text data setting
+                    pm25_data.setText(String.valueOf(PM_Avg[position]));
+                    co_data.setText(String.valueOf((CO_Avg[position])));
+                    so_data.setText(String.valueOf((SO_Avg[position])));
+                    no_data.setText(String.valueOf((NO_Avg[position])));
+                    o3_data.setText(String.valueOf((O3_Avg[position])));
+                    tp_data.setText(String.valueOf((TP_Avg[position])));
+
+                    // progressbar data setting
+                    PM25_Bar.setProgress((PM_Avg[position]));
+                    CO_Bar.setProgress((CO_Avg[position]));
+                    O3_Bar.setProgress((O3_Avg[position]));
+                    NO2_Bar.setProgress((NO_Avg[position]));
+                    SO2_Bar.setProgress((SO_Avg[position]));
+
+                    if(AQI_set1 != null){
+                        AQI_set1.clear();
+                    }
+
+                    if(AQI_set2 != null){
+                        AQI_set2.clear();
+                    }
+
+                    if(AQI_set3 != null){
+                        AQI_set3.clear();
+                    }
+
+                    if(AQI_set4 != null){
+                        AQI_set4.clear();
+                    }
+
+
+                    if(AQI_set5 != null){
+                        AQI_set5.clear();
+                    }
+
+                    receiveAQI_chartData.ReceiveAQI_ChartData_Asycn(usn, chart_date_text, chart_date_text);
+                }
+                pre_dp = "" + chart_date_text;
+            }
+        });
+
 
         TabHost host = (TabHost)rootView.findViewById(R.id.AirTabhost);
         host.setup();
@@ -257,9 +320,15 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
 
         handler = new Handler();
 
+        mapView = (MapView) rootView.findViewById(R.id.mapView);
+        mapView.getMapAsync(this);
+
+        if (mapView != null) {
+            mapView.onCreate(savedInstanceState);
+        }
 
         // feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
-        addEntry();
+        // addEntry();
         return rootView;
     }
 
@@ -336,106 +405,79 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         rightAxis5.setEnabled(false); // rightAxis를 비활성화 함
     }
 
-    private void feedMultiple() {
-        if (thread != null)
-            thread.interrupt(); // 살아있는 쓰레드에 인터럽트를 검
+    public static void Airdata_addEntry(int pm, int co, int o3, int no, int so) {
+        AQI_data1 = pmChart.getData();
+        AQI_data2 = coChart.getData();
+        AQI_data3 = o3Chart.getData();
+        AQI_data4 = noChart.getData();
+        AQI_data5 = soChart.getData();
 
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                addEntry(); // addEntry를 실행하게 함
-            }
-        };
+        AQI_set1 = (LineDataSet) AQI_data1.getDataSetByIndex(0);
+        AQI_set2 = (LineDataSet) AQI_data2.getDataSetByIndex(0);
+        AQI_set3 = (LineDataSet) AQI_data3.getDataSetByIndex(0);
+        AQI_set4 = (LineDataSet) AQI_data4.getDataSetByIndex(0);
+        AQI_set5 = (LineDataSet) AQI_data5.getDataSetByIndex(0);
 
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    getActivity().runOnUiThread(runnable); // UI 쓰레드에서 위에서 생성한 runnable를 실행함
-                    try {
-                        Thread.sleep(500); // 0.5초간 쉼
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
-    }
-
-    private void addEntry() {
-        LineData data = pmChart.getData();
-        LineData data2 = coChart.getData();
-        LineData data3 = o3Chart.getData();
-        LineData data4 = noChart.getData();
-        LineData data5 = soChart.getData();
-
-        LineDataSet set1 = (LineDataSet) data.getDataSetByIndex(0);
-        LineDataSet set2 = (LineDataSet) data.getDataSetByIndex(0);
-        LineDataSet set3 = (LineDataSet) data.getDataSetByIndex(0);
-        LineDataSet set4 = (LineDataSet) data.getDataSetByIndex(0);
-        LineDataSet set5 = (LineDataSet) data.getDataSetByIndex(0);
-
-        if (set1 == null) {
+        if (AQI_set1 == null) {
             // creation of null
-            set1 = createSet(Color.parseColor("#FFFF7A87"), "PM2.5");
-            data.addDataSet(set1);
+            AQI_set1 = air_createSet(Color.parseColor("#FFFF7A87"), "PM2.5");
+            AQI_data1.addDataSet(AQI_set1);
         }
 
-        if (set2 == null) {
-            set2 = createSet(Color.parseColor("#FFFF7A87"), "CO");
-            data2.addDataSet(set2);
+        if (AQI_set2 == null) {
+            AQI_set2 = air_createSet(Color.parseColor("#FFFF7A87"), "CO");
+            AQI_data2.addDataSet(AQI_set2);
         }
 
-        if (set3 == null) {
-            set3 = createSet(Color.parseColor("#FFFF7A87"), "NO2");
-            data3.addDataSet(set3);
+        if (AQI_set3 == null) {
+            AQI_set3 = air_createSet(Color.parseColor("#FFFF7A87"), "NO2");
+            AQI_data3.addDataSet(AQI_set3);
         }
 
-        if (set4 == null) {
-            set4 = createSet(Color.parseColor("#FFFF7A87"), "O3");
-            data4.addDataSet(set4);
+        if (AQI_set4 == null) {
+            AQI_set4 = air_createSet(Color.parseColor("#FFFF7A87"), "O3");
+            AQI_data4.addDataSet(AQI_set4);
         }
 
-        if (set5 == null) {
-            set5 = createSet(Color.parseColor("#FFFF7A87"), "SO2");
-            data5.addDataSet(set5);
+        if (AQI_set5 == null) {
+            AQI_set5 = air_createSet(Color.parseColor("#FFFF7A87"), "SO2");
+            AQI_data5.addDataSet(AQI_set5);
         }
 
-        data.addEntry(new Entry(set1.getEntryCount(), 0), 0);
-        data2.addEntry(new Entry(set2.getEntryCount(), 0), 0);
-        data3.addEntry(new Entry(set3.getEntryCount(), 0), 0);
-        data4.addEntry(new Entry(set4.getEntryCount(), 0), 0);
-        data5.addEntry(new Entry(set5.getEntryCount(), 0), 0);
+        AQI_data1.addEntry(new Entry(AQI_set1.getEntryCount(), pm), 0);
+        AQI_data2.addEntry(new Entry(AQI_set2.getEntryCount(), co), 0);
+        AQI_data3.addEntry(new Entry(AQI_set3.getEntryCount(), o3), 0);
+        AQI_data4.addEntry(new Entry(AQI_set4.getEntryCount(), no), 0);
+        AQI_data5.addEntry(new Entry(AQI_set5.getEntryCount(), so), 0);
 
-        data.notifyDataChanged();                                      // data의 값 변동을 감지함
-        data2.notifyDataChanged();
-        data3.notifyDataChanged();                                      // data의 값 변동을 감지함
-        data4.notifyDataChanged();
-        data5.notifyDataChanged();                                      // data의 값 변동을 감지함
+        AQI_data1.notifyDataChanged();                                      // data의 값 변동을 감지함
+        AQI_data2.notifyDataChanged();
+        AQI_data3.notifyDataChanged();                                      // data의 값 변동을 감지함
+        AQI_data4.notifyDataChanged();
+        AQI_data5.notifyDataChanged();                                      // data의 값 변동을 감지함
 
         pmChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
         pmChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-        pmChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+        pmChart.moveViewToX(0);                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
 
         coChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
         coChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-        coChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+        coChart.moveViewToX(0);                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
 
         o3Chart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
         o3Chart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-        o3Chart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+        o3Chart.moveViewToX(0);                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
 
         noChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
         noChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-        noChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+        noChart.moveViewToX(0);                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
 
         soChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
         soChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-        soChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
+        soChart.moveViewToX(0);                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
     }
 
-    private LineDataSet createSet(int setColor, String dataName) {
+    public static LineDataSet air_createSet(int setColor, String dataName) {
         LineDataSet set = new LineDataSet(null, dataName);            // 데이터셋의 이름을 "Dynamic Data"로 설정(기본 데이터는 null)
         set.setAxisDependency(YAxis.AxisDependency.LEFT);              // Axis를 YAxis의 LEFT를 기본으로 설정
         set.setColor(setColor);                                        // 데이터의 라인색을 HoloBlue로 설정
@@ -502,6 +544,120 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         }
     }
 
+    private class GPSListener implements LocationListener {
+
+        @Override
+        public void onLocationChanged(Location location) {
+            lat = location.getLatitude();
+            lon = location.getLongitude();
+            String msg = "Lat:" + lat + " / Lon:" + lon;
+            ShowMyLocaion(lat, lon, map);
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+            ShowMyLocaion(lat, lon, map);
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+        }
+    }
+
+    private void ShowMyLocaion(Double lat, Double lon, GoogleMap googleMap) {
+        LatLng nowLocation = new LatLng(lat, lon);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(nowLocation);
+        markerOptions.title("now location");
+        googleMap.addMarker(markerOptions);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (thread != null) {
+            thread.interrupt();
+        }
+        mapView.onPause();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onLowMemory();
+    }
+
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        StartLocationService();
+    }
+
+    private void StartLocationService() {
+        Log.e("startLocationService", "startLocationService");
+        LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        GPSListener gpsListener = new GPSListener();
+        long minTime = 10000;
+        float minDistance = 0;
+        try {   //GPS 위치 요청
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            manager.requestLocationUpdates(GPS_PROVIDER, minTime, minDistance, (LocationListener) gpsListener);
+
+            // location request with network
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, (LocationListener) gpsListener);
+
+            Location lastLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if (lastLocation != null) {
+                Double latitude = lastLocation.getLatitude();
+                Double longitude = lastLocation.getLongitude();
+
+                Toast.makeText(getActivity(), "HR-" + "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
+    }
 
     class myAdapter extends BaseAdapter {
 
@@ -564,13 +720,6 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        if(thread != null){
-            thread.interrupt();
-        }
-    }
 
     private class Update_list implements Runnable{
 
@@ -580,19 +729,6 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         }
     }
 
-    private class Update_data implements Runnable{
-
-        @Override
-        public void run() {
-            pm25_data.setText(String.valueOf(pmValue));
-            co_data.setText(String.valueOf(coValue));
-            so_data.setText(String.valueOf(soValue));
-            no_data.setText(String.valueOf(noValue));
-            o3_data.setText(String.valueOf(o3Value));
-            tp_data.setText(String.valueOf(tpValue));
-
-        }
-    }
 
 
 }

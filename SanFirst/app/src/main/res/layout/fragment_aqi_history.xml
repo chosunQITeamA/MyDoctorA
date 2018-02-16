@@ -16,10 +16,10 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_marginLeft="10dp"
             android:id="@+id/Start_date_layout"
             android:layout_width="120dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -97,8 +97,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="right"
             android:layout_height="match_parent"
+            android:gravity="right"
             android:orientation="horizontal">
 
             <Button
@@ -121,7 +121,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="145dp"
+            android:layout_height="115dp"
             android:layout_margin="10dp"
             android:orientation="vertical">
 
@@ -206,6 +206,28 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_centerInParent="true"
+        android:background="#aeaeae" />
+
+    <tools:RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_weight="0"
+        android:background="#000000"
+        tools:context="com.example.khseob0715.sanfirst.navi_fragment.Fragment_AirMap">
+
+        <!-- Activity에서는 fragment로 구현해야되지만
+    Fragment로 구현하기위해서는 MapView를 사용해야함-->
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+    </tools:RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -264,22 +286,30 @@
 
                                     android:orientation="horizontal">
 
-                                    <TextView
-                                        android:id="@+id/pm25_text"
+                                    <LinearLayout
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="0"
-                                        android:text="PM2.5"
-                                        android:textColor="#000000"
-                                        android:textSize="20dp" />
+                                        android:orientation="vertical">
 
-                                    <TextView
-                                        android:id="@+id/index_1"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0"
-                                        android:text=" ㎍/㎥"
-                                        android:textColor="#5e5e5e" />
+                                        <TextView
+                                            android:id="@+id/pm25_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text="PM2.5"
+                                            android:textColor="#000000"
+                                            android:textSize="20dp" />
+
+                                        <TextView
+                                            android:id="@+id/index_1"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text=" ㎍/㎥"
+                                            android:textColor="#5e5e5e" />
+
+                                    </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -323,22 +353,30 @@
 
                                     android:orientation="horizontal">
 
-                                    <TextView
-                                        android:id="@+id/o3_text"
+                                    <LinearLayout
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="0"
-                                        android:text="O3"
-                                        android:textColor="#000000"
-                                        android:textSize="20dp" />
+                                        android:orientation="vertical">
 
-                                    <TextView
-                                        android:id="@+id/index_5"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0"
-                                        android:text=" ppb"
-                                        android:textColor="#5e5e5e" />
+                                        <TextView
+                                            android:id="@+id/o3_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text="O3"
+                                            android:textColor="#000000"
+                                            android:textSize="20dp" />
+
+                                        <TextView
+                                            android:id="@+id/index_5"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text=" ppb"
+                                            android:textColor="#5e5e5e" />
+
+                                    </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -388,22 +426,30 @@
 
                                     android:orientation="horizontal">
 
-                                    <TextView
-                                        android:id="@+id/co_text"
+                                    <LinearLayout
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="0"
-                                        android:text="CO"
-                                        android:textColor="#000000"
-                                        android:textSize="20dp" />
+                                        android:orientation="vertical">
 
-                                    <TextView
-                                        android:id="@+id/index_2"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0"
-                                        android:text=" ppm"
-                                        android:textColor="#5e5e5e" />
+                                        <TextView
+                                            android:id="@+id/co_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text="CO"
+                                            android:textColor="#000000"
+                                            android:textSize="20dp" />
+
+                                        <TextView
+                                            android:id="@+id/index_2"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text=" ppm"
+                                            android:textColor="#5e5e5e" />
+
+                                    </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -447,22 +493,29 @@
 
                                     android:orientation="horizontal">
 
-                                    <TextView
-                                        android:id="@+id/SO2_text"
+                                    <LinearLayout
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="0"
-                                        android:text="SO2"
-                                        android:textColor="#000000"
-                                        android:textSize="20dp" />
+                                        android:orientation="vertical">
 
-                                    <TextView
-                                        android:id="@+id/index_4"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0"
-                                        android:text=" ppb"
-                                        android:textColor="#5e5e5e" />
+                                        <TextView
+                                            android:id="@+id/SO2_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text="SO2"
+                                            android:textColor="#000000"
+                                            android:textSize="20dp" />
+
+                                        <TextView
+                                            android:id="@+id/index_4"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text=" ppb"
+                                            android:textColor="#5e5e5e" />
+                                    </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -512,22 +565,30 @@
 
                                     android:orientation="horizontal">
 
-                                    <TextView
-                                        android:id="@+id/NO2_text"
+                                    <LinearLayout
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="0"
-                                        android:text="NO2"
-                                        android:textColor="#000000"
-                                        android:textSize="20dp" />
+                                        android:orientation="vertical">
 
-                                    <TextView
-                                        android:id="@+id/index_3"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0"
-                                        android:text=" ppb"
-                                        android:textColor="#5e5e5e" />
+                                        <TextView
+                                            android:id="@+id/NO2_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text="NO2"
+                                            android:textColor="#000000"
+                                            android:textSize="20dp" />
+
+                                        <TextView
+                                            android:id="@+id/index_3"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text=" ppb"
+                                            android:textColor="#5e5e5e" />
+
+                                    </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -571,22 +632,30 @@
 
                                     android:orientation="horizontal">
 
-                                    <TextView
-                                        android:id="@+id/temp_text"
+                                    <LinearLayout
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="0"
-                                        android:text="TEMP"
-                                        android:textColor="#000000"
-                                        android:textSize="20dp" />
+                                        android:orientation="vertical">
 
-                                    <TextView
-                                        android:id="@+id/index_6"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0"
-                                        android:text=" °F"
-                                        android:textColor="#5e5e5e" />
+                                        <TextView
+                                            android:id="@+id/temp_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text="TEMP"
+                                            android:textColor="#000000"
+                                            android:textSize="20dp" />
+
+                                        <TextView
+                                            android:id="@+id/index_6"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0"
+                                            android:text=" °F"
+                                            android:textColor="#5e5e5e" />
+
+                                    </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -624,7 +693,7 @@
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/pmChart"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp" />
+                        android:layout_height="170dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -636,7 +705,7 @@
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/coChart"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp" />
+                        android:layout_height="170dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -648,7 +717,7 @@
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/o3Chart"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp" />
+                        android:layout_height="170dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -660,7 +729,7 @@
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/noChart"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp" />
+                        android:layout_height="170dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -672,7 +741,7 @@
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/soChart"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp" />
+                        android:layout_height="170dp" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

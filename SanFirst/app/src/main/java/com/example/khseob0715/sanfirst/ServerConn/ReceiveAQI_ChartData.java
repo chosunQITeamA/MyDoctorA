@@ -37,15 +37,6 @@ public class ReceiveAQI_ChartData {
 
     private int error_message = 0;
 
-    private double total_PM_value = 0;
-    private double total_CO_value = 0;
-    private double total_NO_value = 0;
-    private double total_SO_value = 0;
-    private double total_O3_value = 0;
-    private double total_TP_value = 0;
-
-    private int date_count = 0;
-
     public ReceiveAQI_ChartData() {
     }
 
@@ -89,14 +80,6 @@ public class ReceiveAQI_ChartData {
 
             Log.e("RequestBody", requestBody.toString());
 
-            total_PM_value = 0;
-            total_CO_value = 0;
-            total_NO_value = 0;
-            total_SO_value = 0;
-            total_O3_value = 0;
-            total_TP_value = 0;
-            date_count = 0;
-
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
             Request request = new Request.Builder().url(url).post(requestBody).build();
 
@@ -119,57 +102,26 @@ public class ReceiveAQI_ChartData {
                         JSONArray AQIData = jsonObject.getJSONArray("data");
                         Log.e("AQIData.length = ", String.valueOf(AQIData.length()));
 
-                        String compare = "1";
-                        Fragment_AQIHistory.Air_response_count = 0;
-
-
                         for (int i = 0; i < AQIData.length(); i++) {
                             JSONObject getAQIData = AQIData.getJSONObject(i);
                             String TS = getAQIData.getString("TS");
                             Log.i("substring", TS.substring(0, 10));
 
-                            Double CO = getAQIData.getDouble("CO");
-                            Double SO2 = getAQIData.getDouble("SO2");
-                            Double NO2 = getAQIData.getDouble("NO2");
-                            Double O3 = getAQIData.getDouble("O3");
-                            Double PM = getAQIData.getDouble("PM2.5");
-                            Double TEMP = getAQIData.getDouble("Temperature");
+                            int CO = (int)getAQIData.getDouble("CO");
+                            int SO2 = (int)getAQIData.getDouble("SO2");
+                            int NO2 = (int)getAQIData.getDouble("NO2");
+                            int O3 = (int)getAQIData.getDouble("O3");
+                            int PM = (int)getAQIData.getDouble("PM2.5");
+                            int TEMP = (int)getAQIData.getDouble("Temperature");
+
+                            Fragment_AQIHistory.Airdata_addEntry(PM, CO, NO2, O3, SO2);
 
                             Double LAT = getAQIData.getDouble("LAT");
                             Double LNG = getAQIData.getDouble("LNG");
 
-                            total_PM_value += PM;
-                            total_CO_value += CO;
-                            total_NO_value += NO2;
-                            total_SO_value += SO2;
-                            total_O3_value += O3;
-                            total_TP_value += TEMP;
-
-                            date_count++;
                             Log.i("AQIData = ", i + " / " + TS + " / " + CO + " / " + SO2 + " / " + NO2 + "/" + O3 + "/" + PM + "/" + TEMP + "/" + LAT + " / " + LNG);
 
                         }
-
-                            Fragment_AQIHistory.AQI_date_items[Fragment_AQIHistory.Air_response_count] = compare;
-
-                            Fragment_AQIHistory.pmValue = (int) total_PM_value / date_count;
-                            Fragment_AQIHistory.coValue = (int) total_CO_value / date_count;
-                            Fragment_AQIHistory.noValue = (int) total_NO_value / date_count;
-                            Fragment_AQIHistory.soValue = (int) total_SO_value / date_count;
-                            Fragment_AQIHistory.o3Value = (int) total_O3_value / date_count;
-                            Fragment_AQIHistory.tpValue = (int) total_TP_value / date_count;
-
-                            Fragment_AQIHistory.Air_response_count++;
-
-                            total_PM_value = 0;
-                            total_CO_value = 0;
-                            total_NO_value = 0;
-                            total_SO_value = 0;
-                            total_O3_value = 0;
-                            total_TP_value = 0;
-
-                            date_count = 0;
-
 
                         } catch (JSONException e1) {
                         e1.printStackTrace();

@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -89,6 +92,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     ReceiveHR_ChartData receiveHR_chartData = new ReceiveHR_ChartData(); // chart data receive
 
     public static LineChart HRChart;
+    public static LineChart RRChart;
     private Thread thread;
 
     private Handler handler;
@@ -97,7 +101,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
     private int usn;
 
-    public static LineData data;
+    public static LineData data, data1;
     public static LineDataSet set0 = null , set1 = null;
 
     private String pre_dp = "1";
@@ -110,7 +114,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_heartrate_history, container, false);
 
         usn = UserActivity.getUSN();
-        // mapView.getMapAsync((OnMapReadyCallback) this);
 
         listView = (ListView) rootView.findViewById(R.id.listView);
         Heart_adapter = new myAdapter();
@@ -120,8 +123,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 chart_date_text = "" + listView.getItemAtPosition(position);
-
-
 
                 Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
                 if(!pre_dp.equals(chart_date_text) && flag == 0) {
@@ -135,7 +136,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                     receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, chart_date_text, chart_date_text);
 
                     flag = 1;
-                    //         handler.postDelayed(new enableBtn(),2000);
+                    // handler.postDelayed(new enableBtn(),2000);
 
                 }
                 pre_dp = "" + chart_date_text;
@@ -165,12 +166,32 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         handler = new Handler();
 
+        TabHost host = (TabHost)rootView.findViewById(R.id.HeartTabhost);
+        host.setup();
+
+        TabHost.TabSpec spec = host.newTabSpec("tab1");
+        spec.setIndicator("Heart-Rate");
+        spec.setContent(R.id.tab1);
+        host.addTab(spec);
+
+        spec = host.newTabSpec("RR-Rate");
+        spec.setIndicator("RR-Rate");
+        //spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.bigcloud_pm, null));
+        spec.setContent(R.id.tab2);
+        host.addTab(spec);
+
+        for(int i=0;i<host.getTabWidget().getChildCount();i++){
+            TextView tv = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(Color.parseColor("#000000"));
+        }
+
         return rootView;
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         HRChart = (LineChart) view.findViewById(R.id.HeartChart);
+        RRChart = (LineChart) view.findViewById(R.id.RRChart);
 
         // 차트의 아래 Axis
         XAxis xAxis = HRChart.getXAxis();
@@ -186,11 +207,25 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         YAxis rightAxis = HRChart.getAxisRight();
         rightAxis.setEnabled(false); // rightAxis를 비활성화 함
 
+        // 차트의 아래 Axis
+        XAxis RRxAxis = RRChart.getXAxis();
+        RRxAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
+        RRxAxis.setTextSize(10f); // xAxis에 표출되는 텍스트의 크기는 10f
+        RRxAxis.setDrawGridLines(false); // xAxis의 그리드 라인을 없앰
+
+        // 차트의 왼쪽 Axis
+        YAxis RRleftAxis = RRChart.getAxisLeft();
+        RRleftAxis.setDrawGridLines(false); // leftAxis의 그리드 라인을 없앰
+
+        // 차트의 오른쪽 Axis
+        YAxis RRrightAxis = RRChart.getAxisRight();
+        RRrightAxis.setEnabled(false); // rightAxis를 비활성화 함
+
         LineData data = new LineData();
         HRChart.setData(data); // LineData를 셋팅함
 
-        // feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
-        // addEntry();
+        LineData data1 = new LineData();
+        RRChart.setData(data1);
 
         mapView = (MapView) view.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
@@ -200,58 +235,38 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         }
     }
 
-    private void feedMultiple() {
-        if (thread != null)
-            thread.interrupt();        // 살아있는 쓰레드에 인터럽트를 검
-
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                addEntry(0,0);            // addEntry를 실행하게 함
-            }
-        };
-
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    mainclass.runOnUiThread(runnable);    // UI 쓰레드에서 위에서 생성한 runnable를 실행함
-                    try {
-                        Thread.sleep(500);        // 0.5초간 쉼
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
-    }
-
 
     public static void addEntry(double HR, double RR) {
         data = HRChart.getData();
+        data1 = RRChart.getData();
 
         set0 = (LineDataSet) data.getDataSetByIndex(0);
-        set1 = (LineDataSet) data.getDataSetByIndex(1);
+        set1 = (LineDataSet) data1.getDataSetByIndex(0);
 
-        if (set0 == null || set1 == null) {
-            // creation of null
-            set0 = createSet(-65536, "Heart-Rate");      // createSet 한다.
-            set1 = createSet(-16711681, "RR-Interval");
-
+        if(set0 == null){
+            set0 = createSet(Color.parseColor("#FFFF7A87"), "Heart-Rate");      // createSet 한다.
             data.addDataSet(set0);
-            data.addDataSet(set1);
+        }
+
+        if (set1 == null) {
+            // creation of null
+            set1 = createSet(Color.parseColor("#FFFF7A87"), "RR-Interval");
+            data1.addDataSet(set1);
         }
 
         data.addEntry(new Entry(set0.getEntryCount(), (float)HR), 0);
-        data.addEntry(new Entry(set1.getEntryCount(), (float)RR), 1);
+        data1.addEntry(new Entry(set1.getEntryCount(), (float)RR), 0);
 
         data.notifyDataChanged();                                      // data의 값 변동을 감지함
+        data1.notifyDataChanged();
 
         HRChart.notifyDataSetChanged();                                // chart의 값 변동을 감지함
         HRChart.setVisibleXRangeMaximum(10);                           // chart에서 최대 X좌표기준으로 몇개의 데이터를 보여줄지 설정함
-        //    HRChart.moveViewToX(data.getEntryCount());                     // 가장 최근에 추가한 데이터의 위치로 chart를 이동함
         HRChart.moveViewToX(0);
+
+        RRChart.notifyDataSetChanged();;
+        RRChart.setVisibleXRangeMaximum(10);
+        RRChart.moveViewToX(0);
     }
 
     public static LineDataSet createSet(int setColor, String dataName) {
@@ -435,6 +450,10 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(nowLocation);
         markerOptions.title("now location");
+
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.heart_icon);
+        markerOptions.icon(icon);
+
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
