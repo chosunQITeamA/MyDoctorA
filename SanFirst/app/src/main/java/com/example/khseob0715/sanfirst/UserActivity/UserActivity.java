@@ -40,6 +40,7 @@ import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.ConfirmPW;
 import com.example.khseob0715.sanfirst.ServerConn.SendAQI;
+import com.example.khseob0715.sanfirst.ServerConn.SendCSV;
 import com.example.khseob0715.sanfirst.ServerConn.SendHR;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_main;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_patientlist;
@@ -123,6 +124,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     AQISQLiteHelper AQIsqlhelper = new AQISQLiteHelper();
     SendHR sendhr = new SendHR();
     SendAQI sendaqi = new SendAQI();
+    SendCSV sendcsv = new SendCSV();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,8 +194,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
         }
         ft.commit();
-
-
 
         viewlistBTdevice(1);
         startPolarsensor();
@@ -350,6 +350,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         switch (id) {
+
             case R.id.secure_connect_scan: {
                 /*
                 // Launch the DeviceListActivity to see devices and do scan
@@ -361,7 +362,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                 return true;
             }
-
+/*
             case R.id.insecure_connect_scan: {
                 // Launch the DeviceListActivity to see devices and do scan
                 Log.e("insecure", "BT");
@@ -369,8 +370,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
                 return true;
             }
-
-
+*/
             //-----------------------------------------------------------------------------------------------------[DB Test]
             case R.id.createTable : {
                 HRsqlhelper.createTable(db);
@@ -385,7 +385,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 Double LNG = GPSTracker.longitude;;
                 Double Heart_rate = Double.valueOf(PolarSensor.heartrateValue);
                 Double RR_rate = Double.valueOf(PolarSensor.RR_value);
-//                HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
+                HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
 //                AQIsqlhelper.AQIinsertData(db, usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                  ------------------------------------------------------
 //                sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
 //                sendaqi.SendAQI_Asycn(usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                           ------------------------------------------------------
@@ -412,6 +412,13 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 new ExportDatabaseCSVTask().execute("");
                 //Toast.makeText(this, "DB_Export", Toast.LENGTH_SHORT).show();
                 break;
+            }
+
+            case R.id.ExportCSV : {
+                File exportDir = new File(Environment.getExternalStorageDirectory(), "MyDoctorAF");
+                File file = new File(exportDir, "MyDoctorA.csv");
+                Log.e("ExportCSV", "Success");
+                //  sendcsv.SendCSV_Asycn(file);    여기서 Slim Application Error 발생
             }
 
             /*
