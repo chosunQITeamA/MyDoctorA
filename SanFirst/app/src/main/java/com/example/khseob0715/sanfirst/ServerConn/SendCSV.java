@@ -26,7 +26,7 @@ import okhttp3.Response;
 
 public class SendCSV {
 
-    public static final String url = "http://teama-iot.calit2.net/heartcsvaapp";
+    public static final String url = "http://teama-iot.calit2.net/heartcsvapp";
     OkHttpClient client = new OkHttpClient();
     public static String responseBody = null;
     private final MediaType MEDIA_TYPE_CSV = MediaType.parse("text/csv");
@@ -61,7 +61,7 @@ public class SendCSV {
 
             //Request Body에 서버에 보낼 데이터 작성
             RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart("file", file.getName(), RequestBody.create(MEDIA_TYPE_CSV, file))
+                    .addFormDataPart("file", "MyDoctorA.csv", RequestBody.create(MEDIA_TYPE_CSV, file))
                     .build();
 
             //RequestBody requestBody = new FormBody.Builder().add("email", id).add("password", password).build();

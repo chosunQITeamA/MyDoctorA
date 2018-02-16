@@ -149,16 +149,18 @@ public class BluetoothAQI extends Service{
                             Log.i(TAG, "Connected!!! state : "+mChatService.getState());
 
                             String message="Server connected!";
-                            String sendData="sensor";
+                            /*
+                            String sendData="sensor";//-------------------------------------------------------------------------------------------------------
                             //startSubThread();
-                            /*for(int i=0;i<9;i++){
+                            for(int i=0;i<9;i++){
                                 ran=Math.random()*500;
                                 sendData=sendData+","+String.valueOf(ran);
-                            }*/
+                            }
                             Log.i(TAG,"data : "+sendData);
 
                             byte[] send = (sendData.replace("[\r\n]","")+"\n").getBytes();
                             mChatService.write(send);
+                            */
                             Toast.makeText(getApplicationContext(),"Connected",Toast.LENGTH_SHORT).show();
                             break;
                         case BluetoothChatService.STATE_CONNECTING:

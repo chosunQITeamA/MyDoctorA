@@ -418,7 +418,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 File exportDir = new File(Environment.getExternalStorageDirectory(), "MyDoctorAF");
                 File file = new File(exportDir, "MyDoctorA.csv");
                 Log.e("ExportCSV", "Success");
-                //  sendcsv.SendCSV_Asycn(file);    여기서 Slim Application Error 발생
+                sendcsv.SendCSV_Asycn(file);    //여기서 Slim Application Error 발생
             }
 
             /*
