@@ -31,4 +31,8 @@
     <item
         android:id="@+id/ExportCSV"
         android:title="ExportCSV"/>
+
+    <item
+        android:id="@+id/ExportJSON"
+        android:title="ExportJSON"/>
 </menu>

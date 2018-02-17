@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.Database.AQISQLiteHelper;
+import com.example.khseob0715.sanfirst.Database.DBtoJSON;
 import com.example.khseob0715.sanfirst.Database.HeartSQLiteHelper;
 import com.example.khseob0715.sanfirst.GPSTracker.GPSTracker;
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
@@ -42,6 +43,7 @@ import com.example.khseob0715.sanfirst.ServerConn.ConfirmPW;
 import com.example.khseob0715.sanfirst.ServerConn.SendAQI;
 import com.example.khseob0715.sanfirst.ServerConn.SendCSV;
 import com.example.khseob0715.sanfirst.ServerConn.SendHR;
+import com.example.khseob0715.sanfirst.ServerConn.SendJSON;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_main;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_patientlist;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_usersearch;
@@ -55,6 +57,10 @@ import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothAQI;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 import com.opencsv.CSVWriter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -125,6 +131,8 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     SendHR sendhr = new SendHR();
     SendAQI sendaqi = new SendAQI();
     SendCSV sendcsv = new SendCSV();
+    DBtoJSON dbtojson = new DBtoJSON();
+    SendJSON sendjson = new SendJSON();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -421,6 +429,22 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 sendcsv.SendCSV_Asycn(file);    //여기서 Slim Application Error 발생
             }
 
+            case R.id.ExportJSON : {
+                JSONArray jsonarrayResutl = dbtojson.getResults("HEART_HISTORY");
+                JSONObject arraytoobj = new JSONObject();
+
+                try {
+                    arraytoobj.put("data", jsonarrayResutl);
+                    Log.e("arrayPut", String.valueOf(arraytoobj));
+                    sendjson.SendJSON_Asycn(String.valueOf(arraytoobj));
+                    Log.e("arrayAsyync", "Success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("arrayPut", "Fail");
+                }
+            }
+
+
             /*
             case R.id.discoverable: {
                 // Ensure this device is discoverable by others
@@ -680,7 +704,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         }   else    {
             Log.e("heartrate value is ", "Noooooooooooooooooooo Zero!!!");
             //HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
-            sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
+            //sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
         }
 
 
