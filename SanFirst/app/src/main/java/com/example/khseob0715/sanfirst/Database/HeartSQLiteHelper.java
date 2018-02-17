@@ -14,7 +14,7 @@ public class HeartSQLiteHelper {
 
     // Table 생성
     public  void createTable(SQLiteDatabase db){
-        String Heart_CT = "create table if not exists HEART_HISTORY(usn INTEGER, ts TEXT, Lat DOUBLE, Lng DOUBLE, Heart_rate DOUBLE, RR_rate DOUBLE) ";
+        String Heart_CT = "create table if not exists HEART_HISTORY(usn INTEGER, ts TEXT, lat DOUBLE, lng DOUBLE, heart_rate DOUBLE, rr_rate DOUBLE) ";
         db.execSQL(Heart_CT);
         Log.e("SQLite-CreateTable", Heart_CT);
     }

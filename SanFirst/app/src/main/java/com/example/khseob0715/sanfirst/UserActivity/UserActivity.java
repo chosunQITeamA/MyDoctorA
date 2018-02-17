@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -67,6 +69,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class UserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -125,6 +129,12 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     private Double Heart_rate;
     private Double RR_rate;
 
+    private TimerTask m_Task;
+    private Timer m_Timer;
+    ConnectivityManager manager;
+    NetworkInfo mobile;
+    NetworkInfo wifi;
+
     ConfirmPW confirmpw = new ConfirmPW();
     HeartSQLiteHelper HRsqlhelper = new HeartSQLiteHelper();
     AQISQLiteHelper AQIsqlhelper = new AQISQLiteHelper();
@@ -147,6 +157,10 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         GPSHandler = new Handler(){
             @Override
@@ -207,7 +221,31 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         startPolarsensor();
         DBservice();
 
+        m_Task = new TimerTask() {
+            @Override
+            public void run() {//실제 기능 구현
+                InternetConnCheck();
+            }
+        };
+        m_Timer = new Timer();
+        m_Timer.schedule(m_Task, 3000, 1000);   // 원래 period 5000 임
+
         UserActContext = this;
+    }
+
+    public void InternetConnCheck()    {
+        Log.e("InternetConnCheck", "GO");
+
+        if (mobile.isConnected() || wifi.isConnected()) {
+            Log.e("Internet Conn", "Success");
+        } else  {
+            Log.e("Internet Conn", "Fail");
+        }
+
+        /*
+        Intent internetCheck = new Intent(this, InternetCheck.class);
+        startService(internetCheck);
+        */
     }
 
     private void DBservice() {

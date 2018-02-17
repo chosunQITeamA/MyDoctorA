@@ -65,7 +65,6 @@ public class PolarSensor extends Service {
                 Log.e("PolarDB = ", String.valueOf(polardb.PolarDB_heartratevalue));
                 //UserActivity.HeartSendHandler();
                 userAct.HeartSendHandler(); //Server로 실질적으로 전송하는 소스
-
             }
         };
         m_Timer = new Timer();
