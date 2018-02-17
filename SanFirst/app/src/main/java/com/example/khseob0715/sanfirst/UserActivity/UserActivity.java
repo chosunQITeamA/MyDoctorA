@@ -431,9 +431,12 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.ExportJSON : {
                 JSONArray jsonarrayResutl = dbtojson.getResults("HEART_HISTORY");
+                int arraylength = jsonarrayResutl.length();
                 JSONObject arraytoobj = new JSONObject();
+                Log.e("arraylength = ", String.valueOf(arraylength));
 
                 try {
+                    arraytoobj.put("length", arraylength);
                     arraytoobj.put("data", jsonarrayResutl);
                     Log.e("arrayPut", String.valueOf(arraytoobj));
                     sendjson.SendJSON_Asycn(String.valueOf(arraytoobj));
