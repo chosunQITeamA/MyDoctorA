@@ -86,10 +86,10 @@
 
                 <TextView
                     android:id="@+id/EmailIndex"
-                    android:layout_width="50dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="E-mail"
+                    android:text="E-mail  : "
                     android:textColor="#000000" />
 
                 <TextView
@@ -108,10 +108,10 @@
 
                 <TextView
                     android:id="@+id/GenderIndex"
-                    android:layout_width="50dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Gender"
+                    android:text="Gender : "
                     android:textColor="#000000" />
 
                 <TextView
@@ -127,7 +127,7 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Old"
+                    android:text="Old : "
                     android:textColor="#000000" />
 
                 <TextView

@@ -56,7 +56,7 @@ public class Fragment_SearchDoctor extends Fragment {
 
     private EditText searchName2, searchEmail2;
 
-    private Button searchDoctorBtn;
+    private Button searchDoctorBtn,ALLBtn;
     SearchList searchlist = new SearchList();
 
     public Fragment_SearchDoctor() {
@@ -146,9 +146,19 @@ public class Fragment_SearchDoctor extends Fragment {
                     value = searchEmail2.getText().toString();
                 }
                 searchlist.SearchList_Asycn(1, type, value);
+                handler.postDelayed(new Update_list(),1000);
+
             }
         });
 
+        ALLBtn = (Button)rootView.findViewById(R.id.AllDoctor);
+        ALLBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchlist.SearchList_Asycn(1);
+                handler.postDelayed(new Update_list(),1000);
+            }
+        });
 
         handler = new Handler();
 
@@ -197,8 +207,6 @@ public class Fragment_SearchDoctor extends Fragment {
             });
 
 
-
-
             return view;
         }
     }
@@ -228,12 +236,12 @@ public class Fragment_SearchDoctor extends Fragment {
 
         @Override
         public int getCount() {
-            return items.length;
+            return search_count;
         }
 
         @Override
         public Object getItem(int position) {
-            return items[position];
+            return Search_fname[position];
         }
 
         @Override

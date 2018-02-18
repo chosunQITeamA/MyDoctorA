@@ -182,6 +182,7 @@ public class SearchList {
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
             Request request = new Request.Builder().url(url).post(requestBody).build();
 
+
             //request를 Client에 세팅하고 Server로 부터 온 Response를 처리할 Callback 작성
             client.newCall(request).enqueue(new Callback() {
                 @Override
@@ -216,6 +217,14 @@ public class SearchList {
                         } else if (Gender_num == 1) {
                             Gender = "Male";
                         }
+
+                        Fragment_SearchDoctor.Search_fname[0] = Fname;
+                        Fragment_SearchDoctor.Search_lname[0] = Lname;
+                        Fragment_SearchDoctor.Search_ID[0] = ID;
+                        Fragment_SearchDoctor.Search_Gender[0] = Gender;
+                        Fragment_SearchDoctor.Search_old[0] = Birth;
+
+                        Fragment_SearchDoctor.search_count = 1;
 
                         Log.e("searchData = ", "///"+ usn +"/"+ ID +"/"+ Gender +"/"+ Birth +"/"+ Fname +"/"+ Lname);
 
