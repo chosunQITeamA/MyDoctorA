@@ -8,31 +8,4 @@
         android:id="@+id/insecure_connect_scan"
         android:title="BTChat Connect"/>
 
-    <item
-        android:id="@+id/createTable"
-        android:title="createTable"/>
-
-    <item
-        android:id="@+id/insertTable"
-        android:title="insertTable"/>
-
-    <item
-        android:id="@+id/selectData"
-        android:title="selectData"/>
-
-    <item
-        android:id="@+id/dropTable"
-        android:title="dropTable"/>
-
-    <item
-        android:id="@+id/ExportDB"
-        android:title="ExportDB"/>
-
-    <item
-        android:id="@+id/ExportCSV"
-        android:title="ExportCSV"/>
-
-    <item
-        android:id="@+id/ExportJSON"
-        android:title="ExportJSON"/>
 </menu>
