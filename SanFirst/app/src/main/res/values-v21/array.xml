@@ -3,7 +3,7 @@
 
     <string-array name="search">
         <item>Name</item>
-        <item>Phone</item>
+        <item>E-mail</item>
     </string-array>
 
 </resources>

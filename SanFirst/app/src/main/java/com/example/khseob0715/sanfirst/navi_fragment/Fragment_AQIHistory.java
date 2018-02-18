@@ -40,6 +40,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -61,7 +63,7 @@ import static android.location.LocationManager.GPS_PROVIDER;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fragment_AQIHistory extends Fragment implements View.OnClickListener, OnMapReadyCallback {
+public class Fragment_AQIHistory extends Fragment implements View.OnClickListener, OnMapReadyCallback, OnChartValueSelectedListener {
 
     private ListView listView;
     private ViewGroup rootView;
@@ -81,6 +83,9 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
     public static int[] O3_Avg = new int[50];
 
     public static int[] TP_Avg = new int[50];
+
+    public static double[] AQIHistorylat = new double[5000];
+    public static double[] AQIHistorylon = new double[5000];
 
     public static LineChart pmChart;
     public static LineChart coChart;
@@ -127,14 +132,13 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
     MapView mapView = null;
 
     //32.882499 / -117.234644
-    public static Double lat = 0.00;
-    public static Double lon = 0.00;
+    public static Double lat = 32.882499;
+    public static Double lon = -117.234644;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_aqi_history, container, false);
 
         listView = (ListView) rootView.findViewById(R.id.airlistview);
@@ -151,7 +155,6 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         pick_data = (TextView)rootView.findViewById(R.id.PickDate);
 
         usn = UserActivity.getUSN();
-
 
         PM25_Bar = (ProgressBar)rootView.findViewById(R.id.PM25_progress);
         PM25_Bar.getProgressDrawable().setColorFilter(Color.parseColor("#93DAFF"), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -246,10 +249,15 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         tabhost_setting();
 
         pmChart = (LineChart)rootView.findViewById(R.id.pmChart);
+        pmChart.setOnChartValueSelectedListener(this);
         coChart = (LineChart)rootView.findViewById(R.id.coChart);
+        coChart.setOnChartValueSelectedListener(this);
         o3Chart = (LineChart)rootView.findViewById(R.id.o3Chart);
+        o3Chart.setOnChartValueSelectedListener(this);
         noChart = (LineChart)rootView.findViewById(R.id.noChart);
+        noChart.setOnChartValueSelectedListener(this);
         soChart = (LineChart)rootView.findViewById(R.id.soChart);
+        soChart.setOnChartValueSelectedListener(this);
 
         chart_setting();
 
@@ -284,8 +292,6 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
             mapView.onCreate(savedInstanceState);
         }
 
-        // feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
-        // addEntry();
         return rootView;
     }
 
@@ -566,6 +572,17 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        int selectPick = (int)e.getX();
+        ShowMyLocaion(AQIHistorylat[selectPick], AQIHistorylon[selectPick], map);
+    }
+
+    @Override
+    public void onNothingSelected() {
+
+    }
+
     private class GPSListener implements LocationListener {
 
         @Override
@@ -652,38 +669,7 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
 
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        StartLocationService();
-    }
-
-    private void StartLocationService() {
-        Log.e("startLocationService", "startLocationService");
-        LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        GPSListener gpsListener = new GPSListener();
-        long minTime = 10000;
-        float minDistance = 0;
-        try {   //GPS 위치 요청
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            manager.requestLocationUpdates(GPS_PROVIDER, minTime, minDistance, (LocationListener) gpsListener);
-
-            // location request with network
-            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, (LocationListener) gpsListener);
-
-            Location lastLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            if (lastLocation != null) {
-                Double latitude = lastLocation.getLatitude();
-                Double longitude = lastLocation.getLongitude();
-
-              //  Toast.makeText(getActivity(), "HR-" + "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
-            }
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-      //  Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
+        ShowMyLocaion(lat,lon,map);
     }
 
     class myAdapter extends BaseAdapter {

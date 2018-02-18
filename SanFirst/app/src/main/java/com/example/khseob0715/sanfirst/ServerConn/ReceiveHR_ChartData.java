@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_HRHistory;
 
 import org.json.JSONArray;
@@ -104,12 +105,15 @@ public class ReceiveHR_ChartData {
 
                         for(int i=0; i<HRData.length(); i++)    {
                             JSONObject getHRData = HRData.getJSONObject(i);
+
                             String TS = getHRData.getString("TS");
                             Double Heart_rate = getHRData.getDouble("Heart_rate");
                             Double RR_rate = getHRData.getDouble("RR_rate");
                             Double LAT = getHRData.getDouble("LAT");
                             Double LNG = getHRData.getDouble("LNG");
 
+                            Fragment_HRHistory.Historylat[i] = LAT;
+                            Fragment_HRHistory.Historylon[i] = LNG;
                             Fragment_HRHistory.addEntry(Heart_rate, RR_rate);
 
                             Log.i("HRData = ", i+" / "+TS+" / "+ Heart_rate+" / "+RR_rate+" / "+LAT+" / "+LNG);

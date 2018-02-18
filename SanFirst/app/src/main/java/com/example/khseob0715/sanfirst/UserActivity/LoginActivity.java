@@ -134,7 +134,6 @@ public class LoginActivity extends FragmentActivity implements Button.OnClickLis
             case R.id.sign_in_btn:
                 Id = inputID.getText().toString();
                 String PW = inputPW.getText().toString();
-
                 signIn.signin_Asycn(who, Id, PW);
                 break;
 

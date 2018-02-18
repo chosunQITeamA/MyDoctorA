@@ -98,7 +98,7 @@ public class Fragment_SearchDoctor extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });;
+        });
 
         Spinner spinner2 = (Spinner)rootView.findViewById(R.id.spinner2);
 
@@ -122,8 +122,7 @@ public class Fragment_SearchDoctor extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });;
-
+        });
 
         TabHost host = (TabHost)rootView.findViewById(R.id.DoctorTabHost);
         host.setup();

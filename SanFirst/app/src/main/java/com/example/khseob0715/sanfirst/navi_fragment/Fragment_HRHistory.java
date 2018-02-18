@@ -39,6 +39,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -57,14 +59,14 @@ import java.util.Date;
 import static android.location.LocationManager.GPS_PROVIDER;
 
 
-public class Fragment_HRHistory extends Fragment implements View.OnClickListener, OnMapReadyCallback {
+public class Fragment_HRHistory extends Fragment implements View.OnClickListener, OnMapReadyCallback, OnChartValueSelectedListener {
 
     GoogleMap map;
     MapView mapView = null;
 
     //32.882499 / -117.234644
-    public static Double lat = 0.00;
-    public static Double lon = 0.00;
+    public static Double lat = 32.882499;
+    public static Double lon = -117.234644;
 
     private static final int TRANSPARENCY_MAX = 100;
 
@@ -81,6 +83,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     public static String[] items = new String[50];
     public static int[] HeartAvg = new int[50];
     public static int[] RRAvg = new int[50];
+    public static double[] Historylat = new double[5000];
+    public static double[] Historylon = new double[5000];
 
     public static int response_count = 0;
 
@@ -117,8 +121,11 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         HRChart = (LineChart) rootView.findViewById(R.id.HeartChart);
         RRChart = (LineChart) rootView.findViewById(R.id.RRChart);
+
         listView = (ListView) rootView.findViewById(R.id.listView);
+
         Heart_adapter = new myAdapter();
+
         listView.setAdapter(Heart_adapter);
 
         usn = UserActivity.getUSN();
@@ -159,7 +166,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         pick_date = (TextView)rootView.findViewById(R.id.PickDate);
 
-
         TabHost_setting();
 
         chart_setting();
@@ -172,14 +178,15 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         handler.postDelayed(new Update_list(),1200);
         handler.postDelayed(new Update_list_chart(), 1200);
 
-
-
         mapView = (MapView) rootView.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
 
         if (mapView != null) {
             mapView.onCreate(savedInstanceState);
         }
+
+        HRChart.setOnChartValueSelectedListener(this);
+        RRChart.setOnChartValueSelectedListener(this);
 
         return rootView;
     }
@@ -202,6 +209,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         End_date_text.setText(curTime);
 
     }
+
     private void TabHost_setting(){
         TabHost host = (TabHost)rootView.findViewById(R.id.HeartTabhost);
         host.setup();
@@ -222,8 +230,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
             tv.setTextColor(Color.parseColor("#000000"));
         }
     }
-    private void chart_setting(){
 
+    private void chart_setting(){
         // 차트의 아래 Axis
         XAxis xAxis = HRChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // xAxis의 위치는 아래쪽
@@ -257,11 +265,17 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
         LineData data1 = new LineData();
         RRChart.setData(data1);
-
     }
 
     @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+    public void onValueSelected(Entry e, Highlight h) {
+        Toast.makeText(getContext(),""+e.getX(),Toast.LENGTH_LONG).show();
+        int selectPick = (int)e.getX();
+        ShowMyLocaion(Historylat[selectPick], Historylon[selectPick], map);
+    }
+
+    @Override
+    public void onNothingSelected() {
 
     }
 
@@ -360,38 +374,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        StartLocationService();
-    }
-
-    private void StartLocationService() {
-        Log.e("startLocationService", "startLocationService");
-        LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        GPSListener gpsListener = new GPSListener();
-        long minTime = 10000;
-        float minDistance = 0;
-        try {   //GPS 위치 요청
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            manager.requestLocationUpdates(GPS_PROVIDER, minTime, minDistance, (LocationListener) gpsListener);
-
-            // location request with network
-            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, (LocationListener) gpsListener);
-
-            Location lastLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            if (lastLocation != null) {
-                Double latitude = lastLocation.getLatitude();
-                Double longitude = lastLocation.getLongitude();
-
-              //  Toast.makeText(getActivity(), "HR-" + "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
-            }
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-       // Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
+        ShowMyLocaion(lat,lon,map);
     }
 
     @Override
@@ -448,30 +431,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                 receiveHR.ReceiveHR_Asycn(usn, Start_date_text.getText().toString(), End_date_text.getText().toString());
                 handler.postDelayed(new Update_list(),1200);
                 break;
-        }
-    }
-
-    private class GPSListener implements LocationListener {
-
-        @Override
-        public void onLocationChanged(Location location) {
-            lat = location.getLatitude();
-            lon = location.getLongitude();
-            String msg = "Lat:" + lat + " / Lon:" + lon;
-            ShowMyLocaion(lat, lon, map);
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-            ShowMyLocaion(lat, lon, map);
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
         }
     }
 

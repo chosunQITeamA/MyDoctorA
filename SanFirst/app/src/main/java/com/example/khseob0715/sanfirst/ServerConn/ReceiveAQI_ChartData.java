@@ -114,10 +114,14 @@ public class ReceiveAQI_ChartData {
                             int PM = (int)getAQIData.getDouble("PM2.5");
                             int TEMP = (int)getAQIData.getDouble("Temperature");
 
-                            Fragment_AQIHistory.Airdata_addEntry(PM, CO, NO2, O3, SO2);
-
                             Double LAT = getAQIData.getDouble("LAT");
                             Double LNG = getAQIData.getDouble("LNG");
+
+                            Fragment_AQIHistory.AQIHistorylat[i] = LAT;
+                            Fragment_AQIHistory.AQIHistorylon[i] = LNG;
+
+                            Fragment_AQIHistory.Airdata_addEntry(PM, CO, NO2, O3, SO2);
+
 
                             Log.i("AQIData = ", i + " / " + TS + " / " + CO + " / " + SO2 + " / " + NO2 + "/" + O3 + "/" + PM + "/" + TEMP + "/" + LAT + " / " + LNG);
 

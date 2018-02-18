@@ -43,6 +43,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lylc.widget.circularprogressbar.CircularProgressBar;
@@ -54,9 +56,10 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     private CircularProgressBar co_seekbar, so2_seekbar, o3_seekbar, no2_seekbar, pm25_seekbar;
     private CircularProgressBar heart_seekbar;
     public static int heart_rate_value = 50, rr_rate_value = 00;
+    private int ConcenVal_Start[] = {20, 10, 40, 30, 20};
     public static int ConcenVal[] = {30, 20, 50, 10, 50, 20};
     private int heart_start = 0;
-    private int ConcenVal_Start[] = {20, 10, 40, 30, 20};
+
     private LineChart mChart;
     private LineChart mChart2;
     private Thread thread;
@@ -76,8 +79,8 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     MapView mapView = null;
 
     //32.882499 / -117.234644
-    public static Double lat = 0.00;
-    public static Double lon = 0.00;
+    public static Double lat = 32.882499;
+    public static Double lon = -117.234644;
 
     private TextView CC_Value_SO2, CC_Value_NO2, CC_Value_O3, CC_Value_PM, CC_Value_CO;
     private TextView SeekValue_SO2,SeekValue_NO2, SeekValue_O3, SeekValue_PM, SeekValue_CO;
@@ -496,6 +499,8 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+
+        ShowMyLocaion(lat,lon,map);
         StartLocationService();
     }
 
@@ -565,8 +570,9 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         markerOptions.position(nowLocation);
         markerOptions.title("now location");
 
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.heart_icon);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.aqicloud1);
         markerOptions.icon(icon);
+
 
         googleMap.clear();
         googleMap.addMarker(markerOptions);
@@ -590,7 +596,6 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             public void onAnimationFinish() {
             }
         });
-
 
     }
 
