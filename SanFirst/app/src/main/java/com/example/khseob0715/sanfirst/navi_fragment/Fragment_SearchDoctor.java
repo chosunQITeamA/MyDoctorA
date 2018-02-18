@@ -196,6 +196,16 @@ public class Fragment_SearchDoctor extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             SearchDoctor2 view = new SearchDoctor2(rootView.getContext());
 
+            final LinearLayout detail_layout2 = (LinearLayout)view.findViewById(R.id.DetailLayout2);
+
+            Button Detail = (Button)view.findViewById(R.id.list2DetailBtn);
+            Detail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    detail_layout2.setVisibility(View.VISIBLE);
+                }
+            });
+
             return view;
         }
     }
