@@ -154,7 +154,7 @@ public class SearchList {
 
                             Fragment_SearchDoctor.search_count++;
 
-                            Log.e("searchData = ", i +"///"+ usn +"/"+ ID +"/"+ Gender +"/"+ Birth +"/"+ Fname +"/"+ Lname);
+                            Log.e("searchlist = ", i +"///"+ usn +"/"+ ID +"/"+ Gender +"/"+ Birth +"/"+ Fname +"/"+ Lname);
                         }
 
                     } catch (IOException e) {
