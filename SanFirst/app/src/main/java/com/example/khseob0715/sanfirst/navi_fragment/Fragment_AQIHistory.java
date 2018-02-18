@@ -52,6 +52,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import static android.location.LocationManager.GPS_PROVIDER;
@@ -116,7 +117,7 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
 
     private String pre_dp = "1";
 
-    private TextView pm25_data, co_data, so_data, no_data, o3_data, tp_data;
+    private TextView pm25_data, co_data, so_data, no_data, o3_data, tp_data, pick_data;
 
     private int usn;
 
@@ -147,32 +148,33 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         so_data = (TextView)rootView.findViewById(R.id.so2_data);
         o3_data = (TextView)rootView.findViewById(R.id.o3_data);
         tp_data = (TextView)rootView.findViewById(R.id.Temp_data);
+        pick_data = (TextView)rootView.findViewById(R.id.PickDate);
 
         usn = UserActivity.getUSN();
 
 
         PM25_Bar = (ProgressBar)rootView.findViewById(R.id.PM25_progress);
-        PM25_Bar.getProgressDrawable().setColorFilter(Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
+        PM25_Bar.getProgressDrawable().setColorFilter(Color.parseColor("#93DAFF"), android.graphics.PorterDuff.Mode.SRC_IN);
         PM25_Bar.setProgress(0);
         PM25_Bar.setMax(300);
 
         CO_Bar = (ProgressBar)rootView.findViewById(R.id.CO_progress);
-        CO_Bar.getProgressDrawable().setColorFilter(Color.YELLOW, android.graphics.PorterDuff.Mode.SRC_IN);
+        CO_Bar.getProgressDrawable().setColorFilter(Color.parseColor("#3DFF92"), android.graphics.PorterDuff.Mode.SRC_IN);
         CO_Bar.setProgress(0);
         CO_Bar.setMax(300);
 
         NO2_Bar = (ProgressBar)rootView.findViewById(R.id.NO2_progress);
-        NO2_Bar.getProgressDrawable().setColorFilter(Color.CYAN, android.graphics.PorterDuff.Mode.SRC_IN);
+        NO2_Bar.getProgressDrawable().setColorFilter(Color.parseColor("#FFB6C1"), android.graphics.PorterDuff.Mode.SRC_IN);
         NO2_Bar.setProgress(0);
         NO2_Bar.setMax(300);
 
         SO2_Bar = (ProgressBar)rootView.findViewById(R.id.SO2_progress);
-        SO2_Bar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+        SO2_Bar.getProgressDrawable().setColorFilter(Color.parseColor("#D36EEC"), android.graphics.PorterDuff.Mode.SRC_IN);
         SO2_Bar.setProgress(0);
         SO2_Bar.setMax(300);
 
         O3_Bar = (ProgressBar)rootView.findViewById(R.id.O3_progress);
-        O3_Bar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+        O3_Bar.getProgressDrawable().setColorFilter(Color.parseColor("#FFDC3C"), android.graphics.PorterDuff.Mode.SRC_IN);
         O3_Bar.setProgress(0);
         O3_Bar.setMax(300);
 
@@ -213,6 +215,8 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
                     NO2_Bar.setProgress((NO_Avg[position]));
                     SO2_Bar.setProgress((SO_Avg[position]));
 
+                    pick_data.setText(chart_date_text);
+
                     if(AQI_set1 != null){
                         AQI_set1.clear();
                     }
@@ -229,7 +233,6 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
                         AQI_set4.clear();
                     }
 
-
                     if(AQI_set5 != null){
                         AQI_set5.clear();
                     }
@@ -240,12 +243,59 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
             }
         });
 
+        tabhost_setting();
+
+        pmChart = (LineChart)rootView.findViewById(R.id.pmChart);
+        coChart = (LineChart)rootView.findViewById(R.id.coChart);
+        o3Chart = (LineChart)rootView.findViewById(R.id.o3Chart);
+        noChart = (LineChart)rootView.findViewById(R.id.noChart);
+        soChart = (LineChart)rootView.findViewById(R.id.soChart);
+
+        chart_setting();
+
+        LineData data = new LineData();
+        pmChart.setData(data);
+
+        LineData data2 = new LineData();
+        coChart.setData(data2);
+
+        LineData data3 = new LineData();
+        o3Chart.setData(data3);
+
+        LineData data4 = new LineData();
+        noChart.setData(data4);
+
+        LineData data5 = new LineData();
+        soChart.setData(data5);
+
+        daySetting();
+
+        handler = new Handler();
+
+        receiveAQI.ReceiveAQI_Asycn(usn,Start_date_text.getText().toString(), End_date_text.getText().toString());
+        handler.postDelayed(new Update_list(),1000);
+        handler.postDelayed(new Update_list_init(),2000);
+
+
+        mapView = (MapView) rootView.findViewById(R.id.mapView);
+        mapView.getMapAsync(this);
+
+        if (mapView != null) {
+            mapView.onCreate(savedInstanceState);
+        }
+
+        // feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
+        // addEntry();
+        return rootView;
+    }
+
+    private void tabhost_setting(){
 
         TabHost host = (TabHost)rootView.findViewById(R.id.AirTabhost);
         host.setup();
 
         TabHost.TabSpec spec = host.newTabSpec("tab1");
-        spec.setIndicator("ALL");
+        spec.setIndicator("AQI");
         spec.setContent(R.id.tab1);
         host.addTab(spec);
 
@@ -282,52 +332,26 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
             TextView tv = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(Color.parseColor("#000000"));
         }
+    }
 
-        pmChart = (LineChart)rootView.findViewById(R.id.pmChart);
-        coChart = (LineChart)rootView.findViewById(R.id.coChart);
-        o3Chart = (LineChart)rootView.findViewById(R.id.o3Chart);
-        noChart = (LineChart)rootView.findViewById(R.id.noChart);
-        soChart = (LineChart)rootView.findViewById(R.id.soChart);
+    private void daySetting(){
 
-        chart_setting();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -7);
 
-        LineData data = new LineData();
-        pmChart.setData(data);
-
-        LineData data2 = new LineData();
-        coChart.setData(data2);
-
-        LineData data3 = new LineData();
-        o3Chart.setData(data3);
-
-        LineData data4 = new LineData();
-        noChart.setData(data4);
-
-        LineData data5 = new LineData();
-        soChart.setData(data5);
+        Date previous_date = calendar.getTime();
 
         long now = System.currentTimeMillis();
-
         Date date = new Date(now);
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String getTime = sdf.format(date);
 
-        Start_date_text.setText(getTime);
-        End_date_text.setText(getTime);
+        String preTime = sdf.format(previous_date);
+        String curTime = sdf.format(date);
 
-
-        handler = new Handler();
-
-        mapView = (MapView) rootView.findViewById(R.id.mapView);
-        mapView.getMapAsync(this);
-
-        if (mapView != null) {
-            mapView.onCreate(savedInstanceState);
-        }
-
-        // feedMultiple(); // 쓰레드를 활용하여 실시간으로 데이터
-        // addEntry();
-        return rootView;
+        Start_date_text.setText(preTime);
+        End_date_text.setText(curTime);
+//        receiveAQI_chartData.ReceiveAQI_ChartData_Asycn(usn, End_date_text.getText().toString(), End_date_text.getText().toString());
     }
 
     private void chart_setting() {
@@ -418,27 +442,27 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
 
         if (AQI_set1 == null) {
             // creation of null
-            AQI_set1 = air_createSet(Color.parseColor("#FFFF7A87"), "PM2.5");
+            AQI_set1 = air_createSet(Color.parseColor("#93DAFF"), "PM2.5");
             AQI_data1.addDataSet(AQI_set1);
         }
 
         if (AQI_set2 == null) {
-            AQI_set2 = air_createSet(Color.parseColor("#FFFF7A87"), "CO");
+            AQI_set2 = air_createSet(Color.parseColor("#3DFF92"), "CO");
             AQI_data2.addDataSet(AQI_set2);
         }
 
         if (AQI_set3 == null) {
-            AQI_set3 = air_createSet(Color.parseColor("#FFFF7A87"), "NO2");
+            AQI_set3 = air_createSet(Color.parseColor("#FFB6C1"), "NO2");
             AQI_data3.addDataSet(AQI_set3);
         }
 
         if (AQI_set4 == null) {
-            AQI_set4 = air_createSet(Color.parseColor("#FFFF7A87"), "O3");
+            AQI_set4 = air_createSet(Color.parseColor("#FFDC3C"), "O3");
             AQI_data4.addDataSet(AQI_set4);
         }
 
         if (AQI_set5 == null) {
-            AQI_set5 = air_createSet(Color.parseColor("#FFFF7A87"), "SO2");
+            AQI_set5 = air_createSet(Color.parseColor("#D36EEC"), "SO2");
             AQI_data5.addDataSet(AQI_set5);
         }
 
@@ -654,12 +678,12 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
                 Double latitude = lastLocation.getLatitude();
                 Double longitude = lastLocation.getLongitude();
 
-                Toast.makeText(getActivity(), "HR-" + "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActivity(), "HR-" + "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
             }
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
     }
 
     class myAdapter extends BaseAdapter {
@@ -729,6 +753,31 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         @Override
         public void run() {
             AQIadapter.notifyDataSetChanged();
+        }
+    }
+
+    private class Update_list_init implements Runnable{
+
+        @Override
+        public void run() {
+            String init_chart = "" + listView.getItemAtPosition(0);
+
+            pm25_data.setText(String.valueOf(PM_Avg[0]));
+            co_data.setText(String.valueOf((CO_Avg[0])));
+            so_data.setText(String.valueOf((SO_Avg[0])));
+            no_data.setText(String.valueOf((NO_Avg[0])));
+            o3_data.setText(String.valueOf((O3_Avg[0])));
+            tp_data.setText(String.valueOf((TP_Avg[0])));
+
+            // progressbar data setting
+            PM25_Bar.setProgress((PM_Avg[0]));
+            CO_Bar.setProgress((CO_Avg[0]));
+            O3_Bar.setProgress((O3_Avg[0]));
+            NO2_Bar.setProgress((NO_Avg[0]));
+            SO2_Bar.setProgress((SO_Avg[0]));
+
+            pick_data.setText(init_chart);
+            receiveAQI_chartData.ReceiveAQI_ChartData_Asycn(usn, init_chart, init_chart);
         }
     }
 

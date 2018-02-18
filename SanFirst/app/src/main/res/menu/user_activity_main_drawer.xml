@@ -45,13 +45,13 @@
     <item android:title="Advantage">
         <menu>
             <item
+                android:id="@+id/nav_mydoc"
+                android:icon="@drawable/ic_doctor_icon"
+                android:title="My Doctor" />
+            <item
                 android:id="@+id/nav_aqi_map"
                 android:icon="@drawable/ic_aqi"
                 android:title="AQI Maps" />
-            <item
-                android:id="@+id/nav_mydoc"
-                android:icon="@drawable/ic_doctor_icon"
-                android:title="Doctor Search" />
         </menu>
     </item>
 

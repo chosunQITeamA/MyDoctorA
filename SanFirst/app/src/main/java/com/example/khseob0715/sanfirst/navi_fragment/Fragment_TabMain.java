@@ -527,12 +527,12 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
                 Double latitude = lastLocation.getLatitude();
                 Double longitude = lastLocation.getLongitude();
 
-                Toast.makeText(getActivity(), "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
             }
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -631,7 +631,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             SeekValue_SO2.setText(String.valueOf(ConcenVal[3]));
             SeekValue_PM.setText(String.valueOf(ConcenVal[4]));
 
-            tempText.setText(String.valueOf(ConcenVal[5]) +"℃");
+            tempText.setText(String.valueOf(ConcenVal[5]) +"℉");
 
             for(int i=0; i<5; i++)  {
                 AQI_Button_Set(i, ConcenVal[i]);

@@ -41,21 +41,21 @@
                 android:textSize="12dp" />
 
             <LinearLayout
-                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/button2"
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:text="Detail"
-                    android:textColor="#ffffff"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff" />
 
                 <Button
                     android:id="@+id/Connect"
@@ -63,9 +63,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:text="Disconnect"
-                    android:textColor="#ffffff"
-                    android:textAllCaps="false"/>
+                    android:text="Connect Request"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
         </LinearLayout>

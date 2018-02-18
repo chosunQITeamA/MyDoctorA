@@ -531,6 +531,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                                 startActivity(LoginActivityIntent);
                             }
                         })
+                        .setNeutralButton("Cancle", null) // 제일 앞.
                         .setPositiveButton("Close App", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

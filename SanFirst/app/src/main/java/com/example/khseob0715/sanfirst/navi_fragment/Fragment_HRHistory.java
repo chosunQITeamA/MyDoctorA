@@ -51,6 +51,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import static android.location.LocationManager.GPS_PROVIDER;
@@ -69,12 +70,12 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
 
     private ListView listView;
     private LinearLayout Start_date, End_date;
-    private TextView Start_date_text, End_date_text;
+    private TextView Start_date_text, End_date_text, pick_date;
     private Button HRsearchBtn;
 
     private DatePickerDialog datePickerDialog;
 
-    public static myAdapter Heart_adapter;
+    private myAdapter Heart_adapter;
 
     // 서버랑 연결 되면 받을 값.
     public static String[] items = new String[50];
@@ -107,17 +108,20 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
     private String pre_dp = "1";
 
     public static int flag = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_heartrate_history, container, false);
 
-        usn = UserActivity.getUSN();
-
+        HRChart = (LineChart) rootView.findViewById(R.id.HeartChart);
+        RRChart = (LineChart) rootView.findViewById(R.id.RRChart);
         listView = (ListView) rootView.findViewById(R.id.listView);
         Heart_adapter = new myAdapter();
         listView.setAdapter(Heart_adapter);
+
+        usn = UserActivity.getUSN();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -125,7 +129,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                 chart_date_text = "" + listView.getItemAtPosition(position);
 
                 Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
-                if(!pre_dp.equals(chart_date_text) && flag == 0) {
+                if(!pre_dp.equals(chart_date_text)) {
+                    pick_date.setText(chart_date_text);
                     if (set0 != null) {
                         set0.clear();
                     }
@@ -134,10 +139,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                         set1.clear();
                     }
                     receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, chart_date_text, chart_date_text);
-
-                    flag = 1;
                     // handler.postDelayed(new enableBtn(),2000);
-
                 }
                 pre_dp = "" + chart_date_text;
             }
@@ -155,17 +157,52 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         Start_date_text = (TextView) rootView.findViewById(R.id.Start_date_text);
         End_date_text = (TextView) rootView.findViewById(R.id.End_date_text);
 
-        long now = System.currentTimeMillis();
+        pick_date = (TextView)rootView.findViewById(R.id.PickDate);
 
-        Date date = new Date(now);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String getTime = sdf.format(date);
 
-        Start_date_text.setText(getTime);
-        End_date_text.setText(getTime);
+        TabHost_setting();
+
+        chart_setting();
+
+        Day_setting();
 
         handler = new Handler();
 
+        receiveHR.ReceiveHR_Asycn(usn, Start_date_text.getText().toString(), End_date_text.getText().toString());
+        handler.postDelayed(new Update_list(),1200);
+        handler.postDelayed(new Update_list_chart(), 1200);
+
+
+
+        mapView = (MapView) rootView.findViewById(R.id.mapView);
+        mapView.getMapAsync(this);
+
+        if (mapView != null) {
+            mapView.onCreate(savedInstanceState);
+        }
+
+        return rootView;
+    }
+
+    private void Day_setting(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -7);
+
+        Date previous_date = calendar.getTime();
+
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        String preTime = sdf.format(previous_date);
+        String curTime = sdf.format(date);
+
+        Start_date_text.setText(preTime);
+        End_date_text.setText(curTime);
+
+    }
+    private void TabHost_setting(){
         TabHost host = (TabHost)rootView.findViewById(R.id.HeartTabhost);
         host.setup();
 
@@ -174,7 +211,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         spec.setContent(R.id.tab1);
         host.addTab(spec);
 
-        spec = host.newTabSpec("RR-Rate");
+        spec = host.newTabSpec("tab2");
         spec.setIndicator("RR-Rate");
         //spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.bigcloud_pm, null));
         spec.setContent(R.id.tab2);
@@ -184,14 +221,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
             TextView tv = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(Color.parseColor("#000000"));
         }
-
-        return rootView;
     }
-
-    @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        HRChart = (LineChart) view.findViewById(R.id.HeartChart);
-        RRChart = (LineChart) view.findViewById(R.id.RRChart);
+    private void chart_setting(){
 
         // 차트의 아래 Axis
         XAxis xAxis = HRChart.getXAxis();
@@ -227,12 +258,11 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         LineData data1 = new LineData();
         RRChart.setData(data1);
 
-        mapView = (MapView) view.findViewById(R.id.mapView);
-        mapView.getMapAsync(this);
+    }
 
-        if (mapView != null) {
-            mapView.onCreate(savedInstanceState);
-        }
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+
     }
 
 
@@ -356,12 +386,12 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                 Double latitude = lastLocation.getLatitude();
                 Double longitude = lastLocation.getLongitude();
 
-                Toast.makeText(getActivity(), "HR-" + "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActivity(), "HR-" + "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
             }
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -413,8 +443,8 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                 break;
 
             case R.id.HRDataSearchBtn:
-                int usn = UserActivity.getUSN();
                 Log.e("HRDataSearchBtn", usn + "/" + Start_date_text.getText().toString() + "/" + End_date_text.getText().toString());
+                int usn = UserActivity.getUSN();
                 receiveHR.ReceiveHR_Asycn(usn, Start_date_text.getText().toString(), End_date_text.getText().toString());
                 handler.postDelayed(new Update_list(),1200);
                 break;
@@ -460,7 +490,7 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
-class myAdapter extends BaseAdapter {
+    class myAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -519,12 +549,15 @@ class myAdapter extends BaseAdapter {
             Heart_adapter.notifyDataSetChanged();
         }
     }
-
-    private class enableBtn implements Runnable{
-
+    private class Update_list_chart implements Runnable{
         @Override
         public void run() {
-            listView.setClickable(true);
+
+            String init_chart = "" + listView.getItemAtPosition(0);
+            receiveHR_chartData.ReceiveHR_ChartData_Asycn(usn, init_chart, init_chart);
+            pick_date.setText(init_chart);
         }
     }
+
+
 }
