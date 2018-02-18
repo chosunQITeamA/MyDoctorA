@@ -51,7 +51,7 @@ import static android.location.LocationManager.GPS_PROVIDER;
 
 public class Fragment_TabMain extends Fragment implements View.OnClickListener, OnMapReadyCallback {
 
-    private String imagepath = null;
+    private String cloudimage = "aqicloud1";
 
     private CircularProgressBar co_seekbar, so2_seekbar, o3_seekbar, no2_seekbar, pm25_seekbar;
     private CircularProgressBar heart_seekbar;
@@ -216,7 +216,6 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         if (mapView != null) {
             mapView.onCreate(savedInstanceState);
         }
-
     }
 
     @Override
@@ -226,27 +225,49 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
                 ConcenVal_Start[4] = 0;
                 alpha_setting(255, 50, 50, 50, 50);
                 visible_layout(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE);
+                cloubChange(Integer.valueOf(CC_Value_PM.getText().toString()));
                 break;
             case R.id.CO_Cloud:
                 ConcenVal_Start[2] = 0;
                 alpha_setting(50, 255, 50, 50, 50);
                 visible_layout(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE);
+                cloubChange(Integer.valueOf(CC_Value_CO.getText().toString()));
                 break;
             case R.id.NO_Cloud:
                 ConcenVal_Start[1] = 0;
                 alpha_setting(50, 50, 255, 50, 50);
                 visible_layout(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                cloubChange(Integer.valueOf(CC_Value_NO2.getText().toString()));
                 break;
             case R.id.O_Cloud:
                 ConcenVal_Start[0] = 0;
                 alpha_setting(50, 50, 50, 255, 50);
                 visible_layout(View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE);
+                cloubChange(Integer.valueOf(CC_Value_O3.getText().toString()));
                 break;
             case R.id.SO_Cloud:
                 ConcenVal_Start[3] = 0;
                 alpha_setting(50, 50, 50, 50, 255);
                 visible_layout(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
+                cloubChange(Integer.valueOf(CC_Value_SO2.getText().toString()));
                 break;
+        }
+        ShowMyLocaion(lat, lon, map);
+    }
+
+    private void cloubChange(int cloudvalue) {
+        if(cloudvalue >= 300)   {
+            cloudimage = "aqicloud6";
+        }   else if (cloudvalue >= 200)    {
+            cloudimage = "aqicloud5";
+        }   else if (cloudvalue >= 150) {
+            cloudimage = "aqicloud4";
+        }   else if (cloudvalue >= 100) {
+            cloudimage = "aqicloud3";
+        }   else if (cloudvalue >= 50)  {
+            cloudimage = "aqicloud2";
+        }   else    {
+            cloudimage = "aqicloud1";
         }
     }
 
@@ -500,6 +521,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.aqicloud1);
         ShowMyLocaion(lat,lon,map);
         StartLocationService();
     }
@@ -570,7 +592,6 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         markerOptions.position(nowLocation);
         markerOptions.title("now location");
 
-        String cloudimage = "aqicloud1";
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(getResources().getIdentifier(cloudimage,"drawable","com.example.khseob0715.sanfirst"));
 
         markerOptions.icon(icon);

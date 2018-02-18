@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -18,8 +19,6 @@ import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
 
 /**
  * Created by chony on 2018-02-04.
@@ -45,6 +44,8 @@ public class BluetoothAQI extends Service{
 
     private boolean historical = false;
 
+    SQLiteDatabase db;
+
     UserActivity useract = new UserActivity();
     AQIHistorySQLiteHelper aqihsql = new AQIHistorySQLiteHelper();
 
@@ -52,6 +53,7 @@ public class BluetoothAQI extends Service{
     public void onCreate(){
         super.onCreate();
         Log.i(TAG,"onCreate");
+        db = openOrCreateDatabase("MyDoctorA", Context.MODE_PRIVATE, null);
     }
 
     @Override
@@ -223,13 +225,19 @@ public class BluetoothAQI extends Service{
                             historical = true;
                             Double LAT = GPSTracker.latitude;
                             Double LNG = GPSTracker.longitude;
-                            SimpleDateFormat ts = new SimpleDateFormat("MM/dd HH:mm:ss");
+                            /*
+                            DateFormat sdFormat = new SimpleDateFormat("yyyyMMdd");
+                            Date nowDate = new Date();
+                            String tempDate = sdFormat.format(nowDate);
+*/
+                            String tempDate = "11111111";
                             Log.e("UDOO_RECEIVE","HISTORICAL _ Receive"+ aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_temp +"/" + aqi_time);
-                            aqihsql.AQIHinsertData(useract.db,useract.usn, String.valueOf(ts), LAT, LNG, aqi_co, aqi_so2, aqi_no2, aqi_o3, aqi_pm25, aqi_temp );//insert
+                            aqihsql.AQIHinsertData(db,useract.usn, String.valueOf(tempDate), LAT, LNG, aqi_co, aqi_so2, aqi_no2, aqi_o3, aqi_pm25, aqi_temp );//insert
                         }   else if(type.equals("aqi"))  {
                             if (historical) {
-                                useract.ExportJson(1);
-                                aqihsql.AQIHdropTable(useract.db);//drop
+                                useract.ExportJson(2);
+                                //aqihsql.AQIHdropTable(db);//drop
+                                Log.e("Historical is ", "fail");
                                 historical = false;
                             }   else {
                                 Log.e("UDOO_RECEIVE", "AQI _ Receive" + aqi_co + "/" + aqi_so2 + "/" + aqi_no2 + "/" + aqi_o3 + "/" + aqi_pm25 + "/" + aqi_temp + "/" + aqi_time);

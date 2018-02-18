@@ -18,19 +18,19 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SendAQI {
-    public static final String url = "http://teama-iot.calit2.net/aqidataapp";
+public class SendAQIH {
+    public static final String url = "http://teama-iot.calit2.net/aqiarrayapp";
 
     OkHttpClient client = new OkHttpClient();
 
     public static String responseBody = null;
 
-    public void SendAQI_Asycn(final int usn, final String datetime, final Double lat, final Double lon, final Double co , final Double so2, final Double no2, final Double o3, final Double pm25, final Double temp) {
+    public void SendAQIH_Asycn(final int usn, final String datetime, final Double lat, final Double lon, final Double co , final Double so2, final Double no2, final Double o3, final Double pm25, final Double temp) {
         (new AsyncTask<UserActivity, Void, String>() {
 
             @Override
             protected String doInBackground(UserActivity... mainActivities) {
-                SendAQI.ConnectServer connectServerPost = new SendAQI.ConnectServer();
+                SendAQIH.ConnectServer connectServerPost = new SendAQIH.ConnectServer();
                 connectServerPost.requestPost(url, usn, datetime, lat, lon, co, so2, no2, o3, pm25, temp);
                 return responseBody;
             }
@@ -53,7 +53,6 @@ public class SendAQI {
 
         public void requestPost(String url, int usn, String datetime, Double lat, Double lon, Double co , Double so2, Double no2, Double o3, Double pm25, Double temp) {
 
-            Log.e("SendAQI is = ", usn +" / "+ datetime +" / "+ lat +" / "+ lon +" / "+ co +" / "+ so2 +" / "+ no2 +" / "+ o3 +" / "+ pm25 +" / "+ temp);
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
                     .add("usn", String.valueOf(usn))

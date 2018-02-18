@@ -24,11 +24,11 @@ public class SendJSON {
     public String url;
     public static String responseBody = null;
 
-    public void SendJSON_Asycn(int add, final String arraytoobj) {
+    public void SendJSON_Asycn(int add, final int length, final String arraytoobj) {
 
         if(add == 0)    {
             url = "http://teama-iot.calit2.net/heartarrayapp";
-        }   else if(add == 1)   {
+        }   else if(add == 1 || add == 2)   {
             url = "http://teama-iot.calit2.net/aqiarrayapp";
         }
 
@@ -37,7 +37,7 @@ public class SendJSON {
             @Override
             protected String doInBackground(UserActivity... mainActivities) {
                 SendJSON.ConnectServer connectServerPost = new SendJSON.ConnectServer();
-                connectServerPost.requestPost(url, arraytoobj);
+                connectServerPost.requestPost(url, length, arraytoobj);
                 return responseBody;
             }
 
@@ -57,10 +57,11 @@ public class SendJSON {
     class ConnectServer {
         //Client 생성
 
-        public void requestPost(String url, String arraytoobj) {
+        public void requestPost(String url, int length, String arraytoobj) {
 
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
+                    .add("length", String.valueOf(length))
                     .add("data", arraytoobj)
                     .build();
             //RequestBody requestBody = new FormBody.Builder().add("email", id).add("password", password).build();
@@ -84,6 +85,7 @@ public class SendJSON {
                         Log.e("aaaa", "Response Body is " + responseBody);
 
                         JSONObject jsonObject = new JSONObject(responseBody);
+
                         //String Message = jsonObject.getString("message");
 /*
                         if (Message.equals("Success")) {

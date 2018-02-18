@@ -8,4 +8,7 @@
         android:id="@+id/insecure_connect_scan"
         android:title="BTChat Connect"/>
 
+    <item
+        android:id="@+id/drop"
+        android:title="drop"/>
 </menu>

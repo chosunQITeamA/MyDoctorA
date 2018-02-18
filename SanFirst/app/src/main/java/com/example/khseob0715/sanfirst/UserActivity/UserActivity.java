@@ -132,6 +132,8 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     ConfirmPW confirmpw = new ConfirmPW();
     HeartSQLiteHelper HRsqlhelper = new HeartSQLiteHelper();
     AQISQLiteHelper AQIsqlhelper = new AQISQLiteHelper();
+    AQIHistorySQLiteHelper AQIHsqlhelper = new AQIHistorySQLiteHelper();
+
     SendHR sendhr = new SendHR();
     SendAQI sendaqi = new SendAQI();
     HeartSQLiteHelper heartsql = new HeartSQLiteHelper();
@@ -439,6 +441,9 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
 
+            case R.id.drop: {
+                DropHAQI();
+            }
             //-----------------------------------------------------------------------------------------------------[DB Test]
                 /*
             case R.id.createTable : {
@@ -479,6 +484,10 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         AQIsqlhelper.AQIdropTable(db);
     }
 
+    public void DropHAQI()   {
+        aqihisyorysql.AQIHdropTable(db);
+    }
+
     public void ExportJson(int addr)    {
         JSONArray jsonarrayResult = null;
         if(addr == 0)    {
@@ -496,11 +505,16 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             arraytoobj.put("length", arraylength);
             arraytoobj.put("data", jsonarrayResult);
             Log.e("arrayPut", String.valueOf(arraytoobj));
-            sendjson.SendJSON_Asycn(addr, String.valueOf(arraytoobj));
+            sendjson.SendJSON_Asycn(addr, arraylength, String.valueOf(arraytoobj));
             Log.e("arrayAsync", "Success");
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("arrayPut", "Fail");
+        }
+
+        if(addr == 1 || addr == 2)  {
+//            DropAQI();
+//            DropHAQI();
         }
     }
 
