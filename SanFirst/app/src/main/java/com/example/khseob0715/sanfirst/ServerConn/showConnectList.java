@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_SearchDoctor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,10 +19,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
-/**
- * Created by Kim Jin Hyuk on 2018-02-18.
- */
 
 public class showConnectList {
     OkHttpClient client = new OkHttpClient();
@@ -94,15 +91,25 @@ public class showConnectList {
 
                         JSONArray data = jsonObject.getJSONArray("data");
 
+                        Fragment_SearchDoctor.connection_count = 0;
+                        Fragment_SearchDoctor.accepatance_count = 0;
+                        Fragment_SearchDoctor.waiting_count = 0;
+
                         for(int i=0; i<data.length(); i++)    {
                             JSONObject userdata = data.getJSONObject(i);
-/*
-                            int usn = Integer.parseInt(userdata.getString("USN"));
-                            String ID = userdata.getString("User_email");
-                            int Gender_num = userdata.getInt("Gender");
-                            String Birth = userdata.getString("Birth");
-                            String Fname = userdata.getString("Fname");
-                            String Lname = userdata.getString("Lname");
+
+                            int usn = userdata.getInt("usn");
+
+                            String ID = userdata.getString("email");
+                            String Fname = userdata.getString("fname");
+                            String Lname = userdata.getString("lname");
+                            String Birth = userdata.getString("birth");
+                            int Gender_num = userdata.getInt("gender");
+                            String Phone = userdata.getString("phone");
+                            int requestingusn = userdata.getInt("requestingUSN");
+                            int requestedusn = userdata.getInt("requestedUSN");
+                            int conn_state = userdata.getInt("CONN_state");
+
                             String Gender = null;
 
                             if (Gender_num == 0) {
@@ -111,14 +118,31 @@ public class showConnectList {
                                 Gender = "Male";
                             }
 
-                            Fragment_SearchDoctor.Search_fname[i] = Fname;
-                            Fragment_SearchDoctor.Search_lname[i] = Lname;
-                            Fragment_SearchDoctor.Search_ID[i] = ID;
-                            Fragment_SearchDoctor.Search_Gender[i] = Gender;
-                            Fragment_SearchDoctor.Search_old[i] = Birth;
+                            if(conn_state == 1){ // 연결 된 것.
+                                Fragment_SearchDoctor.Connect_fname[Fragment_SearchDoctor.connection_count] = Fname;
+                                Fragment_SearchDoctor.Connect_lname[Fragment_SearchDoctor.connection_count] = Lname;
+                                Fragment_SearchDoctor.Connect_Gender[Fragment_SearchDoctor.connection_count] = Gender;
+                                Fragment_SearchDoctor.Connect_Phone[Fragment_SearchDoctor.connection_count] = Phone;
+                                Fragment_SearchDoctor.Connect_ID[Fragment_SearchDoctor.connection_count] = ID;
+                                Fragment_SearchDoctor.Connect_old[Fragment_SearchDoctor.connection_count] = Birth;
+                                Fragment_SearchDoctor.connection_count++;
+                            }else if(conn_state == 0 && requestingusn == usn){ // 내가 기다리는 것.
+                                Fragment_SearchDoctor.waiting_fname[Fragment_SearchDoctor.waiting_count] = Fname;
+                                Fragment_SearchDoctor.waiting_lname[Fragment_SearchDoctor.waiting_count] = Lname;
+                                Fragment_SearchDoctor.waiting_Gender[Fragment_SearchDoctor.waiting_count] = Gender;
+                                Fragment_SearchDoctor.waiting_ID[Fragment_SearchDoctor.waiting_count] = ID;
+                                Fragment_SearchDoctor.waiting_old[Fragment_SearchDoctor.waiting_count] = Birth;
+                                Fragment_SearchDoctor.waiting_count++;
+                            }else if(conn_state == 0 && requestedusn == usn){  // myadapter 3
+                                Fragment_SearchDoctor.accepatance_fname[Fragment_SearchDoctor.accepatance_count] = Fname;
+                                Fragment_SearchDoctor.accepatance_lname[Fragment_SearchDoctor.accepatance_count] = Lname;
+                                Fragment_SearchDoctor.accepatance_Gender[Fragment_SearchDoctor.accepatance_count] = Gender;
+                                Fragment_SearchDoctor.accepatance_Phone[Fragment_SearchDoctor.accepatance_count] = Phone;
+                                Fragment_SearchDoctor.accepatance_ID[Fragment_SearchDoctor.accepatance_count] = ID;
+                                Fragment_SearchDoctor.accepatance_old[Fragment_SearchDoctor.accepatance_count] = Birth;
+                                Fragment_SearchDoctor.accepatance_count++;
+                            }
 
-                            Fragment_SearchDoctor.search_count++;
-*/
                             Log.e("searchConnectList = ", i +"///"+ userdata);
                         }
 

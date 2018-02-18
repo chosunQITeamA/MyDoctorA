@@ -70,51 +70,59 @@
 
                                 <TextView
                                     android:id="@+id/DataIndex4"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"
                                     android:gravity="center"
                                     android:text="O3"
                                     android:textColor="#000000"
                                     android:textSize="15dp"
                                     android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/DataValueO3"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="top"
-                                    android:gravity="top"
-                                    android:text="50"
-                                    android:textColor="#000000"
-                                    android:textSize="40dp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/textView8"
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="20dp"
-                                    android:text="AQI"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="8dp" />
+                                    android:layout_height="match_parent"
+                                    android:gravity="right"
+                                    android:orientation="horizontal">
 
-                                <TextView
-                                    android:id="@+id/textView35"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:text="/500"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="7dp" />
+                                    <TextView
+                                        android:id="@+id/DataValueO3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top"
+                                        android:layout_weight="0"
+                                        android:gravity="top"
+                                        android:text="50"
+                                        android:textColor="#000000"
+                                        android:textSize="40dp"
+                                        android:textStyle="bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/aqiIndex8"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="15dp"
+                                            android:text="AQI"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="8dp" />
+
+                                        <TextView
+                                            android:id="@+id/textview35"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:text="/500"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="7dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
                             </LinearLayout>
 
                         </LinearLayout>
@@ -177,6 +185,77 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp">
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/DataIndex5"
+                                    android:layout_width="70dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="SO2"
+                                    android:textColor="#000000"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="right"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/DataValueSO2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top"
+                                        android:layout_weight="0"
+                                        android:gravity="top"
+                                        android:text="50"
+                                        android:textColor="#000000"
+                                        android:textSize="40dp"
+                                        android:textStyle="bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/aqiIndex"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="15dp"
+                                            android:text="AQI"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="8dp" />
+
+                                        <TextView
+                                            android:id="@+id/maxaqiIndex"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:text="/500"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="7dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
                         <com.lylc.widget.circularprogressbar.CircularProgressBar
                             android:id="@+id/so2seekbar"
                             style="@style/Widget.ProgressBar.CircularProgressBar"
@@ -184,68 +263,6 @@
                             android:layout_height="100dp"
                             android:layout_gravity="center_horizontal|center_vertical"
                             circular:cpb_backgroundColor="#acffc5" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/DataIndex5"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"
-                                    android:gravity="center"
-                                    android:text="SO2"
-                                    android:textColor="#000000"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/DataValueSO2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="top"
-                                    android:gravity="top"
-                                    android:text="50"
-                                    android:textColor="#000000"
-                                    android:textSize="40dp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/aqiIndex"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="31dp"
-                                    android:text="AQI"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="8dp" />
-
-                                <TextView
-                                    android:id="@+id/maxaqiIndex"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:text="/500"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="7dp" />
-                            </LinearLayout>
-                        </LinearLayout>
 
                     </FrameLayout>
 
@@ -307,14 +324,6 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center">
 
-                        <com.lylc.widget.circularprogressbar.CircularProgressBar
-                            android:id="@+id/no2seekbar"
-                            style="@style/Widget.ProgressBar.CircularProgressBar"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#acffc5" />
-
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -325,59 +334,74 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:gravity="center"
                                 android:orientation="vertical">
 
                                 <TextView
                                     android:id="@+id/DataIndex3"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"
                                     android:gravity="center"
                                     android:text="NO2"
                                     android:textColor="#000000"
                                     android:textSize="15dp"
                                     android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/DataValueNO2"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="top"
-                                    android:gravity="center"
-                                    android:text="50"
-                                    android:textColor="#000000"
-                                    android:textSize="40dp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/aqiIndex4"
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="20dp"
-                                    android:text="AQI"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="8dp" />
+                                    android:layout_height="match_parent"
+                                    android:gravity="right"
+                                    android:orientation="horizontal">
 
-                                <TextView
-                                    android:id="@+id/maxaqiIndex4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:text="/500"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="7dp" />
+                                    <TextView
+                                        android:id="@+id/DataValueNO2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top"
+                                        android:layout_weight="0"
+                                        android:gravity="top"
+                                        android:text="50"
+                                        android:textColor="#000000"
+                                        android:textSize="40dp"
+                                        android:textStyle="bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/aqiIndex4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="15dp"
+                                            android:text="AQI"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="8dp" />
+
+                                        <TextView
+                                            android:id="@+id/maxaqiIndex4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:text="/500"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="7dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
                             </LinearLayout>
 
                         </LinearLayout>
+
+                        <com.lylc.widget.circularprogressbar.CircularProgressBar
+                            android:id="@+id/no2seekbar"
+                            style="@style/Widget.ProgressBar.CircularProgressBar"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            circular:cpb_backgroundColor="#acffc5" />
 
                     </FrameLayout>
 
@@ -459,51 +483,59 @@
 
                                 <TextView
                                     android:id="@+id/DataIndex2"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"
                                     android:gravity="center"
                                     android:text="CO"
                                     android:textColor="#000000"
                                     android:textSize="15dp"
                                     android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/DataValueCO"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="top"
-                                    android:gravity="top"
-                                    android:text="50"
-                                    android:textColor="#000000"
-                                    android:textSize="40dp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/aqiIndex2"
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="31dp"
-                                    android:text="AQI"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="8dp" />
+                                    android:layout_height="match_parent"
+                                    android:gravity="right"
+                                    android:orientation="horizontal">
 
-                                <TextView
-                                    android:id="@+id/maxaqiIndex2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:text="/500"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="7dp" />
+                                    <TextView
+                                        android:id="@+id/DataValueCO"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top"
+                                        android:layout_weight="0"
+                                        android:gravity="top"
+                                        android:text="50"
+                                        android:textColor="#000000"
+                                        android:textSize="40dp"
+                                        android:textStyle="bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/aqiIndex2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="15dp"
+                                            android:text="AQI"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="8dp" />
+
+                                        <TextView
+                                            android:id="@+id/maxaqiIndex2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:text="/500"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="7dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
                             </LinearLayout>
 
                         </LinearLayout>
@@ -565,17 +597,9 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp">
 
-                        <com.lylc.widget.circularprogressbar.CircularProgressBar
-                            android:id="@+id/pm25seekbar"
-                            style="@style/Widget.ProgressBar.CircularProgressBar"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            circular:cpb_backgroundColor="#acffc5" />
-
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:orientation="horizontal">
 
@@ -587,7 +611,7 @@
 
                                 <TextView
                                     android:id="@+id/DataIndex"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:gravity="center"
@@ -596,46 +620,61 @@
                                     android:textSize="15dp"
                                     android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/DataValuePM"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="top"
-                                    android:gravity="top"
-                                    android:text="50"
-                                    android:textColor="#000000"
-                                    android:textSize="40dp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:orientation="vertical"
-                                android:visibility="gone">
-
-                                <TextView
-                                    android:id="@+id/aqiIndex3"
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="20dp"
-                                    android:text="AQI"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="8dp" />
+                                    android:layout_height="match_parent"
+                                    android:gravity="right"
+                                    android:orientation="horizontal">
 
-                                <TextView
-                                    android:id="@+id/maxaqiIndex3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:text="/500"
-                                    android:textColor="#9b9b9b"
-                                    android:textSize="7dp" />
+                                    <TextView
+                                        android:id="@+id/DataValuePM"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top"
+                                        android:layout_weight="0"
+                                        android:gravity="top"
+                                        android:text="50"
+                                        android:textColor="#000000"
+                                        android:textSize="40dp"
+                                        android:textStyle="bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/aqiIndex3"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="15dp"
+                                            android:text="AQI"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="8dp" />
+
+                                        <TextView
+                                            android:id="@+id/maxaqiIndex3"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:text="/500"
+                                            android:textColor="#9b9b9b"
+                                            android:textSize="7dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
                             </LinearLayout>
 
                         </LinearLayout>
+
+                        <com.lylc.widget.circularprogressbar.CircularProgressBar
+                            android:id="@+id/pm25seekbar"
+                            style="@style/Widget.ProgressBar.CircularProgressBar"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            circular:cpb_backgroundColor="#acffc5" />
 
                     </FrameLayout>
 
@@ -661,7 +700,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <TextView
                                 android:id="@+id/concentrationValuePM"

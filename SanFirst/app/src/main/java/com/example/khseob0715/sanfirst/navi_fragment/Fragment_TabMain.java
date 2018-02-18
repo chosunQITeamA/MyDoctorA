@@ -55,9 +55,9 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
 
     private CircularProgressBar co_seekbar, so2_seekbar, o3_seekbar, no2_seekbar, pm25_seekbar;
     private CircularProgressBar heart_seekbar;
-    public static int heart_rate_value = 50, rr_rate_value = 00;
-    private int ConcenVal_Start[] = {20, 10, 40, 30, 20};
-    public static int ConcenVal[] = {30, 20, 50, 10, 50, 20};
+    public static int heart_rate_value = 0, rr_rate_value = 0;
+    private int ConcenVal_Start[] = {0, 0, 0, 0, 0};
+    public static int ConcenVal[] = {0, 0, 0, 0, 0, 0};
     private int heart_start = 0;
 
     private LineChart mChart;
@@ -648,7 +648,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     android.os.Handler receivehearthandler = new android.os.Handler() {
         public void handleMessage(Message msg) {
 
-            seekani(heart_seekbar, heart_start, heart_rate_value );
+            seekani(heart_seekbar, Integer.valueOf(heart_start/2), Integer.valueOf(heart_rate_value/2));
 
             seekani(o3_seekbar, Integer.valueOf(ConcenVal_Start[0]/3), Integer.valueOf(ConcenVal[0]/3));
             seekani(no2_seekbar,Integer.valueOf(ConcenVal_Start[1]/3), Integer.valueOf(ConcenVal[1]/3));

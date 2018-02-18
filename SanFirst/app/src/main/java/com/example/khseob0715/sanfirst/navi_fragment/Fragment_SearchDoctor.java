@@ -36,11 +36,12 @@ import static com.example.khseob0715.sanfirst.UserActivity.UserActivity.usn;
 
 public class Fragment_SearchDoctor extends Fragment {
 
-    private ListView listView, listView2,listView3;
+    private ListView listView, listView2, listView3, listView4;
 
-    private myAdapter adapter;
-    private myAdapter2 adapter2;
-    private myAdapter3 adapter3;
+    private myAdapter adapter;     // 연결 의사 리스트  // connect
+    private myAdapter2 adapter2;   // 전체 의사 리스트  // search
+    private myAdapter3 adapter3;   // 의사 수락 리스트  // acceptance
+    private myAdapter4 adapter4;   // 내가 의사한테 요청해서 기다리는 리스트 // waiting
 
     private String[] items = new String[10];
 
@@ -51,15 +52,38 @@ public class Fragment_SearchDoctor extends Fragment {
     private Handler handler;
 
     public static int search_count = 0;
-    public static String[] Search_fname= new String[100];
+    public static String[] Search_fname = new String[100];
     public static String[] Search_lname = new String[100];
     public static String[] Search_ID = new String[100];
     public static String[] Search_Gender = new String[100];
     public static String[] Search_old = new String[100];
 
+    public static int connection_count = 0;
+    public static String[] Connect_fname = new String[100];
+    public static String[] Connect_lname = new String[100];
+    public static String[] Connect_ID = new String[100];
+    public static String[] Connect_Phone = new String[100];
+    public static String[] Connect_Gender = new String[100];
+    public static String[] Connect_old = new String[100];
+
+    public static int waiting_count = 0;
+    public static String[] waiting_fname = new String[100];
+    public static String[] waiting_lname = new String[100];
+    public static String[] waiting_ID = new String[100];
+    public static String[] waiting_Gender = new String[100];
+    public static String[] waiting_old = new String[100];
+
+    public static int accepatance_count = 0;
+    public static String[] accepatance_fname = new String[100];
+    public static String[] accepatance_lname = new String[100];
+    public static String[] accepatance_ID = new String[100];
+    public static String[] accepatance_Phone = new String[100];
+    public static String[] accepatance_Gender = new String[100];
+    public static String[] accepatance_old = new String[100];
+
     private EditText searchName2, searchEmail2;
 
-    private Button searchDoctorBtn,ALLBtn;
+    private Button searchDoctorBtn, ALLBtn;
     SearchList searchlist = new SearchList();
     showConnectList showconlist = new showConnectList();
 
@@ -72,38 +96,42 @@ public class Fragment_SearchDoctor extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView = (ViewGroup)inflater.inflate(R.layout.fragment_search_doctor, container, false);
+        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_search_doctor, container, false);
 
         listView = (ListView) rootView.findViewById(R.id.DoctorList);
         adapter = new myAdapter();
         listView.setAdapter(adapter);
 
-        listView2 = (ListView)rootView.findViewById(R.id.DoctorList2);
+        listView2 = (ListView) rootView.findViewById(R.id.DoctorList2);
         adapter2 = new myAdapter2();
         listView2.setAdapter(adapter2);
 
-        listView3 = (ListView)rootView.findViewById(R.id.DoctorRequestList);
+        listView3 = (ListView) rootView.findViewById(R.id.DoctorRequestList);
         adapter3 = new myAdapter3();
         listView3.setAdapter(adapter3);
 
-        searchName2 = (EditText)rootView.findViewById(R.id.SearchName2);
-        searchEmail2 = (EditText)rootView.findViewById(R.id.SearchEmail2);
+        listView4 = (ListView)rootView.findViewById(R.id.DoctorWaitingList);
+        adapter4 = new myAdapter4();
+        listView4.setAdapter(adapter4);
+
+        searchName2 = (EditText) rootView.findViewById(R.id.SearchName2);
+        searchEmail2 = (EditText) rootView.findViewById(R.id.SearchEmail2);
         searchEmail2.setVisibility(View.GONE);
 
-        Spinner spinner2 = (Spinner)rootView.findViewById(R.id.spinner2);
+        Spinner spinner2 = (Spinner) rootView.findViewById(R.id.spinner2);
 
         ArrayAdapter Spinner_adapter2 = ArrayAdapter.createFromResource(getContext(), R.array.search, R.layout.spinner_item);
         spinner2.setAdapter(Spinner_adapter2);
 
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l){
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
 
-                if(position == 0){
+                if (position == 0) {
                     searchmethod = 0;
                     searchName2.setVisibility(View.VISIBLE);
                     searchEmail2.setVisibility(View.GONE);
-                }else{
+                } else {
                     searchmethod = 1;
                     searchName2.setVisibility(View.GONE);
                     searchEmail2.setVisibility(View.VISIBLE);
@@ -116,7 +144,7 @@ public class Fragment_SearchDoctor extends Fragment {
             }
         });
 
-        TabHost host = (TabHost)rootView.findViewById(R.id.DoctorTabHost);
+        TabHost host = (TabHost) rootView.findViewById(R.id.DoctorTabHost);
         host.setup();
 
         TabHost.TabSpec spec = host.newTabSpec("tab1");
@@ -131,7 +159,7 @@ public class Fragment_SearchDoctor extends Fragment {
         spec.setContent(R.id.tab2);
         host.addTab(spec);
 
-        for(int i=0;i<host.getTabWidget().getChildCount();i++){
+        for (int i = 0; i < host.getTabWidget().getChildCount(); i++) {
             TextView tv = (TextView) host.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(Color.parseColor("#000000"));
         }
@@ -142,25 +170,25 @@ public class Fragment_SearchDoctor extends Fragment {
             public void onClick(View view) {
                 String type = null;
                 String value = null;
-                if(searchmethod == 0)    {
+                if (searchmethod == 0) {
                     type = "name";
                     value = searchName2.getText().toString();
-                }   else if (searchmethod == 1) {
+                } else if (searchmethod == 1) {
                     type = "email";
                     value = searchEmail2.getText().toString();
                 }
                 searchlist.SearchList_Asycn(1, type, value);
-                handler.postDelayed(new Update_list(),1000);
+                handler.postDelayed(new Update_list2(), 1000);
 
             }
         });
 
-        ALLBtn = (Button)rootView.findViewById(R.id.AllDoctor);
+        ALLBtn = (Button) rootView.findViewById(R.id.AllDoctor);
         ALLBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 searchlist.SearchList_Asycn(1);
-                handler.postDelayed(new Update_list(),1000);
+                handler.postDelayed(new Update_list2(), 1000);
             }
         });
 
@@ -168,7 +196,11 @@ public class Fragment_SearchDoctor extends Fragment {
 
         showconlist.showConnectList_Asycn(1, usn);
         searchlist.SearchList_Asycn(1);
-        handler.postDelayed(new Update_list(),1000);
+
+        handler.postDelayed(new Update_list1(), 300);
+        handler.postDelayed(new Update_list2(), 300);
+        handler.postDelayed(new Update_list3(), 300);
+        handler.postDelayed(new Update_list4(), 300);
 
         return rootView;
     }
@@ -177,7 +209,7 @@ public class Fragment_SearchDoctor extends Fragment {
 
         @Override
         public int getCount() {
-            return search_count;
+            return connection_count;
         }
 
         @Override
@@ -193,9 +225,9 @@ public class Fragment_SearchDoctor extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             SearchDoctor view = new SearchDoctor(rootView.getContext());
-            final LinearLayout detail_layout = (LinearLayout)view.findViewById(R.id.DetailLayout);
+            final LinearLayout detail_layout = (LinearLayout) view.findViewById(R.id.DetailLayout);
 
-            Button Detail = (Button)view.findViewById(R.id.list1DetailBtn);
+            Button Detail = (Button) view.findViewById(R.id.list1DetailBtn);
             Detail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -203,7 +235,7 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
-            Button Disconnect = (Button)view.findViewById(R.id.Disconnect);
+            Button Disconnect = (Button) view.findViewById(R.id.Disconnect);
             Disconnect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -211,6 +243,19 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
+            TextView FirstName = (TextView) view.findViewById(R.id.List1FirstName);
+            TextView LastName = (TextView) view.findViewById(R.id.List1LastName);
+            TextView ID = (TextView) view.findViewById(R.id.List1DoctorEmailText);
+            TextView Phone = (TextView) view.findViewById(R.id.List1DoctorPhoneText);
+            TextView Gender = (TextView) view.findViewById(R.id.List1DoctorGenderText);
+            TextView Old = (TextView) view.findViewById(R.id.List1DoctorOldText);
+
+            FirstName.setText(Connect_fname[position]);
+            LastName.setText(Connect_fname[position]);
+            ID.setText(Connect_ID[position]);
+            Phone.setText(Connect_Phone[position]);
+            Gender.setText(Connect_Gender[position]);
+            Old.setText(Connect_old[position]);
 
             return view;
         }
@@ -258,9 +303,9 @@ public class Fragment_SearchDoctor extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             SearchDoctor2 view = new SearchDoctor2(rootView.getContext());
 
-            final LinearLayout detail_layout2 = (LinearLayout)view.findViewById(R.id.DetailLayout2);
+            final LinearLayout detail_layout2 = (LinearLayout) view.findViewById(R.id.DetailLayout2);
 
-            Button Detail = (Button)view.findViewById(R.id.list2DetailBtn);
+            Button Detail = (Button) view.findViewById(R.id.list2DetailBtn);
             Detail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -268,7 +313,7 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
-            Button Connection = (Button)view.findViewById(R.id.Connect);
+            Button Connection = (Button) view.findViewById(R.id.Connect);
             Connection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -276,11 +321,11 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
-            TextView FirstName = (TextView)view.findViewById(R.id.List2FirstName);
-            TextView LastName = (TextView)view.findViewById(R.id.List2LastName);
-            TextView DoctorEmail = (TextView)view.findViewById(R.id.List2DoctorEmailText);
-            TextView Gender = (TextView)view.findViewById(R.id.List2DoctorGenderText);
-            TextView Old = (TextView)view.findViewById(R.id.List2DoctorOldText);
+            TextView FirstName = (TextView) view.findViewById(R.id.List2FirstName);
+            TextView LastName = (TextView) view.findViewById(R.id.List2LastName);
+            TextView DoctorEmail = (TextView) view.findViewById(R.id.List2DoctorEmailText);
+            TextView Gender = (TextView) view.findViewById(R.id.List2DoctorGenderText);
+            TextView Old = (TextView) view.findViewById(R.id.List2DoctorOldText);
 
             FirstName.setText(Search_fname[position]);
             LastName.setText(Search_lname[position]);
@@ -313,11 +358,11 @@ public class Fragment_SearchDoctor extends Fragment {
     }
 
 
-    class myAdapter3 extends BaseAdapter {
-
+    class myAdapter3 extends BaseAdapter { // 의사가 수락을 기다리는 것.
+    // 의사가 나한테 요청한 것.
         @Override
         public int getCount() {
-            return items.length;
+            return accepatance_count;
         }
 
         @Override
@@ -334,9 +379,9 @@ public class Fragment_SearchDoctor extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             SearchDoctor3 view = new SearchDoctor3(rootView.getContext());
 
-            final LinearLayout detail_layout2 = (LinearLayout)view.findViewById(R.id.DetailLayout2);
+            final LinearLayout detail_layout2 = (LinearLayout) view.findViewById(R.id.DetailLayout2);
 
-            Button Detail = (Button)view.findViewById(R.id.list3DetailBtn);
+            Button Detail = (Button) view.findViewById(R.id.list3DetailBtn);
             Detail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -344,7 +389,7 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
-            Button Acceptance = (Button)view.findViewById(R.id.Acceptance);
+            Button Acceptance = (Button) view.findViewById(R.id.Acceptance);
             Acceptance.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -352,6 +397,17 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
+            TextView FirstName = (TextView) view.findViewById(R.id.List3FirstName);
+            TextView LastName = (TextView) view.findViewById(R.id.List3LastName);
+            TextView DoctorEmail = (TextView) view.findViewById(R.id.List3DoctorEmailText);
+            TextView Gender = (TextView) view.findViewById(R.id.List3DoctorGenderText);
+            TextView Old = (TextView) view.findViewById(R.id.List3DoctorOldText);
+
+            FirstName.setText(accepatance_fname[position]);
+            LastName.setText(accepatance_lname[position]);
+            DoctorEmail.setText(accepatance_ID[position]);
+            Gender.setText(accepatance_Gender[position]);
+            Old.setText(accepatance_old[position]);
 
             return view;
         }
@@ -377,11 +433,111 @@ public class Fragment_SearchDoctor extends Fragment {
 
     }
 
-    private class Update_list implements Runnable{
 
+    class myAdapter4 extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return waiting_count;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return items[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            SearchDoctor4 view = new SearchDoctor4(rootView.getContext());
+
+            final LinearLayout detail_layout2 = (LinearLayout) view.findViewById(R.id.DetailLayout2);
+
+            Button Detail = (Button) view.findViewById(R.id.list4DetailBtn);
+            Detail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    detail_layout2.setVisibility(View.VISIBLE);
+                }
+            });
+
+            Button Waiting = (Button) view.findViewById(R.id.Waiting);
+            Waiting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            TextView FirstName = (TextView) view.findViewById(R.id.List4FirstName);
+            TextView LastName = (TextView) view.findViewById(R.id.List4LastName);
+            TextView ID = (TextView) view.findViewById(R.id.List4DoctorEmailText);
+            TextView Gender = (TextView) view.findViewById(R.id.List4DoctorGenderText);
+            TextView Old = (TextView) view.findViewById(R.id.List4DoctorOldText);
+
+            FirstName.setText(waiting_fname[position]);
+            LastName.setText(waiting_fname[position]);
+            ID.setText(waiting_ID[position]);
+            Gender.setText(waiting_Gender[position]);
+            Old.setText(waiting_old[position]);
+
+            return view;
+        }
+    }
+
+    class SearchDoctor4 extends LinearLayout {
+        TextView Test;
+
+        public SearchDoctor4(Context context) {
+            super(context);
+            init(context);
+        }
+
+        public SearchDoctor4(Context context, @Nullable AttributeSet attrs) {
+            super(context, attrs);
+            init(context);
+        }
+
+        private void init(Context context) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater.inflate(R.layout.search_doctor_list4, this);
+        }
+    }
+
+
+    private class Update_list1 implements Runnable {
+        // 연결 의사 리스트 호출
+        @Override
+        public void run() {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private class Update_list2 implements Runnable {
+        // 전체 의사 리스트 호출
         @Override
         public void run() {
             adapter2.notifyDataSetChanged();
+        }
+    }
+
+    private class Update_list3 implements Runnable {
+        //  연결 요청 리스트
+        @Override
+        public void run() {
+            adapter3.notifyDataSetChanged();
+        }
+    }
+
+    private class Update_list4 implements Runnable {
+        //  내가 기다리는 리스트
+        @Override
+        public void run() {
+            adapter4.notifyDataSetChanged();
         }
     }
 }

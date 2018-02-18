@@ -19,7 +19,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/FirstName"
+                android:id="@+id/List3FirstName"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -30,7 +30,7 @@
                 android:textSize="12dp" />
 
             <TextView
-                android:id="@+id/LastName"
+                android:id="@+id/List3LastName"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
@@ -93,7 +93,7 @@
                     android:textColor="#000000" />
 
                 <TextView
-                    android:id="@+id/DoctorEmailText"
+                    android:id="@+id/List3DoctorEmailText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -115,7 +115,7 @@
                     android:textColor="#000000" />
 
                 <TextView
-                    android:id="@+id/DoctorGenderText"
+                    android:id="@+id/List3DoctorGenderText"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -131,7 +131,7 @@
                     android:textColor="#000000" />
 
                 <TextView
-                    android:id="@+id/DoctorOldText"
+                    android:id="@+id/List3DoctorOldText"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"

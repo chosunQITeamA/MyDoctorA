@@ -22,6 +22,78 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:id="@+id/tab1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView24"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="List of doctors awaiting connection acceptance"
+                            android:textColor="#000000" />
+
+                        <ListView
+                            android:id="@+id/DoctorWaitingList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_centerInParent="true"
+                            android:background="#aeaeae" />
+
+
+                        <TextView
+                            android:id="@+id/textView87"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="List of doctors who sent me connection requests"
+                            android:textColor="#000000" />
+
+                        <ListView
+                            android:id="@+id/DoctorRequestList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_centerInParent="true"
+                            android:background="#aeaeae" />
+
+                        <TextView
+                            android:id="@+id/NameIdex"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:gravity="left"
+                            android:text="List of doctors connected with me"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
+
+                        <ListView
+                            android:id="@+id/DoctorList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></ListView>
+
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/tab2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -152,67 +224,6 @@
                             android:id="@+id/DoctorList2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:orientation="vertical"><![CDATA[
-
-
-
-                        >>>>>>> SUB
-
-
-
-                        ]]>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="0"
-                            android:gravity="left"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/NameIdex"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0"
-                                android:gravity="left"
-                                android:text="List of doctors connected with me"
-                                android:textColor="#000000"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <ListView
-                            android:id="@+id/DoctorList"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp" >
-                        </ListView>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_centerInParent="true"
-                            android:background="#aeaeae" />
-
-                        <ListView
-                            android:id="@+id/DoctorRequestList"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp" />
 
                     </LinearLayout>
                 </LinearLayout>
