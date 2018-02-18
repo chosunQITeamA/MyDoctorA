@@ -11,6 +11,8 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +38,12 @@ public class BluetoothAQI extends Service{
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothChatService mChatService = null;
 
-    public Double o3val, no2val, coval, so2val, pm25val, tempval;
+    public int o3val;
+    public int no2val;
+    public int coval;
+    public int so2val;
+    public int pm25val;
+    public int tempval;
     @Override
     public void onCreate(){
         super.onCreate();
@@ -196,22 +203,53 @@ public class BluetoothAQI extends Service{
                         Log.e("convert json", "Success");
                         String type = UdooJson.getString("type");
 
-                        String data = UdooJson.getString("data");
+                        String FullDate = UdooJson.getString("data");
+                        String data = FullDate.replaceAll("\\[","");
                         JSONObject AQIJson = new JSONObject(data);
-                        String aqi_co = AQIJson.getString("co");
-                        String aqi_so2 = AQIJson.getString("so2");
-                        String aqi_no2 = AQIJson.getString("no2");
-                        String aqi_o3 = AQIJson.getString("o3");
-                        String aqi_pm25 = AQIJson.getString("pm25");
-                        String aqi_time = AQIJson.getString("time");
+                        int aqi_co = AQIJson.getInt("co");
+                        int aqi_so2 = AQIJson.getInt("so2");
+                        int aqi_no2 = AQIJson.getInt("no2");
+                        int aqi_o3 = AQIJson.getInt("o3");
+                        int aqi_pm25 = AQIJson.getInt("pm25");
+                        int aqi_time = AQIJson.getInt("time");
+                        int aqi_temp = AQIJson.getInt("temp");
 
                         if(type.equals("aqi"))  {
-                            Log.e("UDOO_RECEIVE","AQI _ Receive" + aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_time);
+                            Log.e("UDOO_RECEIVE","AQI _ Receive" + aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_temp +"/"+ aqi_time);
                         }   else if(type.equals("historical"))  {
-                            Log.e("UDOO_RECEIVE","HISTORICAL _ Receive"+ aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_time);
+                            Log.e("UDOO_RECEIVE","HISTORICAL _ Receive"+ aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_temp +"/" + aqi_time);
                         }
 
-                    } catch (JSONException e) {
+                        o3val = aqi_o3;
+                        no2val = (int) aqi_no2;
+                        coval = (int)Integer.valueOf(aqi_co);
+                        so2val = (int)Integer.valueOf(aqi_so2);
+                        pm25val = (int)Integer.valueOf(aqi_pm25);
+                        tempval = (int)Integer.valueOf(aqi_temp);
+
+//                        int i_o3val = Integer.valueOf(String.valueOf(o3val));
+//                        int i_no2val =  Integer.valueOf(String.valueOf(no2val));
+//                        int i_coval =  Integer.valueOf(String.valueOf(coval));
+//                        int i_so2val =  Integer.valueOf(String.valueOf(so2val));
+//                        int i_pm25val =  Integer.valueOf(String.valueOf(pm25val));
+//                        int i_temp =  Integer.valueOf(String.valueOf(tempval));
+
+                        int i_o3val = (int)o3val % 500;
+                        int i_no2val = (int)no2val;
+                        int i_coval = (int)coval;
+                        int i_so2val = (int)so2val;
+                        int i_pm25val = (int)pm25val;
+                        int i_temp = (int)tempval;
+
+                        int val[] = {i_o3val, i_no2val, i_coval, i_so2val, i_pm25val, i_temp};
+
+                        Log.e("val", String.valueOf(i_o3val) +"/"+String.valueOf(i_no2val) +"/"+String.valueOf(i_coval) +"/"+String.valueOf(i_so2val) +"/"+String.valueOf(i_pm25val) +"/" + String.valueOf(i_temp));
+
+                        for(int i=0; i<=5; i++) {
+                            //   UserActivity.val[i] = val[i];
+                            Fragment_TabMain.ConcenVal[i] = val[i];
+                        }
+                  } catch (JSONException e) {
                         Log.e("convert json", "Error");
                         e.printStackTrace();
                     }

@@ -417,7 +417,7 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         }
 
         if (set2 == null) {
-            set2 = createSet(Color.parseColor("#FFFF7A87"), "RR-Rate");
+            set2 = createSet(Color.parseColor("#FFFF7A87"), "RR-Interval");
             data2.addDataSet(set2);
         }
 

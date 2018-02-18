@@ -162,7 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
-                    android:text="RR-Rate"
+                    android:text="RR-Interval"
                     android:textColor="#000000"
                     android:textStyle="bold" />
 

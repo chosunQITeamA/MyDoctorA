@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.Database.AQISQLiteHelper;
+import com.example.khseob0715.sanfirst.Database.DBtoJSON;
 import com.example.khseob0715.sanfirst.Database.HeartSQLiteHelper;
 import com.example.khseob0715.sanfirst.GPSTracker.GPSTracker;
 import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
@@ -42,6 +45,7 @@ import com.example.khseob0715.sanfirst.ServerConn.ConfirmPW;
 import com.example.khseob0715.sanfirst.ServerConn.SendAQI;
 import com.example.khseob0715.sanfirst.ServerConn.SendCSV;
 import com.example.khseob0715.sanfirst.ServerConn.SendHR;
+import com.example.khseob0715.sanfirst.ServerConn.SendJSON;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_main;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_patientlist;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_usersearch;
@@ -56,11 +60,17 @@ import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
 import com.opencsv.CSVWriter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class UserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -119,12 +129,24 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     private Double Heart_rate;
     private Double RR_rate;
 
+    public boolean internetConnCheck = true;
+
+    private TimerTask m_Task;
+    private Timer m_Timer;
+    ConnectivityManager manager;
+    NetworkInfo mobile;
+    NetworkInfo wifi;
+
     ConfirmPW confirmpw = new ConfirmPW();
     HeartSQLiteHelper HRsqlhelper = new HeartSQLiteHelper();
     AQISQLiteHelper AQIsqlhelper = new AQISQLiteHelper();
     SendHR sendhr = new SendHR();
     SendAQI sendaqi = new SendAQI();
     SendCSV sendcsv = new SendCSV();
+    HeartSQLiteHelper heartsql = new HeartSQLiteHelper();
+
+    DBtoJSON dbtojson = new DBtoJSON();
+    SendJSON sendjson = new SendJSON();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,7 +221,47 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         startPolarsensor();
         DBservice();
 
+        m_Task = new TimerTask() {
+            @Override
+            public void run() {//실제 기능 구현
+                manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+                wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                InternetConnCheck();
+            }
+        };
+        m_Timer = new Timer();
+        m_Timer.schedule(m_Task, 3000, 1000);   // 원래 period 5000 임
+
         UserActContext = this;
+    }
+
+    public void InternetConnCheck()    {
+        Log.e("InternetConnCheck", "GO");
+
+        if (mobile.isConnected() || wifi.isConnected()) {
+            internetConnCheck = true;
+            Log.e("internet Check is ", String.valueOf(internetConnCheck));
+            if(heartsql.Heartexist) {
+                ExportJson();
+                DropTable();
+                heartsql.Heartexist = false;
+            }
+        } else  {
+            internetConnCheck = false;
+            Log.e("internet Check is ", String.valueOf(internetConnCheck));
+            if(!heartsql.Heartexist) {
+                HRsqlhelper.createTable(db);
+                heartsql.Heartexist = true;
+            }   else    {
+                InsertData();
+            }
+        }
+
+        /*
+        Intent internetCheck = new Intent(this, InternetCheck.class);
+        startService(internetCheck);
+        */
     }
 
     private void DBservice() {
@@ -322,9 +384,11 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            Intent polarservice = new Intent(getApplicationContext(), PolarSensor.class);
+            Intent polarservice = new Intent(getApplicationContext
+                    (), PolarSensor.class);
             stopService(polarservice);
             ActivityCompat.finishAffinity(this);
+
             android.os.Process.killProcess(android.os.Process.myPid()); // ProcessKill
         }
     }
@@ -362,7 +426,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                 return true;
             }
-/*
+
             case R.id.insecure_connect_scan: {
                 // Launch the DeviceListActivity to see devices and do scan
                 Log.e("insecure", "BT");
@@ -370,8 +434,9 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
                 return true;
             }
-*/
+
             //-----------------------------------------------------------------------------------------------------[DB Test]
+                /*
             case R.id.createTable : {
                 HRsqlhelper.createTable(db);
 //                AQIsqlhelper.AQIcreateTable(db);
@@ -380,57 +445,49 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             }
 
             case R.id.insertTable : {
-                String TS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));;
-                Double LAT = GPSTracker.latitude;
-                Double LNG = GPSTracker.longitude;;
-                Double Heart_rate = Double.valueOf(PolarSensor.heartrateValue);
-                Double RR_rate = Double.valueOf(PolarSensor.RR_value);
-                HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
-//                AQIsqlhelper.AQIinsertData(db, usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                  ------------------------------------------------------
-//                sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
-//                sendaqi.SendAQI_Asycn(usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                           ------------------------------------------------------
+                ----------------------------------------------------
                 Toast.makeText(this, "insert Data", Toast.LENGTH_SHORT).show();
                 break;
             }
-
-            case R.id.selectData : {
-                HRsqlhelper.selectAll(db);
-                //AQIsqlhelper.AQIselectAll(db);
-                Toast.makeText(this, "select All", Toast.LENGTH_SHORT).show();
-                break;
-            }
-
-            case R.id.dropTable : {
-                HRsqlhelper.dropTable(db);
-                //AQIsqlhelper.AQIdropTable(db);
-                Toast.makeText(this, "drop Table", Toast.LENGTH_SHORT).show();
-                break;
-            }
-
-            case R.id.ExportDB : {
-                //exportDB();
-                new ExportDatabaseCSVTask().execute("");
-                //Toast.makeText(this, "DB_Export", Toast.LENGTH_SHORT).show();
-                break;
-            }
-
-            case R.id.ExportCSV : {
-                File exportDir = new File(Environment.getExternalStorageDirectory(), "MyDoctorAF");
-                File file = new File(exportDir, "MyDoctorA.csv");
-                Log.e("ExportCSV", "Success");
-                sendcsv.SendCSV_Asycn(file);    //여기서 Slim Application Error 발생
-            }
-
-            /*
-            case R.id.discoverable: {
-                // Ensure this device is discoverable by others
-//                ensureDiscoverable();
-                return true;
-            }
-            */
+*/
         }
 
         return false;
+    }
+
+    public void InsertData()    {
+        String TS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));;
+        Double LAT = GPSTracker.latitude;
+        Double LNG = GPSTracker.longitude;;
+        Double Heart_rate = Double.valueOf(PolarSensor.heartrateValue);
+        Double RR_rate = Double.valueOf(PolarSensor.RR_value);
+        HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
+//                AQIsqlhelper.AQIinsertData(db, usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                  ------------------------------------------------------
+//                sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
+//                sendaqi.SendAQI_Asycn(usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                           --
+    }
+
+    public void DropTable() {
+        HRsqlhelper.dropTable(db);
+        //AQIsqlhelper.AQIdropTable(db);
+    }
+
+    public void ExportJson()    {
+        JSONArray jsonarrayResutl = dbtojson.getResults("HEART_HISTORY");
+        int arraylength = jsonarrayResutl.length();
+        JSONObject arraytoobj = new JSONObject();
+        Log.e("arraylength = ", String.valueOf(arraylength));
+
+        try {
+            arraytoobj.put("length", arraylength);
+            arraytoobj.put("data", jsonarrayResutl);
+            Log.e("arrayPut", String.valueOf(arraytoobj));
+            sendjson.SendJSON_Asycn(String.valueOf(arraytoobj));
+            Log.e("arrayAsync", "Success");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("arrayPut", "Fail");
+        }
     }
 
     public class ExportDatabaseCSVTask extends AsyncTask<String, Void, Boolean>
@@ -679,11 +736,16 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         if(PolarSensor.heartrateValue == confirmZero)    {
             Log.e("heartrate value is ", "Zero!!!");
         }   else    {
-            Log.e("heartrate value is ", "Noooooooooooooooooooo Zero!!!");
-            //HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
-            //sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
+            if(internetConnCheck)   {
+                sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
+            }
+            else    {
+                if(!heartsql.Heartexist)    {
+                    HRsqlhelper.createTable(db);
+                }   else    {
+                    HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
+                }
+            }
         }
-
-
     }
 }

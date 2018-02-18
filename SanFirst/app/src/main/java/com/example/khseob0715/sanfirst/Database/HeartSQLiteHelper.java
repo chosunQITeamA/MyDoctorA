@@ -8,19 +8,22 @@ import android.util.Log;
 public class HeartSQLiteHelper {
 
     public int dbMode = Context.MODE_PRIVATE;
+    public Boolean Heartexist = false;
 
     // Database 생성 및 열기
      //public SQLiteDatabase db;
 
     // Table 생성
     public  void createTable(SQLiteDatabase db){
-        String Heart_CT = "create table if not exists HEART_HISTORY(usn INTEGER, ts TEXT, Lat DOUBLE, Lng DOUBLE, Heart_rate DOUBLE, RR_rate DOUBLE) ";
+        Heartexist = true;
+        String Heart_CT = "create table if not exists HEART_HISTORY(usn INTEGER, ts TEXT, lat DOUBLE, lng DOUBLE, heart_rate DOUBLE, rr_rate DOUBLE) ";
         db.execSQL(Heart_CT);
         Log.e("SQLite-CreateTable", Heart_CT);
     }
 
     // Table 삭제
     public  void dropTable(SQLiteDatabase db){
+        Heartexist = false;
         String Heart_DT = "drop table if exists HEART_HISTORY;";
         db.execSQL(Heart_DT);
         Log.e("SQLite-removeTable", Heart_DT);
@@ -28,9 +31,11 @@ public class HeartSQLiteHelper {
 
     // Data 추가
     public  void insertData(SQLiteDatabase db, int usn, String ts, double lat, double lng, double heart_rate, double rr_rate){
-        String Heart_ID = "insert into HEART_HISTORY values(" + usn +", '" + ts + "',"+lat+","+lng+","+heart_rate+","+rr_rate+");";
-        db.execSQL(Heart_ID);
-        Log.e("SQLite-Insert", Heart_ID);
+        if(Heartexist)  {
+            String Heart_ID = "insert into HEART_HISTORY values(" + usn +", '" + ts + "',"+lat+","+lng+","+heart_rate+","+rr_rate+");";
+            db.execSQL(Heart_ID);
+            Log.e("SQLite-Insert", Heart_ID);
+        }
     }
 
     //--------------------------insert 확인
