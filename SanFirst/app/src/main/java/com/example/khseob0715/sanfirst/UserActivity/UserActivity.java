@@ -129,6 +129,8 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     private Double Heart_rate;
     private Double RR_rate;
 
+    public boolean internetConnCheck = false;
+
     private TimerTask m_Task;
     private Timer m_Timer;
     ConnectivityManager manager;
@@ -157,10 +159,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         GPSHandler = new Handler(){
             @Override
@@ -224,6 +222,9 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         m_Task = new TimerTask() {
             @Override
             public void run() {//실제 기능 구현
+                manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+                wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
                 InternetConnCheck();
             }
         };
@@ -237,9 +238,11 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         Log.e("InternetConnCheck", "GO");
 
         if (mobile.isConnected() || wifi.isConnected()) {
-            Log.e("Internet Conn", "Success");
+            internetConnCheck = true;
+            Log.e("internet Check is ", String.valueOf(internetConnCheck));
         } else  {
-            Log.e("Internet Conn", "Fail");
+            internetConnCheck = false;
+            Log.e("internet Check is ", String.valueOf(internetConnCheck));
         }
 
         /*
@@ -368,9 +371,11 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            Intent polarservice = new Intent(getApplicationContext(), PolarSensor.class);
+            Intent polarservice = new Intent(getApplicationContext
+                    (), PolarSensor.class);
             stopService(polarservice);
             ActivityCompat.finishAffinity(this);
+
             android.os.Process.killProcess(android.os.Process.myPid()); // ProcessKill
         }
     }
