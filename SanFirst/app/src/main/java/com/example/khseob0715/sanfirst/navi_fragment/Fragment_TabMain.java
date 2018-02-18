@@ -587,30 +587,35 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     }
 
     private void ShowMyLocaion(Double lat, Double lon, GoogleMap googleMap) {
-        LatLng nowLocation = new LatLng(lat, lon);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(nowLocation);
-        markerOptions.title("now location");
+        try {
+            LatLng nowLocation = new LatLng(lat, lon);
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(nowLocation);
+            markerOptions.title("now location");
 
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(getResources().getIdentifier(cloudimage,"drawable","com.example.khseob0715.sanfirst"));
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(getResources().getIdentifier(cloudimage,"drawable","com.example.khseob0715.sanfirst"));
 
-        markerOptions.icon(icon);
+            markerOptions.icon(icon);
 
-        CircleOptions circleOptions = new CircleOptions()
-                .center(new LatLng(lat, lon))
-                .strokeColor(Color.WHITE)
-                .fillColor(0xb8ffffff)
-                .radius(100);
-        // In meters
+            CircleOptions circleOptions = new CircleOptions()
+                    .center(new LatLng(lat, lon))
+                    .strokeColor(Color.WHITE)
+                    .fillColor(0xb8ffffff)
+                    .radius(100);
+            // In meters
 
-        googleMap.clear();
+            googleMap.clear();
 
-// Get back the mutable Circle
-        googleMap.addCircle(circleOptions);
+            // Get back the mutable Circle
+            googleMap.addCircle(circleOptions);
 
-        googleMap.addMarker(markerOptions);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+            googleMap.addMarker(markerOptions);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+
+        }   catch (IllegalStateException e)   {
+            Log.e("Error", "IllegamException");
+        }
     }
 
 
