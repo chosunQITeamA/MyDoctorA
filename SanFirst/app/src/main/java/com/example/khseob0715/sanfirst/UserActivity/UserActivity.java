@@ -58,7 +58,6 @@ import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothAQI;
 import com.example.khseob0715.sanfirst.udoo_btchat.BluetoothChatService;
 import com.example.khseob0715.sanfirst.udoo_btchat.DeviceListActivity;
-import com.opencsv.CSVWriter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -487,64 +486,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("arrayPut", "Fail");
-        }
-    }
-
-    public class ExportDatabaseCSVTask extends AsyncTask<String, Void, Boolean>
-    {
-        @Override
-        protected void onPreExecute()
-        {
-        }
-        protected Boolean doInBackground(final String... args)
-        {
-            File dbFile=getDatabasePath("MyDoctorA.db");
-            //File dbFile = new File(Environment.getDataDirectory(), "//data//com.example.khseob0715.sanfirst/databases//MyDoctorA");
-            Log.e("DBFile = ", String.valueOf(dbFile));
-
-            File exportDir = new File(Environment.getExternalStorageDirectory(), "MyDoctorAF");
-            if (!exportDir.exists())
-            {
-                exportDir.mkdirs();
-            }
-            File file = new File(exportDir, "MyDoctorA.csv");
-            try
-            {
-                file.createNewFile();
-                CSVWriter csvWrite = new CSVWriter(new FileWriter(file));
-                Cursor curCSV = db.rawQuery("select * from HEART_HISTORY",null);
-                csvWrite.writeNext(curCSV.getColumnNames());
-                while(curCSV.moveToNext())
-                {
-                    String arrStr[] ={curCSV.getString(0),curCSV.getString(1),curCSV.getString(2),curCSV.getString(3),curCSV.getString(4),curCSV.getString(5)};
-/* curCSV.getString(3),curCSV.getString(4)};*/
-                    csvWrite.writeNext(arrStr);
-                }
-                csvWrite.close();
-                curCSV.close();
-                return true;
-            }
-            catch(SQLException sqlEx)
-            {
-                Log.e("CSVWriter", sqlEx.getMessage(), sqlEx);
-                return false;
-            }
-            catch (IOException e)
-            {
-                Log.e("CSVWriter", e.getMessage(), e);
-                return false;
-            }
-        }
-        protected void onPostExecute(final Boolean success)
-        {
-            if (success)
-            {
-                Toast.makeText(getApplicationContext(), "Export successful!", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(), "Export failed", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
