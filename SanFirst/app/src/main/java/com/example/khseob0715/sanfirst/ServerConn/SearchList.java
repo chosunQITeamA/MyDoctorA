@@ -43,7 +43,7 @@ public class SearchList {
     }
     //---------------------------------------------------------------------------------------------------------View All people
     public void SearchList_Asycn(final int who) {
-        url = "http://teama-iot.calit2.net/usersearchapp";
+            url = "http://teama-iot.calit2.net/alluserlistapp";
         (new AsyncTask<UserActivity, Void, String>() {
 
             @Override
@@ -124,25 +124,27 @@ public class SearchList {
                         JSONObject jsonObject = new JSONObject(responseBody);
 
                         String Message = jsonObject.getString("message");
-                        String msgdata = jsonObject.getString("data");
-                        JSONArray udata = new JSONArray(msgdata);
 
-                        for (int i = 0; i < udata.length(); i++) {
+                        JSONArray data = jsonObject.getJSONArray("data");
 
-                            JSONObject userdata = udata.getJSONObject(i);
+                        for(int i=0; i<data.length(); i++)    {
+                            JSONObject userdata = data.getJSONObject(i);
 
-                            int usn = Integer.parseInt(jsonObject.getString("usn"));
-                            String ID = jsonObject.getString("email");
-                            int Gender_num = jsonObject.getInt("gender");
-                            String Bitrh = jsonObject.getString("birth");
-                            String Fname = jsonObject.getString("fname");
-                            String Lname = jsonObject.getString("lname");
+                            int usn = Integer.parseInt(userdata.getString("USN"));
+                            String ID = userdata.getString("User_email");
+                            int Gender_num = userdata.getInt("Gender");
+                            String Birth = userdata.getString("Birth");
+                            String Fname = userdata.getString("Fname");
+                            String Lname = userdata.getString("Lname");
+                            String Gender = null;
 
                             if (Gender_num == 0) {
-                                String Gender = "Female";
+                                Gender = "Female";
                             } else if (Gender_num == 1) {
-                                String Gender = "Male";
+                                Gender = "Male";
                             }
+
+                            Log.e("searchData = ", i +"///"+ usn +"/"+ ID +"/"+ Gender +"/"+ Birth +"/"+ Fname +"/"+ Lname);
                         }
 
                     } catch (IOException e) {
@@ -187,25 +189,25 @@ public class SearchList {
 
                         String Message = jsonObject.getString("message");
                         String msgdata = jsonObject.getString("data");
-                        JSONArray udata = new JSONArray(msgdata);
+                        String data = msgdata.replaceAll("\\[","");
 
-                        for (int i = 0; i < udata.length(); i++) {
+                        JSONObject userdata = new JSONObject(data);
 
-                            JSONObject userdata = udata.getJSONObject(i);
+                        int usn = Integer.parseInt(userdata.getString("usn"));
+                        String ID = userdata.getString("email");
+                        int Gender_num = userdata.getInt("gender");
+                        String Birth = userdata.getString("birth");
+                        String Fname = userdata.getString("fname");
+                        String Lname = userdata.getString("lname");
+                        String Gender = null;
 
-                            int usn = Integer.parseInt(jsonObject.getString("usn"));
-                            String ID = jsonObject.getString("email");
-                            int Gender_num = jsonObject.getInt("gender");
-                            String Bitrh = jsonObject.getString("birth");
-                            String Fname = jsonObject.getString("fname");
-                            String Lname = jsonObject.getString("lname");
-
-                            if (Gender_num == 0) {
-                                String Gender = "Female";
-                            } else if (Gender_num == 1) {
-                                String Gender = "Male";
-                            }
+                        if (Gender_num == 0) {
+                            Gender = "Female";
+                        } else if (Gender_num == 1) {
+                            Gender = "Male";
                         }
+
+                        Log.e("searchData = ", "///"+ usn +"/"+ ID +"/"+ Gender +"/"+ Birth +"/"+ Fname +"/"+ Lname);
 
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -34,13 +34,11 @@
                         android:layout_marginRight="10dp"
                         android:orientation="vertical">
 
-<<<<<<< HEAD
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
                             android:layout_centerInParent="true"
                             android:background="#aeaeae" />
-=======
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -243,6 +241,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
                                     android:layout_weight="1"
+                                    android:onClick="searchDoctor"
                                     android:text="Search"
                                     android:textAllCaps="false"
                                     android:textColor="@color/common_google_signin_btn_text_dark_default"
