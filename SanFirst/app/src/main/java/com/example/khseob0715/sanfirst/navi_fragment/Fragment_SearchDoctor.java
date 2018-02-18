@@ -2,9 +2,7 @@ package com.example.khseob0715.sanfirst.navi_fragment;
 
 
 import android.content.Context;
-import android.content.SearchRecentSuggestionsProvider;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,12 +20,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
