@@ -19,13 +19,19 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SendJSON {
-    public static final String url = "http://teama-iot.calit2.net/heartarrayapp";
-
     OkHttpClient client = new OkHttpClient();
 
+    public String url;
     public static String responseBody = null;
 
-    public void SendJSON_Asycn(final String arraytoobj) {
+    public void SendJSON_Asycn(int add, final String arraytoobj) {
+
+        if(add == 0)    {
+            url = "http://teama-iot.calit2.net/heartarrayapp";
+        }   else if(add == 1)   {
+            url = "http://teama-iot.calit2.net/aqiarrayapp";
+        }
+
         (new AsyncTask<UserActivity, Void, String>() {
 
             @Override

@@ -5,40 +5,41 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class AQISQLiteHelper {
+public class AQIHistorySQLiteHelper {
 
     public int dbMode = Context.MODE_PRIVATE;
-    public boolean AQIstatus = false;
+    public boolean AQIHstatus = false;
+    SQLiteDatabase db;
 
     // Database 생성 및 열기
     //public SQLiteDatabase db;
 
     // Table 생성
-    public  void AQIcreateTable(SQLiteDatabase db){
-        AQIstatus = true;
-        String AQI_CT = "create table if not exists AQI_HISTORY(usn INTEGER, ts TEXT, Lat DOUBLE, Lng DOUBLE, Co DOUBLE, So2 DOUBLE, No2 DOUBLE, O3  DOUBLE, PM25 DOUBLE, Temp DOUBLE);";
-        db.execSQL(AQI_CT);
-        Log.e("SQLite-AQI_CreateTable", AQI_CT);
+    public  void AQIHcreateTable(SQLiteDatabase db){
+        AQIHstatus = true;
+        String AQIH_CT = "create table if not exists AQIH_HISTORY(usn INTEGER, ts TEXT, Lat DOUBLE, Lng DOUBLE, Co DOUBLE, So2 DOUBLE, No2 DOUBLE, O3  DOUBLE, PM25 DOUBLE, Temp DOUBLE);";
+        db.execSQL(AQIH_CT);
+        Log.e("SQLite-AQIH_CreateTable", AQIH_CT);
     }
 
     // Table 삭제
-    public  void AQIdropTable(SQLiteDatabase db){
-        AQIstatus = false;
-        String AQI_DT = "drop table if exists AQI_HISTORY;";
-        db.execSQL(AQI_DT);
-        Log.e("SQLite-AQI_removeTable", AQI_DT);
+    public  void AQIHdropTable(SQLiteDatabase db){
+        AQIHstatus = false;
+        String AQIH_DT = "drop table if exists AQIH_HISTORY;";
+        db.execSQL(AQIH_DT);
+        Log.e("SQLite-AQIH_removeTable", AQIH_DT);
     }
 
     // Data 추가
-    public  void AQIinsertData(SQLiteDatabase db, int usn, String ts, double lat, double lng, double co, double so2, double no2, double o3, double pm25, double temp){
-        String AQI_ID = "insert into AQI_HISTORY values(" + usn +", '" + ts + "',"+lat+","+lng+","+co+","+so2+","+no2+","+o3+","+pm25+","+temp+")";
-        db.execSQL(AQI_ID);
-        Log.e("SQLite", AQI_ID);
+    public  void AQIHinsertData(SQLiteDatabase db, int usn, String ts, double lat, double lng, double co, double so2, double no2, double o3, double pm25, double temp){
+        String AQIH_ID = "insert into AQIH_HISTORY values(" + usn +", '" + ts + "',"+lat+","+lng+","+co+","+so2+","+no2+","+o3+","+pm25+","+temp+")";
+        db.execSQL(AQIH_ID);
+        Log.e("SQLite", AQIH_ID);
     }
 
     //--------------------------insert 확인
-    public  void AQIselectAll(SQLiteDatabase db){
-        String sql = "select * from AQI_HISTORY ;";
+    public  void AQIHselectAll(SQLiteDatabase db){
+        String sql = "select * from AQIH_HISTORY ;";
         Cursor results = db.rawQuery(sql, null);
 
         results.moveToFirst();

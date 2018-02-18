@@ -8,7 +8,7 @@ import android.util.Log;
 public class HeartSQLiteHelper {
 
     public int dbMode = Context.MODE_PRIVATE;
-    public Boolean Heartexist = false;
+    public boolean Heartexist = false;
 
     // Database 생성 및 열기
      //public SQLiteDatabase db;

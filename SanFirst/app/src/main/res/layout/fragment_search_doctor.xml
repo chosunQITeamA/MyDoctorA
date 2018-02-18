@@ -99,7 +99,7 @@
                                 android:orientation="horizontal">
 
                                 <Button
-                                    android:id="@+id/button3"
+                                    android:id="@+id/SearchconDoctor"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
@@ -108,15 +108,16 @@
                                     android:textAllCaps="false"
                                     android:textColor="@color/common_google_signin_btn_text_dark_default"
                                     android:textStyle="bold" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:layout_centerInParent="true"
+                                    android:layout_weight="0"
+                                    android:background="#aeaeae" />
                             </LinearLayout>
 
                         </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_centerInParent="true"
-                            android:background="#aeaeae" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -224,7 +225,7 @@
                                 android:orientation="horizontal">
 
                                 <Button
-                                    android:id="@+id/button4"
+                                    android:id="@+id/SearchdisconDoctor"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
