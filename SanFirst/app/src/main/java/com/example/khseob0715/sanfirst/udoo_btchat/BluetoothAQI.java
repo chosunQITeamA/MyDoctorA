@@ -44,6 +44,8 @@ public class BluetoothAQI extends Service{
 
     private boolean historical = false;
 
+    public double aqi_co, aqi_so2, aqi_no2, aqi_o3, aqi_pm25, aqi_time, aqi_temp;
+
     SQLiteDatabase db;
 
     UserActivity useract = new UserActivity();
@@ -213,13 +215,13 @@ public class BluetoothAQI extends Service{
                         String data = FullDate.replaceAll("\\[","");
                         JSONObject AQIJson = new JSONObject(data);
 
-                        double aqi_co = AQIJson.getDouble("co");
-                        double aqi_so2 = AQIJson.getDouble("so2");
-                        double aqi_no2 = AQIJson.getDouble("no2");
-                        double aqi_o3 = AQIJson.getDouble("o3");
-                        double aqi_pm25 = AQIJson.getDouble("pm25");
-                        double aqi_time = AQIJson.getDouble("time");
-                        double aqi_temp = AQIJson.getDouble("temp");
+                        aqi_co = AQIJson.getDouble("co");
+                        aqi_so2 = AQIJson.getDouble("so2");
+                        aqi_no2 = AQIJson.getDouble("no2");
+                        aqi_o3 = AQIJson.getDouble("o3");
+                        aqi_pm25 = AQIJson.getDouble("pm25");
+                        aqi_time = AQIJson.getDouble("time");
+                        aqi_temp = AQIJson.getDouble("temp");
 
                         if(type.equals("historical"))  {
                             historical = true;

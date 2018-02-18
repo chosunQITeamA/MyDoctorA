@@ -16,7 +16,7 @@ public class AQISQLiteHelper {
     // Table 생성
     public  void AQIcreateTable(SQLiteDatabase db){
         AQIstatus = true;
-        String AQI_CT = "create table if not exists AQI_HISTORY(usn INTEGER, ts TEXT, Lat DOUBLE, Lng DOUBLE, Co DOUBLE, So2 DOUBLE, No2 DOUBLE, O3  DOUBLE, PM25 DOUBLE, Temp DOUBLE);";
+        String AQI_CT = "create table if not exists AQI_HISTORY(usn INTEGER, ts TEXT, lat DOUBLE, lng DOUBLE, co DOUBLE, so2 DOUBLE, no2 DOUBLE, o3  DOUBLE, pm25 DOUBLE, tem DOUBLE);";
         db.execSQL(AQI_CT);
         Log.e("SQLite-AQI_CreateTable", AQI_CT);
     }

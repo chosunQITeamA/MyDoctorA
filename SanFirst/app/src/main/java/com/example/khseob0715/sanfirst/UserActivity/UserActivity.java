@@ -442,6 +442,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             }
 
             case R.id.drop: {
+                DropAQI();
                 DropHAQI();
             }
             //-----------------------------------------------------------------------------------------------------[DB Test]
