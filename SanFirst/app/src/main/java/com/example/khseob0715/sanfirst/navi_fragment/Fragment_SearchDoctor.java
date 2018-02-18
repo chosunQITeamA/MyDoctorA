@@ -37,10 +37,11 @@ import java.util.List;
 
 public class Fragment_SearchDoctor extends Fragment {
 
-    private ListView listView, listView2;
+    private ListView listView, listView2,listView3;
 
     private myAdapter adapter;
     private myAdapter2 adapter2;
+    private myAdapter3 adapter3;
 
     private String[] items = new String[10];
 
@@ -67,6 +68,10 @@ public class Fragment_SearchDoctor extends Fragment {
         listView2 = (ListView)rootView.findViewById(R.id.DoctorList2);
         adapter2 = new myAdapter2();
         listView2.setAdapter(adapter2);
+
+        listView3 = (ListView)rootView.findViewById(R.id.DoctorRequestList);
+        adapter3 = new myAdapter3();
+        listView3.setAdapter(adapter3);
 
         searchName2 = (EditText)rootView.findViewById(R.id.SearchName2);
         searchEmail2 = (EditText)rootView.findViewById(R.id.SearchEmail2);
@@ -150,6 +155,13 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
+            Button Disconnect = (Button)view.findViewById(R.id.Disconnect);
+            Disconnect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
             return view;
         }
     }
@@ -206,6 +218,14 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
+            Button Connection = (Button)view.findViewById(R.id.Connect);
+            Connection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
             return view;
         }
     }
@@ -230,5 +250,66 @@ public class Fragment_SearchDoctor extends Fragment {
 
     }
 
+    class myAdapter3 extends BaseAdapter {
 
+        @Override
+        public int getCount() {
+            return items.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return items[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            SearchDoctor3 view = new SearchDoctor3(rootView.getContext());
+
+            final LinearLayout detail_layout2 = (LinearLayout)view.findViewById(R.id.DetailLayout2);
+
+            Button Detail = (Button)view.findViewById(R.id.list3DetailBtn);
+            Detail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    detail_layout2.setVisibility(View.VISIBLE);
+                }
+            });
+
+            Button Acceptance = (Button)view.findViewById(R.id.Acceptance);
+            Acceptance.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            return view;
+        }
+    }
+
+    class SearchDoctor3 extends LinearLayout {
+        TextView Test;
+
+        public SearchDoctor3(Context context) {
+            super(context);
+            init(context);
+        }
+
+        public SearchDoctor3(Context context, @Nullable AttributeSet attrs) {
+            super(context, attrs);
+            init(context);
+        }
+
+        private void init(Context context) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater.inflate(R.layout.search_doctor_list3, this);
+        }
+
+    }
 }

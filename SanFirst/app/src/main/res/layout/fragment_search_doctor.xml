@@ -61,6 +61,11 @@
                         </LinearLayout>
 
                         <ListView
+                            android:id="@+id/DoctorRequestList"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp" />
+
+                        <ListView
                             android:id="@+id/DoctorList"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
