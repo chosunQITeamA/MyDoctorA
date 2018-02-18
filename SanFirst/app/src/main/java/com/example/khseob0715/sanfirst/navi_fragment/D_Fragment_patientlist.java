@@ -19,6 +19,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.showConnectList;
+
+import static com.example.khseob0715.sanfirst.UserActivity.UserActivity.usn;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +37,8 @@ public class D_Fragment_patientlist extends Fragment {
     private String[] items = new String[10];
 
     private EditText searchName, searchEmail;
+
+    showConnectList showconlist = new showConnectList();
 
     public D_Fragment_patientlist() {
         // Required empty public constructor
@@ -77,6 +82,8 @@ public class D_Fragment_patientlist extends Fragment {
 
             }
         });
+
+        showconlist.showConnectList_Asycn(0, usn);
 
         return rootView;
     }

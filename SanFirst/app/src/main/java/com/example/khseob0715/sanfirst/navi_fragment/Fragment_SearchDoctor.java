@@ -25,6 +25,9 @@ import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.SearchList;
+import com.example.khseob0715.sanfirst.ServerConn.showConnectList;
+
+import static com.example.khseob0715.sanfirst.UserActivity.UserActivity.usn;
 
 
 /**
@@ -58,6 +61,7 @@ public class Fragment_SearchDoctor extends Fragment {
 
     private Button searchDoctorBtn;
     SearchList searchlist = new SearchList();
+    showConnectList showconlist = new showConnectList();
 
     public Fragment_SearchDoctor() {
         // Required empty public constructor
@@ -152,6 +156,7 @@ public class Fragment_SearchDoctor extends Fragment {
 
         handler = new Handler();
 
+        showconlist.showConnectList_Asycn(1, usn);
         searchlist.SearchList_Asycn(1);
         handler.postDelayed(new Update_list(),1000);
 
