@@ -213,7 +213,6 @@ public class SearchList {
                         e.printStackTrace();
 
                     } catch (JSONException e) {
-                        // 로그인이 틀렸을 때,
                         e.printStackTrace();
                     }
                 }

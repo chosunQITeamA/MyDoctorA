@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
@@ -43,7 +42,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -52,6 +50,8 @@ import com.lylc.widget.circularprogressbar.CircularProgressBar;
 import static android.location.LocationManager.GPS_PROVIDER;
 
 public class Fragment_TabMain extends Fragment implements View.OnClickListener, OnMapReadyCallback {
+
+    private String imagepath = null;
 
     private CircularProgressBar co_seekbar, so2_seekbar, o3_seekbar, no2_seekbar, pm25_seekbar;
     private CircularProgressBar heart_seekbar;
@@ -570,14 +570,26 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         markerOptions.position(nowLocation);
         markerOptions.title("now location");
 
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.aqicloud1);
+        String cloudimage = "aqicloud1";
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(getResources().getIdentifier(cloudimage,"drawable","com.example.khseob0715.sanfirst"));
+
         markerOptions.icon(icon);
 
+        CircleOptions circleOptions = new CircleOptions()
+                .center(new LatLng(lat, lon))
+                .strokeColor(Color.WHITE)
+                .fillColor(0xb8ffffff)
+                .radius(100);
+        // In meters
 
         googleMap.clear();
+
+// Get back the mutable Circle
+        googleMap.addCircle(circleOptions);
+
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(nowLocation));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(17));
     }
 
 
