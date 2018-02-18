@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.khseob0715.sanfirst.Database.AQIHistorySQLiteHelper;
 import com.example.khseob0715.sanfirst.Database.AQISQLiteHelper;
 import com.example.khseob0715.sanfirst.Database.DBtoJSON;
 import com.example.khseob0715.sanfirst.Database.HeartSQLiteHelper;
@@ -39,7 +40,6 @@ import com.example.khseob0715.sanfirst.PolarBLE.PolarSensor;
 import com.example.khseob0715.sanfirst.R;
 import com.example.khseob0715.sanfirst.ServerConn.ConfirmPW;
 import com.example.khseob0715.sanfirst.ServerConn.SendAQI;
-import com.example.khseob0715.sanfirst.ServerConn.SendCSV;
 import com.example.khseob0715.sanfirst.ServerConn.SendHR;
 import com.example.khseob0715.sanfirst.ServerConn.SendJSON;
 import com.example.khseob0715.sanfirst.navi_fragment.D_Fragment_main;
@@ -59,9 +59,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -107,14 +104,14 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
     private TextView Navi_ID, Navi_Name;
 
-    private static int usn = 0;
+    public static int usn = 0;
     private String UserID, Username;
 
     private EditText passwordEdit_profile;
 
     private Thread gpsThread;
 
-    SQLiteDatabase db;
+    public SQLiteDatabase db;
 
     public static UserActivity UserActContext;
 
@@ -135,10 +132,13 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     ConfirmPW confirmpw = new ConfirmPW();
     HeartSQLiteHelper HRsqlhelper = new HeartSQLiteHelper();
     AQISQLiteHelper AQIsqlhelper = new AQISQLiteHelper();
+    AQIHistorySQLiteHelper AQIHsqlhelper = new AQIHistorySQLiteHelper();
+
     SendHR sendhr = new SendHR();
     SendAQI sendaqi = new SendAQI();
-    SendCSV sendcsv = new SendCSV();
     HeartSQLiteHelper heartsql = new HeartSQLiteHelper();
+    AQISQLiteHelper aqisql = new AQISQLiteHelper();
+    AQIHistorySQLiteHelper aqihisyorysql = new AQIHistorySQLiteHelper();
 
     DBtoJSON dbtojson = new DBtoJSON();
     SendJSON sendjson = new SendJSON();
@@ -216,6 +216,8 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         startPolarsensor();
         DBservice();
 
+        aqihisyorysql.AQIHcreateTable(db);
+
         m_Task = new TimerTask() {
             @Override
             public void run() {//실제 기능 구현
@@ -238,9 +240,14 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             internetConnCheck = true;
             Log.e("internet Check is ", String.valueOf(internetConnCheck));
             if(heartsql.Heartexist) {
-                ExportJson();
-                DropTable();
+                ExportJson(0);
                 heartsql.Heartexist = false;
+                DropHeart();
+            }
+            if(aqisql.AQIstatus) {
+                ExportJson(1);
+                aqisql.AQIstatus = false;
+                DropAQI();
             }
         } else  {
             internetConnCheck = false;
@@ -249,7 +256,11 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 HRsqlhelper.createTable(db);
                 heartsql.Heartexist = true;
             }   else    {
-                InsertData();
+                InsertheartData();
+            }
+            if(!aqisql.AQIstatus) {
+                AQIsqlhelper.AQIcreateTable(db);
+                aqisql.AQIstatus = true;
             }
         }
 
@@ -430,6 +441,10 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
 
+            case R.id.drop: {
+                DropAQI();
+                DropHAQI();
+            }
             //-----------------------------------------------------------------------------------------------------[DB Test]
                 /*
             case R.id.createTable : {
@@ -450,10 +465,10 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    public void InsertData()    {
+    public void InsertheartData()    {
         String TS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));;
         Double LAT = GPSTracker.latitude;
-        Double LNG = GPSTracker.longitude;;
+        Double LNG = GPSTracker.longitude;
         Double Heart_rate = Double.valueOf(PolarSensor.heartrateValue);
         Double RR_rate = Double.valueOf(PolarSensor.RR_value);
         HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
@@ -462,26 +477,45 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 //                sendaqi.SendAQI_Asycn(usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                           --
     }
 
-    public void DropTable() {
+    public void DropHeart() {
         HRsqlhelper.dropTable(db);
-        //AQIsqlhelper.AQIdropTable(db);
     }
 
-    public void ExportJson()    {
-        JSONArray jsonarrayResutl = dbtojson.getResults("HEART_HISTORY");
-        int arraylength = jsonarrayResutl.length();
+    public void DropAQI()   {
+        AQIsqlhelper.AQIdropTable(db);
+    }
+
+    public void DropHAQI()   {
+        aqihisyorysql.AQIHdropTable(db);
+    }
+
+    public void ExportJson(int addr)    {
+        JSONArray jsonarrayResult = null;
+        if(addr == 0)    {
+            jsonarrayResult = dbtojson.getResults("HEART_HISTORY");
+        }   else if (addr == 1){
+            jsonarrayResult = dbtojson.getResults("AQI_HISTORY");
+        }   else if (addr == 2){
+            jsonarrayResult = dbtojson.getResults("AQIH_HISTORY");
+        }
+        int arraylength = jsonarrayResult.length();
         JSONObject arraytoobj = new JSONObject();
         Log.e("arraylength = ", String.valueOf(arraylength));
 
         try {
             arraytoobj.put("length", arraylength);
-            arraytoobj.put("data", jsonarrayResutl);
+            arraytoobj.put("data", jsonarrayResult);
             Log.e("arrayPut", String.valueOf(arraytoobj));
-            sendjson.SendJSON_Asycn(String.valueOf(arraytoobj));
+            sendjson.SendJSON_Asycn(addr, arraylength, String.valueOf(arraytoobj));
             Log.e("arrayAsync", "Success");
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("arrayPut", "Fail");
+        }
+
+        if(addr == 1 || addr == 2)  {
+//            DropAQI();
+//            DropHAQI();
         }
     }
 
@@ -683,6 +717,18 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                     HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
                 }
             }
+        }
+    }
+
+    public void AQISendHandler(Double co,Double so2,Double no2,Double o3,Double pm25,Double temp)  {
+        TS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));;
+        LAT = GPSTracker.latitude;
+        LNG = GPSTracker.longitude;
+
+        if(internetConnCheck)   {
+            sendaqi.SendAQI_Asycn(usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);
+        }   else    {
+            AQIsqlhelper.AQIinsertData(db, usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);
         }
     }
 }

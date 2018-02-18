@@ -2,9 +2,7 @@ package com.example.khseob0715.sanfirst.navi_fragment;
 
 
 import android.content.Context;
-import android.content.SearchRecentSuggestionsProvider;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,12 +21,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.khseob0715.sanfirst.ServerConn.SearchList;
 
 
 /**
@@ -47,8 +42,13 @@ public class Fragment_SearchDoctor extends Fragment {
 
     private ViewGroup rootView;
 
+    int searchmethod = 0;
+
     private EditText searchName, searchEmail;
     private EditText searchName2, searchEmail2;
+
+    private Button searchDoctorBtn;
+    SearchList searchlist = new SearchList();
 
     public Fragment_SearchDoctor() {
         // Required empty public constructor
@@ -87,9 +87,11 @@ public class Fragment_SearchDoctor extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l){
 
                 if(position == 0){
+                    searchmethod = 0;
                     searchName2.setVisibility(View.VISIBLE);
                     searchEmail2.setVisibility(View.GONE);
                 }else{
+                    searchmethod = 1;
                     searchName2.setVisibility(View.GONE);
                     searchEmail2.setVisibility(View.VISIBLE);
                 }
@@ -121,9 +123,26 @@ public class Fragment_SearchDoctor extends Fragment {
             tv.setTextColor(Color.parseColor("#000000"));
         }
 
+        searchDoctorBtn = (Button) rootView.findViewById(R.id.SearchdisconDoctor);
+        searchDoctorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String type = null;
+                String value = null;
+                if(searchmethod == 0)    {
+                    type = "name";
+                    value = searchName2.getText().toString();
+                }   else if (searchmethod == 1) {
+                    type = "email";
+                    value = searchEmail2.getText().toString();
+                }
+                searchlist.SearchList_Asycn(1, type, value);
+            }
+        });
+        searchlist.SearchList_Asycn(1);
+
         return rootView;
     }
-
 
     class myAdapter extends BaseAdapter {
 

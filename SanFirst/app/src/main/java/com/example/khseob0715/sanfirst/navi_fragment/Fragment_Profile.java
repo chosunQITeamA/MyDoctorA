@@ -68,6 +68,7 @@ public class Fragment_Profile extends Fragment {
         Phone2 = (EditText) rootView.findViewById(R.id.phone_editText2);
         Phone3 = (EditText) rootView.findViewById(R.id.phone_editText3);
         BirthSelectBtn = (Button) rootView.findViewById(R.id.Birth_select);
+
         updateBtn = (Button) rootView.findViewById(R.id.update_profile_btn);
 
         email.setText(Semail);

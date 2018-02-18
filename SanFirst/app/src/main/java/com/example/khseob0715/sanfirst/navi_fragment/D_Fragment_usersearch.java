@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.SearchList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +36,12 @@ public class D_Fragment_usersearch extends Fragment {
     private ViewGroup rootView;
 
     private EditText searchName, searchEmail;
+
+    private Button searchUserBtn;
+
+    private int searchmethod = 0;
+
+    SearchList searchlist = new SearchList();
 
     public D_Fragment_usersearch() {
         // Required empty public constructor
@@ -64,9 +72,11 @@ public class D_Fragment_usersearch extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l){
 
                 if(position == 0){
+                    searchmethod = 0;
                     searchName.setVisibility(View.VISIBLE);
                     searchEmail.setVisibility(View.GONE);
                 }else{
+                    searchmethod = 1;
                     searchName.setVisibility(View.GONE);
                     searchEmail.setVisibility(View.VISIBLE);
                 }
@@ -78,6 +88,23 @@ public class D_Fragment_usersearch extends Fragment {
             }
         });
 
+        searchUserBtn = (Button) rootView.findViewById(R.id.SearchUserBtn);
+        searchUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String type = null;
+                String value = null;
+                if(searchmethod == 0)    {
+                    type = "name";
+                    value = searchName.getText().toString();
+                }   else if (searchmethod == 1) {
+                    type = "email";
+                    value = searchEmail.getText().toString();
+                }
+                searchlist.SearchList_Asycn(0, type, value);
+            }
+        });
+        searchlist.SearchList_Asycn(0);
 
         return rootView;
     }

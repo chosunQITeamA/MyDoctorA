@@ -5,12 +5,16 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.khseob0715.sanfirst.Database.AQIHistorySQLiteHelper;
+import com.example.khseob0715.sanfirst.GPSTracker.GPSTracker;
+import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 
 import org.json.JSONException;
@@ -38,16 +42,20 @@ public class BluetoothAQI extends Service{
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothChatService mChatService = null;
 
-    public int o3val;
-    public int no2val;
-    public int coval;
-    public int so2val;
-    public int pm25val;
-    public int tempval;
+    private boolean historical = false;
+
+    public double aqi_co, aqi_so2, aqi_no2, aqi_o3, aqi_pm25, aqi_time, aqi_temp;
+
+    SQLiteDatabase db;
+
+    UserActivity useract = new UserActivity();
+    AQIHistorySQLiteHelper aqihsql = new AQIHistorySQLiteHelper();
+
     @Override
     public void onCreate(){
         super.onCreate();
         Log.i(TAG,"onCreate");
+        db = openOrCreateDatabase("MyDoctorA", Context.MODE_PRIVATE, null);
     }
 
     @Override
@@ -206,40 +214,45 @@ public class BluetoothAQI extends Service{
                         String FullDate = UdooJson.getString("data");
                         String data = FullDate.replaceAll("\\[","");
                         JSONObject AQIJson = new JSONObject(data);
-                        int aqi_co = AQIJson.getInt("co");
-                        int aqi_so2 = AQIJson.getInt("so2");
-                        int aqi_no2 = AQIJson.getInt("no2");
-                        int aqi_o3 = AQIJson.getInt("o3");
-                        int aqi_pm25 = AQIJson.getInt("pm25");
-                        int aqi_time = AQIJson.getInt("time");
-                        int aqi_temp = AQIJson.getInt("temp");
 
-                        if(type.equals("aqi"))  {
-                            Log.e("UDOO_RECEIVE","AQI _ Receive" + aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_temp +"/"+ aqi_time);
-                        }   else if(type.equals("historical"))  {
+                        aqi_co = AQIJson.getDouble("co");
+                        aqi_so2 = AQIJson.getDouble("so2");
+                        aqi_no2 = AQIJson.getDouble("no2");
+                        aqi_o3 = AQIJson.getDouble("o3");
+                        aqi_pm25 = AQIJson.getDouble("pm25");
+                        aqi_time = AQIJson.getDouble("time");
+                        aqi_temp = AQIJson.getDouble("temp");
+
+                        if(type.equals("historical"))  {
+                            historical = true;
+                            Double LAT = GPSTracker.latitude;
+                            Double LNG = GPSTracker.longitude;
+                            /*
+                            DateFormat sdFormat = new SimpleDateFormat("yyyyMMdd");
+                            Date nowDate = new Date();
+                            String tempDate = sdFormat.format(nowDate);
+*/
+                            String tempDate = "11111111";
                             Log.e("UDOO_RECEIVE","HISTORICAL _ Receive"+ aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_temp +"/" + aqi_time);
+                            aqihsql.AQIHinsertData(db,useract.usn, String.valueOf(tempDate), LAT, LNG, aqi_co, aqi_so2, aqi_no2, aqi_o3, aqi_pm25, aqi_temp );//insert
+                        }   else if(type.equals("aqi"))  {
+                            if (historical) {
+                                useract.ExportJson(2);
+                                //aqihsql.AQIHdropTable(db);//drop
+                                Log.e("Historical is ", "fail");
+                                historical = false;
+                            }   else {
+                                Log.e("UDOO_RECEIVE", "AQI _ Receive" + aqi_co + "/" + aqi_so2 + "/" + aqi_no2 + "/" + aqi_o3 + "/" + aqi_pm25 + "/" + aqi_temp + "/" + aqi_time);
+                                useract.AQISendHandler(aqi_co, aqi_so2, aqi_no2, aqi_o3, aqi_pm25, aqi_temp);
+                            }
                         }
 
-                        o3val = aqi_o3;
-                        no2val = (int) aqi_no2;
-                        coval = (int)Integer.valueOf(aqi_co);
-                        so2val = (int)Integer.valueOf(aqi_so2);
-                        pm25val = (int)Integer.valueOf(aqi_pm25);
-                        tempval = (int)Integer.valueOf(aqi_temp);
-
-//                        int i_o3val = Integer.valueOf(String.valueOf(o3val));
-//                        int i_no2val =  Integer.valueOf(String.valueOf(no2val));
-//                        int i_coval =  Integer.valueOf(String.valueOf(coval));
-//                        int i_so2val =  Integer.valueOf(String.valueOf(so2val));
-//                        int i_pm25val =  Integer.valueOf(String.valueOf(pm25val));
-//                        int i_temp =  Integer.valueOf(String.valueOf(tempval));
-
-                        int i_o3val = (int)o3val % 500;
-                        int i_no2val = (int)no2val;
-                        int i_coval = (int)coval;
-                        int i_so2val = (int)so2val;
-                        int i_pm25val = (int)pm25val;
-                        int i_temp = (int)tempval;
+                        int i_o3val = (int) aqi_o3%500;
+                        int i_no2val = (int) aqi_no2;
+                        int i_coval = (int) aqi_co;
+                        int i_so2val = (int) aqi_so2;
+                        int i_pm25val = (int) aqi_pm25;
+                        int i_temp = (int) aqi_temp;
 
                         int val[] = {i_o3val, i_no2val, i_coval, i_so2val, i_pm25val, i_temp};
 
