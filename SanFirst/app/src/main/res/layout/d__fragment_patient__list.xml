@@ -50,7 +50,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/SearchName"
+                android:id="@+id/PtSearchName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
@@ -61,7 +61,7 @@
                 android:textColorHint="#aeaeae" />
 
             <EditText
-                android:id="@+id/SearchEmail"
+                android:id="@+id/PtSearchEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"

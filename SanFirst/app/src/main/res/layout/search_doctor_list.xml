@@ -41,21 +41,21 @@
                 android:textSize="12dp" />
 
             <LinearLayout
-                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
+                android:gravity="right"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/list1DetailBtn"
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:text="Detail"
-                    android:textColor="#ffffff"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff" />
 
                 <Button
                     android:id="@+id/Connect"
@@ -64,8 +64,39 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:text="Disconnect"
-                    android:textColor="#ffffff"
-                    android:textAllCaps="false"/>
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:id="@+id/DetailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="TextView" />
             </LinearLayout>
 
         </LinearLayout>

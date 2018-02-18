@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -67,38 +68,9 @@ public class Fragment_SearchDoctor extends Fragment {
         adapter2 = new myAdapter2();
         listView2.setAdapter(adapter2);
 
-
-        searchName = (EditText)rootView.findViewById(R.id.SearchName);
-        searchEmail = (EditText)rootView.findViewById(R.id.SearchEmail);
-        searchEmail.setVisibility(View.GONE);
-
         searchName2 = (EditText)rootView.findViewById(R.id.SearchName2);
         searchEmail2 = (EditText)rootView.findViewById(R.id.SearchEmail2);
         searchEmail2.setVisibility(View.GONE);
-
-        Spinner spinner = (Spinner)rootView.findViewById(R.id.spinner);
-
-        ArrayAdapter Spinner_adapter = ArrayAdapter.createFromResource(getContext(), R.array.search, R.layout.spinner_item);
-        spinner.setAdapter(Spinner_adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l){
-
-                if(position == 0){
-                    searchName.setVisibility(View.VISIBLE);
-                    searchEmail.setVisibility(View.GONE);
-                }else{
-                    searchName.setVisibility(View.GONE);
-                    searchEmail.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         Spinner spinner2 = (Spinner)rootView.findViewById(R.id.spinner2);
 
@@ -168,6 +140,15 @@ public class Fragment_SearchDoctor extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             SearchDoctor view = new SearchDoctor(rootView.getContext());
+            final LinearLayout detail_layout = (LinearLayout)view.findViewById(R.id.DetailLayout);
+
+            Button Detail = (Button)view.findViewById(R.id.list1DetailBtn);
+            Detail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    detail_layout.setVisibility(View.VISIBLE);
+                }
+            });
 
             return view;
         }

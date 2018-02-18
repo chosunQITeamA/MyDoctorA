@@ -50,8 +50,8 @@ public class D_Fragment_patientlist extends Fragment {
         adapter = new myAdapter();
         listView.setAdapter(adapter);
 
-        searchName = (EditText)rootView.findViewById(R.id.SearchName);
-        searchEmail = (EditText)rootView.findViewById(R.id.SearchEmail);
+        searchName = (EditText)rootView.findViewById(R.id.PtSearchName);
+        searchEmail = (EditText)rootView.findViewById(R.id.PtSearchEmail);
         searchEmail.setVisibility(View.GONE);
 
         Spinner spinner = (Spinner)rootView.findViewById(R.id.spinner);
@@ -120,7 +120,7 @@ public class D_Fragment_patientlist extends Fragment {
 
         private void init(Context context) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater.inflate(R.layout.search_doctor_list, this);
+            inflater.inflate(R.layout.search_doctor_list2, this);
         }
 
     }

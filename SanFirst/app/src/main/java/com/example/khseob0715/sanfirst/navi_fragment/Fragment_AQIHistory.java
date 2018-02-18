@@ -197,7 +197,6 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 // Cursor mycursor = (Cursor)listView.getItemAtPosition(position);
-
                 chart_date_text = "" + listView.getItemAtPosition(position);
 
                 Toast.makeText(getContext(), "chart : " + chart_date_text, Toast.LENGTH_SHORT).show();
@@ -283,7 +282,6 @@ public class Fragment_AQIHistory extends Fragment implements View.OnClickListene
         receiveAQI.ReceiveAQI_Asycn(usn,Start_date_text.getText().toString(), End_date_text.getText().toString());
         handler.postDelayed(new Update_list(),1000);
         handler.postDelayed(new Update_list_init(),2000);
-
 
         mapView = (MapView) rootView.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
