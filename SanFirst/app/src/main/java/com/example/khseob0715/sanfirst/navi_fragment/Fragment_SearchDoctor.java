@@ -4,6 +4,7 @@ package com.example.khseob0715.sanfirst.navi_fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
@@ -44,7 +45,15 @@ public class Fragment_SearchDoctor extends Fragment {
 
     int searchmethod = 0;
 
-    private EditText searchName, searchEmail;
+    private Handler handler;
+
+    public static int search_count = 0;
+    public static String[] Search_fname= new String[100];
+    public static String[] Search_lname = new String[100];
+    public static String[] Search_ID = new String[100];
+    public static String[] Search_Gender = new String[100];
+    public static String[] Search_old = new String[100];
+
     private EditText searchName2, searchEmail2;
 
     private Button searchDoctorBtn;
@@ -139,7 +148,12 @@ public class Fragment_SearchDoctor extends Fragment {
                 searchlist.SearchList_Asycn(1, type, value);
             }
         });
+
+
+        handler = new Handler();
+
         searchlist.SearchList_Asycn(1);
+        handler.postDelayed(new Update_list(),1000);
 
         return rootView;
     }
@@ -148,7 +162,7 @@ public class Fragment_SearchDoctor extends Fragment {
 
         @Override
         public int getCount() {
-            return items.length;
+            return search_count;
         }
 
         @Override
@@ -181,6 +195,10 @@ public class Fragment_SearchDoctor extends Fragment {
 
                 }
             });
+
+
+
+
             return view;
         }
     }
@@ -245,6 +263,18 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
+            TextView FirstName = (TextView)view.findViewById(R.id.List2FirstName);
+            TextView LastName = (TextView)view.findViewById(R.id.List2LastName);
+            TextView DoctorEmail = (TextView)view.findViewById(R.id.List2DoctorEmailText);
+            TextView Gender = (TextView)view.findViewById(R.id.List2DoctorGenderText);
+            TextView Old = (TextView)view.findViewById(R.id.List2DoctorOldText);
+
+            FirstName.setText(Search_fname[position]);
+            LastName.setText(Search_lname[position]);
+            DoctorEmail.setText(Search_ID[position]);
+            Gender.setText(Search_Gender[position]);
+            Old.setText(Search_old[position]);
+
             return view;
         }
     }
@@ -268,6 +298,7 @@ public class Fragment_SearchDoctor extends Fragment {
         }
 
     }
+
 
     class myAdapter3 extends BaseAdapter {
 
@@ -308,6 +339,7 @@ public class Fragment_SearchDoctor extends Fragment {
                 }
             });
 
+
             return view;
         }
     }
@@ -330,5 +362,13 @@ public class Fragment_SearchDoctor extends Fragment {
             inflater.inflate(R.layout.search_doctor_list3, this);
         }
 
+    }
+
+    private class Update_list implements Runnable{
+
+        @Override
+        public void run() {
+            adapter2.notifyDataSetChanged();
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
+import com.example.khseob0715.sanfirst.navi_fragment.Fragment_SearchDoctor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -105,6 +106,7 @@ public class SearchList {
 
             Log.e("RequestBody", requestBody.toString());
 
+            Fragment_SearchDoctor.search_count = 0;
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
             Request request = new Request.Builder().url(url).post(requestBody).build();
 
@@ -142,7 +144,15 @@ public class SearchList {
                                 Gender = "Female";
                             } else if (Gender_num == 1) {
                                 Gender = "Male";
-                            }
+                             }
+
+                            Fragment_SearchDoctor.Search_fname[i] = Fname;
+                            Fragment_SearchDoctor.Search_lname[i] = Lname;
+                            Fragment_SearchDoctor.Search_ID[i] = ID;
+                            Fragment_SearchDoctor.Search_Gender[i] = Gender;
+                            Fragment_SearchDoctor.Search_old[i] = Birth;
+
+                            Fragment_SearchDoctor.search_count++;
 
                             Log.e("searchData = ", i +"///"+ usn +"/"+ ID +"/"+ Gender +"/"+ Birth +"/"+ Fname +"/"+ Lname);
                         }
