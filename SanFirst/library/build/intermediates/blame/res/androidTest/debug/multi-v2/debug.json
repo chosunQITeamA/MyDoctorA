@@ -1,10 +1,17 @@
 {
     "logs": [
         {
+<<<<<<< HEAD
             "outputFile": "D:\\Develop\\MyDoctorA\\MyDoctorA\\SanFirst\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
             "map": [
                 {
                     "source": "D:\\Develop\\MyDoctorA\\MyDoctorA\\SanFirst\\library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
+            "outputFile": "C:\\Users\\Aiden\\Desktop\\MyDoctorA\\SanFirst\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\Aiden\\Desktop\\MyDoctorA\\SanFirst\\library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> master
                     "from": {
                         "startLines": "2,3,4,5,7,8",
                         "startColumns": "4,4,4,4,4,4",

@@ -45,7 +45,7 @@
                         <ListView
                             android:id="@+id/DoctorWaitingList"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="150dp" />
 
                         <View
                             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                         <ListView
                             android:id="@+id/DoctorRequestList"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="150dp" />
 
                         <View
                             android:layout_width="match_parent"
@@ -86,7 +86,7 @@
                         <ListView
                             android:id="@+id/DoctorList"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></ListView>
+                            android:layout_height="150dp"></ListView>
 
 
 
