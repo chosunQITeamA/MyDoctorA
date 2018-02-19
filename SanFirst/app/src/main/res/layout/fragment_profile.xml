@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -127,26 +128,27 @@
             <LinearLayout
                 android:layout_width="270dp"
                 android:layout_height="45dp"
-                android:gravity="center_vertical|center_horizontal"
+                android:gravity="top"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/phone_editText1"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_weight="3"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
                     android:background="@drawable/edit_text_design"
                     android:ems="10"
                     android:hint="Input phone number"
                     android:inputType="text"
+                    android:textAlignment="center"
                     android:textColor="#aeaeae"
                     android:textColorHint="#aeaeae" />
 
                 <TextView
                     android:id="@+id/textView8"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0"
                     android:gravity="center_vertical|center_horizontal|center"
                     android:text="-"
                     android:textColor="#000000"
@@ -155,21 +157,22 @@
 
                 <EditText
                     android:id="@+id/phone_editText2"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_weight="3"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
                     android:background="@drawable/edit_text_design"
                     android:ems="10"
                     android:hint="Input phone number"
                     android:inputType="text"
+                    android:textAlignment="center"
                     android:textColor="#aeaeae"
                     android:textColorHint="#aeaeae" />
 
                 <TextView
                     android:id="@+id/textView48"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0"
                     android:gravity="center_vertical|center_horizontal|center"
                     android:text="-"
                     android:textColor="#000000"
@@ -178,13 +181,14 @@
 
                 <EditText
                     android:id="@+id/phone_editText3"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_weight="3"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
                     android:background="@drawable/edit_text_design"
                     android:ems="10"
                     android:hint="Input phone number"
                     android:inputType="text"
+                    android:textAlignment="center"
                     android:textColor="#aeaeae"
                     android:textColorHint="#aeaeae" />
             </LinearLayout>
@@ -195,22 +199,45 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Birth Date"
-                android:textColor="#aeaeae"
+                android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/Birth_select"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="270dp"
-                android:layout_height="45dp"
-                android:background="@drawable/edit_text_design"
-                android:text="Birth date select"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false"
-                android:textColor="#aeaeae"
-                android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:src="@drawable/callendar" />
+
+                <Button
+                    android:id="@+id/Birth_select"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="270dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_design"
+                    android:text="Birth date select"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="#aeaeae"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/textView35"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:text="@string/profileupdate" />
 
             <Button
                 android:id="@+id/update_profile_btn"
@@ -218,7 +245,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="80dp"
                 android:text="Update Profile"
                 android:textAllCaps="false"
                 android:textColor="@color/common_google_signin_btn_text_dark_default"

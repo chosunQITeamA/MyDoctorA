@@ -197,10 +197,10 @@ public class Fragment_SearchDoctor extends Fragment {
         showconlist.showConnectList_Asycn(1, usn);
         searchlist.SearchList_Asycn(1);
 
-        handler.postDelayed(new Update_list1(), 300);
-        handler.postDelayed(new Update_list2(), 300);
-        handler.postDelayed(new Update_list3(), 300);
-        handler.postDelayed(new Update_list4(), 300);
+        handler.postDelayed(new Update_list1(), 1000);
+        handler.postDelayed(new Update_list2(), 1000);
+        handler.postDelayed(new Update_list3(), 1000);
+        handler.postDelayed(new Update_list4(), 1000);
 
         return rootView;
     }

@@ -127,7 +127,7 @@ public class D_Fragment_patientlist extends Fragment {
 
         private void init(Context context) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater.inflate(R.layout.search_doctor_list2, this);
+            inflater.inflate(R.layout.search_user_list2_connection, this);
         }
 
     }
