@@ -20,6 +20,8 @@ import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+
 /**
  * Created by chony on 2018-02-04.
  */
@@ -36,6 +38,11 @@ public class BluetoothAQI extends Service{
             "com.example.jeonghoon.googlemap.bluetooth.ACTION_SEND_AQI_DATA";
 
     private StringBuffer mOutStringBuffer;
+
+    private boolean setTime = false;
+    Calendar cal = Calendar.getInstance();
+    //String tempDate = null;
+    String tempDate = "1111-11-11 11;11:11";
 
     private String address;
     private Intent bluetoothIntent;
@@ -232,7 +239,6 @@ public class BluetoothAQI extends Service{
                             Date nowDate = new Date();
                             String tempDate = sdFormat.format(nowDate);
 */
-                            String tempDate = "11111111";
                             Log.e("UDOO_RECEIVE","HISTORICAL _ Receive"+ aqi_co +"/"+ aqi_so2 +"/"+ aqi_no2 +"/"+ aqi_o3 +"/"+ aqi_pm25 +"/"+ aqi_temp +"/" + aqi_time);
                             aqihsql.AQIHinsertData(db,useract.usn, String.valueOf(tempDate), LAT, LNG, aqi_co, aqi_so2, aqi_no2, aqi_o3, aqi_pm25, aqi_temp );//insert
                         }   else if(type.equals("aqi"))  {
