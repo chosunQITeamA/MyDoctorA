@@ -38,9 +38,9 @@
                             android:id="@+id/textView24"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:text="List of doctors awaiting connection acceptance"
-                            android:textColor="#000000" />
+                            android:text="List of doctors who sent me connection requests"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
 
                         <ListView
                             android:id="@+id/DoctorWaitingList"
@@ -58,9 +58,9 @@
                             android:id="@+id/textView87"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:text="List of doctors who sent me connection requests"
-                            android:textColor="#000000" />
+                            android:text="List of doctors awaiting connection acceptance"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
 
                         <ListView
                             android:id="@+id/DoctorRequestList"

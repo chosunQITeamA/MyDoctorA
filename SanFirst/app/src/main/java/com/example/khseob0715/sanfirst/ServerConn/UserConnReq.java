@@ -1,7 +1,6 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -20,13 +19,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.example.khseob0715.sanfirst.UserActivity.LoginActivity.LoginContext;
-
 /**
  * Created by Kim Jin Hyuk on 2018-02-18.
  */
 
-public class ConnRequest {
+public class UserConnReq {
     public static String url = null;
 
     OkHttpClient client = new OkHttpClient();
@@ -36,33 +33,40 @@ public class ConnRequest {
     private static Context context;
 
     private int error_message = 0;
-    public ConnRequest(){
+    public UserConnReq(){
     }
 
-    public ConnRequest(Context c) {
+    public UserConnReq(Context c) {
         this.context = c;
     }
 
     public void ConnRequest_Asycn(final int add, final int usn, final int dsn) {
         switch (add)    {
+            /*
+            Connect request -> conrequestbyuserapp
+            Disconnect -> disconnectuserapp
+            Accepatance -> connectbyuserapp
+            Waiting -> disconnectuserapp
+            //-----------------------------------------------
+            Connect request -> conrequestbydoctorapp
+            Disconnect -> disconnectdoctorapp
+            Accepatance -> connectbydoctorapp
+            Waiting -> disconnectdoctorapp
+            */
             case 0 : {
-                url = "http://teama-iot.calit2.net/connectbyuserapp";
-                break;
-            }
-            case 1 :{
-                url = "http://teama-iot.calit2.net/connectbydoctorapp";
-                break;
-            }
-            case 2 :{
-                url = "http://teama-iot.calit2.net/conrequestbydoctorapp";
-                break;
-            }
-            case 3 :{
                 url = "http://teama-iot.calit2.net/conrequestbyuserapp";
                 break;
             }
-            case 4 :{
-                url = "http://teama-iot.calit2.net/disconnectuserapp";
+            case 1 : {
+                url = "http://teama-iot.calit2.net/disconnectbyuserapp";
+                break;
+            }
+            case 2 : {
+                url = "http://teama-iot.calit2.net/connectbyuserapp";
+                break;
+            }
+            case 3 : {
+                url = "http://teama-iot.calit2.net/disconnectbyuserapp";
                 break;
             }
         }
@@ -71,7 +75,7 @@ public class ConnRequest {
 
             @Override
             protected String doInBackground(LoginActivity... mainActivities) {
-                ConnRequest.ConnectServer connectServerPost = new ConnRequest.ConnectServer();
+                UserConnReq.ConnectServer connectServerPost = new UserConnReq.ConnectServer();
                 connectServerPost.requestPost(url, usn, dsn);
                 return responseBody;
             }
@@ -95,8 +99,8 @@ public class ConnRequest {
 
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
-                    .add("useremail", String.valueOf(usn))
-                    .add("userpassword", String.valueOf(dsn)).build();
+                    .add("usn", String.valueOf(usn))
+                    .add("dsn", String.valueOf(dsn)).build();
 
             Log.e("RequestBody", requestBody.toString());
 
@@ -123,15 +127,6 @@ public class ConnRequest {
                         e.printStackTrace();
 
                     } catch (JSONException e) {
-                        // 로그인이 틀렸을 때,
-                        Intent intent = new Intent(LoginContext.getApplicationContext(), LoginActivity.class);
-                        LoginActivity.sign_in_complete = 0;
-
-                        LoginActivity aLoginActivity = (LoginActivity)LoginActivity.tempLoginActivity;
-
-                        LoginContext.startActivity(intent);
-                        aLoginActivity.finish();
-
                         e.printStackTrace();
                     }
                 }

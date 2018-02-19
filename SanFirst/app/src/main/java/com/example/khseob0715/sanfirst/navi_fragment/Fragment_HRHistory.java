@@ -1,18 +1,12 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
 
-import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -55,8 +49,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import static android.location.LocationManager.GPS_PROVIDER;
 
 
 public class Fragment_HRHistory extends Fragment implements View.OnClickListener, OnMapReadyCallback, OnChartValueSelectedListener {

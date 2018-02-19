@@ -43,13 +43,8 @@ public class BluetoothAQI extends Service{
 
     private boolean setTime = false;
 
-    long now;
-    // Data 객체에 시간을 저장한다.
-    Date date;
-    // 각자 사용할 포맷을 정하고 문자열로 만든다.
-    SimpleDateFormat sdfNow;
-    String nowDate = sdfNow.format(date);
-    Calendar calendar;
+    Calendar cal;
+    SimpleDateFormat df;
 
     private String address;
     private Intent bluetoothIntent;
@@ -71,10 +66,10 @@ public class BluetoothAQI extends Service{
         Log.i(TAG,"onCreate");
         db = openOrCreateDatabase("MyDoctorA", Context.MODE_PRIVATE, null);
 
-        now = System.currentTimeMillis();
-        date = new Date(now);
-        sdfNow = new SimpleDateFormat("yy-MM-dd hh:mm:ss");
-        calendar = Calendar.getInstance();
+        cal = Calendar.getInstance();
+        df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        cal.setTime(new Date());
+
     }
 
     @Override
@@ -247,8 +242,9 @@ public class BluetoothAQI extends Service{
                             Double LAT = GPSTracker.latitude;
                             Double LNG = GPSTracker.longitude;
 
-                            calendar.add(Calendar.SECOND, -5);
-                            String tempDate = sdfNow.format(calendar.getTime());
+                            cal.add(Calendar.SECOND, -5);
+                            String tempDate = df.format(cal.getTime());
+
                             /*
                             DateFormat sdFormat = new SimpleDateFormat("yyyyMMdd");
                             Date nowDate = new Date();

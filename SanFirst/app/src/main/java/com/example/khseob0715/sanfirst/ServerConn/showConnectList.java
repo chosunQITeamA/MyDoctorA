@@ -125,6 +125,7 @@ public class showConnectList {
                                 Fragment_SearchDoctor.Connect_Phone[Fragment_SearchDoctor.connection_count] = Phone;
                                 Fragment_SearchDoctor.Connect_ID[Fragment_SearchDoctor.connection_count] = ID;
                                 Fragment_SearchDoctor.Connect_old[Fragment_SearchDoctor.connection_count] = Birth;
+                                Fragment_SearchDoctor.Connect_usn[Fragment_SearchDoctor.connection_count] = String.valueOf(usn);
                                 Fragment_SearchDoctor.connection_count++;
                             }else if(conn_state == 0 && requestingusn == usn){ // 내가 기다리는 것.
                                 Fragment_SearchDoctor.waiting_fname[Fragment_SearchDoctor.waiting_count] = Fname;
@@ -132,6 +133,7 @@ public class showConnectList {
                                 Fragment_SearchDoctor.waiting_Gender[Fragment_SearchDoctor.waiting_count] = Gender;
                                 Fragment_SearchDoctor.waiting_ID[Fragment_SearchDoctor.waiting_count] = ID;
                                 Fragment_SearchDoctor.waiting_old[Fragment_SearchDoctor.waiting_count] = Birth;
+                                Fragment_SearchDoctor.waiting_usn[Fragment_SearchDoctor.waiting_count] = String.valueOf(usn);
                                 Fragment_SearchDoctor.waiting_count++;
                             }else if(conn_state == 0 && requestedusn == usn){  // myadapter 3
                                 Fragment_SearchDoctor.accepatance_fname[Fragment_SearchDoctor.accepatance_count] = Fname;
@@ -140,6 +142,7 @@ public class showConnectList {
                                 Fragment_SearchDoctor.accepatance_Phone[Fragment_SearchDoctor.accepatance_count] = Phone;
                                 Fragment_SearchDoctor.accepatance_ID[Fragment_SearchDoctor.accepatance_count] = ID;
                                 Fragment_SearchDoctor.accepatance_old[Fragment_SearchDoctor.accepatance_count] = Birth;
+                                Fragment_SearchDoctor.accepatance_usn[Fragment_SearchDoctor.accepatance_count] = String.valueOf(usn);
                                 Fragment_SearchDoctor.accepatance_count++;
                             }
 

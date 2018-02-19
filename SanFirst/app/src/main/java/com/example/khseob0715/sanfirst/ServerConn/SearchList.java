@@ -148,6 +148,7 @@ public class SearchList {
                             Fragment_SearchDoctor.Search_ID[i] = ID;
                             Fragment_SearchDoctor.Search_Gender[i] = Gender;
                             Fragment_SearchDoctor.Search_old[i] = Birth;
+                            Fragment_SearchDoctor.Search_usn[i] = String.valueOf(usn);
 
                             Fragment_SearchDoctor.search_count++;
 
