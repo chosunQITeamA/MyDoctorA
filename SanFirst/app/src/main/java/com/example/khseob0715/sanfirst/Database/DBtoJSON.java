@@ -40,7 +40,6 @@ public class DBtoJSON {
                     {
                         if( cursor.getString(i) != null )
                         {
-                            Log.d("TAG_NAME1", cursor.getString(i) );
                             rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
                         }
                         else
@@ -50,7 +49,6 @@ public class DBtoJSON {
                     }
                     catch( Exception e )
                     {
-                        Log.d("TAG_NAME2", e.getMessage()  );
                     }
                 }
             }
@@ -58,7 +56,6 @@ public class DBtoJSON {
             cursor.moveToNext();
         }
         cursor.close();
-        Log.d("TAG_NAME3", resultSet.toString() );
         return resultSet;
     }
 }

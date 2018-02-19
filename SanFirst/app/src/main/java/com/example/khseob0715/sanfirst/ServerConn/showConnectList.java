@@ -1,7 +1,6 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_SearchDoctor;
@@ -67,7 +66,6 @@ public class showConnectList {
                     .build();
             //RequestBody requestBody = new FormBody.Builder().add("email", id).add("password", password).build();
 
-            Log.e("RequestBody", requestBody.toString());
 
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
             Request request = new Request.Builder().url(url).post(requestBody).build();
@@ -76,14 +74,12 @@ public class showConnectList {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("error", "Connect Server Error is " + e.toString());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) {
                     try {
                         responseBody = response.body().string();
-                        Log.e("Response_Error", "Response Body is " + responseBody);
 
                         JSONObject jsonObject = new JSONObject(responseBody);
 
@@ -146,7 +142,6 @@ public class showConnectList {
                                 Fragment_SearchDoctor.accepatance_count++;
                             }
 
-                            Log.e("searchConnectList = ", i +"///"+ userdata);
                         }
 
                     } catch (IOException e) {

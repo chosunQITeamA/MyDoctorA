@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -71,10 +70,7 @@ public class FindPWCodeActivity extends AppCompatActivity {
                     })
                     .setCancelable(false)
                     .show();
-        }   else    {
-            Log.e("verify code error", verifycode.getText().toString() +" / "+ code);
         }
-
     }
 
     private class TimeLimit implements Runnable {

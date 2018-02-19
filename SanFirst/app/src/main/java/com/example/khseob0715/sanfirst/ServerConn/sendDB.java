@@ -2,7 +2,6 @@ package com.example.khseob0715.sanfirst.ServerConn;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.khseob0715.sanfirst.UserActivity.LoginActivity;
 
@@ -63,7 +62,6 @@ public class sendDB {
                     .add("useremail", id)
                     .add("userpassword", password).build();
 
-            Log.e("RequestBody", requestBody.toString());
 
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
             Request request = new Request.Builder().url(url).post(requestBody).build();
@@ -72,14 +70,12 @@ public class sendDB {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("error", "Connect Server Error is " + e.toString());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) {
                     try {
                         responseBody = response.body().string();
-                        Log.e("Response_Error", "Response Body is " + responseBody);
 
                         JSONObject jsonObject = new JSONObject(responseBody);
 
@@ -91,7 +87,6 @@ public class sendDB {
                         String Fname = jsonObject.getString("fname");
                         String Lname = jsonObject.getString("lname");
 
-                        Log.e("message", Message + "/" + usn + "/" + ID + "/" + Fname + "/" + Lname);
 
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -166,7 +166,6 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
     }
 
     private void StartLocationService() {
-        Log.e("startLocationService","startLocationService");
         LocationManager manager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
         GPSListener gpsListener = new GPSListener();
         long minTime = 10000;

@@ -1,6 +1,5 @@
 package com.example.khseob0715.sanfirst.PolarBLE;
 
-import android.util.Log;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -20,7 +19,6 @@ public class BioHarnessSessionData {
 	}	
 
 	public void reset(){
-		Log.w(this.getClass().getName(), "## Start reset()");
 		sessionId = (new Date()).getTime();
 		startingTS = 0;
 		endingTS = 0;

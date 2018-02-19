@@ -18,7 +18,6 @@ public class AQISQLiteHelper {
         AQIstatus = true;
         String AQI_CT = "create table if not exists AQI_HISTORY(usn INTEGER, ts TEXT, lat DOUBLE, lng DOUBLE, co DOUBLE, so2 DOUBLE, no2 DOUBLE, o3  DOUBLE, pm25 DOUBLE, tem DOUBLE);";
         db.execSQL(AQI_CT);
-        Log.e("SQLite-AQI_CreateTable", AQI_CT);
     }
 
     // Table 삭제
@@ -26,14 +25,12 @@ public class AQISQLiteHelper {
         AQIstatus = false;
         String AQI_DT = "drop table if exists AQI_HISTORY;";
         db.execSQL(AQI_DT);
-        Log.e("SQLite-AQI_removeTable", AQI_DT);
     }
 
     // Data 추가
     public static void AQIinsertData(SQLiteDatabase db, int usn, String ts, double lat, double lng, double co, double so2, double no2, double o3, double pm25, double temp){
         String AQI_ID = "insert into AQI_HISTORY values(" + usn +", '" + ts + "',"+lat+","+lng+","+co+","+so2+","+no2+","+o3+","+pm25+","+temp+")";
         db.execSQL(AQI_ID);
-        Log.e("SQLite", AQI_ID);
     }
 
     //--------------------------insert 확인
@@ -54,7 +51,6 @@ public class AQISQLiteHelper {
             Double o3 = results.getDouble(7);
             Double pm25 = results.getDouble(8);
             Double temp = results.getDouble(9);
-            Log.e("Select All = ", usn +"/"+ ts +"/"+ lat +"/"+ lng +"/"+ co +"/"+so2 +"/"+no2 +"/"+o3+"/"+pm25+"/"+temp);
             results.moveToNext();
         }
         results.close();

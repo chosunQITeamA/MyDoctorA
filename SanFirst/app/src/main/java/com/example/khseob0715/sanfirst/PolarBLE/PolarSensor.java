@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.Database.PolarDatabase;
@@ -62,7 +61,6 @@ public class PolarSensor extends Service {
             @Override
             public void run() {//실제 기능 구현
                 polardb.PolarDB_heartratevalue = heartrateValue;
-                Log.e("PolarDB = ", String.valueOf(polardb.PolarDB_heartratevalue));
                 //UserActivity.HeartSendHandler();
                 userAct.HeartSendHandler(); //Server로 실질적으로 전송하는 소스
             }
@@ -79,7 +77,6 @@ public class PolarSensor extends Service {
 
     // activate PolarSensor
     protected void activatePolar() {
-        Log.w(this.getClass().getName(), "** activatePolar()");
 
         Intent gattactivatePolarServiceIntent = new Intent(this, PolarBleService.class);
         bindService(gattactivatePolarServiceIntent, mPolarBleServiceConnection, BIND_AUTO_CREATE);
@@ -87,33 +84,26 @@ public class PolarSensor extends Service {
     }
 
     protected void deactivatePolar() {
-        Log.w(this.getClass().getName(), "deactivatePolar()");
         try{
             if(mPolarBleService!=null){
-                Log.w(this.getClass().getName(), "**** unbindService()");
                 unbindService(mPolarBleServiceConnection);
-                Log.w(this.getClass().getName(), "bindService()");
             }
         }catch(Exception e){
-            Log.e(this.getClass().getName(), e.toString());
         }
 
         try{
             unregisterReceiver(mPolarBleUpdateReceiver);
         }catch(Exception e){
-            Log.e(this.getClass().getName(), e.toString());
         }
     }
 
     private final BroadcastReceiver mPolarBleUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context ctx, Intent intent) {
-            //Log.w(TAG, "####BroadcastReceiver Polar BLE Service ");
             // receive msg from PolarSensor
             final String action = intent.getAction();
             if (PolarBleService.ACTION_GATT_CONNECTED.equals(action)) {
             } else if (PolarBleService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                Log.w(this.getClass().getName(), "mPolarBleUpdateReceiver received ACTION_GATT_DISCONNECTED");
             } else if (PolarBleService.ACTION_HR_DATA_AVAILABLE.equals(action)) {
 
                 //heartRate+";"+pnnPercentage+";"+pnnCount+";"+rrThreshold+";"+bioHarnessSessionData.totalNN
@@ -131,7 +121,6 @@ public class PolarSensor extends Service {
                 heartrateValue = hr;
                 RR_value = rrValue;
 
-                Log.e("Heartrate = ", String.valueOf(hr) +"/"+ String.valueOf(prrPercenteage)+"/"+String.valueOf(prrCount)+"/"+String.valueOf(rrThreshold)+"/"+String.valueOf(rrTotal)+"/"+String.valueOf(rrValue)+"/"+String.valueOf(sid));
                 Fragment_TabMain.heart_rate_value = hr;
                 Fragment_TabMain.rr_rate_value = rrValue;
 
@@ -165,7 +154,6 @@ public class PolarSensor extends Service {
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mPolarBleService = ((PolarBleService.LocalBinder) service).getService();
             if (!mPolarBleService.initialize()) {
-                Log.e(this.getClass().getName(), "Unable to initialize Bluetooth");
             }
             // Automatically connects to the device upon successful start-up initialization.
             //mPolarBleService.connect(app.polarBleDeviceAddress, false);

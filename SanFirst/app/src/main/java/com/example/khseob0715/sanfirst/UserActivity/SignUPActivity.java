@@ -149,7 +149,6 @@ public class SignUPActivity extends AppCompatActivity implements Button.OnClickL
 
                 if(id.equals("") || pw.equals("") || confirm_pw.equals("") || fname.equals("") || lname.equals("") || date.equals("Select Date") || phone.equals("")) {
                     Toast.makeText(this, "please confirm blank", Toast.LENGTH_SHORT).show();
-                    Log.e("InputData = ", id +" / "+ pw + " / " + confirm_pw + " / "+ fname +" / "+ lname +" / "+ Sgender +" / "+ date +" / "+ phonenum);
                 }   else    {
                     if(id.matches("^[_0-9a-zA-Z-]+@[0-9a-zA-Z-]+(.[_0-9a-zA-Z-]+)*$")) {
                         if(date.equals("Select Date"))   {

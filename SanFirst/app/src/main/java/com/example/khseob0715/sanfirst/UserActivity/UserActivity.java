@@ -23,7 +23,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -234,11 +233,9 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void InternetConnCheck()    {
-        Log.e("InternetConnCheck", "GO");
 
         if (mobile.isConnected() || wifi.isConnected()) {
             internetConnCheck = true;
-            Log.e("internet Check is ", String.valueOf(internetConnCheck));
             if(heartsql.Heartexist) {
                 ExportJson(0);
                 heartsql.Heartexist = false;
@@ -251,7 +248,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             }
         } else  {
             internetConnCheck = false;
-            Log.e("internet Check is ", String.valueOf(internetConnCheck));
             if(!heartsql.Heartexist) {
                 HRsqlhelper.createTable(db);
                 heartsql.Heartexist = true;
@@ -272,11 +268,9 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
     private void DBservice() {
         db = openOrCreateDatabase("MyDoctorA", Context.MODE_PRIVATE, null);
-        Log.e("Database", "Create");
     }
 
     private void logPrint(String str) {
-        Log.e("LogPrint = ", getTimeStr()+" "+str);
     }
 
     public String getTimeStr(){
@@ -316,7 +310,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 Longitude = gps.getLongitude();
                 // \n is for new line
                 //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                //Log.e("Location = ", latitude +"/"+longitude);
             } else {
                 // can't get location
                 // GPS or Network is not enabled
@@ -427,7 +420,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 Intent bluetoothIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
                 startActivityForResult(bluetoothIntent, 1);
                 */
-                Log.e("secure", "Udoo");
                 Intent serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                 return true;
@@ -435,7 +427,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.insecure_connect_scan: {
                 // Launch the DeviceListActivity to see devices and do scan
-                Log.e("insecure", "BT");
                 Intent serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
                 return true;
@@ -500,17 +491,13 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         }
         int arraylength = jsonarrayResult.length();
         JSONObject arraytoobj = new JSONObject();
-        Log.e("arraylength = ", String.valueOf(arraylength));
 
         try {
             arraytoobj.put("length", arraylength);
             arraytoobj.put("data", jsonarrayResult);
-            Log.e("arrayPut", String.valueOf(arraytoobj));
             sendjson.SendJSON_Asycn(addr, arraylength, String.valueOf(arraytoobj));
-            Log.e("arrayAsync", "Success");
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("arrayPut", "Fail");
         }
 
         if(addr == 1 || addr == 2)  {
@@ -611,7 +598,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(this.getClass().getName(), "onDestroy()");
     }
 
     public void accountbt(View view) {
@@ -663,7 +649,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
     // UdooBT
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e("OnActivityResult", "OnActivityResult-UerMainActivity");
         switch (requestCode) {//블루투스 서비스 실행
             case 1:
                 // When DeviceListActivity returns with a device to connect
@@ -685,14 +670,12 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         // Get the device MAC address
         String address = data.getExtras()
                 .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-        Log.i("MenuActivity_addr", address);
 
         Intent bluetoothService=new Intent(getApplicationContext(), BluetoothAQI.class);
         bluetoothService.putExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS, address);
         try{
             startService(bluetoothService);
         }catch(Exception ex){
-            Log.e("MenuActivity", "Exception : "+ex.getMessage());
         }
     }
 
@@ -705,7 +688,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
         int confirmZero = 0;
         if(PolarSensor.heartrateValue == confirmZero)    {
-            Log.e("heartrate value is ", "Zero!!!");
         }   else    {
             if(internetConnCheck)   {
                 sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);

@@ -54,7 +54,6 @@ public class FindPWNewActivity extends AppCompatActivity {
             finish();
         }   else    {
             Toast.makeText(this, "Password is wrong", Toast.LENGTH_SHORT).show();
-            Log.e("not match", PW1.getText().toString() +" / "+ PW2.getText().toString());
         }
 
     }

@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,7 +23,6 @@ public class InternetCheck extends Service {
 
     @Override
     public void onCreate() {
-        Log.e("InternetCheck", "Create");
         super.onCreate();
 
         m_Task = new TimerTask() {
@@ -43,9 +41,7 @@ public class InternetCheck extends Service {
         NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         if (mobile.isConnected() || wifi.isConnected()) {
-            Log.e("Internet Conn", "Success");
         } else  {
-            Log.e("Internet Conn", "Fail");
         }
     }
 

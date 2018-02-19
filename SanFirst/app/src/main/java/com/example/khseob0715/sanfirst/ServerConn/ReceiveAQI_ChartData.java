@@ -2,7 +2,6 @@ package com.example.khseob0715.sanfirst.ServerConn;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
 
@@ -71,14 +70,12 @@ public class ReceiveAQI_ChartData {
     class ConnectServer {//Client 생성
 
         public int requestPost(String url, int usn, String fdate, String ldate) {
-            Log.e("AQI request", "go");
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
                     .add("usn", String.valueOf(usn))
                     .add("fdate", fdate)
                     .add("ldate", ldate).build();
 
-            Log.e("RequestBody", requestBody.toString());
 
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
             Request request = new Request.Builder().url(url).post(requestBody).build();
@@ -87,25 +84,20 @@ public class ReceiveAQI_ChartData {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("error", "Connect Server Error is " + e.toString());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) {
                     try {
                         responseBody = response.body().string();
-                        Log.e("Response_Error", "Response Body is " + responseBody);
                         JSONObject jsonObject = new JSONObject(responseBody);
                         String Message = jsonObject.getString("message");
-                        Log.e("message", Message + "/" + responseBody);
 
                         JSONArray AQIData = jsonObject.getJSONArray("data");
-                        Log.e("AQIData.length = ", String.valueOf(AQIData.length()));
 
                         for (int i = 0; i < AQIData.length(); i++) {
                             JSONObject getAQIData = AQIData.getJSONObject(i);
                             String TS = getAQIData.getString("TS");
-                            Log.i("substring", TS.substring(0, 10));
 
                             int CO = (int)getAQIData.getDouble("CO");
                             int SO2 = (int)getAQIData.getDouble("SO2");
@@ -123,7 +115,6 @@ public class ReceiveAQI_ChartData {
                             Fragment_AQIHistory.Airdata_addEntry(PM, CO, NO2, O3, SO2);
 
 
-                            Log.i("AQIData = ", i + " / " + TS + " / " + CO + " / " + SO2 + " / " + NO2 + "/" + O3 + "/" + PM + "/" + TEMP + "/" + LAT + " / " + LNG);
 
                         }
 

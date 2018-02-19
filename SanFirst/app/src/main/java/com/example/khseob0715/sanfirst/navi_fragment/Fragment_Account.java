@@ -61,7 +61,6 @@ public class Fragment_Account extends Fragment {
 
         usn = getArguments().getInt("usn");
         pw = getArguments().getString("pw");
-        Log.e("Account usn = " , String.valueOf(usn) +"/"+ pw);
 
         newPW = (EditText) rootView.findViewById(R.id.newPW);
         confirm_newPW = (EditText)rootView.findViewById(R.id.confirm_newPW);
@@ -78,7 +77,6 @@ public class Fragment_Account extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         delaccount.DeleteAccount_Asycn(usn, pw);
-                        Log.e("checkDelete","check");
                     }
                 })
                 .setCancelable(false)
@@ -100,7 +98,6 @@ public class Fragment_Account extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 changepw.changepw_Asycn(usn, newPW.getText().toString());
-                                Log.e("checkDelete","check");
                             }
                         })
                         .setCancelable(false)
@@ -110,7 +107,6 @@ public class Fragment_Account extends Fragment {
             }
         }   else    {
             Toast.makeText(getContext(), "Password is not match", Toast.LENGTH_SHORT).show();
-            Log.e("PW confirm", newPW +"/"+ confirm_newPW);
         }
 
     }

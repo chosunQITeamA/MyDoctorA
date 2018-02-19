@@ -18,7 +18,6 @@ public class HeartSQLiteHelper {
         Heartexist = true;
         String Heart_CT = "create table if not exists HEART_HISTORY(usn INTEGER, ts TEXT, lat DOUBLE, lng DOUBLE, heart_rate DOUBLE, rr_rate DOUBLE) ";
         db.execSQL(Heart_CT);
-        Log.e("SQLite-CreateTable", Heart_CT);
     }
 
     // Table 삭제
@@ -26,7 +25,6 @@ public class HeartSQLiteHelper {
         Heartexist = false;
         String Heart_DT = "drop table if exists HEART_HISTORY;";
         db.execSQL(Heart_DT);
-        Log.e("SQLite-removeTable", Heart_DT);
     }
 
     // Data 추가
@@ -34,7 +32,6 @@ public class HeartSQLiteHelper {
         if(Heartexist)  {
             String Heart_ID = "insert into HEART_HISTORY values(" + usn +", '" + ts + "',"+lat+","+lng+","+heart_rate+","+rr_rate+");";
             db.execSQL(Heart_ID);
-            Log.e("SQLite-Insert", Heart_ID);
         }
     }
 
@@ -52,7 +49,6 @@ public class HeartSQLiteHelper {
             Double lng = results.getDouble(3);
             Double heart_rate = results.getDouble(4);
             Double rr_rate = results.getDouble(5);
-            Log.e("Select All = ", usn +"/"+ ts +"/"+ lat +"/"+ lng +"/"+ heart_rate +"/"+ rr_rate);
             results.moveToNext();
         }
         results.close();
@@ -98,21 +94,17 @@ public class HeartSQLiteHelper {
     public void createTable(SQLiteDatabase db) {
         Heart_CT = "create table HEART_HISTORY(Heart_sn INTEGER, usn INTEGER, ts TEXT, Lat DOUBLE, Lng DOUBLE, Heart_rate DOUBLE, RR_rate DOUBLE);";
         try {
-            Log.e(TAG, "Create Table Success");
             db.execSQL(Heart_CT);
         } catch (SQLException sqex) {
-            Log.e(TAG, "Create Table Fail");
         }
     }
 
     public void dropTable(SQLiteDatabase db) {
         Heart_DT = "drop table HEART_HISTORY;";
         try {
-            Log.i(TAG, "Drop Table Success");
             db.execSQL(Heart_DT);
             createTable(db);
         } catch (SQLException sqex) {
-            Log.e(TAG, "Drop Table Fail");
         }
     }
     */

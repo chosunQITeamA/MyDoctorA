@@ -418,7 +418,6 @@ public class Fragment_HRHistory extends Fragment implements View.OnClickListener
                 break;
 
             case R.id.HRDataSearchBtn:
-                Log.e("HRDataSearchBtn", usn + "/" + Start_date_text.getText().toString() + "/" + End_date_text.getText().toString());
                 int usn = UserActivity.getUSN();
                 receiveHR.ReceiveHR_Asycn(usn, Start_date_text.getText().toString(), End_date_text.getText().toString());
                 handler.postDelayed(new Update_list(),1200);

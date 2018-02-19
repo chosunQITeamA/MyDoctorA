@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -527,7 +526,6 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
     }
 
     private void StartLocationService() {
-        Log.e("startLocationService", "startLocationService");
         LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         GPSListener gpsListener = new GPSListener();
         long minTime = 10000;
@@ -614,7 +612,6 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(17));
 
         }   catch (IllegalStateException e)   {
-            Log.e("Error", "IllegamException");
         }
     }
 

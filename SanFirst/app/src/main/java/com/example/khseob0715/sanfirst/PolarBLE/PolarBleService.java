@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 
@@ -94,7 +93,6 @@ public class PolarBleService extends Service {
 
     public class LocalBinder extends Binder {
         public PolarBleService getService() {
-            //Log.w(TAG, "#### getService()");
 
             return PolarBleService.this;
         }
@@ -102,7 +100,6 @@ public class PolarBleService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.e(TAG, "#### onBind()");
 
         return mBinder;
     }
@@ -112,7 +109,6 @@ public class PolarBleService extends Service {
         // After using a given device, you should make sure that BluetoothGatt.close() is called
         // such that resources are cleaned up properly.  In this particular example, close() is
         // invoked when the UI is disconnected from the Service.
-        Log.e(TAG, "#### onUnbind()");
 
         close();
         return super.onUnbind(intent);
@@ -120,12 +116,10 @@ public class PolarBleService extends Service {
 
     @Override
     public void onCreate() {
-        Log.e(TAG, "onCreate() bioHarnessSessionData: "+bioHarnessSessionData.sessionId);
     }
 
     @Override
     public void onDestroy() {
-        Log.e(TAG, "onDestroy() bioHarnessSessionData: "+bioHarnessSessionData.sessionId);
     }
 
     // Implements callback methods for GATT events that the app cares about.  For example,
@@ -135,10 +129,8 @@ public class PolarBleService extends Service {
     	@Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             if (status == BluetoothGatt.GATT_INSUFFICIENT_AUTHENTICATION) {
-            	Log.e(TAG, "GATT_INSUFFICIENT_AUTHENTICATION");
 
                 if (gatt.getDevice().getBondState() == BluetoothDevice.BOND_NONE) {
-                	Log.e(TAG, "BOND_NONE");
 
                 }
             }
@@ -150,9 +142,7 @@ public class PolarBleService extends Service {
             String intentAction;
             //BluetoothProfile.STATE_CONNECTED not reliable, received it even without real device, use ACTION_GATT_SERVICES_DISCOVERED instead
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-                Log.w(TAG, "onConnectionStateChange: Connected to GATT server.");
                 // Attempts to discover services after successful connection.
-                //Log.w(TAG, "Attempting to start service discovery:" + mBluetoothGatt.discoverServices());
                 mBluetoothGatt.discoverServices();
                 intentAction = ACTION_GATT_CONNECTED;
                 mConnectionState = STATE_CONNECTED;
@@ -160,7 +150,6 @@ public class PolarBleService extends Service {
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
-                Log.e(TAG, "Disconnected from GATT server.");
                 PolarSensor.heartrateValue = 0;
                 Fragment_TabMain.heart_rate_value =0;
                 broadcastUpdate(intentAction);
@@ -169,7 +158,6 @@ public class PolarBleService extends Service {
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            Log.w(TAG, "onServicesDiscovered received: " + status);
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 if(!servicediscovered){
 
@@ -180,14 +168,12 @@ public class PolarBleService extends Service {
 
                 }
             } else {
-                // Log.w(TAG, "onServicesDiscovered received: " + status);
             }
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
-            //Log.w(this.getClass().getName(), "onCharacteristicChanged() "+characteristic);
             //Spec: https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml
             if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
                 boolean rrEnabled=false;
@@ -200,12 +186,10 @@ public class PolarBleService extends Service {
                 int pnnCount=0;
                 if ((flag & 0x01) != 0) {
                     format = BluetoothGattCharacteristic.FORMAT_UINT16;
-                    //Log.w(TAG, "Heart rate format UINT16.");
                     heartRate = characteristic.getIntValue(format, offset);
                     offset=offset+2;
                 } else {
                     format = BluetoothGattCharacteristic.FORMAT_UINT8;
-                    //Log.w(TAG, "Heart rate format UINT8.");
                     heartRate = characteristic.getIntValue(format, offset);
                     offset=offset+1;
                 }
@@ -213,15 +197,12 @@ public class PolarBleService extends Service {
                 //Two energy bytes
                 if ((flag & 0x80) != 0){
                     offset=offset+2;
-                    //Log.w(TAG, "## energy bytes present.");
                 }
 
                 if ((flag & 0x10) != 0) {
                     rrEnabled=true;
-                    //Log.w(TAG, "One or more RR-Interval values are present. offset: "+offset+" valSize: "+valSize);
                 } else {
                     rrEnabled=false;
-                    //Log.w(TAG, "No RR-Interval values");
                 }
 
                 SharedPreferences prefs = getSharedPreferences(HConstants.DEVICE_CONFIG, Context.MODE_MULTI_PROCESS);
@@ -239,43 +220,36 @@ public class PolarBleService extends Service {
                         rrValue[i] = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT16, offset);
                         offset += 2;
                         bioHarnessSessionData.totalNN++;
-                        //Log.w(TAG, "*** rrValue: "+rrValue+" 1024: "+(1000*rrValue)/1024+" rrX: "+rrX);
 
                         rrValue[i]=(rrValue[i]*1000)/1024;	//ms
                         if(Math.abs(bioHarnessSessionData.lastRRvalue-rrValue[i])>rrThreshold){
                             bioHarnessSessionData.totalpNNx++;
                             pnnCount = bioHarnessSessionData.totalpNNx;
                             pnnPercentage = (int)(100*bioHarnessSessionData.totalpNNx)/bioHarnessSessionData.totalNN;;
-                            //Log.e(TAG, "*** rrValue: "+rrValue+" totalpNNx: "+bioHarnessSessionData.totalpNNx+" totalNN: "+bioHarnessSessionData.totalNN+" pNNvalue: "+pnnValue+" rrX: "+rrX+" rr_count: "+rr_count);
                             //if(beatPeriod>0){
                             //	bioHarnessSessionData.updateBeat(beatPeriod, new Integer(1));
                             //}
                         }
                         bioHarnessSessionData.lastRRvalue=rrValue[i];
                         //with RR data
-                        //Log.w(TAG, "sid: "+bioHarnessSessionData.sessionId+" "+heartRate+";"+pnnPercentage+";"+pnnCount+";"+rrThreshold+";"+bioHarnessSessionData.totalNN+";"+bioHarnessSessionData.lastRRvalue);
                         broadcastUpdate(ACTION_HR_DATA_AVAILABLE, heartRate+";"+pnnPercentage+";"+pnnCount+";"+rrThreshold+";"+bioHarnessSessionData.totalNN+";"+bioHarnessSessionData.lastRRvalue+";"+bioHarnessSessionData.sessionId);
                     }
                 }
                 //long ts = (new Date()).getTime();
                 //SimpleDateFormat tsformat = new SimpleDateFormat("hh:mm:ss");
-                //Log.w(tsformat.format(ts), "HR: "+heartRate+" pNN%: "+pnnPercentage+" pNN Count: "+pnnCount+" totalNN: "+bioHarnessSessionData.totalNN+" RR Count: "+rr_count+" RR enabled: "+rrEnabled+" rrValue[0]:"+rrValue[0]+" rrValue[1]:"+rrValue[1]+" rrValue[2]:"+rrValue[2]);
 
                 //moved into for loop for RR data broadcast
                 //broadcastUpdate(ACTION_HR_DATA_AVAILABLE, heartRate+";"+pnnPercentage+";"+pnnCount+";"+rrThreshold+";"+bioHarnessSessionData.totalNN);
             }
 
             if (UUID_BATTERY_LEVEL_MEASUREMENT.equals(characteristic.getUuid())) {
-                Log.w(TAG, "Received battry level: "+characteristic.toString());
             }
         }
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             if(status == BluetoothGatt.GATT_SUCCESS) {
-                //Log.w(TAG, "onCharacteristicWrite GATT_SUCCESS received: " + status+" Value: "+characteristic.getProperties());
             }else {
-                //Log.w(TAG, "onCharacteristicWrite !GATT_SUCCESS received: " + status+" Value: "+characteristic.getProperties());
             }
 
         };
@@ -286,13 +260,10 @@ public class PolarBleService extends Service {
                                          int status) {
 
 
-            Log.w(TAG, "onCharacteristicRead status: " + status);
-            //Log.e(TAG, "characteristic.getStringValue(0) = " + characteristic.ge(BluetoothGattCharacteristic.FORMAT_UINT8, 0));
 
             final byte[] data = characteristic.getValue();
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 if (UUID_BATTERY_LEVEL_MEASUREMENT.equals(characteristic.getUuid())) {
-                    Log.e(TAG, "Battery level: " + data[0]);
                 }
 
                 broadcastUpdate(ACTION_BATTERY_DATA_AVAILABLE,  data[0]+"");
@@ -315,11 +286,9 @@ public class PolarBleService extends Service {
 
             final StringBuilder stringBuilder = new StringBuilder(data.length);
             for(byte byteChar : data)stringBuilder.append(String.format("%02X", byteChar));
-            //Log.w(TAG, "####Received size: " +data.length+" characteristic value:"+characteristic.getUuid()+" Value: "+stringBuilder);
             intent.putExtra(EXTRA_DATA, new String(stringBuilder));
 
         }else{
-            //Log.w(TAG, "####Received characteristic:"+characteristic.getUuid());
         }
         sendBroadcast(intent);
     }
@@ -341,14 +310,12 @@ public class PolarBleService extends Service {
         if (mBluetoothManager == null) {
             mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
-                Log.e(TAG, "Unable to initialize BluetoothManager.");
                 return false;
             }
         }
 
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         if (mBluetoothAdapter == null) {
-            Log.e(TAG, "Unable to obtain a BluetoothAdapter.");
             return false;
         }
 
@@ -368,17 +335,14 @@ public class PolarBleService extends Service {
 
 
     public boolean connect(final String address, final boolean runtimeLogging) {
-        Log.w(TAG, "connect at address: "+address);
         this.runtimeLogging = runtimeLogging;
         if (mBluetoothAdapter == null || address == null) {
-            //Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
             return false;
         }
 
         // Previously connected device.  Try to reconnect.
         if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress)
                 && mBluetoothGatt != null) {
-            Log.d(TAG, "Trying to use an existing mBluetoothGatt for connection.");
             if (mBluetoothGatt.connect()) {
                 mConnectionState = STATE_CONNECTING;
                 return true;
@@ -389,7 +353,6 @@ public class PolarBleService extends Service {
 
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
-            Log.w(TAG, "Device not found.  Unable to connect.");
             return false;
         }
 
@@ -397,13 +360,11 @@ public class PolarBleService extends Service {
         Boolean returnValue = false;
         try {
 
-            Log.w("pairDevice()", "Start Pairing...");
 
             Method m = device.getClass().getMethod("createBond", (Class[]) null);
 
             returnValue = (Boolean) m.invoke(device, (Object[]) null);
 
-            Log.w("pairDevice()", "Pairing finished.");
 
 
 
@@ -411,19 +372,16 @@ public class PolarBleService extends Service {
 
         } catch (Exception e) {
 
-            Log.e("pairDevice()", e.getMessage());
 
         }
         if(returnValue)
         	mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
         else
-        	Log.e("pairDevice()", "failed");
         */
 
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
         mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
-        Log.w(TAG, "Polar BLE Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;
         return true;
@@ -433,14 +391,12 @@ public class PolarBleService extends Service {
         String address="00:07:80:78:9F:8B";
 
         if (mBluetoothAdapter == null || address == null) {
-            //Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
             return false;
         }
 
         // Previously connected device.  Try to reconnect.
         if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress)
                 && mBluetoothGatt != null) {
-            //Log.d(TAG, "Trying to use an existing mBluetoothGatt for connection.");
             if (mBluetoothGatt.connect()) {
                 mConnectionState = STATE_CONNECTING;
                 return true;
@@ -451,13 +407,11 @@ public class PolarBleService extends Service {
 
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
-            //Log.w(TAG, "Device not found.  Unable to connect.");
             return false;
         }
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
         mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
-        //Log.w(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;
         return true;
@@ -472,7 +426,6 @@ public class PolarBleService extends Service {
     public void disconnect() {
         servicediscovered=false;
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            //Log.w(TAG, "BluetoothAdapter not initialized");
             return;
         }
         mBluetoothGatt.disconnect();
@@ -486,7 +439,6 @@ public class PolarBleService extends Service {
         if (mBluetoothGatt == null) {
             return;
         }
-        Log.e(TAG, "#### mBluetoothGatt.disconnect()");
         mBluetoothGatt.disconnect();
         mBluetoothGatt.close();
         mBluetoothGatt = null;
@@ -502,7 +454,6 @@ public class PolarBleService extends Service {
      */
     public void readCharacteristic(BluetoothGattCharacteristic characteristic) {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            //Log.w(TAG, "BluetoothAdapter not initialized");
             return;
         }
         mBluetoothGatt.readCharacteristic(characteristic);
@@ -516,10 +467,8 @@ public class PolarBleService extends Service {
      */
     public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
                                               boolean enabled) {
-        //Log.w(TAG, "setCharacteristicNotification()");
 
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            //Log.w(TAG, "BluetoothAdapter not initialized");
             return;
         }
         mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
@@ -527,10 +476,8 @@ public class PolarBleService extends Service {
 
         // This is specific to Heart Rate Measurement.
         //List<BluetoothGattDescriptor> list = characteristic.getDescriptors();
-        //Log.w(TAG, "BluetoothGattDescriptor size: "+list.size());
         //for(int i=0; i<list.size(); i++){
         //	BluetoothGattDescriptor desc = list.get(i);
-        //Log.w(TAG, "BluetoothGattDescriptor["+i+"] uuid: "+desc.getUuid());
         //}
 
         //http://developer.android.com/guide/topics/connectivity/bluetooth-le.html#notification
@@ -538,7 +485,6 @@ public class PolarBleService extends Service {
         BluetoothGattDescriptor descriptor = characteristic.getDescriptor(CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
         if(descriptor!=null){
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-            Log.w(TAG, "setCharacteristicNotification() ENABLE_NOTIFICATION_VALUE");
             //descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
             mBluetoothGatt.writeDescriptor(descriptor);
         }
@@ -548,7 +494,6 @@ public class PolarBleService extends Service {
 
     public void writeDataToCharacteristic(byte[] dataToWrite) {
         if (mWriteCharacteristic==null || mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Log.w(TAG, "BluetoothAdapter or mWriteCharacteristic not initialized");
             return;
         }
         mWriteCharacteristic.setValue(dataToWrite);
@@ -577,7 +522,6 @@ public class PolarBleService extends Service {
             // Loops through available Characteristics.
             for (BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics) {
                 uuid = gattCharacteristic.getUuid().toString();
-                //Log.w(TAG, "##gattCharacteristic.getUuid() "+uuid);
 
                 if(uuid.compareTo(SampleGattAttributes.HEART_RATE_MEASUREMENT)==0){
                     //mNotifyCharacteristic = gattCharacteristic;
@@ -594,7 +538,6 @@ public class PolarBleService extends Service {
                 /*
                 if(uuid.compareTo(SampleGattAttributes.CLICKER_WRITE_CHARACTERISTIC)==0){
                 	mWriteCharacteristic = gattCharacteristic;
-                	Log.w(TAG, "Set Write "+SampleGattAttributes.CLICKER_WRITE_CHARACTERISTIC+" vs "+uuid);
                 }
                 */
             }
@@ -613,29 +556,23 @@ public class PolarBleService extends Service {
 
     //http://stackoverflow.com/questions/19539535/how-to-get-the-battery-level-after-connect-to-the-ble-device
     public void getBatteryLevel() {
-        Log.w(TAG, "#### getBatteryLevel()");
         if (mBluetoothGatt == null || !servicediscovered) {
-            Log.e(TAG, "lost connection");
             return;
         }
 
         BluetoothGattService batteryService = mBluetoothGatt.getService(UUID_BATTERY_SERVICE_MEASUREMENT);
         if(batteryService == null) {
-            Log.e(TAG, "Battery service not found!");
             return;
         }
 
         BluetoothGattCharacteristic batteryLevel = batteryService.getCharacteristic(UUID_BATTERY_LEVEL_MEASUREMENT);
         if(batteryLevel == null) {
-            Log.e(TAG, "Battery level not found!");
             return;
         }
 
         mBluetoothGatt.readCharacteristic(batteryLevel);
-        //Log.w(TAG, "batteryLevel = " + mBluetoothGatt.readCharacteristic(batteryLevel));
 
         //int bl = batteryLevel.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 0);
-        //Log.w(TAG, "Battery level found: "+bl);
         //broadcastUpdate(ACTION_BATTERY_DATA_AVAILABLE, bl+"");
     }
 }

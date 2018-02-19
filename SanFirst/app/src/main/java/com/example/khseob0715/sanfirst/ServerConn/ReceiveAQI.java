@@ -2,7 +2,6 @@ package com.example.khseob0715.sanfirst.ServerConn;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.khseob0715.sanfirst.navi_fragment.Fragment_AQIHistory;
 
@@ -84,14 +83,12 @@ public class ReceiveAQI {
     class ConnectServer {//Client 생성
 
         public int requestPost(String url, int usn, String fdate, String ldate) {
-            Log.e("AQI request","go");
             //Request Body에 서버에 보낼 데이터 작성
             final RequestBody requestBody = new FormBody.Builder()
                     .add("usn", String.valueOf(usn))
                     .add("fdate", fdate)
                     .add("ldate", ldate).build();
 
-            Log.e("RequestBody", requestBody.toString());
 
             total_PM_value = 0;
             total_CO_value = 0;
@@ -108,20 +105,16 @@ public class ReceiveAQI {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("error", "Connect Server Error is " + e.toString());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) {
                     try {
                         responseBody = response.body().string();
-                        Log.e("Response_Error", "Response Body is " + responseBody);
                         JSONObject jsonObject = new JSONObject(responseBody);
                         String Message = jsonObject.getString("message");
-                        Log.e("message", Message + "/" + responseBody);
 
                         JSONArray AQIData = jsonObject.getJSONArray("data");
-                        Log.e("AQIData.length = ", String.valueOf(AQIData.length()));
 
                         String compare = "1";
                         Fragment_AQIHistory.Air_response_count = 0;
@@ -130,7 +123,6 @@ public class ReceiveAQI {
                         for(int i=0; i<AQIData.length(); i++)    {
                             JSONObject getAQIData = AQIData.getJSONObject(i);
                             String TS = getAQIData.getString("TS");
-                            Log.i("substring",TS.substring(0,10));
 
                             Double CO = getAQIData.getDouble("CO");
                             Double SO2 = getAQIData.getDouble("SO2");
@@ -170,14 +162,12 @@ public class ReceiveAQI {
 
                                 date_count = 0;
                             }
-                            Log.i("AQIData = ", i+" / "+TS+" / "+ CO+" / "+SO2 +" / " + NO2 + "/" + O3 + "/" + PM + "/" + TEMP + "/" +LAT+" / "+LNG);
                         }
 
                     } catch (IOException e) {
                         e.printStackTrace();
 
                     } catch (JSONException e) {
-                        Log.e("ReceiveAQIJsonEx", "Error");
                         e.printStackTrace();
                     }
                 }

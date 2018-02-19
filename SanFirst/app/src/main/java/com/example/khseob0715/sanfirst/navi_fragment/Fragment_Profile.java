@@ -111,7 +111,6 @@ public class Fragment_Profile extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     changeprofile.changeprofile_Asycn(usn, S_Fname, S_Lname, S_Bitrh, S_Phone);
-                                    Log.e("checkDelete","check");
 
                                     Fragment fragment = null;
                                     fragment = new Fragment_TabMain();

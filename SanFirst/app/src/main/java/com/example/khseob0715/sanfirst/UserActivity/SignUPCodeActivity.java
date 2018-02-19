@@ -53,8 +53,6 @@ public class SignUPCodeActivity extends AppCompatActivity implements Button.OnCl
         e_mail = intent.getStringExtra("email");
         code = intent.getStringExtra("code");
 
-        Log.e("SignUPCode = ", e_mail + "/" + code);
-
         emailText.setText(e_mail);
     }
 

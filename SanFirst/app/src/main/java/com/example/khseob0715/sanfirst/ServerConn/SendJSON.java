@@ -1,7 +1,6 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 
@@ -66,7 +65,6 @@ public class SendJSON {
                     .build();
             //RequestBody requestBody = new FormBody.Builder().add("email", id).add("password", password).build();
 
-            Log.e("RequestBody", requestBody.toString());
 
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
             Request request = new Request.Builder().url(url).post(requestBody).build();
@@ -75,14 +73,12 @@ public class SendJSON {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("error", "Connect Server Error is " + e.toString());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) {
                     try {
                         responseBody = response.body().string();
-                        Log.e("aaaa", "Response Body is " + responseBody);
 
                         JSONObject jsonObject = new JSONObject(responseBody);
 
@@ -93,13 +89,10 @@ public class SendJSON {
                         }
 */
                     } catch (IOException e) {
-                        Log.e("JSONpost", "IOE");
                         e.printStackTrace();
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.e("JSONpost", "JSONE");
                     }
-                    //Log.e("aaaa", "Response Body is " + response.body().string());
 
                 }
             });
