@@ -247,7 +247,12 @@ public class BluetoothAQI extends Service{
                             }
                         }
 
-                        int i_o3val = (int) aqi_o3%500;
+                        int i_o3val;
+                        if(aqi_o3>=500) {
+                            i_o3val = 500;
+                        }   else    {
+                            i_o3val = (int) aqi_o3;
+                        }
                         int i_no2val = (int) aqi_no2;
                         int i_coval = (int) aqi_co;
                         int i_so2val = (int) aqi_so2;
