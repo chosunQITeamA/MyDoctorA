@@ -23,77 +23,85 @@
         android:id="@+id/Doctor_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
         android:text="@string/Doctor_case"
-        android:textAlignment="textEnd"
+        android:gravity="center"
         android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
     <LinearLayout
-        android:id="@+id/Sign_UP_Layout"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <LinearLayout
-            android:id="@+id/Email_Layout"
+            android:id="@+id/Sign_UP_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
+
             <LinearLayout
-                android:id="@+id/Email_Input_Layout"
+                android:id="@+id/Email_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/emailText"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:text="E-mail"
-                    android:textColor="@color/common_google_signin_btn_text_dark_default"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:id="@+id/Email_Input_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/emailText"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="E-mail"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/input_email"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:textSize="16dp"
                     android:hint="Input your E-mail address"
                     android:inputType="textPersonName"
-                    android:selectAllOnFocus="false" />
-            </LinearLayout>
+                    android:selectAllOnFocus="false"
+                    android:textSize="16dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/Send_Email_btn"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:layout_weight="0"
-                    android:text="Send E-mail"
-                    android:textAllCaps="false"
-                    android:textColor="@color/common_google_signin_btn_text_dark_default"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/Send_Email_btn"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="0"
+                        android:text="Send E-mail"
+                        android:textAllCaps="false"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+                </LinearLayout>
+
             </LinearLayout>
+
 
         </LinearLayout>
-
-
     </LinearLayout>
 
 </LinearLayout>
