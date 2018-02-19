@@ -725,10 +725,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         LAT = GPSTracker.latitude;
         LNG = GPSTracker.longitude;
 
-        if(internetConnCheck)   {
-            sendaqi.SendAQI_Asycn(usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);
-        }   else    {
-            AQIsqlhelper.AQIinsertData(db, usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);
-        }
+            sendaqi.SendAQI_Asycn(db, usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);
     }
 }

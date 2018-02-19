@@ -1,8 +1,10 @@
 package com.example.khseob0715.sanfirst.ServerConn;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.khseob0715.sanfirst.Database.AQISQLiteHelper;
 import com.example.khseob0715.sanfirst.UserActivity.UserActivity;
 
 import org.json.JSONException;
@@ -22,10 +24,13 @@ public class SendAQI {
     public static final String url = "http://teama-iot.calit2.net/aqidataapp";
 
     OkHttpClient client = new OkHttpClient();
+    AQISQLiteHelper aqisqLiteHelper = new AQISQLiteHelper();
 
     public static String responseBody = null;
+    SQLiteDatabase db;
 
-    public void SendAQI_Asycn(final int usn, final String datetime, final Double lat, final Double lon, final Double co , final Double so2, final Double no2, final Double o3, final Double pm25, final Double temp) {
+    public void SendAQI_Asycn(SQLiteDatabase mdb, final int usn, final String datetime, final Double lat, final Double lon, final Double co , final Double so2, final Double no2, final Double o3, final Double pm25, final Double temp) {
+        db = mdb;
         (new AsyncTask<UserActivity, Void, String>() {
 
             @Override
@@ -51,7 +56,7 @@ public class SendAQI {
     class ConnectServer {
         //Client 생성
 
-        public void requestPost(String url, int usn, String datetime, Double lat, Double lon, Double co , Double so2, Double no2, Double o3, Double pm25, Double temp) {
+        public void requestPost(String url, final int usn, final String datetime, final Double lat, final Double lon, final Double co , final Double so2, final Double no2, final Double o3, final Double pm25, final Double temp) {
 
             Log.e("SendAQI is = ", usn +" / "+ datetime +" / "+ lat +" / "+ lon +" / "+ co +" / "+ so2 +" / "+ no2 +" / "+ o3 +" / "+ pm25 +" / "+ temp);
             //Request Body에 서버에 보낼 데이터 작성
@@ -90,8 +95,8 @@ public class SendAQI {
                         JSONObject jsonObject = new JSONObject(responseBody);
                         String Message = jsonObject.getString("message");
 
-                        if (Message.equals("Success")) {
-
+                        if (!Message.equals("Success")) {
+                            AQISQLiteHelper.AQIinsertData(db, usn, datetime, lat, lon, co, so2, no2, o3, pm25, temp);
                         }
 
                     } catch (IOException e) {

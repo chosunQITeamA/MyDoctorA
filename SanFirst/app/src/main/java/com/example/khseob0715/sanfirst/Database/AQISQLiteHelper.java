@@ -30,7 +30,7 @@ public class AQISQLiteHelper {
     }
 
     // Data 추가
-    public  void AQIinsertData(SQLiteDatabase db, int usn, String ts, double lat, double lng, double co, double so2, double no2, double o3, double pm25, double temp){
+    public static void AQIinsertData(SQLiteDatabase db, int usn, String ts, double lat, double lng, double co, double so2, double no2, double o3, double pm25, double temp){
         String AQI_ID = "insert into AQI_HISTORY values(" + usn +", '" + ts + "',"+lat+","+lng+","+co+","+so2+","+no2+","+o3+","+pm25+","+temp+")";
         db.execSQL(AQI_ID);
         Log.e("SQLite", AQI_ID);

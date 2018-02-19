@@ -20,7 +20,9 @@ import com.example.khseob0715.sanfirst.navi_fragment.Fragment_TabMain;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by chony on 2018-02-04.
@@ -40,9 +42,14 @@ public class BluetoothAQI extends Service{
     private StringBuffer mOutStringBuffer;
 
     private boolean setTime = false;
-    Calendar cal = Calendar.getInstance();
-    //String tempDate = null;
-    String tempDate = "1111-11-11 11;11:11";
+
+    long now;
+    // Data 객체에 시간을 저장한다.
+    Date date;
+    // 각자 사용할 포맷을 정하고 문자열로 만든다.
+    SimpleDateFormat sdfNow;
+    String nowDate = sdfNow.format(date);
+    Calendar calendar;
 
     private String address;
     private Intent bluetoothIntent;
@@ -63,6 +70,11 @@ public class BluetoothAQI extends Service{
         super.onCreate();
         Log.i(TAG,"onCreate");
         db = openOrCreateDatabase("MyDoctorA", Context.MODE_PRIVATE, null);
+
+        now = System.currentTimeMillis();
+        date = new Date(now);
+        sdfNow = new SimpleDateFormat("yy-MM-dd hh:mm:ss");
+        calendar = Calendar.getInstance();
     }
 
     @Override
@@ -234,6 +246,9 @@ public class BluetoothAQI extends Service{
                             historical = true;
                             Double LAT = GPSTracker.latitude;
                             Double LNG = GPSTracker.longitude;
+
+                            calendar.add(Calendar.SECOND, -5);
+                            String tempDate = sdfNow.format(calendar.getTime());
                             /*
                             DateFormat sdFormat = new SimpleDateFormat("yyyyMMdd");
                             Date nowDate = new Date();
