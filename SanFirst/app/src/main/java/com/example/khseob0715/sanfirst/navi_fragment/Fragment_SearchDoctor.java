@@ -24,6 +24,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.khseob0715.sanfirst.R;
+import com.example.khseob0715.sanfirst.ServerConn.ConnRequest;
 import com.example.khseob0715.sanfirst.ServerConn.SearchList;
 import com.example.khseob0715.sanfirst.ServerConn.showConnectList;
 
@@ -84,13 +85,16 @@ public class Fragment_SearchDoctor extends Fragment {
     private EditText searchName2, searchEmail2;
 
     private Button searchDoctorBtn, ALLBtn;
+    private Button Disconnect, Connect, Acceptance, Waiting;
+
     SearchList searchlist = new SearchList();
     showConnectList showconlist = new showConnectList();
+
+    ConnRequest conreq = new ConnRequest();
 
     public Fragment_SearchDoctor() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -204,6 +208,9 @@ public class Fragment_SearchDoctor extends Fragment {
 
         return rootView;
     }
+
+    // addr : 0=connectbyuserapp   1=connectbydoctorapp    2=conrequestbydoctorapp     3=conrequestbyuserapp   4=disconnectuserapp  //      conreq.ConnRequest_Asycn(addr, usernum, doctornnum);
+
 
     class myAdapter extends BaseAdapter {
 
