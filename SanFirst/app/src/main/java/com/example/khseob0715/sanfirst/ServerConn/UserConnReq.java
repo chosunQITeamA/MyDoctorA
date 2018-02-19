@@ -32,6 +32,8 @@ public class UserConnReq {
 
     private static Context context;
 
+    int addr = 0;
+
     private int error_message = 0;
     public UserConnReq(){
     }
@@ -123,6 +125,8 @@ public class UserConnReq {
                         JSONObject jsonObject = new JSONObject(responseBody);
 
                         String Message = jsonObject.getString("message");
+
+
                     } catch (IOException e) {
                         e.printStackTrace();
 

@@ -1,7 +1,9 @@
 package com.example.khseob0715.sanfirst.navi_fragment;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,8 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.khseob0715.sanfirst.R;
-import com.example.khseob0715.sanfirst.ServerConn.UserConnReq;
 import com.example.khseob0715.sanfirst.ServerConn.SearchList;
+import com.example.khseob0715.sanfirst.ServerConn.UserConnReq;
 import com.example.khseob0715.sanfirst.ServerConn.showConnectList;
 
 import static com.example.khseob0715.sanfirst.UserActivity.UserActivity.usn;
@@ -96,6 +98,8 @@ public class Fragment_SearchDoctor extends Fragment {
     showConnectList showconlist = new showConnectList();
 
     UserConnReq conreq = new UserConnReq();
+
+    Fragment_SearchDoctor mFsearchD_Context;
 
     public Fragment_SearchDoctor() {
         // Required empty public constructor
@@ -211,6 +215,8 @@ public class Fragment_SearchDoctor extends Fragment {
         handler.postDelayed(new Update_list3(), 1000);
         handler.postDelayed(new Update_list4(), 1000);
 
+        mFsearchD_Context = this;
+
         return rootView;
     }
 
@@ -254,6 +260,7 @@ public class Fragment_SearchDoctor extends Fragment {
                     String DSN = Connect_usn[position];//-------------------------------------------------------------------------------------------------------------
                     Toast.makeText(getContext(),DSN,Toast.LENGTH_SHORT).show();
                     conreq.ConnRequest_Asycn(1, usn, Integer.parseInt(DSN));
+                    PopupDialog(2);
                 }
             });
 
@@ -334,6 +341,7 @@ public class Fragment_SearchDoctor extends Fragment {
                     String DSN = Search_usn[position];//-------------------------------------------------------------------------------------------------------------
                     Toast.makeText(getContext(),DSN,Toast.LENGTH_SHORT).show();
                     conreq.ConnRequest_Asycn(0, usn, Integer.parseInt(DSN));
+                    PopupDialog(3);
                 }
             });
 
@@ -412,6 +420,7 @@ public class Fragment_SearchDoctor extends Fragment {
                     String DSN = accepatance_usn[position];//-------------------------------------------------------------------------------------------------------------
                     Toast.makeText(getContext(),DSN,Toast.LENGTH_SHORT).show();
                     conreq.ConnRequest_Asycn(2, usn, Integer.parseInt(DSN));
+                    PopupDialog(0);
                 }
             });
 
@@ -490,6 +499,7 @@ public class Fragment_SearchDoctor extends Fragment {
                     String DSN = waiting_usn[position];//-------------------------------------------------------------------------------------------------------------
                     Toast.makeText(getContext(),DSN,Toast.LENGTH_SHORT).show();
                     conreq.ConnRequest_Asycn(2, usn, Integer.parseInt(DSN));
+                    PopupDialog(1);
                 }
             });
 
@@ -559,5 +569,47 @@ public class Fragment_SearchDoctor extends Fragment {
         public void run() {
             adapter4.notifyDataSetChanged();
         }
+    }
+
+    public void PopupDialog(int state) {
+        String title = null;
+        String text = null;
+
+        switch (state)  {
+            case 0 :    // click Waiting
+                title = "Waiting!!";
+                text = "Waiting for Accaptance";
+                break;
+            case 1 :    // click Waiting
+                title = "Completed!";
+                text = "Accaptance is Completed!";
+                break;
+            case 2 :    // click disconnection
+                title = "Completed!!";
+                text = "Disconnection Completed!!";
+                break;
+            case 3 :    // click disconnection
+                title = "Completed!!";
+                text = "Connection request is  Completed!!";
+                break;
+        }
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setMessage(text)
+                .setNegativeButton("Admit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        handler = new Handler();
+                        showconlist.showConnectList_Asycn(1, usn);
+                        searchlist.SearchList_Asycn(1);
+                        handler.postDelayed(new Update_list1(), 1000);
+                        handler.postDelayed(new Update_list2(), 1000);
+                        handler.postDelayed(new Update_list3(), 1000);
+                        handler.postDelayed(new Update_list4(), 1000);
+                    }
+                })
+                .show();
+        //
     }
 }
