@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +51,7 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
 
     private static final int TRANSPARENCY_MAX = 100;
 
-    /** This returns moon tiles. */
-    /*
-    private static final String MOON_MAP_URL_FORMAT =
-            "http://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/%d/%d/%d.jpg";
-    */
     private static final String MOON_MAP_URL_FORMAT = "https://tiles.waqi.info/tiles/usepa-aqi/%d/%d/%d.png?token=9f64560eb24586831e1167b1c0e8ecddb1193014";
-    //"https://tiles.breezometer.com/{z}/{x}/{y}.png?key=YOUR_API_KEY";
 
     private TileOverlay mMoonTiles;
 
@@ -130,17 +123,6 @@ public class Fragment_AirMap extends Fragment implements OnMapReadyCallback {
         super.onDestroy();
         mapView.onLowMemory();
     }
-
-    /*
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //액티비티가 처음 생성될 때 실행되는 함수
-        if (mapView != null) {
-            mapView.onCreate(savedInstanceState);
-        }
-    }
-    */
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

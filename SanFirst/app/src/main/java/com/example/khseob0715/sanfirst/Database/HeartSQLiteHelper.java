@@ -3,7 +3,6 @@ package com.example.khseob0715.sanfirst.Database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class HeartSQLiteHelper {
 
@@ -53,59 +52,4 @@ public class HeartSQLiteHelper {
         }
         results.close();
     }
-
-/*
-    public  final String DB_NAME = "MyDoctorA";
-    public  final int DB_VERSION = 1;
-    private  final String TAG = "HeartSQLiteHelper";
-
-    private  HeartSQLiteHelper INSTANCE;
-    private  SQLiteDatabase mDb;
-    public String Heart_CT, Heart_DT;
-
-    public HeartSQLiteHelper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
-    }
-
-    public  HeartSQLiteHelper getInstance(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = new HeartSQLiteHelper(context.getApplicationContext());
-            mDb = INSTANCE.getWritableDatabase();
-        }
-
-        return INSTANCE;
-    }
-
-    public void open() {
-        if (mDb.isOpen() == false) {
-            INSTANCE.onOpen(mDb);
-        }
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        createTable(db);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-    }
-
-    public void createTable(SQLiteDatabase db) {
-        Heart_CT = "create table HEART_HISTORY(Heart_sn INTEGER, usn INTEGER, ts TEXT, Lat DOUBLE, Lng DOUBLE, Heart_rate DOUBLE, RR_rate DOUBLE);";
-        try {
-            db.execSQL(Heart_CT);
-        } catch (SQLException sqex) {
-        }
-    }
-
-    public void dropTable(SQLiteDatabase db) {
-        Heart_DT = "drop table HEART_HISTORY;";
-        try {
-            db.execSQL(Heart_DT);
-            createTable(db);
-        } catch (SQLException sqex) {
-        }
-    }
-    */
 }

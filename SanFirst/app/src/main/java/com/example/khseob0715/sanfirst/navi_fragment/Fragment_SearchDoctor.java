@@ -338,7 +338,7 @@ public class Fragment_SearchDoctor extends Fragment {
             Connection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String DSN = Search_usn[position];//-------------------------------------------------------------------------------------------------------------
+                    String DSN = Search_usn[position];
                     Toast.makeText(getContext(),DSN,Toast.LENGTH_SHORT).show();
                     conreq.ConnRequest_Asycn(0, usn, Integer.parseInt(DSN));
                     PopupDialog(3);
@@ -417,7 +417,7 @@ public class Fragment_SearchDoctor extends Fragment {
             Acceptance.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String DSN = accepatance_usn[position];//-------------------------------------------------------------------------------------------------------------
+                    String DSN = accepatance_usn[position];
                     Toast.makeText(getContext(),DSN,Toast.LENGTH_SHORT).show();
                     conreq.ConnRequest_Asycn(2, usn, Integer.parseInt(DSN));
                     PopupDialog(0);
@@ -496,7 +496,7 @@ public class Fragment_SearchDoctor extends Fragment {
             Waiting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String DSN = waiting_usn[position];//-------------------------------------------------------------------------------------------------------------
+                    String DSN = waiting_usn[position];
                     Toast.makeText(getContext(),DSN,Toast.LENGTH_SHORT).show();
                     conreq.ConnRequest_Asycn(2, usn, Integer.parseInt(DSN));
                     PopupDialog(1);

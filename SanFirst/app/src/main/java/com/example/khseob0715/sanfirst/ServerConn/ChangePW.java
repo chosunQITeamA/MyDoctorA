@@ -65,7 +65,6 @@ public class ChangePW {
             final RequestBody requestBody = new FormBody.Builder()
                     .add("usn", String.valueOf(usn))
                     .add("pwd", password).build();
-            //RequestBody requestBody = new FormBody.Builder().add("email", id).add("password", password).build();
 
 
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임

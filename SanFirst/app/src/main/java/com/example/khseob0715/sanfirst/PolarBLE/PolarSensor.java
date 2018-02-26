@@ -27,7 +27,6 @@ public class PolarSensor extends Service {
     public static int RR_value = 0;
 
     PolarBleService mPolarBleService;
-    // String mpolarBleDeviceAddress="00:22:D0:A4:96:72";
     String mpolarBleDeviceAddress="00:22:D0:A4:9D:83";  // 우리꺼
     int batteryLevel=0;
 
@@ -39,7 +38,6 @@ public class PolarSensor extends Service {
     PolarDatabase polardb = new PolarDatabase();
     UserActivity userAct = new UserActivity();
 
-    //------------------------------
     String mDefaultDeviceAddress;
 
     public PolarSensor() {
@@ -61,7 +59,6 @@ public class PolarSensor extends Service {
             @Override
             public void run() {//실제 기능 구현
                 polardb.PolarDB_heartratevalue = heartrateValue;
-                //UserActivity.HeartSendHandler();
                 userAct.HeartSendHandler(); //Server로 실질적으로 전송하는 소스
             }
         };
@@ -106,8 +103,6 @@ public class PolarSensor extends Service {
             } else if (PolarBleService.ACTION_GATT_DISCONNECTED.equals(action)) {
             } else if (PolarBleService.ACTION_HR_DATA_AVAILABLE.equals(action)) {
 
-                //heartRate+";"+pnnPercentage+";"+pnnCount+";"+rrThreshold+";"+bioHarnessSessionData.totalNN
-                //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
                 String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
                 StringTokenizer tokens = new StringTokenizer(data, ";");
                 int hr = Integer.parseInt(tokens.nextToken());  //
@@ -125,12 +120,10 @@ public class PolarSensor extends Service {
                 Fragment_TabMain.rr_rate_value = rrValue;
 
             }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
-                //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
                 String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
                 batteryLevel = Integer.parseInt(data);
             }else if (PolarBleService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
-                //String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
                 StringTokenizer tokens = new StringTokenizer(data, ";");
                 int totalNN = Integer.parseInt(tokens.nextToken());
                 long lSessionId = Long.parseLong(tokens.nextToken());

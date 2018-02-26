@@ -3,7 +3,6 @@ package com.example.khseob0715.sanfirst.Database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class AQISQLiteHelper {
 

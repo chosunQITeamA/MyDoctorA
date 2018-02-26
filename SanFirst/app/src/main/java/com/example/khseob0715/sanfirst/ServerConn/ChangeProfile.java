@@ -66,7 +66,6 @@ public class ChangeProfile {
                     .add("lname", lname)
                     .add("birth", birth)
                     .add("phone", phone).build();
-            //RequestBody requestBody = new FormBody.Builder().add("email", id).add("password", password).build();
 
 
             //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임

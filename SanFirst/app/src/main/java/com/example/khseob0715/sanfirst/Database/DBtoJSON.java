@@ -2,7 +2,6 @@ package com.example.khseob0715.sanfirst.Database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,10 +13,7 @@ import org.json.JSONObject;
 public class DBtoJSON {
     public JSONArray getResults(String table)
     {
-        //String myPath = "/data/user/0/com.example.khseob0715.sanfirst/databases/MyDoctorA.db";
         String myPath = "/data/data/com.example.khseob0715.sanfirst/databases/MyDoctorA";
-
-//or you can use `context.getDatabasePath("my_db_test.db")`
 
         SQLiteDatabase myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
 

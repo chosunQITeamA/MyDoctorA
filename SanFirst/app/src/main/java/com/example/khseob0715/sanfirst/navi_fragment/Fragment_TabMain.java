@@ -300,54 +300,32 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
         if(value >= 300)    {
             Texture = "Hazardous";
             TextColor = "#FFFFFF";
-            //BColor = "#7E0023";
-            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button6));
             setButton.setBackgroundResource(R.drawable.rounded_corner_button6);
         }   else if ( value >=200)  {
             Texture = "Very Unhealthy";
             TextColor = "#FFFFFF";
-            //BColor = "#8F3F97";
-            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button5));
             setButton.setBackgroundResource(R.drawable.rounded_corner_button5);
         }   else if (value >= 150)  {
             Texture = "Unhealthy";
             TextColor = "#FFFFFF";
-            //BColor = "#FF0000";
-            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button4));
             setButton.setBackgroundResource(R.drawable.rounded_corner_button4);
         }   else if (value >= 100)  {
             Texture = "Sensitive Unhealthy";
             TextColor = "#FFFFFF";
-            //BColor = "#FF7E00";
-            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button3));
             setButton.setBackgroundResource(R.drawable.rounded_corner_button3);
         }   else if (value >= 50)   {
             Texture = "Moderate";
             TextColor = "#000000";
-            //BColor = "#FFFF00";
-            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button2));
             setButton.setBackgroundResource(R.drawable.rounded_corner_button2);
         }   else    {
             Texture = "Good";
             TextColor = "#FFFFFF";
-            //BColor = "#00E400";
-            //setButton.setBackground(getResources().getDrawable(R.drawable.rounded_corner_button));
             setButton.setBackgroundResource(R.drawable.rounded_corner_button);
-
             BColor = "#00E400";
         }
-        /*
-        if(value>=0 && value<=50)    {
-        }   else if (value>50 && value<=100)    {
-        }   else if (value>100 && value<=150)   {
-        }   else if (value>150 && value<=200)   {
-        }   else if (value>200 && value<=300)   {
-        }   else    {
-        }
-        */
+
         setButton.setText(Texture);
         setButton.setTextColor(Color.parseColor(TextColor));
-        //setButton.setBackgroundColor(Color.parseColor(BColor));
 
     }
 
@@ -552,12 +530,10 @@ public class Fragment_TabMain extends Fragment implements View.OnClickListener, 
                 Double latitude = lastLocation.getLatitude();
                 Double longitude = lastLocation.getLongitude();
 
-               // Toast.makeText(getActivity(), "Lat:" + latitude + " / Lon:" + longitude, Toast.LENGTH_SHORT).show();
             }
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        //Toast.makeText(getActivity(), "start Location tracker.", Toast.LENGTH_SHORT).show();
     }
 
 

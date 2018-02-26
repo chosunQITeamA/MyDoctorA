@@ -259,11 +259,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 aqisql.AQIstatus = true;
             }
         }
-
-        /*
-        Intent internetCheck = new Intent(this, InternetCheck.class);
-        startService(internetCheck);
-        */
     }
 
     private void DBservice() {
@@ -282,7 +277,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
     private void makeNewGpsService() {
         if(gps == null) {
-//            gps = new GPSTracker(UserActivity.this,GPSHandler);
         }else{
             gps.Update();
         }
@@ -308,13 +302,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             if (gps.canGetLocation()) {
                 Latitude = gps.getLatitude();
                 Longitude = gps.getLongitude();
-                // \n is for new line
-                //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
             } else {
-                // can't get location
-                // GPS or Network is not enabled
-                // Ask user to enable GPS/network in settings
-                //gps.showSettingsAlert();
             }
         }
 
@@ -348,11 +336,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
             Navi_ID.setText(UserID);
             Navi_Name.setText(Username);
-            //Toast.makeText(this, UserID +"\n"+Username, Toast.LENGTH_SHORT).show();
         }
-
-//        Intent intent = getIntent();
-//        usn = intent.getExtras().getInt("usn1");    // 로그인 결과로 넘어온 사용자 식별번호
     }
 
     public static int getUSN() {
@@ -415,11 +399,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         switch (id) {
 
             case R.id.secure_connect_scan: {
-                /*
-                // Launch the DeviceListActivity to see devices and do scan
-                Intent bluetoothIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
-                startActivityForResult(bluetoothIntent, 1);
-                */
                 Intent serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                 return true;
@@ -436,21 +415,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 DropAQI();
                 DropHAQI();
             }
-            //-----------------------------------------------------------------------------------------------------[DB Test]
-                /*
-            case R.id.createTable : {
-                HRsqlhelper.createTable(db);
-//                AQIsqlhelper.AQIcreateTable(db);
-                Toast.makeText(this, "Create Table", Toast.LENGTH_SHORT).show();
-                break;
-            }
-
-            case R.id.insertTable : {
-                ----------------------------------------------------
-                Toast.makeText(this, "insert Data", Toast.LENGTH_SHORT).show();
-                break;
-            }
-*/
         }
 
         return false;
@@ -463,9 +427,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         Double Heart_rate = Double.valueOf(PolarSensor.heartrateValue);
         Double RR_rate = Double.valueOf(PolarSensor.RR_value);
         HRsqlhelper.insertData(db, usn, TS, LAT, LNG, Heart_rate, RR_rate);
-//                AQIsqlhelper.AQIinsertData(db, usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                  ------------------------------------------------------
-//                sendhr.SendHR_Asycn(usn, TS, LAT, LNG, Heart_rate, RR_rate);
-//                sendaqi.SendAQI_Asycn(usn, TS, LAT, LNG, co, so2, no2, o3, pm25, temp);                           --
     }
 
     public void DropHeart() {
